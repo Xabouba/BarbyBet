@@ -11,7 +11,7 @@
   </welcome-file-list>
   <servlet>
     <servlet-name>Sax</servlet-name>
-    <servlet-class>com.barbyBet.servlets.generator.SaxResultGenerator</servlet-class>
+    <servlet-class>com.barbyBet.servlets.DirectResultServlet</servlet-class>
   </servlet>
   
   <servlet-mapping>
