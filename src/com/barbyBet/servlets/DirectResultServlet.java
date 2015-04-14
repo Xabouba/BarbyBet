@@ -46,6 +46,9 @@ public class DirectResultServlet extends HttpServlet {
 			request.setAttribute("awayScore", match.getAwayScore());
 			
 			SQLComponent sqlComponent = new SQLComponent();
+			
+			System.out.println("img = " + sqlComponent.getImgEquipe("Lyon"));
+			
 			request.setAttribute("homeImg", sqlComponent.getImgEquipe("Lyon"));
 			request.setAttribute("awayImg", sqlComponent.getImgEquipe("Saint-Etienne"));
 			

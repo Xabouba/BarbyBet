@@ -14,7 +14,13 @@ public class SQLComponent {
 	
 	public SQLComponent()
 	{
-		
+		try 
+		{
+            Class.forName("com.mysql.jdbc.Driver");
+        } 
+		catch (ClassNotFoundException e) 
+		{
+        }
 	}
 	
 	public String getImgEquipe(String sName)
@@ -31,7 +37,7 @@ public class SQLComponent {
 		    rs = stmt.executeQuery();
 		    if (rs.next())
 		    {
-		    	return rs.getString("sname");
+		    	return rs.getString("img");
 		    }
 		    else
 		    {
