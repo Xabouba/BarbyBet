@@ -13,7 +13,7 @@
 	    	<p style="text-align: center">${statut}</p>
 	    	<table style="margin-left: auto; margin-right: auto;">
 	    		<tr>
-	    			<td><img src="images/team/${awayImg}_128.png"></img></td>
+	    			<td><img src="images/team/${homeImg}_128.png"></img></td>
 	    			<td style="width:200px; text-align: center; font-size:30px">${homeTeam}</td>
 	    			<td style="width:100px; text-align: center; font-size:50px">${homeScore}</td>
 	    			<td style="width:100px; text-align: center; font-size:50px">${awayScore}</td>
