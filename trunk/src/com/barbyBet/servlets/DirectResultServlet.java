@@ -35,7 +35,8 @@ public class DirectResultServlet extends HttpServlet {
 		SaxComponent saxComponent = new SaxComponent();
 		try 
 		{
-			Match match = saxComponent.parseMatch();
+			Match match = saxComponent.parseMatch("20150412", "Bordeaux");
+//			Match match = saxComponent.parseMatch("20150413", "Angers");
 			
 			request.setAttribute("homeTeam", match.getHomeTeam());
 			request.setAttribute("awayTeam", match.getAwayTeam());
@@ -45,6 +46,7 @@ public class DirectResultServlet extends HttpServlet {
 			int statut = Integer.parseInt(match.getStatut());
 			String msgInfo = "";
 			switch (statut) {
+			case 0:
 			case 1:
 				msgInfo = "A jouer";
 				break;
@@ -58,7 +60,7 @@ public class DirectResultServlet extends HttpServlet {
 				msgInfo = "2ème période";
 				break;
 			case 5:
-				msgInfo = "Fini";
+				msgInfo = "Terminé";
 				break;
 			default:
 				break;

@@ -8,14 +8,17 @@ import com.barbyBet.object.Match;
 
 public class SaxMatchResultHandler extends DefaultHandler 
 {
+	private String _sName;
+	
 	private String _content;
 	private boolean _readContent;
 	
 	private Match _match;
 	
-	public SaxMatchResultHandler()
+	public SaxMatchResultHandler(String sName)
 	{
 		super();
+		_sName = sName;
 		_readContent =  false;
 		_match = new Match();
 	}
@@ -34,7 +37,7 @@ public class SaxMatchResultHandler extends DefaultHandler
     {
     	if (localName.equals("HOMETEAMNAME"))
     	{
-    		if (atts.getValue("SNAME").equals("Bordeaux"))
+    		if (atts.getValue("SNAME").equals(_sName))
     		{
     			_readContent = true;
     		}

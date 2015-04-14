@@ -21,7 +21,7 @@ public class SaxComponent
 		
 	}
 	
-	public Match parseMatch() throws ParserConfigurationException, SAXException, IOException
+	public Match parseMatch(String date, String sName) throws ParserConfigurationException, SAXException, IOException
 	{
 		SAXParserFactory spf = SAXParserFactory.newInstance();
 	    spf.setNamespaceAware(true);
@@ -29,10 +29,10 @@ public class SaxComponent
 	    
 	    XMLReader xmlReader = saxParser.getXMLReader();
 	    
-	    SaxMatchResultHandler saxMatchHandler = new SaxMatchResultHandler();
+	    SaxMatchResultHandler saxMatchHandler = new SaxMatchResultHandler(sName);
 	    xmlReader.setContentHandler(saxMatchHandler);
 	    
-	    URL adresse = new URL("http://live.skysports.com/football/fixtures/20150412.xml");
+	    URL adresse = new URL("http://live.skysports.com/football/fixtures/" + date + ".xml");
 	    InputStream stream = adresse.openStream();
 	    InputSource source = new InputSource(stream);
 	    xmlReader.parse(source);
