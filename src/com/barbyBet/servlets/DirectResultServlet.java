@@ -1,5 +1,6 @@
 package com.barbyBet.servlets;
 
+import java.awt.Component;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
@@ -11,6 +12,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
+import com.barbyBet.components.SQLComponent;
 import com.barbyBet.components.SaxComponent;
 import com.barbyBet.object.Match;
 
@@ -35,13 +37,17 @@ public class DirectResultServlet extends HttpServlet {
 		SaxComponent saxComponent = new SaxComponent();
 		try 
 		{
-			Match match = saxComponent.parseMatch("20150412", "Bordeaux");
+			Match match = saxComponent.parseMatch("20150419", "Lyon");
 //			Match match = saxComponent.parseMatch("20150413", "Angers");
 			
 			request.setAttribute("homeTeam", match.getHomeTeam());
 			request.setAttribute("awayTeam", match.getAwayTeam());
 			request.setAttribute("homeScore", match.getHomeScore());
 			request.setAttribute("awayScore", match.getAwayScore());
+			
+			SQLComponent sqlComponent = new SQLComponent();
+			request.setAttribute("homeImg", sqlComponent.getImgEquipe("Lyon"));
+			request.setAttribute("awayImg", sqlComponent.getImgEquipe("Saint-Etienne"));
 			
 			int statut = Integer.parseInt(match.getStatut());
 			String msgInfo = "";
