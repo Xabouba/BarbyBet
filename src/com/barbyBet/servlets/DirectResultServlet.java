@@ -1,7 +1,8 @@
 package com.barbyBet.servlets;
 
-import java.awt.Component;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -35,48 +36,57 @@ public class DirectResultServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		SaxComponent saxComponent = new SaxComponent();
+		SQLComponent sqlComponent = new SQLComponent();
 		try 
 		{
-			Match match = saxComponent.parseMatch("20150419", "Lyon");
-//			Match match = saxComponent.parseMatch("20150413", "Angers");
-			
-			request.setAttribute("homeTeam", match.getHomeTeam());
-			request.setAttribute("awayTeam", match.getAwayTeam());
-			request.setAttribute("homeScore", match.getHomeScore());
-			request.setAttribute("awayScore", match.getAwayScore());
-			
-			SQLComponent sqlComponent = new SQLComponent();
-			
-			System.out.println("img = " + sqlComponent.getImgEquipe("Lyon"));
-			
-			request.setAttribute("homeImg", sqlComponent.getImgEquipe("Lyon"));
-			request.setAttribute("awayImg", sqlComponent.getImgEquipe("Saint-Etienne"));
-			
-			int statut = Integer.parseInt(match.getStatut());
-			String msgInfo = "";
-			switch (statut) {
-			case 0:
-			case 1:
-				msgInfo = "A jouer";
-				break;
-			case 2:
-				msgInfo = "1ère période";
-				break;
-			case 3:
-				msgInfo = "Mi-temps";
-				break;
-			case 4:
-				msgInfo = "2ème période";
-				break;
-			case 5:
-				msgInfo = "Terminé";
-				break;
-			default:
-				break;
+			ArrayList<HashMap<String, String>> matchs = sqlComponent.getMatchs();
+			ArrayList<HashMap<String, String>> matchsInfo = new ArrayList<HashMap<String,String>>();
+			for(HashMap<String, String> matchSql : matchs) 
+			{
+			    String team = matchSql.get("teamH");
+			    String date = matchSql.get("date");
+			    Match match = saxComponent.parseMatch(date, team);
+			    
+			    HashMap<String, String> matchInfo = new HashMap<String, String>();
+			    matchInfo.put("homeTeam", match.getHomeTeam());
+			    matchInfo.put("awayTeam", match.getAwayTeam());
+			    matchInfo.put("homeScore", match.getHomeScore());
+			    matchInfo.put("awayScore", match.getAwayScore());
+			    matchInfo.put("homeImg", matchSql.get("imgH"));
+			    matchInfo.put("awayImg", matchSql.get("imgA"));
+			    
+			    int statut = Integer.parseInt(match.getStatut());
+			    String msgInfo = "";
+			    switch (statut) {
+			    case 0:
+			    case 1:
+			    	msgInfo = "A jouer";
+			    	break;
+			    case 2:
+			    	msgInfo = "1ère période";
+			    	break;
+			    case 3:
+			    	msgInfo = "Mi-temps";
+			    	break;
+			    case 4:
+			    	msgInfo = "2ème période";
+			    	break;
+			    case 5:
+			    	msgInfo = "Terminé";
+			    	break;
+			    default:
+			    	break;
+			    }
+			    matchInfo.put("statut", msgInfo);
+			    
+			    matchsInfo.add(matchInfo);
 			}
-			request.setAttribute("statut", msgInfo);
+			request.setAttribute("matchsInfo", matchsInfo);
 			
-			this.getServletContext().getRequestDispatcher( "/WEB-INF/jsp/test.jsp" ).forward( request, response );
+			ArrayList<HashMap<String, String>> comments = sqlComponent.getComments();
+			request.setAttribute("comments", comments);
+			
+			this.getServletContext().getRequestDispatcher( "/WEB-INF/jsp/index.jsp" ).forward(request, response);
 		} 
 		catch (ParserConfigurationException e) 
 		{
@@ -91,8 +101,17 @@ public class DirectResultServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-	}
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
+		String comment = request.getParameter("comment");
+		if (comment != "")
+		{
+			SQLComponent sqlComponent = new SQLComponent();
+			sqlComponent.insertComment(comment.replace("\n", "<br/>"));
 
+			doGet(request, response);
+		}
+		
+	}
+	
 }

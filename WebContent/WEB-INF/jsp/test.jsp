@@ -1,3 +1,4 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -9,17 +10,22 @@
     	<% response.setIntHeader("Refresh", 30); %>
     	
     	<div style="margin-left: auto; margin-right: auto; width: 1000px;">
-    		<h1 style="text-align: center">Match du jour</h1>
-	    	<p style="text-align: center">${statut}</p>
+    		<h1 style="text-align: center">Matchs du jour</h1>
+	    	
 	    	<table style="margin-left: auto; margin-right: auto;">
-	    		<tr>
-	    			<td><img src="images/team/${homeImg}_128.png"></img></td>
-	    			<td style="width:200px; text-align: center; font-size:30px">${homeTeam}</td>
-	    			<td style="width:100px; text-align: center; font-size:50px">${homeScore}</td>
-	    			<td style="width:100px; text-align: center; font-size:50px">${awayScore}</td>
-	    			<td style="width:200px; text-align: center; font-size:30px">${awayTeam}</td>
-	    			<td><img src="images/team/${awayImg}_128.png"></img></td>
+	    	<c:forEach items="${matchsInfo}" var="match">
+		       <p style="text-align: center">${match.statut}</p>
+			   <tr>
+	    			<td><img src="images/team/${match.homeImg}_128.png"></img></td>
+	    			<td style="width:200px; text-align: center; font-size:30px">${match.homeTeam}</td>
+	    			<td style="width:100px; text-align: center; font-size:50px">${match.homeScore}</td>
+	    			<td style="width:100px; text-align: center; font-size:50px">${match.awayScore}</td>
+	    			<td style="width:200px; text-align: center; font-size:30px">${match.awayTeam}</td>
+	    			<td><img src="images/team/${match.awayImg}_128.png"></img></td>
 	    		</tr>
+			</c:forEach>
+	    	
+	    		
 	    	</table>
     	</div>
     </body>
