@@ -7,6 +7,7 @@
         <link rel="stylesheet" type="text/css" href="css/icomoon.css">
         <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
         <link rel="stylesheet" type="text/css" href="css/superfish.css">
+        <link rel="stylesheet" type="text/css" href="css/result.css">
         <link rel="stylesheet" href="css/prettyPhoto.css">
         <link rel="stylesheet" type="text/css" href="css/default.css">
         <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
@@ -29,7 +30,7 @@
         <![endif]-->
     </head>
     <body onLoad="goforit()">
-    	<% response.setIntHeader("Refresh", 30); %>
+    	<% response.setIntHeader("Refresh", 120); %>
     	
     	<div class="wraper">
     		<header id="page-header">
@@ -344,23 +345,23 @@
                                 <div class="widget kp-main-news">
                                     <div class="widget-content">
 	                                    <h2 class="widget-title"><span>Direct</span></h2>
-                                        <div class="list_carousel responsive">
+                                        <div class="list_carousel responsive result-match">
                                             <ul id="ca-main-news" class="clearfix">
 										    	<c:forEach items="${matchsInfo}" var="match">
 	                                            	<li>
 		                                            	<div style="margin-left: auto; margin-right: auto;">
-												    		<h1 style="text-align: center">Ligue 1</h1>
+												    		<h1 class="result-title" style="text-align: center">Ligue 1</h1>
 													    	
-													        <p style="text-align: center">${match.statut}</p>
+													        <p class="result-statut" style="text-align: center">${match.statut}</p>
 	  												    	<br/>
 													    	<br/>
 													    	<table style="margin-left: auto; margin-right: auto;">
 															   <tr>
 													    			<td><img style="width:80px; height:80px" src="images/team/${match.homeImg}_128.png"></img></td>
-													    			<td style="width:25%; text-align: center; font-size:20px">${match.homeTeam}</td>
-													    			<td style="width:10%; text-align: center; font-size:30px">${match.homeScore}</td>
-													    			<td style="width:10%; text-align: center; font-size:30px">${match.awayScore}</td>
-													    			<td style="width:25%; text-align: center; font-size:20px">${match.awayTeam}</td>
+													    			<td class="result-team">${match.homeTeam}</td>
+													    			<td class="result-score">${match.homeScore}</td>
+													    			<td class="result-score">${match.awayScore}</td>
+													    			<td class="result-team">${match.awayTeam}</td>
 													    			<td><img style="width:80px; height:80px" src="images/team/${match.awayImg}_128.png"></img></td>
 													    		</tr>
 													    	</table>
@@ -392,11 +393,12 @@
 										    				<p><strong>${comment.user}</strong></p>
 										    				<p style="color: green"><strong>(1 - 0)</strong></p>
 										    			</td>
-										    			<td style="width: 70%;">
-										    				${comment.comment}
+										    			<td style="width: 65%;">
+										    				<div style="width: 300px; word-wrap: break-word;">${comment.comment}</div>
 										    			</td>
-										    			<td style="width: 10%; text-align: center;">
-										    				${comment.hour}
+										    			<td style="width: 15%; text-align: center;">
+										    				<p>${comment.hour}</p>
+										    				<p>${comment.day}</p>
 										    			</td>
 										    		</tr>
 										    	</table>
