@@ -139,8 +139,10 @@ public class SQLComponent {
 		    	Timestamp date = rs.getTimestamp(1);
 		    	
 		    	String hour = new SimpleDateFormat("HH:mm").format(date);
+		    	String day = new SimpleDateFormat("E d").format(date);
 		    	comment.put("user", "User 1");
 		    	comment.put("hour", hour);
+		    	comment.put("day", day);
 		    	comment.put("comment", rs.getString(3));
 		    	
 		    	listComment.add(comment);
