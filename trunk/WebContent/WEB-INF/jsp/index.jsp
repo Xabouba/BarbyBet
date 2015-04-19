@@ -1,3 +1,4 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -28,6 +29,8 @@
         <![endif]-->
     </head>
     <body onLoad="goforit()">
+    	<% response.setIntHeader("Refresh", 30); %>
+    	
     	<div class="wraper">
     		<header id="page-header">
                 <div class="top-header clearfix">
@@ -339,52 +342,33 @@
                         <ul class="list-unstyled">
                             <li class="clearfix">
                                 <div class="widget kp-main-news">
-                                    <h2 class="widget-title"><span>top news</span></h2>
                                     <div class="widget-content">
+	                                    <h2 class="widget-title"><span>Direct</span></h2>
                                         <div class="list_carousel responsive">
                                             <ul id="ca-main-news" class="clearfix">
-                                                <li >
-                                                    <div class="item clearfix">
-                                                        <figure>
-                                                            <img src="placeholders/posts/img-2.jpg" class="img-responsive" alt="">
-                                                        </figure>
-                                                        <ul class="kp-metadata clearfix">
-                                                            <li>10 view&nbsp&nbsp&nbsp-&nbsp&nbsp&nbsp</li>
-                                                            <li>3 comment</li>
-                                                            <li class="kp-time">05 March, 2013</li>
-                                                        </ul>
-                                                        <!-- kp-metadata -->
-                                                        <footer>
-                                                            <h3><a href="#">Images & Lightboxes autoresize (autoresize on) </a></h3>
-                                                            <p>Lorem ipsum Pariatur aliquip ut non pariatur pariatur deserunt dolore tempor laborum do sed enim velit aliquip ea.</p>
-
-                                                            <a class="read-more" href="#"><span>Read more</span><i>+</i></a>
-                                                        </footer>
-                                                    </div>
-                                                    <!-- thumbnail -->
-                                                </li>
-                                                <li >
-                                                    <div class="item clearfix">
-                                                        <figure>
-                                                            <img src="placeholders/posts/img-2.jpg" class="img-responsive" alt="">
-                                                        </figure>
-                                                        <ul class="kp-metadata clearfix">
-                                                            <li>10 view&nbsp&nbsp&nbsp-&nbsp&nbsp&nbsp</li>
-                                                            <li>3 comment</li>
-                                                            <li class="kp-time">05 March, 2013</li>
-                                                        </ul>
-                                                        <!-- kp-metadata -->
-                                                        <footer>
-                                                            <h3><a href="#">Lorem ipsum Pariatur aliquip.</a></h3>
-                                                            <p>Lorem ipsum Pariatur aliquip ut non pariatur pariatur deserunt dolore tempor laborum do sed enim velit aliquip ea.</p>
-
-                                                            <a class="read-more" href="#"><span>Read more</span><i>+</i></a>
-                                                        </footer>
-                                                    </div>
-                                                    <!-- thumbnail -->
-                                                </li>
+										    	<c:forEach items="${matchsInfo}" var="match">
+	                                            	<li>
+		                                            	<div style="margin-left: auto; margin-right: auto;">
+												    		<h1 style="text-align: center">Ligue 1</h1>
+													    	
+													        <p style="text-align: center">${match.statut}</p>
+	  												    	<br/>
+													    	<br/>
+													    	<table style="margin-left: auto; margin-right: auto;">
+															   <tr>
+													    			<td><img style="width:80px; height:80px" src="images/team/${match.homeImg}_128.png"></img></td>
+													    			<td style="width:25%; text-align: center; font-size:20px">${match.homeTeam}</td>
+													    			<td style="width:10%; text-align: center; font-size:30px">${match.homeScore}</td>
+													    			<td style="width:10%; text-align: center; font-size:30px">${match.awayScore}</td>
+													    			<td style="width:25%; text-align: center; font-size:20px">${match.awayTeam}</td>
+													    			<td><img style="width:80px; height:80px" src="images/team/${match.awayImg}_128.png"></img></td>
+													    		</tr>
+													    	</table>
+													    	<br/>
+												    	</div>
+											    	</li>
+												</c:forEach>
                                             </ul>
-
 
                                             <div class="clearfix"></div>
                                             <a id="prev3" class="prev icon-chevron-left" href="#"></a>
@@ -397,74 +381,35 @@
                             </li>
                             <li class="clearfix">
                                 <div class="widget kp-review">
-                                    <h2 class="widget-title"><span>Latets Review</span></h2>
+                                    <h2 class="widget-title"><span>Chat</span></h2>
                                     <div class="widget-content">
-                                        <ul class="list-unstyled">
-                                            <li class="format-standard">
-                                                <div class="top-kp-review clearfix">
-                                                    <figure class="pull-left zoom-image">
-                                                        <a href="#"><img src="placeholders/posts/img-13.jpg" class="img-responsive" alt="">
-                                                            <span class="icon-image post-format"></span>
-                                                        </a>
-                                                    </figure>
-                                                    <div class="item-right">
-                                                        <ul>
-                                                            <li><span>Special Effects</span><strong>4.3</strong></li>
-                                                            <li><span>Story line</span><strong>4.3</strong></li>
-                                                            <li><span>Casting</span> <strong>4.3</strong></li>
-                                                            <li class="rating-hidden" style="display:none;"><span>Lorem ipsum</span> <strong>4.3</strong></li>
-                                                            <li class="rating-hidden" style="display:none;"><span>Lorem ipsum</span> <strong>4.3</strong></li><li class="rating-hidden" style="display:none;"><span>Lorem ipsum</span> <strong>4.3</strong></li>
-
-                                                            <li class="kp-show"><i>...</i></li>
-                                                            <li class="last-list-item"><span>Overall Score</span> <strong>4.3</strong></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                                <!-- top-kp-review -->
-                                                <div class="bottom-kp-review clearfix">
-                                                    <h3><a href="#">Brand New Cadillac CTS revealed for New York auto show </a></h3>
-                                                    <ul class="kp-metadata clearfix"> 
-                                                        <li>10 view&nbsp&nbsp&nbsp-&nbsp&nbsp&nbsp</li>
-                                                        <li>3 comment</li>
-                                                    </ul>
-                                                    <!-- kp-metadata -->
-
-                                                    <p>Fix now decided to make a bold move; he resolved to tell Passepartout all. It seemed to be the only possible means of keeping Phileas Fogg several days </p>
-                                                </div>
-                                                <!-- bottom-kp-review -->
+                                    	<ul class="list-unstyled" style="height:600px; overflow:auto;">
+                                    		<c:forEach items="${comments}" var="comment">
+                                            	<li class="format-standard">
+                                            	<table style="margin-left: auto; margin-right: auto; width: 100%">
+												   <tr style="width: 100%">
+										    			<td style="width: 20%;">
+										    				<p><strong>${comment.user}</strong></p>
+										    				<p style="color: green"><strong>(1 - 0)</strong></p>
+										    			</td>
+										    			<td style="width: 70%;">
+										    				${comment.comment}
+										    			</td>
+										    			<td style="width: 10%; text-align: center;">
+										    				${comment.hour}
+										    			</td>
+										    		</tr>
+										    	</table>
                                             </li>
-                                            <li class="format-video">
-                                                <div class="top-kp-review clearfix">
-                                                    <figure class="pull-left zoom-image">
-                                                        <a href="#"><img src="placeholders/posts/img-5.jpg" class="img-responsive" alt=""><span class="icon-videocamera post-format"></span></a>
-                                                    </figure>
-                                                    <div class="item-right">
-                                                        <ul>
-                                                            <li><span>Special Effects</span><strong>4.3</strong></li>
-                                                            <li><span>Story line</span><strong>4.3</strong></li>
-                                                            <li><span>Casting</span> <strong>4.3</strong></li>
-                                                            <li class="rating-hidden" style="display:none;"><span>Lorem ipsum</span> <strong>4.3</strong></li>
-                                                            <li class="rating-hidden" style="display:none;"><span>Lorem ipsum</span> <strong>4.3</strong></li><li class="rating-hidden" style="display:none;"><span>Lorem ipsum</span> <strong>4.3</strong></li>
-
-                                                            <li class="kp-show"><i>...</i></li>
-                                                            <li class="last-list-item"><span>Overall Score</span> <strong>4.3</strong></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                                <!-- top-kp-review -->
-                                                <div class="bottom-kp-review clearfix">
-                                                    <h3><a href="#">Lorem ipsum Eiusmod ea minim cupidatat dolore </a></h3>
-                                                    <ul class="kp-metadata clearfix">
-                                                        <li>10 view&nbsp&nbsp&nbsp-&nbsp&nbsp&nbsp</li>
-                                                        <li>3 comment</li>
-                                                    </ul>
-                                                    <!-- kp-metadata -->
-
-                                                    <p>Fix now decided to make a bold move; he resolved to tell Passepartout all. It seemed to be the only possible means of keeping Phileas Fogg several days </p>
-                                                </div>
-                                                <!-- bottom-kp-review -->
-                                            </li>
+											</c:forEach>
                                         </ul>
+                                        <br/>
+                                        <form action="sax" method="post">
+										  <label for="comments">Message: </label>
+										  <textarea style="width: 100%;" rows="5" name="comment" id="comments" maxlength="450" ></textarea>
+										  <input type="submit" value="Envoyer" />
+										</form>
+                                       
                                     </div>
                                     <!-- widget-content -->
                                 </div>
