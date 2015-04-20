@@ -8,6 +8,7 @@ public class Match {
 	private String _homeScore;
 	private String _awayScore;
 	private String _statut;
+	private Odds _odds = new Odds(0, 0, 0);
 	
 	public Match()
 	{
@@ -62,5 +63,13 @@ public class Match {
 	public void setAwayScore(String awayScore) 
 	{
 		this._awayScore = awayScore;
+	}
+	
+	public Odds getOdds() {
+		return _odds;
+	}
+	
+	public void setOdds(Odds odds) {
+		_odds = odds;
 	}
 }

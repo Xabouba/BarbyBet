@@ -19,7 +19,7 @@ public class SaxMatchResultHandler extends DefaultHandler
 	{
 		super();
 		_sName = sName;
-		_readContent =  false;
+		_readContent = false;
 		_match = new Match();
 	}
 	
