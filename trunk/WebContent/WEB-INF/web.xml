@@ -14,9 +14,20 @@
     <servlet-class>com.barbyBet.servlets.DirectResultServlet</servlet-class>
   </servlet>
   
+  <!-- Servlet for user registration -->
+  <servlet>
+    <servlet-name>Register</servlet-name>
+    <servlet-class>com.barbyBet.servlets.RegisterServlet</servlet-class>
+  </servlet>
+  
   <servlet-mapping>
 	<servlet-name>Sax</servlet-name>
 	<url-pattern>/sax</url-pattern>
+  </servlet-mapping>
+  
+   <servlet-mapping>
+	<servlet-name>Register</servlet-name>
+	<url-pattern>/register</url-pattern>
   </servlet-mapping>
 
 </web-app>
