@@ -44,7 +44,7 @@ jQuery(document).ready(function() {
         jQuery('#kp-form-contact').validate({
             // Add requirements to each of the fields
             rules: {
-                name: {
+                username: {
                     required: true,
                     minlength: 2
                 },
@@ -52,15 +52,19 @@ jQuery(document).ready(function() {
                     required: true,
                     email: true
                 },
-                message: {
+                password: {
                     required: true,
-                    minlength: 10
+                    minlength: 6
+                },
+                repeatpassword: {
+                	required: true,
+                    minlength: 6
                 }
             },
             // Specify what error messages to display
             // when the user does something horrid
             messages: {
-                name: {
+                username: {
                     required: "Please enter your name.",
                     minlength: jQuery.format("At least {0} characters required.")
                 },
@@ -68,12 +72,12 @@ jQuery(document).ready(function() {
                     required: "Please enter your email.",
                     email: "Please enter a valid email."
                 },
-                url: {
-                    required: "Please enter your url.",
-                    url: "Please enter a valid url."
+                password: {
+                    required: "Please enter your password.",
+                    password: "Please enter a valid password."
                 },
-                message: {
-                    required: "Please enter a message.",
+                repeatpassword: {
+                    required: "Please re-enter your password.",
                     minlength: jQuery.format("At least {0} characters required.")
                 }
             },

@@ -16,9 +16,9 @@ import java.util.Map;
 
 public class SQLComponent {
 
-	private static String _url = "jdbc:mysql://db4free.net:3306/barbybet";
-	private static String _user = "barbybet";
-	private static String _password = "sparco";
+	protected static String _url = "jdbc:mysql://db4free.net:3306/barbybet";
+	protected static String _user = "barbybet";
+	protected static String _password = "sparco";
 	
 	public SQLComponent()
 	{
