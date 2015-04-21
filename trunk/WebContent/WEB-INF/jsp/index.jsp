@@ -347,33 +347,28 @@
 	                                    <h2 class="widget-title"><span>Direct</span></h2>
                                         <div class="list_carousel responsive result-match">
                                             <ul id="ca-main-news" class="clearfix">
-										    	<c:forEach items="${matchsInfo}" var="match">
-	                                            	<li>
-		                                            	<div style="margin-left: auto; margin-right: auto;">
-												    		<h1 class="result-title" style="text-align: center">Ligue 1</h1>
-													    	
-													        <p class="result-statut" style="text-align: center">${match.statut}</p>
-	  												    	<br/>
-													    	<br/>
-													    	<table style="margin-left: auto; margin-right: auto;">
-															   <tr>
-													    			<td><img style="width:80px; height:80px" src="images/team/${match.homeImg}_128.png"></img></td>
-													    			<td class="result-team">${match.homeTeam}</td>
-													    			<td class="result-score">${match.homeScore}</td>
-													    			<td class="result-score">${match.awayScore}</td>
-													    			<td class="result-team">${match.awayTeam}</td>
-													    			<td><img style="width:80px; height:80px" src="images/team/${match.awayImg}_128.png"></img></td>
-													    		</tr>
-													    	</table>
-													    	<br/>
-												    	</div>
-											    	</li>
-												</c:forEach>
+                                            	<li>
+	                                            	<div style="margin-left: auto; margin-right: auto;">
+											    		<h1 class="result-title" style="text-align: center">Ligue 1</h1>
+												    	
+												        <p class="result-statut" style="text-align: center">${match.statut}</p>
+  												    	<br/>
+												    	<br/>
+												    	<table style="margin-left: auto; margin-right: auto;">
+														   <tr>
+												    			<td><img style="width:80px; height:80px" src="images/team/${match.homeImg}_128.png"></img></td>
+												    			<td class="result-team">${match.homeTeam}</td>
+												    			<td class="result-score">${match.homeScore}</td>
+												    			<td class="result-score">${match.awayScore}</td>
+												    			<td class="result-team">${match.awayTeam}</td>
+												    			<td><img style="width:80px; height:80px" src="images/team/${match.awayImg}_128.png"></img></td>
+												    		</tr>
+												    	</table>
+												    	<br/>
+											    	</div>
+										    	</li>
                                             </ul>
-
                                             <div class="clearfix"></div>
-                                            <a id="prev3" class="prev icon-chevron-left" href="#"></a>
-                                            <a id="next3" class="next icon-chevron-right" href="#"></a>
                                         </div>
                                     </div>
                                     <!-- widget-content -->
@@ -427,65 +422,37 @@
                     <ul class="clearfix list-unstyled">
                         <li>
                             <div class="widget kp-last-news">
-                                <h2 class="widget-title"><span>Latest news</span></h2>
+                                <h2 class="widget-title"><span>Informations</span></h2>
                                 <div class="widget-content">
                                     <ul class="list-unstyled">
+                                    	<li class="format-standard">
+		                                    <div>
+		                                    	<table style="margin-left: auto; margin-right: auto; width: 100%">
+		                                    		<caption style="font-size: 20px; margin-top: 10px; margin-bottom: 10px;">
+		                                    			<strong>User 1</strong>
+	                                    			</caption>
+	                                    			<tbody>
+			                                    		<tr>
+			                                    			<td style="float: right; width: 90%">Pronostique:</td>
+			                                    			<td style="width: 30%">1 - 1</td>
+			                                    		</tr>
+			                                    		<tr>
+			                                    			<td style="float: right; width: 90%">Mise:</td>
+			                                    			<td style="width: 30%">500 crédits</td>
+			                                    		</tr>
+	                                    				<tr>
+			                                    			<td style="float: right; width: 90%">Gain:</td>
+			                                    			<td style="width: 30%">1650 crédits</td>
+			                                    		</tr>
+	                                    			</tbody>
+		                                    	</table>
+		                                    </div>
+                                    	</li>
                                         <li class="format-standard">
-                                            <div class="kp-item">
-                                                <figure class="zoom-image">
-                                                    <a href="#"><img src="placeholders/posts/img-16.jpg" class="img-responsive" alt="">
-                                                        <span class="icon-image post-format"></span>
-                                                    </a>
-                                                </figure>
-                                                <ul class="kp-metadata clearfix">
-                                                    <li>10 view&nbsp&nbsp&nbsp-&nbsp&nbsp&nbsp</li>
-                                                <li>3 comment</li>
-                                                    <li class="kp-time">05 March, 2013</li>
-                                                </ul>
-                                                <!-- kp-metadata -->
-                                                <h3><a href="#">Oprah Winfrey Headed Back to the Big</a></h3>
-                                                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula  </p>
-                                            </div>
-                                            <!-- kp-item -->
-                                        </li>
-                                        <li class="format-gallery">
-                                            <div class="kp-item">
-                                                <figure class="zoom-image">
-                                                    <a href="#"><img src="placeholders/posts/img-17.jpg" class="img-responsive" alt="">
-                                                        <span class="icon-images post-format"></span>
-                                                    </a>
-                                                </figure>
-                                                <ul class="kp-metadata clearfix">
-                                                   <li>10 view&nbsp&nbsp&nbsp-&nbsp&nbsp&nbsp</li>
-                                                    <li>3 comment</li>
-                                                    <li class="kp-time">05 March, 2013</li>
-                                                </ul>
-                                                <!-- kp-metadata -->
-                                                <h3><a href="#">Best tennis competitions of the year</a></h3>
-                                                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula </p>
-                                            </div>
-                                            <!-- kp-item -->
-                                        </li>
-                                        <li class="format-video">
-                                            <div class="kp-item">
-                                                <figure class="zoom-image">
-                                                    <a href="#"><img src="placeholders/posts/img-18.jpg" class="img-responsive" alt="">
-                                                        <span class="icon-videocamera post-format"></span>
-                                                    </a>
-                                                </figure>
-                                                <ul class="kp-metadata clearfix">
-                                                    <li>10 view&nbsp&nbsp&nbsp-&nbsp&nbsp&nbsp</li>
-                                                <li>3 comment</li>
-                                                    <li class="kp-time">05 March, 2013</li>
-                                                </ul>
-                                                <!-- kp-metadata -->
-                                                <h3><a href="#">Oprah Winfrey Headed Back to the Big Screen </a></h3>
-                                                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula </p>
-                                            </div>
-                                            <!-- kp-item -->
-                                        </li>
-                                    </ul>
-
+                                        	<div id="info-match" class="info-match">
+                                    		</div>
+                                    	</li>
+                                   	</ul>
                                 </div>
                                 <!-- widget-content -->
                             </div>
@@ -508,12 +475,37 @@
                 <div class="clearfix"></div>
             </div>
     	</div>
-    	<div class="bottom-sidebar">
+    	<div id="test" class="bottom-sidebar">
     		bottom sidebar
     	</div>
     	<div class="page-footer">
     		page footer
     	</div>
+    	<script type="text/javascript">
+		  window.onload = function () {
+			var homeTeam = "${match.homeTeam}";
+			var awayTeam = "${match.awayTeam}";
+		    var chart = new CanvasJS.Chart("info-match", {
+		      
+		    	axisX: {
+		            title: "v:1.95 -- n:3.30 -- d:3.90"
+		          },
+	    		data: [             
+		        {
+		         type: "column",
+		         toolTipContent: "<p>{label} : {y}%</p>",
+		         dataPoints: [
+		         { label: homeTeam, y: 70 },
+		         { label: "nul", y: 20 },
+		         { label: awayTeam, y: 10 }
+		         ]
+		       }
+		       ]
+		     });
+		
+		    chart.render();
+		  }
+		  </script>
     	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
         <script src="js/jqueryUi.js"></script>
         <script src="js/bootstrap.js"></script>
@@ -527,6 +519,13 @@
         <script src="js/modernizr.js"></script>
         <script src="js/grid.js"></script>
         <script src="js/masonry.pkgd.min.js"></script>
+        <script src="js/chart/jquery.canvasjs.js"></script>
+        <script src="js/chart/canvasjs.js"></script>
+        <script src="js/chart/excanvas.js"></script>
+<!--         <script src="js/masonry.pkgd.min.js"></script> -->
+        
+<!-- 	    <script src="js/chart/fusioncharts.js" ></script> -->
+<!-- 	    <script src="js/chart/fusioncharts-jquery-plugin.js" ></script> -->
         <script type="text/javascript" src="js/custom.js"></script>
 	</body>
 </html>    

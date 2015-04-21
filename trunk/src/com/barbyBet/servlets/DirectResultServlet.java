@@ -44,7 +44,9 @@ public class DirectResultServlet extends HttpServlet {
 			
 			ArrayList<HashMap<String, String>> matchs = sqlComponent.getMatchs();
 			ArrayList<HashMap<String, String>> matchsInfo = new ArrayList<HashMap<String,String>>();
-			for(HashMap<String, String> matchSql : matchs) {
+			
+			HashMap<String, String> matchSql = matchs.get(2);
+//			for(HashMap<String, String> matchSql : matchs) {
 			
 			    String team = matchSql.get("teamH");
 			    String date = matchSql.get("date");
@@ -95,9 +97,9 @@ public class DirectResultServlet extends HttpServlet {
 			    }
 			    matchInfo.put("statut", msgInfo);
 			    
-			    matchsInfo.add(matchInfo);
-			}
-			request.setAttribute("matchsInfo", matchsInfo);
+//			    matchsInfo.add(matchInfo);
+//			}
+			request.setAttribute("match", matchInfo);
 			
 			ArrayList<HashMap<String, String>> comments = sqlComponent.getComments();
 			request.setAttribute("comments", comments);

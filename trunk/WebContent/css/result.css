@@ -49,4 +49,14 @@
 	color: black;
 	font-weight: bold;
 }
+
+.canvasjs-chart-credit
+{
+	display: none;	
+}
+
+.info-match
+{
+	height : 228px;
+}
 		
