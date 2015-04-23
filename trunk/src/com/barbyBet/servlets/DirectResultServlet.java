@@ -43,62 +43,56 @@ public class DirectResultServlet extends HttpServlet {
 			String competition = "Spanish Liga Primera";
 			
 			ArrayList<HashMap<String, String>> matchs = sqlComponent.getMatchs();
-			ArrayList<HashMap<String, String>> matchsInfo = new ArrayList<HashMap<String,String>>();
 			
 			HashMap<String, String> matchSql = matchs.get(2);
-//			for(HashMap<String, String> matchSql : matchs) {
 			
-			    String team = matchSql.get("teamH");
-			    String date = matchSql.get("date");
-			    Match match = saxComponent.parseMatch(date, team);
-			    
-			    // Récupérer les matchs de la journée et boucler sur ces matchs pour récupérer les cotes 
-				// Il faut donc créer une table qui contient le nom de chaque competition 
-				// (une colonne avec le nom d'affichage, une avec le nom de skysport et une avec le nom de betclic)
-				// Il faut aussi modifier la table des equipes en rajoutant les noms d'équipes de betclic
-				
-				
-				// Fonction qui va chercher les cotes par match et les update directement dans l'objet Match
-				saxComponent.parseOdds(sport, competition, match);
+		    String team = matchSql.get("teamH");
+		    String date = matchSql.get("date");
+		    Match match = saxComponent.parseMatch(date, team);
+		    
+		    // Récupérer les matchs de la journée et boucler sur ces matchs pour récupérer les cotes 
+			// Il faut donc créer une table qui contient le nom de chaque competition 
+			// (une colonne avec le nom d'affichage, une avec le nom de skysport et une avec le nom de betclic)
+			// Il faut aussi modifier la table des equipes en rajoutant les noms d'équipes de betclic
+			
+			
+			// Fonction qui va chercher les cotes par match et les update directement dans l'objet Match
+//			saxComponent.parseOdds(sport, competition, match);
 
-				// Enregistrer les odds dans la BDD pour le match en question
-				
-				
-				
-			    HashMap<String, String> matchInfo = new HashMap<String, String>();
-			    matchInfo.put("homeTeam", match.getHomeTeam());
-			    matchInfo.put("awayTeam", match.getAwayTeam());
-			    matchInfo.put("homeScore", match.getHomeScore());
-			    matchInfo.put("awayScore", match.getAwayScore());
-			    matchInfo.put("homeImg", matchSql.get("imgH"));
-			    matchInfo.put("awayImg", matchSql.get("imgA"));
+			// Enregistrer les odds dans la BDD pour le match en question
+			
+		    HashMap<String, String> matchInfo = new HashMap<String, String>();
+		    matchInfo.put("homeTeam", match.getHomeTeam());
+		    matchInfo.put("awayTeam", match.getAwayTeam());
+		    matchInfo.put("homeScore", match.getHomeScore());
+		    matchInfo.put("awayScore", match.getAwayScore());
+		    matchInfo.put("homeImg", matchSql.get("imgH"));
+		    matchInfo.put("awayImg", matchSql.get("imgA"));
+		    
+		    int statut = Integer.parseInt(match.getStatut());
+		    String msgInfo = "";
+		    switch (statut) {
+		    case 0:
+		    case 1:
+		    	msgInfo = "A jouer";
+		    	break;
+		    case 2:
+		    	msgInfo = "1ère période";
+		    	break;
+		    case 3:
+		    	msgInfo = "Mi-temps";
+		    	break;
+		    case 4:
+		    	msgInfo = "2ème période";
+		    	break;
+		    case 5:
+		    	msgInfo = "Terminé";
+		    	break;
+		    default:
+		    	break;
+		    }
+		    matchInfo.put("statut", msgInfo);
 			    
-			    int statut = Integer.parseInt(match.getStatut());
-			    String msgInfo = "";
-			    switch (statut) {
-			    case 0:
-			    case 1:
-			    	msgInfo = "A jouer";
-			    	break;
-			    case 2:
-			    	msgInfo = "1ère période";
-			    	break;
-			    case 3:
-			    	msgInfo = "Mi-temps";
-			    	break;
-			    case 4:
-			    	msgInfo = "2ème période";
-			    	break;
-			    case 5:
-			    	msgInfo = "Terminé";
-			    	break;
-			    default:
-			    	break;
-			    }
-			    matchInfo.put("statut", msgInfo);
-			    
-//			    matchsInfo.add(matchInfo);
-//			}
 			request.setAttribute("match", matchInfo);
 			
 			ArrayList<HashMap<String, String>> comments = sqlComponent.getComments();
