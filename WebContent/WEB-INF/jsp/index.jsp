@@ -35,7 +35,7 @@
     	<div class="wraper">
     		<header id="page-header">
                 <div class="top-header clearfix">
-                    <div id="logo"><figure><a href="index.html"><img src="images/logo.png" class="img-responsive" alt=""></a> </figure></div>
+                    <div class="title_BarbyBet" id="logo"><a href="index.html">Barby Bet</a></div>
                     <nav>
                         <ul class="sf-menu" id="main-menu">
                             <li class="current-menu-item">
@@ -43,42 +43,12 @@
                             </li>
                             <li>
                                 <a href="single.html">page</a>
-                                <ul>
-                                    <li><a href="elements.html">Element</a></li>
-                                    <li><a href="single.html">Single</a>
-                                        <ul>
-                                            <li><a href="single.html">Single</a></li>
-                                            <li><a href="single-video.html">Single video</a></li>
-                                            <li><a href="single-audio.html">Single audio</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="categories.html">Category</a>
-                                        <ul>
-                                            <li><a href="categories.html">Category 1</a></li>
-                                            <li><a href="categories-2.html">Category 2</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="video.html">Video</a></li>
-                                    <li><a href="gallery6.html">Gallery</a>
-                                        <ul>
-                                            <li><a href="gallery6.html">Gallery 6 col</a></li>
-                                            <li><a href="gallery7.html">Gallery 7 col</a></li>
-                                            <li><a href="gallery8.html">Gallery 8 col</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
                             </li>
                             <li>
                                 <a href="contact.html">contact</a>
                             </li>
                             <li>
                                 <a href="#">entertaiment</a>
-                                <ul>
-                                    <li><a href="#">Menu item</a></li>
-                                    <li><a href="#">Menu item</a></li>
-                                    <li><a href="#">Menu item</a></li>
-                                    <li><a href="#">Menu item</a></li>
-                                </ul>
                             </li>
                             <li>
                                 <a href="#">world</a>
@@ -180,38 +150,6 @@
                     <div class="kp-time">									
                         <span id="clock"></span>
                     </div>
-                    <!-- kp-time -->
-                    <div class="top-news">
-                        <h2>Breaking news:</h2>
-                        <div class="list_carousel responsive">
-                            <ul id="ca-top-news" class="list-unstyled">
-                                <li>
-                                    <a href="#">Lorem ipsum Amet sed veniam occaecat laborum laboris Duis .</a>
-                                </li>
-                                <li>
-                                    <a href="#">Lorem ipsum Amet sed veniam occaecat laborum laboris Duis mollit proident.</a>
-                                </li>
-                                <li>
-                                    <a href="#">Lorem ipsum Amet sed veniam occaecat laborum laboris Duis mollit proident.</a>
-                                </li>
-                                <li>
-                                    <a href="#">Lorem ipsum Amet sed veniam occaecat laborum laboris Duis mollit proident.</a>
-                                </li>
-                                <li>
-                                    <a href="#">Lorem ipsum Amet sed veniam occaecat laborum laboris Duis mollit proident.</a>
-                                </li>
-                            </ul>						
-                        </div>
-                    </div>
-                    <!-- top-news -->
-                    <div class="top-search-form">					
-                        <form action="#" class="search-form clearfix" method="get">
-                               <input type="text" onBlur="if (this.value == '')
-            this.value = this.defaultValue;" onFocus="if (this.value == this.defaultValue)
-            this.value = '';" value="Search..." name="s" class="search-text">
-                            <input type="submit" value="" name="submit" class="search-submit">
-                        </form><!-- search-form -->
-                    </div><!-- top-search-form -->
                 </div>
                 <!-- bottom-header -->
             </header>
@@ -226,80 +164,88 @@
                     <div id="sidebar-main-content" class="pull-left">
                         <ul class="list-unstyled">
                             <li class="clearfix">
-                                <div class="widget kp-story">
-                                    <h2 class="widget-title"><span>Top stories</span></h2>
+                                <div class="widget kp-review">
+                                    <h2 class="widget-title"><span>Classement</span></h2>
                                     <div class="widget-content">
-                                        <div class="list_carousel responsive">
-                                            <ul id="ca-kp-story">
-                                                <li>
-                                                    <div class="thumbnail clearfix">
-                                                        <h3><a href="#">Indian on TV's longest-running soap opera "Corrie"</a></h3>
-                                                        <figure class="zoom-image">
-                                                            <a href="#">
-                                                                <img src="placeholders/posts/img.jpg" class="img-responsive" alt="...">
-                                                            </a>
-                                                        </figure>
-                                                        <div class="caption">
-                                                            <ul class="kp-metadata">
-                                                                <li class="kp-time">05 March, 2013</li>
-                                                            </ul>
-                                                            <p>Lorem ipsum Irure aliquip esse elit adipisicing exercitation in.</p>
-                                                        </div>
-                                                        <!-- caption -->
-                                                    </div>
-                                                    <!-- thumbnail -->
-                                                </li>
-                                                <li>
-                                                    <div class="thumbnail clearfix">
-                                                        <h3><a href="#">Indian on TV's longest-running soap opera "Corrie"</a></h3>
-                                                        <figure class="zoom-image">
-                                                            <a href="#">
-                                                                <img src="placeholders/posts/img.jpg" class="img-responsive" alt="...">
-                                                            </a>
-                                                        </figure>
-                                                        <div class="caption">
-                                                            <ul class="kp-metadata">
-                                                                <li class="kp-time">05 March, 2013</li>
-                                                            </ul>
-                                                            <p>Lorem ipsum Irure aliquip esse elit adipisicing exercitation in.</p>
-                                                        </div>
-                                                        <!-- caption -->
-                                                    </div>
-                                                    <!-- thumbnail -->
-                                                </li>
-                                                <li>
-                                                    <div class="thumbnail clearfix">
-                                                        <h3><a href="#">Indian on TV's longest-running soap opera "Corrie"</a></h3>
-                                                        <figure class="zoom-image">
-                                                            <a href="#">
-                                                                <img src="placeholders/posts/img.jpg" class="img-responsive" alt="...">
-                                                            </a>
-                                                        </figure>
-                                                        <div class="caption">
-                                                            <ul class="kp-metadata">
-                                                                <li class="kp-time">05 March, 2013</li>
-                                                            </ul>
-                                                            <p>Lorem ipsum Irure aliquip esse elit adipisicing exercitation in.</p>
-                                                        </div>
-                                                        <!-- caption -->
-                                                    </div>
-                                                    <!-- thumbnail -->
-                                                </li>
-                                            </ul>
-                                            <div class="clearfix"></div>
-                                            <a id="prev1" class="prev icon-chevron-left" href="#"></a>
-                                            <a id="next1" class="next icon-chevron-right" href="#"></a>
-                                            <div id="pager1" class="pager"></div>
-                                        </div>
-                                        <ul class="list-news list-unstyled">
-                                            <li>
-                                                <a href="#">Indian on longest-running soap opera hits 50</a>
+	                                    <select style="width: 100%; margin-bottom: 2px;">
+										  <option value="group1">Groupe 1</option>
+										  <option value="group2">Groupe 2</option>
+										  <option value="group3">Groupe 3</option>
+										  <option value="group4">Groupe 4</option>
+										</select>
+										<ul class="list-unstyled">
+                                            <li class="format-standard">
+                                            	<table style="width: 100%">
+                                            		<tr>
+                                            			<td class="td_rank_nb">1</td>
+                                            			<td class="td_rank_progress">=</td>
+                                            			<td class="td_rank_name">User 2</td>
+                                            			<td class="td_rank_credit">15250</td>
+                                            		</tr>
+                                            	</table>
                                             </li>
-                                            <li>
-                                                <a href="#">Sneak Peek: Christmas Comes Early to The Office</a>
+                                            <li class="format-standard">
+                                                <table style="width: 100%">
+                                            		<tr>
+                                            			<td class="td_rank_nb">2</td>
+                                            			<td class="td_rank_progress">+2</td>
+                                            			<td class="td_rank_name">User 3</td>
+                                            			<td class="td_rank_credit">13250</td>
+                                            		</tr>
+                                            	</table>
                                             </li>
-                                            <li>
-                                                <a href="#">Portable Cord Attaches to Furniture</a>
+                                            <li class="format-standard">
+                                                <p style="text-align: center">..........................................................</p>
+                                            </li>
+                                            <li class="format-standard">
+                                                <table style="width: 100%">
+                                            		<tr>
+                                            			<td class="td_rank_nb">5</td>
+                                            			<td class="td_rank_progress">-1</td>
+                                            			<td class="td_rank_name">User 4</td>
+                                            			<td class="td_rank_credit">8250</td>
+                                            		</tr>
+                                            	</table>
+                                            </li>
+                                            <li class="format-standard">
+                                                <table style="width: 100%">
+                                            		<tr>
+                                            			<td class="td_rank_nb">6</td>
+                                            			<td class="td_rank_progress">=</td>
+                                            			<td class="td_rank_name">User 5</td>
+                                            			<td class="td_rank_credit">7280</td>
+                                            		</tr>
+                                            	</table>
+                                            </li>
+                                            <li class="format-standard">
+                                                <table style="width: 100%">
+                                            		<tr>
+                                            			<td class="td_rank_nb">7</td>
+                                            			<td class="td_rank_progress">+3</td>
+                                            			<td class="td_rank_name" style="color: red">User 1</td>
+                                            			<td class="td_rank_credit">7250</td>
+                                            		</tr>
+                                            	</table>
+                                            </li>
+                                            <li class="format-standard">
+                                                <table style="width: 100%">
+                                            		<tr>
+                                            			<td class="td_rank_nb">8</td>
+                                            			<td class="td_rank_progress">-2</td>
+                                            			<td class="td_rank_name">User 6</td>
+                                            			<td class="td_rank_credit">5420</td>
+                                            		</tr>
+                                            	</table>
+                                            </li>
+                                            <li class="format-standard">
+                                                <table style="width: 100%">
+                                            		<tr>
+                                            			<td class="td_rank_nb">9</td>
+                                            			<td class="td_rank_progress">+1</td>
+                                            			<td class="td_rank_name">User 7</td>
+                                            			<td class="td_rank_credit">3250</td>
+                                            		</tr>
+                                            	</table>
                                             </li>
                                         </ul>
                                     </div>
@@ -309,22 +255,22 @@
                             </li>
                             <li class="clearfix">
                                 <div class="widget kp-social">
-                                    <h2 class="widget-title"><span>Net work</span></h2>
+                                    <h2 class="widget-title"><span>Réseaux</span></h2>
                                     <div class="widget-content">
                                         <ul class="list-unstyled">
-                                            <li class="clearfix item-fb">
+                                            <li class="format-standard">
                                                 <span>
                                                     <a href="http://facebook.com/kopatheme" class="icon-facebook-2"></a>1234
                                                 </span>
                                                 Likes
                                             </li>
-                                            <li class="clearfix item-tw">
+                                            <li class="format-standard">
                                                 <span>
                                                     <a href="http://twitter.com/kopasoft" class="icon-twitter"></a>1234
                                                 </span>
                                                 Followers
                                             </li>
-                                            <li class="clearfix item-fe">
+                                            <li class="format-standard">
                                                 <span>
                                                     <a href="http://kopatheme.com/feed/" class="icon-rss-2"></a>1234
                                                 </span>
@@ -458,17 +404,6 @@
                             </div>
                             <!-- kp-last-news -->
                         </li>
-                        <li>
-                            <div class="widget kp-ads">
-                                <div class="widget-content">
-                                    <figure>
-                                        <a href="#"><img src="placeholders/posts/ads.jpg" class="img-responsive" alt="" /></a>
-                                    </figure>
-                                </div>
-                                <!-- widget-content -->
-                            </div>
-                            <!-- kp-ads -->
-                        </li>
                     </ul>
                 </div>
                 <!-- sidebar -->
@@ -476,10 +411,8 @@
             </div>
     	</div>
     	<div id="test" class="bottom-sidebar">
-    		bottom sidebar
     	</div>
     	<div class="page-footer">
-    		page footer
     	</div>
     	<script type="text/javascript">
 		  window.onload = function () {
@@ -522,10 +455,6 @@
         <script src="js/chart/jquery.canvasjs.js"></script>
         <script src="js/chart/canvasjs.js"></script>
         <script src="js/chart/excanvas.js"></script>
-<!--         <script src="js/masonry.pkgd.min.js"></script> -->
-        
-<!-- 	    <script src="js/chart/fusioncharts.js" ></script> -->
-<!-- 	    <script src="js/chart/fusioncharts-jquery-plugin.js" ></script> -->
         <script type="text/javascript" src="js/custom.js"></script>
 	</body>
 </html>    
