@@ -9,15 +9,10 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
+  <!-- Servlet for game score parsing -->
   <servlet>
     <servlet-name>Sax</servlet-name>
     <servlet-class>com.barbyBet.servlets.DirectResultServlet</servlet-class>
-  </servlet>
-  
-  <!-- Servlet for user registration -->
-  <servlet>
-    <servlet-name>Register</servlet-name>
-    <servlet-class>com.barbyBet.servlets.RegisterServlet</servlet-class>
   </servlet>
   
   <servlet-mapping>
@@ -25,9 +20,26 @@
 	<url-pattern>/sax</url-pattern>
   </servlet-mapping>
   
+  <!-- Servlet for user registration -->
+  <servlet>
+    <servlet-name>Register</servlet-name>
+    <servlet-class>com.barbyBet.servlets.RegisterServlet</servlet-class>
+  </servlet>
+  
    <servlet-mapping>
 	<servlet-name>Register</servlet-name>
 	<url-pattern>/register</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet for user connection -->
+  <servlet>
+    <servlet-name>Connect</servlet-name>
+    <servlet-class>com.barbyBet.servlets.ConnectServlet</servlet-class>
+  </servlet>
+  
+   <servlet-mapping>
+	<servlet-name>Connect</servlet-name>
+	<url-pattern>/connect</url-pattern>
   </servlet-mapping>
 
 </web-app>
