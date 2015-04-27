@@ -20,6 +20,14 @@ import com.barbyBet.object.Match;
 
 public class RegisterServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	public static final String ATT_ERRORS   = "errorsRegister";
+	public static final String ATT_USERNAME = "usernameRegister";
+	public static final String ATT_EMAIL    = "emailRegister";
+	public static final String CHAMP_USERNAME = "username";
+	public static final String CHAMP_EMAIL    = "email";
+    public static final String VUE_ERROR    = "/WEB-INF/jsp/contact.jsp";
+    public static final String VUE_SUCCESS  = "/WEB-INF/jsp/index.jsp";
 
     /**
      * Default constructor. 
@@ -32,30 +40,30 @@ public class RegisterServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	//	SQLUsersComponent sqlUsersComponent = new SQLUsersComponent();	
-		System.out.println("get");
-			this.getServletContext().getRequestDispatcher( "/WEB-INF/jsp/contact.jsp" ).forward(request, response);
+		this.getServletContext().getRequestDispatcher(VUE_ERROR).forward(request, response);
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO
-		String username = request.getParameter("username");
-		String email = request.getParameter("email");
-		String password = request.getParameter("password");
-		String repeatPassword = request.getParameter("repeatPassword");
+		SQLUsersComponent sqlComponent = new SQLUsersComponent();
+		boolean userInsert = false;
 		
-		if(username != null && email != null && password != null && repeatPassword != null) {
-			if(password.equals(repeatPassword)) {
-				SQLUsersComponent sqlComponent = new SQLUsersComponent();
-				sqlComponent.insertUser(email, username, password);
-			} else {
-				// Passwords do not match
-			}
+		// Insertion de l'utilisateur dans la BDD : vérification des conditions dans cette fonction
+		userInsert = sqlComponent.insertUser(request);
+
+		if(userInsert) {
+			this.getServletContext().getRequestDispatcher(VUE_SUCCESS).forward(request, response);
+		} else {
+			// Ajout des éventuelles erreurs à la requête
+			request.setAttribute(ATT_ERRORS, sqlComponent.getErrors());
 			
-			doGet(request,response);
+			// Ajout de l'username et du mail pour qu'ils apparaissent dans l'input
+			request.setAttribute(ATT_USERNAME, sqlComponent.getValueChamp(request, CHAMP_USERNAME));
+			request.setAttribute(ATT_EMAIL, sqlComponent.getValueChamp(request, CHAMP_EMAIL));
+			
+			this.getServletContext().getRequestDispatcher(VUE_ERROR).forward(request, response);
 		}
 	}
 	

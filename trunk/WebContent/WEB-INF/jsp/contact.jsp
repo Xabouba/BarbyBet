@@ -1,217 +1,4 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<!DOCTYPE html>
-<html lang="fr">
-    <head>
-        <title>Contact</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" type="text/css" href="css/icomoon.css">
-        <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
-        <link rel="stylesheet" type="text/css" href="css/superfish.css">
-        <link rel="stylesheet" type="text/css" href="css/default.css">
-        <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
-        <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
-        <link rel="stylesheet" type="text/css" href="style.css">
-        <link rel="stylesheet" type="text/css" href="css/responsive.css">
-        <!--[if !IE]><!-->
-        <script src="js/ie10.js"></script>
-        <!--<![endif]-->
-
-        <!--[if IE 9]>
-                <link rel="stylesheet" type="text/css" href="css/ie9.css">
-        <![endif]-->
-
-
-        <!--[if lt IE 9]>
-        <link rel="stylesheet" type="text/css" href="css/ie.css">
-        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-        <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
-        <![endif]-->
-    </head>
-    <body onLoad="goforit()">
-        <div class="wraper">
-            <header id="page-header">
-                <div class="top-header clearfix">
-                    <div id="logo"><figure><a href="index.html"><img src="images/logo.png" class="img-responsive" alt=""></a> </figure></div>
-                    <nav>
-                        <ul class="sf-menu" id="main-menu">
-                            <li class="current-menu-item">
-                                <a href="index.html">home</a>
-                            </li>
-                            <li>
-                                <a href="single.html">page</a>
-                                <ul>
-                                    <li><a href="elements.html">Element</a></li>
-                                    <li><a href="single.html">Single</a>
-                                        <ul>
-                                            <li><a href="single.html">Single</a></li>
-                                            <li><a href="single-video.html">Single video</a></li>
-                                            <li><a href="single-audio.html">Single audio</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="categories.html">Category</a>
-                                        <ul>
-                                            <li><a href="categories.html">Category 1</a></li>
-                                            <li><a href="categories-2.html">Category 2</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="video.html">Video</a></li>
-                                    <li><a href="gallery6.html">Gallery</a>
-                                        <ul>
-                                            <li><a href="gallery6.html">Gallery 6 col</a></li>
-                                            <li><a href="gallery7.html">Gallery 7 col</a></li>
-                                            <li><a href="gallery8.html">Gallery 8 col</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="contact.html">contact</a>
-                            </li>
-                            <li>
-                                <a href="#">entertaiment</a>
-                                <ul>
-                                    <li><a href="#">Menu item</a></li>
-                                    <li><a href="#">Menu item</a></li>
-                                    <li><a href="#">Menu item</a></li>
-                                    <li><a href="#">Menu item</a></li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="#">world</a>
-                            </li>
-                            <li>
-                                <a href="#">photography</a>
-                            </li>
-                        </ul>
-                        <div id="mobile-menu">
-                            <span>Menu</span>
-                            <ul id="toggle-view-menu">
-                                <li class="clearfix">
-                                    <h3><a href="#">Home</a></h3>
-                                    <span>+</span>
-                                    <div class="clearfix"></div>
-                                    <div class="menu-panel clearfix">
-                                        <ul>
-                                            <li><a href="index.html">Index style 1</a></li>
-                                            <li><a href="index-2.html">Index style 2</a></li>
-                                            <li><a href="index-3.html">Index style 3</a></li>
-                                        </ul>
-                                    </div>
-                                </li>
-                                <li class="clearfix">
-                                    <h3><a href="#">Pages</a></h3>
-                                    <span>+</span>
-                                    <div class="clearfix"></div>                    
-                                    <div class="menu-panel clearfix">
-                                        <ul>
-                                            <li><a href="about.html">About page</a></li>
-                                            <li><a href="elements.html">Elements page</a></li>
-                                            <li><a href="404.html">404 page</a></li>
-                                        </ul>
-                                    </div>
-                                </li>
-                                <li class="clearfix">
-                                    <h3><a href="#">Portfolio</a></h3>
-                                    <span>+</span>
-                                    <div class="clearfix"></div>                    
-                                    <div class="menu-panel clearfix">
-                                        <ul>
-                                            <li><a href="portfolio-3col.html">Portfolio 3 column</a></li>
-                                            <li><a href="portfolio-2col.html">Portfolio 2 column</a></li>
-                                            <li><a href="portfolio-1col.html">Portfolio 1 column</a></li>
-                                            <li>
-                                                <a href="#">Portfolio detail</a>
-                                                <ul>
-                                                    <li><a href="portfolio-detail.html">Portfolio single</a></li>
-                                                    <li><a href="portfolio-audio.html">Portfolio audio</a></li>
-                                                    <li><a href="portfolio-gallery.html">Portfolio gallery</a></li>
-                                                    <li><a href="portfolio-video.html">Portfolio video</a></li>
-                                                    <li><a href="portfolio-soundcloud.html">Portfolio soundcloud</a></li>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </li>
-                                <li class="clearfix">
-                                    <h3><a href="#">Blog</a></h3>
-                                    <span>+</span>
-                                    <div class="clearfix"></div>                    
-                                    <div class="menu-panel clearfix">
-                                        <ul>
-                                            <li>
-                                                <a href="#">Blog style 1</a>
-                                                <ul>
-                                                    <li><a href="blog-1-left-sidebar.html">Width left sidebar</a></li>
-                                                    <li><a href="blog-1-right-sidebar.html">Width right sidebar</a></li>
-                                                    <li><a href="blog-1-two-sidebar.html">Width two sidebar</a></li>
-                                                </ul>
-                                            </li>
-                                            <li><a href="blog-2.html">Blog style 2</a></li>
-                                            <li>
-                                                <a href="#">Blog style 3</a>
-                                                <ul>
-                                                    <li><a href="blog-3-one-sidebar.html">Width one sidebar</a></li>
-                                                    <li><a href="blog-3-two-sidebar.html">Width two sidebar</a></li>
-                                                </ul>
-                                            </li>
-                                            <li>
-                                                <a href="#">Blog single</a>
-                                                <ul>
-                                                    <li><a href="single-1.html">Single style 1</a></li>
-                                                    <li><a href="single-2.html">Single style 2</a></li>
-                                                    <li><a href="single-3.html">Single style 3</a></li>
-                                                    <li><a href="single-4.html">Single style 4</a></li>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </li>
-                                <li class="clearfix"><h3><a href="contact.html">Contact</a></h3></li>                   
-                            </ul><!--toggle-view-menu-->
-                        </div><!--mobile-menu-->
-                    </nav>
-                </div>
-                <!-- top-header -->
-                <div class="bottom-header clearfix">
-                    <div class="kp-time">					
-                        <span id="clock"></span>
-                    </div>
-                    <!-- kp-time -->
-                    <div class="top-news">
-                        <h2>Breaking news:</h2>
-                        <div class="list_carousel responsive">
-                            <ul id="ca-top-news">
-                                <li>
-                                    <a href="#">Lorem ipsum Amet sed veniam occaecat laborum laboris Duis .</a>
-                                </li>
-                                <li>
-                                    <a href="#">Lorem ipsum Amet sed veniam occaecat laborum laboris Duis mollit proident.</a>
-                                </li>
-                                <li>
-                                    <a href="#">Lorem ipsum Amet sed veniam occaecat laborum laboris Duis mollit proident.</a>
-                                </li>
-                                <li>
-                                    <a href="#">Lorem ipsum Amet sed veniam occaecat laborum laboris Duis mollit proident.</a>
-                                </li>
-                                <li>
-                                    <a href="#">Lorem ipsum Amet sed veniam occaecat laborum laboris Duis mollit proident.</a>
-                                </li>
-                            </ul>						
-                        </div>
-                    </div>
-                    <!-- top-news -->
-                    <div class="top-search-form">
-                        <form action="#" class="search-form clearfix" method="get">
-                            <input type="text" onBlur="if (this.value == '')
-            this.value = this.defaultValue;" onFocus="if (this.value == this.defaultValue)
-            this.value = '';" value="Search..." name="s" class="search-text">
-                            <input type="submit" value="" name="submit" class="search-submit">
-                        </form><!-- search-form -->
-                    </div>
-                    <!-- top-search-form -->
-                </div>
-                <!-- bottom-header -->
-            </header>
+<%@ include file="header.jsp" %>
             <!-- page-header -->
             <div id="content">
                 <div class="wraper clearfix">
@@ -235,14 +22,25 @@
                                     <div class="col-md-6 col-sm-6 col-xs-6">
                                         <h2 class="widget-title"><span>Inscription</span></h2>
                                         <form action="register" method="post" id="kp-form-contact">
+                                        	<label>
+												<c:if test="${not empty errorsRegister['email']}">
+												    <c:out value="${errorsRegister['email']}" />
+												</c:if>
+												<c:if test="${not empty errorsRegister['username']}">
+												    <c:out value="${errorsRegister['username']}" />
+												</c:if>
+												<c:if test="${not empty errorsRegister['password']}">
+												    <c:out value="${errorsRegister['password']}" />
+												</c:if>
+                                        	</label>
                                             <div class="form-group">
                                                 <label for="input-username" class="sr-only">username</label>
-                                                <input type=text placeholder="Pseudo" class="form-control" id="input-name" name="username">
+                                                <input type=text placeholder="Pseudo" class="form-control" id="input-name" name="username" value="<c:out value="${usernameRegister}" />">
                                             </div>
                                             <!-- form group -->
                                             <div class="form-group">
                                                 <label for="input-email" class="sr-only">email</label>
-                                                <input type=text placeholder="Email" class="form-control" id="input-email" name="email">
+                                                <input type=text placeholder="Email" class="form-control" id="input-email" name="email" value="<c:out value="${emailRegister}" />">
                                             </div>
                                             <!-- form group -->
                                             <div class="form-group">
@@ -260,16 +58,31 @@
                                         <div id="renponse"></div>
 
                                     </div>
-                                    <!-- col -->
-                                    <div class="info-company">
-                                        <h2 class="widget-title"><span>Locate us</span></h2>
-                                        <p>Nunc at pellentesque libero. Quisque quis elit eget enim facilisis gravida. Donec placerat dui nec orci tincidunt vitae tristique augue dictum. Duis nec leo vitae lorem rutrum tempor sit amet id quam sed los dui eleifend ipsum commodo luctus.</p>
-                                        <h3>Where to find Us</h3>
-                                        <ul>
-                                            <li><span class="icon-map-marker "></span>5512 Lorem Ipsum Vestibulum 666/13</li>
-                                            <li><span class="icon-iphone "></span>+1 800 789 50 12, +1 800 450 6935, +1 800 450 6940</li>
-                                            <li><span class="icon-email "></span>mail@compname.com</li>
-                                        </ul>
+                                     <div class="col-md-6 col-sm-6 col-xs-6">
+                                        <h2 class="widget-title"><span>Connexion</span></h2>
+                                        <form action="connect" method="post" id="kp-form-contact">
+                                        	<label>
+												<c:if test="${not empty errorsConnect['username']}">
+												    <c:out value="${errorsConnect['username']}" />
+												</c:if>
+												<c:if test="${not empty errorsConnect['password']}">
+												    <c:out value="${errorsConnect['password']}" />
+												</c:if>
+                                        	</label>
+                                            <div class="form-group">
+                                                <label for="input-username" class="sr-only">username</label>
+                                                <input type=text placeholder="Pseudo" class="form-control" id="input-name" name="username" value="<c:out value="${usernameConnect}" />">
+                                            </div>
+                                            <!-- form group -->
+                                            <div class="form-group">
+                                                <label for="input-password" class="sr-only">password</label>
+                                                <input type=password placeholder="Mot de passe" class="form-control" id="input-website" name="password">
+                                            </div>
+                                            <!-- form group -->
+                                            <input type="submit" name="submit" class="btn btn-primary" value="Valider" id="input-submit">
+                                        </form>
+                                        <div id="renponse"></div>
+
                                     </div>
                                     <!-- info company -->
                                 </div>
