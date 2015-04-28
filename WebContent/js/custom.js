@@ -46,7 +46,7 @@ jQuery(document).ready(function() {
             rules: {
                 username: {
                     required: true,
-                    minlength: 2
+                    maxlength: 15
                 },
                 email: {
                     required: true,
@@ -66,7 +66,7 @@ jQuery(document).ready(function() {
             messages: {
                 username: {
                     required: "Please enter your name.",
-                    minlength: jQuery.format("At least {0} characters required.")
+                    minlength: jQuery.format("Your username cannot be more than {0} characters.")
                 },
                 email: {
                     required: "Please enter your email.",
