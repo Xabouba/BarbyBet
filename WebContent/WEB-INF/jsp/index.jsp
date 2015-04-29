@@ -101,7 +101,7 @@
                             </li>
                             <li class="clearfix">
                                 <div class="widget kp-social">
-                                    <h2 class="widget-title"><span>Rï¿½seaux</span></h2>
+                                    <h2 class="widget-title"><span>Réseaux</span></h2>
                                     <div class="widget-content">
                                         <ul class="list-unstyled">
                                             <li class="format-standard">
@@ -141,7 +141,7 @@
                                             <ul id="ca-main-news" class="clearfix">
                                             	<li>
 	                                            	<div style="margin-left: auto; margin-right: auto;">
-											    		<h1 class="result-title" style="text-align: center">Ligue 1</h1>
+	                                            		<h1 class="result-title" style="text-align: center">Ligue 1</h1>
 												    	
 												        <p class="result-statut" style="text-align: center">${match.statut}</p>
   												    	<br/>
@@ -219,22 +219,30 @@
                                     <ul class="list-unstyled">
                                     	<li class="format-standard">
 		                                    <div>
-		                                    	<table style="margin-left: auto; margin-right: auto; width: 100%">
-		                                    		<caption style="font-size: 20px; margin-top: 10px; margin-bottom: 10px;">
-		                                    			<strong>User 1</strong>
+		                                    	
+		                                    	<table style="margin-left: auto; margin-right: auto; width: 100%;">
+		                                    		<caption style="margin-top: 5px;">
 	                                    			</caption>
 	                                    			<tbody>
+			                                    		<tr>
+			                                    			<td style="float: right; width: 90%; font-size: 20px; margin-top:5px">
+			                                    				<strong>User 1</strong>
+															</td>
+			                                    			<td style="width: 30%">
+		                                    					<input class="button-prono" type="button" onclick="openProno()" />
+			                                    			</td>
+			                                    		</tr>
 			                                    		<tr>
 			                                    			<td style="float: right; width: 90%">Pronostique:</td>
 			                                    			<td style="width: 30%">1 - 1</td>
 			                                    		</tr>
 			                                    		<tr>
 			                                    			<td style="float: right; width: 90%">Mise:</td>
-			                                    			<td style="width: 30%">500 crï¿½dits</td>
+			                                    			<td style="width: 30%">500 crédits</td>
 			                                    		</tr>
 	                                    				<tr>
 			                                    			<td style="float: right; width: 90%">Gain:</td>
-			                                    			<td style="width: 30%">1650 crï¿½dits</td>
+			                                    			<td style="width: 30%">1650 crédits</td>
 			                                    		</tr>
 	                                    			</tbody>
 		                                    	</table>
@@ -260,6 +268,54 @@
     	</div>
     	<div class="page-footer">
     	</div>
+    	
+    	<div id="prono-form" title="Pronostic" style="display:none">
+		  <form>
+		    <table style="margin-left: auto; margin-right: auto;">
+			   <tr>
+	    			<td><img style="width:80px; height:80px" src="images/team/${match.homeImg}_128.png"></img></td>
+	    			<td style="border-bottom: solid 1px" class="result-team">${match.homeTeam}</td>
+	    			<td style="border-bottom: solid 1px">
+	    			<select style="width:40px; height:40px; font-size:20px;">
+					  <option value="0">0</option>
+					  <option value="1">1</option>
+					  <option value="2">2</option>
+					  <option value="3">3</option>
+					  <option value="4">4</option>
+					  <option value="5">5</option>
+					  <option value="6">6</option>
+					  <option value="7">7</option>
+					  <option value="8">8</option>
+					  <option value="9">9</option>
+					</select>
+					</td>
+	    			<td style="border-bottom: solid 1px">
+	    			<select style="width:40px; height:40px; font-size:20px">
+					  <option value="0">0</option>
+					  <option value="1">1</option>
+					  <option value="2">2</option>
+					  <option value="3">3</option>
+					  <option value="4">4</option>
+					  <option value="5">5</option>
+					  <option value="6">6</option>
+					  <option value="7">7</option>
+					  <option value="8">8</option>
+					  <option value="9">9</option>
+					</select>
+	    			</td>
+	    			<td style="border-bottom: solid 1px" class="result-team">${match.awayTeam}</td>
+	    			<td><img style="width:80px; height:80px" src="images/team/${match.awayImg}_128.png"></img></td>
+	    		</tr>
+	    	</table>
+	    	<div style="margin-top: 20px">
+	    	<center style="text-align: center; font-size:14px; color: orange; font-weight: bold;">
+<!-- 	    		<p >Crédits :</p> -->
+    			<input style="width: 100px" id="credits" type="text" /> / 10000
+	    	</center>
+	    	</div>
+		  </form>
+		</div>
+		
     	<script type="text/javascript">
 		  window.onload = function () {
 			var homeTeam = "${match.homeTeam}";
@@ -284,6 +340,44 @@
 		
 		    chart.render();
 		  }
+		  
+		  openProno = function()
+		  {
+			  dialog = $( "#prono-form" ).dialog({
+			      autoOpen: false,
+			      height: 250,
+			      width: 600,
+			      modal: true,
+			      buttons: {
+			        "Valider": function() {
+		        	  if ($( "#credits" ).val() <= 10000/2)
+					  {
+			        	  dialog.dialog( "close" );
+			        	  pronostic();
+					  }
+		        	  else
+	        		  {
+		        	  	  alert('Vous ne pouvez pas miser autant de crédits.');	  
+	        		  }
+			        },
+			        "Annuler" : function() {
+			          dialog.dialog( "close" );
+			        }
+			      },
+			      close: function() {
+			       // form[ 0 ].reset();
+			       // allFields.removeClass( "ui-state-error" );
+			      }
+			    });
+			  
+			  dialog.dialog( "open" );
+		  }
+		  
+		  pronostic = function()
+		  {
+			  
+		  };
+		  
 		  </script>
     	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
         <script src="js/jqueryUi.js"></script>

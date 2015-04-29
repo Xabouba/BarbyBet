@@ -105,4 +105,12 @@
 	color: white;
 }
 
+.button-prono
+{
+	width: 48px;
+	height: 48px;
+  	background-image: url(../images/prono.png); 
+  	background-color: rgb(179, 237, 175);
+  	margin-right : 20px;
+}
 		
