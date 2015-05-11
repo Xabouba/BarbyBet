@@ -30,6 +30,14 @@
         <![endif]-->
     </head>
     <body onLoad="goforit()">
+    <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v2.3&appId=632099886859535";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
     	<% response.setIntHeader("Refresh", 120); %>
     	
     	<div class="wraper">
@@ -41,9 +49,19 @@
                             <li class="current-menu-item">
                                 <a href="index.html">home</a>
                             </li>
-                            <li>
-                                <a href="register">Inscription</a>
-                            </li>
+                            <%-- Vérification de l'absence du nom d'utilisateur en cookie --%>
+                            <c:choose>
+				                <c:when test="${empty cookie.cookieUsername}">
+				                	<li>
+	                                	<a href="register">Inscription</a>
+	                            	</li>
+				                </c:when>
+				                <c:otherwise>
+				                	<li>
+	                                	<a href="register">Deconnexion</a>
+	                            	</li>
+				                </c:otherwise>
+                            </c:choose>
                             <li>
                                 <a href="contact.html">contact</a>
                             </li>

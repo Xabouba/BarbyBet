@@ -20,45 +20,6 @@
                             <div class="bottom-contact">
                                 <div class="row">
                                     <div class="col-md-6 col-sm-6 col-xs-6">
-                                        <h2 class="widget-title"><span>Inscription</span></h2>
-                                        <form action="register" method="post" id="kp-form-contact">
-                                        	<label>
-												<c:if test="${not empty errorsRegister['email']}">
-												    <c:out value="${errorsRegister['email']}" />
-												</c:if>
-												<c:if test="${not empty errorsRegister['username']}">
-												    <c:out value="${errorsRegister['username']}" />
-												</c:if>
-												<c:if test="${not empty errorsRegister['password']}">
-												    <c:out value="${errorsRegister['password']}" />
-												</c:if>
-                                        	</label>
-                                            <div class="form-group">
-                                                <label for="input-username" class="sr-only">username</label>
-                                                <input type=text placeholder="Pseudo" class="form-control" id="input-name" name="username" value="<c:out value="${usernameRegister}" />">
-                                            </div>
-                                            <!-- form group -->
-                                            <div class="form-group">
-                                                <label for="input-email" class="sr-only">email</label>
-                                                <input type=text placeholder="Email" class="form-control" id="input-email" name="email" value="<c:out value="${emailRegister}" />">
-                                            </div>
-                                            <!-- form group -->
-                                            <div class="form-group">
-                                                <label for="input-password" class="sr-only">password</label>
-                                                <input type=password placeholder="Mot de passe" class="form-control" id="input-website" name="password">
-                                            </div>
-                                            <!-- form group -->
-                                            <div class="form-group">
-                                                <label for="input-repeat-password" class="sr-only">repeatPassword</label>
-                                                <input type=password placeholder="Répeter mot de passe" class="form-control" id="input-website" name="repeatPassword">
-                                            </div>
-                                            <!-- form group -->
-                                            <input type="submit" name="submit" class="btn btn-primary" value="Valider" id="input-submit">
-                                        </form>
-                                        <div id="renponse"></div>
-
-                                    </div>
-                                     <div class="col-md-6 col-sm-6 col-xs-6">
                                         <h2 class="widget-title"><span>Connexion</span></h2>
                                         <form action="connect" method="post" id="kp-form-contact">
                                         	<label>
@@ -78,9 +39,26 @@
                                                 <label for="input-password" class="sr-only">password</label>
                                                 <input type=password placeholder="Mot de passe" class="form-control" id="input-website" name="password">
                                             </div>
+                                            <input type="checkbox" id="memoire" name="memoire" />
+                                            <label for="memoire">Se souvenir de moi</label>
+							                <br />
                                             <!-- form group -->
                                             <input type="submit" name="submit" class="btn btn-primary" value="Valider" id="input-submit">
                                         </form>
+                                        <div id="renponse"></div>
+
+                                    </div>
+                                     <div class="col-md-6 col-sm-6 col-xs-6">
+                                        <h2 class="widget-title"><span>Connexion reseaux sociaux</span></h2>
+                                        	<br />
+                                        	<div 
+                                        		class="fb-login-button" 
+                                        		data-max-rows="1" 
+                                        		data-size="xlarge" 
+                                        		data-show-faces="false" 
+                                        		data-auto-logout-link="false"
+                                        		style="margin-left:100px">
+                                        	</div>
                                         <div id="renponse"></div>
 
                                     </div>
