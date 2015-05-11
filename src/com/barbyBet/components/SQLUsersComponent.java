@@ -13,6 +13,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import com.barbyBet.object.User;
+import com.barbyBet.tools.CipherUtils;
 
 public class SQLUsersComponent extends SQLComponent {
 
@@ -37,7 +38,7 @@ public class SQLUsersComponent extends SQLComponent {
 	}
 
 	// We check if the user is registered so we can connect them to the website
-	public boolean isUserRegistered(HttpServletRequest request) {
+	public User isUserRegistered(HttpServletRequest request) {
 		Connection connexion = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -63,37 +64,30 @@ public class SQLUsersComponent extends SQLComponent {
 			try {
 				connexion = DriverManager.getConnection(_url, _user, _password);
 				stmt = connexion
-						.prepareStatement("SELECT COUNT(username) FROM Users WHERE username = ? AND password = ?");
+						.prepareStatement("SELECT id, username, email, dateRegistration, coins FROM Users WHERE username = ? AND password = ?");
 				stmt.setString(1, username);
 				stmt.setString(2, password);
 
 				rs = stmt.executeQuery();
 				if (rs.next()) {
-					if (rs.getString("COUNT(username)").equals("0")) {
-						setError(CHAMP_USERNAME,
-								"Vos identifiants sont incorrects.");
-
-						return false;
-					} else {
-						return true;
-					}
+					return new User(rs.getString("username"), rs.getString("email"), rs.getDate("dateRegistration"), rs.getInt("coins"));
 				} else {
 					setError(CHAMP_USERNAME,
 							"Vos identifiants sont incorrects.");
 
-					return false;
+					return null;
 				}
 			} catch (SQLException e) {
 				System.out.println(e.getMessage());
 
-				return false;
+				return null;
 			} finally {
 				close(rs);
 				close(stmt);
 				close(connexion);
 			}
 		} else {
-			return false;
+			return null;
 		}
 	}
 
@@ -160,7 +154,7 @@ public class SQLUsersComponent extends SQLComponent {
 	}
 
 	// Insert user in the database
-	public boolean insertUser(HttpServletRequest request) {
+	public User insertUser(HttpServletRequest request) {
 		Connection connexion = null;
 		PreparedStatement stmt = null;
 
@@ -194,7 +188,8 @@ public class SQLUsersComponent extends SQLComponent {
 
 		if (errors.isEmpty()) {
 			password = encryptPassword(password);
-
+			Date dateToday = new Date();
+			Timestamp date = new Timestamp(dateToday.getTime());
 			try {
 				connexion = DriverManager.getConnection(_url, _user, _password);
 				stmt = connexion
@@ -203,24 +198,21 @@ public class SQLUsersComponent extends SQLComponent {
 				stmt.setString(1, username);
 				stmt.setString(2, email);
 				stmt.setString(3, password);
-
-				Date dateToday = new Date();
-				Timestamp date = new Timestamp(dateToday.getTime());
 				stmt.setTimestamp(4, date);
 
 				stmt.executeUpdate();
 			} catch (SQLException e) {
 				System.out.println(e.getMessage());
 
-				return false;
+				return null;
 			} finally {
 				close(stmt);
 				close(connexion);
 			}
 
-			return true;
+			return new User(username,email,date,10000);
 		} else {
-			return false;
+			return null;
 		}
 	}
 
@@ -291,7 +283,11 @@ public class SQLUsersComponent extends SQLComponent {
 	}
 
 	private String encryptPassword(String password) {
-		// TODO
-		return password;
+		return CipherUtils.encrypt(CipherUtils.KEY1, CipherUtils.KEY2, password);
+	}
+	
+	@SuppressWarnings("unused")
+	private String decryptPassword(String password) {
+		return CipherUtils.decrypt(CipherUtils.KEY1, CipherUtils.KEY2, password);
 	}
 }

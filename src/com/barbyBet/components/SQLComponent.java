@@ -12,11 +12,11 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.Map;
 
 public class SQLComponent {
 
 	protected static String _url = "jdbc:mysql://45.55.225.41:3306/barbybet";
+	// protected static String _url = "jdbc:mysql://db4free.net:3306/barbybet";
 	protected static String _user = "root";
 	protected static String _password = "sparco";
 	
