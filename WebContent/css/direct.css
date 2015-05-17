@@ -1,0 +1,53 @@
+.prono-form
+{
+	display: none;	
+}
+
+.prono-form td 
+{
+	text-align: center;
+}
+
+.prono-form .prono-img
+{
+	width:80px; 
+	height:80px
+}
+
+.prono-form .prono-team
+{
+	font-weight: bold;
+	font-size: 15px;
+	width: 200px;
+	border-bottom: solid 1px;
+}
+
+.prono-form .prono-score
+{
+	border-bottom: solid 1px; 
+	width:40px;
+}
+
+.prono-form .prono-header
+{
+	font-weight: bold;
+}
+
+.prono-form .prono-table
+{
+	margin-left: auto; 
+	margin-right: auto;
+}
+
+.prono-form .prono-credits
+{
+	font-size:14px; 
+	color: orange; 
+	font-weight: bold;
+}
+
+.prono-form .prono-credits input
+{
+	width: 100px; 
+	margin-top: 15px;
+}

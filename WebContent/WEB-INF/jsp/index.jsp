@@ -171,14 +171,28 @@
                                 <div class="widget kp-review">
                                     <h2 class="widget-title"><span>Chat</span></h2>
                                     <div class="widget-content">
-                                    	<ul class="list-unstyled" style="height:600px; overflow:auto;">
+                                    	<ul class="list-unstyled" style="max-height:600px; overflow:auto;">
                                     		<c:forEach items="${comments}" var="comment">
                                             	<li class="format-standard">
                                             	<table style="margin-left: auto; margin-right: auto; width: 100%">
 												   <tr style="width: 100%">
 										    			<td style="width: 20%;">
 										    				<p><strong>${comment.user}</strong></p>
-										    				<p style="color: green"><strong>(1 - 0)</strong></p>
+										    				<p style="color: green">
+										    					<strong>
+											    					<c:choose>
+																		<c:when test="${comment.prono=='1'}">
+																	    	${match.homeTeam}
+																	    </c:when>
+																		<c:when test="${comment.prono=='2'}">
+																	    	nul
+																	    </c:when>
+																		<c:when test="${comment.prono=='3'}">
+																	    	${match.awayTeam}
+																	    </c:when>
+																	</c:choose>
+																</strong>
+															</p>
 										    			</td>
 										    			<td style="width: 65%;">
 										    				<div style="width: 300px; word-wrap: break-word;">${comment.comment}</div>
@@ -196,6 +210,7 @@
                                         <form action="sax" method="post">
 										  <label for="comments">Message: </label>
 										  <textarea style="width: 100%;" rows="5" name="comment" id="comments" maxlength="450" ></textarea>
+										  <input type="hidden" name="matchId" value="${match.matchId}" />
 										  <input type="submit" value="Envoyer" />
 										</form>
                                        
@@ -226,7 +241,7 @@
 	                                    			<tbody>
 			                                    		<tr>
 			                                    			<td style="float: right; width: 90%; font-size: 20px; margin-top:5px">
-			                                    				<strong>User 1</strong>
+			                                    				<strong>${cookie.cookieUsername.value}</strong>
 															</td>
 			                                    			<td style="width: 30%">
 		                                    					<input class="button-prono" type="button" onclick="openProno()" />
@@ -234,15 +249,35 @@
 			                                    		</tr>
 			                                    		<tr>
 			                                    			<td style="float: right; width: 90%">Pronostique:</td>
-			                                    			<td style="width: 30%">1 - 1</td>
+			                                    			<td style="width: 30%">
+			                                    				<c:choose>
+																	<c:when test="${prono=='1'}">
+																    	${match.homeTeam}
+																    </c:when>
+																	<c:when test="${prono=='2'}">
+																    	nul
+																    </c:when>
+																	<c:when test="${prono=='3'}">
+																    	${match.awayTeam}
+																    </c:when>
+																</c:choose>
+			                                    			</td>
 			                                    		</tr>
 			                                    		<tr>
 			                                    			<td style="float: right; width: 90%">Mise:</td>
-			                                    			<td style="width: 30%">500 crédits</td>
+			                                    			<td style="width: 30%">
+			                                    				<c:if test="${credits != null}">
+			                                    					${credits} crédits
+			                                    				</c:if>
+			                                    			</td>
 			                                    		</tr>
 	                                    				<tr>
 			                                    			<td style="float: right; width: 90%">Gain:</td>
-			                                    			<td style="width: 30%">1650 crédits</td>
+			                                    			<td style="width: 30%">
+			                                    				<c:if test="${creditsWon != null}">
+				                                    				${creditsWon} crédits
+			                                    				</c:if>
+			                                    			</td>
 			                                    		</tr>
 	                                    			</tbody>
 		                                    	</table>
@@ -269,50 +304,63 @@
     	<div class="page-footer">
     	</div>
     	
-    	<div id="prono-form" title="Pronostic" style="display:none">
-		  <form>
-		    <table style="margin-left: auto; margin-right: auto;">
+    	<div class="prono-form" id="prono-form" title="Pronostic">
+		  <form method="post" action="sax">
+		    <input type="hidden" id="matchId" value="${match.matchId}" />
+		    <table class="prono-table">
 			   <tr>
-	    			<td><img style="width:80px; height:80px" src="images/team/${match.homeImg}_128.png"></img></td>
-	    			<td style="border-bottom: solid 1px" class="result-team">${match.homeTeam}</td>
-	    			<td style="border-bottom: solid 1px">
-	    			<select style="width:40px; height:40px; font-size:20px;">
-					  <option value="0">0</option>
-					  <option value="1">1</option>
-					  <option value="2">2</option>
-					  <option value="3">3</option>
-					  <option value="4">4</option>
-					  <option value="5">5</option>
-					  <option value="6">6</option>
-					  <option value="7">7</option>
-					  <option value="8">8</option>
-					  <option value="9">9</option>
-					</select>
+			   		<td/>
+			   		<td/>
+	    			<td class="prono-header" style="font-weight: bold;">E1</td>
+	    			<td style="font-weight: bold;">N</td>
+	    			<td style="font-weight: bold;">E2</td>
+	    			<td/>
+	    			<td/>
+    		   </tr>
+			   <tr>
+	    			<td><img class="prono-img" src="images/team/${match.homeImg}_128.png"></img></td>
+	    			<td class="prono-team" style="">${match.homeTeam}</td>
+	    			<td class="prono-score" style="">
+	    				<c:choose>
+		    				<c:when test="${prono == '1'}">
+		    					<input type="radio" name="prono" value="1" checked/>
+		    				</c:when>
+		    				<c:otherwise>
+		    					<input type="radio" name="prono" value="1" />
+		    				</c:otherwise>
+	    				</c:choose>
 					</td>
-	    			<td style="border-bottom: solid 1px">
-	    			<select style="width:40px; height:40px; font-size:20px">
-					  <option value="0">0</option>
-					  <option value="1">1</option>
-					  <option value="2">2</option>
-					  <option value="3">3</option>
-					  <option value="4">4</option>
-					  <option value="5">5</option>
-					  <option value="6">6</option>
-					  <option value="7">7</option>
-					  <option value="8">8</option>
-					  <option value="9">9</option>
-					</select>
+	    			<td class="prono-score">
+	    				<c:choose>
+		    				<c:when test="${prono == '2'}">
+		    					<input type="radio" name="prono" value="2" checked/>
+		    				</c:when>
+		    				<c:otherwise>
+		    					<input type="radio" name="prono" value="2" />
+		    				</c:otherwise>
+	    				</c:choose>
+    				</td>
+	    			<td class="prono-score">
+	    				<c:choose>
+		    				<c:when test="${prono == '3'}">
+		    					<input type="radio" name="prono" value="3" checked/>
+		    				</c:when>
+		    				<c:otherwise>
+		    					<input type="radio" name="prono" value="3" />
+		    				</c:otherwise>
+	    				</c:choose>
+					</td>
+	    			<td class="prono-team">${match.awayTeam}</td>
+	    			<td><img class="prono-img" src="images/team/${match.awayImg}_128.png"></img></td>
+	    		</tr>
+	    		<tr>
+	    			<td/>
+	    			<td class="prono-credits" colspan="5">
+	    				<input id="credits" type="text" value="${credits}"/> / 10000
 	    			</td>
-	    			<td style="border-bottom: solid 1px" class="result-team">${match.awayTeam}</td>
-	    			<td><img style="width:80px; height:80px" src="images/team/${match.awayImg}_128.png"></img></td>
+	    			<td/>
 	    		</tr>
 	    	</table>
-	    	<div style="margin-top: 20px">
-	    	<center style="text-align: center; font-size:14px; color: orange; font-weight: bold;">
-<!-- 	    		<p >Crédits :</p> -->
-    			<input style="width: 100px" id="credits" type="text" /> / 10000
-	    	</center>
-	    	</div>
 		  </form>
 		</div>
 		
@@ -345,15 +393,22 @@
 		  {
 			  dialog = $( "#prono-form" ).dialog({
 			      autoOpen: false,
-			      height: 250,
-			      width: 600,
+			      height: 260,
+			      width: 700,
 			      modal: true,
 			      buttons: {
 			        "Valider": function() {
 		        	  if ($( "#credits" ).val() <= 10000/2)
 					  {
-			        	  dialog.dialog( "close" );
-			        	  pronostic();
+		        		  if ($( "#credits" ).val() == "" || $( "#credits" ).val() == 0)
+			        	  {
+			        	  	  alert('Vous devez miser des crédits.');	  
+			        	  }
+		        		  else
+	        			  {
+		        			  dialog.dialog( "close" );
+				        	  pronostic();
+	        			  }
 					  }
 		        	  else
 	        		  {
@@ -363,10 +418,6 @@
 			        "Annuler" : function() {
 			          dialog.dialog( "close" );
 			        }
-			      },
-			      close: function() {
-			       // form[ 0 ].reset();
-			       // allFields.removeClass( "ui-state-error" );
 			      }
 			    });
 			  
@@ -375,10 +426,21 @@
 		  
 		  pronostic = function()
 		  {
-			  
+			  var matchId = $("#matchId").val();
+			  var prono = $("input[name='prono']:checked").val();
+			  var credits = $("#credits").val();
+			  $.ajax(
+			  {
+		      	method: "POST",
+				url: "sax",
+				data: {matchId: matchId, prono: prono, credits: credits}
+			  }).done(function( msg ) 
+			  {
+			  	location.reload()
+			  });
 		  };
 		  
-		  </script>
+		</script>
     	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
         <script src="js/jqueryUi.js"></script>
         <script src="js/bootstrap.js"></script>
