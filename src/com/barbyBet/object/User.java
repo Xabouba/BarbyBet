@@ -8,8 +8,10 @@ public class User {
 	private String _email;
 	private Date _registrationDate;
 	private int _coins;
+	private int _id;
 	
-	public User(String username, String email, Date date, int coins) {
+	public User(int id, String username, String email, Date date, int coins) {
+		_id = id;
 		_username = username;
 		_email = email;
 		_registrationDate = date;
@@ -46,5 +48,13 @@ public class User {
 
 	public void setCoins(int coins) {
 		this._coins = coins;
+	}
+	
+	public int getId() {
+		return _id;
+	}
+
+	public void setId(int id) {
+		this._id = id;
 	}
 }
