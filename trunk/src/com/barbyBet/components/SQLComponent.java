@@ -76,7 +76,7 @@ public class SQLComponent {
 		try 
 		{
 		    connexion = DriverManager.getConnection(_url, _user, _password);
-		    stmt = connexion.prepareStatement("SELECT t1.sname, t1.img, t2.sname, t2.img, beginDate FROM Matchs m, Team t1, Team t2 WHERE m.teamHId = t1.id AND m.teamAId = t2.id");
+		    stmt = connexion.prepareStatement("SELECT t1.sname, t1.img, t2.sname, t2.img, beginDate, m.id FROM Matchs m, Team t1, Team t2 WHERE m.teamHId = t1.id AND m.teamAId = t2.id");
 		    
 		    rs = stmt.executeQuery();
 		    while (rs.next())
@@ -101,7 +101,8 @@ public class SQLComponent {
 		    	match.put("teamA", rs.getString(3));
 		    	match.put("imgH", rs.getString(2));
 		    	match.put("imgA", rs.getString(4));
-		    	
+		    	match.put("matchId", rs.getString(6));
+
 		    	listMatch.add(match);
 		    }		    	
 		    
@@ -115,78 +116,6 @@ public class SQLComponent {
 		finally 
 		{
 		    close(rs);
-			close(stmt);
-			close(connexion);
-		}
-	}
-	
-	public ArrayList<HashMap<String, String>> getComments()
-	{
-		ArrayList<HashMap<String, String>> listComment = new ArrayList<HashMap<String, String>>();
-		
-		Connection connexion = null;
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
-		try 
-		{
-		    connexion = DriverManager.getConnection(_url, _user, _password);
-		    stmt = connexion.prepareStatement("SELECT dateComment, idUser, comment FROM Comments ORDER BY dateComment DESC LIMIT 0, 20");
-		    
-		    rs = stmt.executeQuery();
-		    while (rs.next())
-		    {
-		    	HashMap<String, String> comment = new HashMap<String, String>();
-		    	Timestamp date = rs.getTimestamp(1);
-		    	
-		    	String hour = new SimpleDateFormat("HH:mm").format(date);
-		    	String day = new SimpleDateFormat("E d").format(date);
-		    	comment.put("user", "User 1");
-		    	comment.put("hour", hour);
-		    	comment.put("day", day);
-		    	comment.put("comment", rs.getString(3));
-		    	
-		    	listComment.add(comment);
-		    }		    	
-		    
-		    return listComment;
-		} 
-		catch (SQLException e ) 
-		{
-			System.out.println(e.getMessage());
-			return null;
-		} 
-		finally 
-		{
-		    close(rs);
-			close(stmt);
-			close(connexion);
-		}
-	}
-	
-	public void insertComment(String comment)
-	{
-		Connection connexion = null;
-		PreparedStatement stmt = null;
-		try 
-		{
-		    connexion = DriverManager.getConnection(_url, _user, _password);
-		    stmt = connexion.prepareStatement("INSERT INTO Comments (idUser, comment, dateComment) VALUES (?, ?, ?)");
-		    
-		    stmt.setInt(1, 1);
-		    stmt.setString(2, comment);
-		    
-		    Date dateToday = new Date();
-		    Timestamp date = new Timestamp(dateToday.getTime());
-		    stmt.setTimestamp(3, date);
-		    
-		    stmt.executeUpdate();
-		} 
-		catch (SQLException e ) 
-		{
-			System.out.println(e.getMessage());
-		} 
-		finally 
-		{
 			close(stmt);
 			close(connexion);
 		}

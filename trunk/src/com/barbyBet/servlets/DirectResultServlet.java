@@ -13,9 +13,13 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
+import com.barbyBet.components.SQLCommentComponent;
 import com.barbyBet.components.SQLComponent;
+import com.barbyBet.components.SQLPronoComponent;
+import com.barbyBet.components.SQLUsersComponent;
 import com.barbyBet.components.SaxComponent;
 import com.barbyBet.object.Match;
+import com.barbyBet.object.User;
 
 /**
  * Servlet implementation class SaxResultGenerator
@@ -24,6 +28,9 @@ import com.barbyBet.object.Match;
 public class DirectResultServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
+	//TODO
+	private static String idUser = "3";
+	
     /**
      * Default constructor. 
      */
@@ -61,6 +68,8 @@ public class DirectResultServlet extends HttpServlet {
 
 			// Enregistrer les odds dans la BDD pour le match en question
 			
+		    
+		    /** Match Information */
 		    HashMap<String, String> matchInfo = new HashMap<String, String>();
 		    matchInfo.put("homeTeam", match.getHomeTeam());
 		    matchInfo.put("awayTeam", match.getAwayTeam());
@@ -68,6 +77,7 @@ public class DirectResultServlet extends HttpServlet {
 		    matchInfo.put("awayScore", match.getAwayScore());
 		    matchInfo.put("homeImg", matchSql.get("imgH"));
 		    matchInfo.put("awayImg", matchSql.get("imgA"));
+		    matchInfo.put("matchId", matchSql.get("matchId"));
 		    
 		    int statut = Integer.parseInt(match.getStatut());
 		    String msgInfo = "";
@@ -92,11 +102,29 @@ public class DirectResultServlet extends HttpServlet {
 		    	break;
 		    }
 		    matchInfo.put("statut", msgInfo);
-			    
 			request.setAttribute("match", matchInfo);
 			
-			ArrayList<HashMap<String, String>> comments = sqlComponent.getComments();
+			/** Pronostic */
+			SQLPronoComponent sqlPronoComponent = new SQLPronoComponent();
+			HashMap<String, String> prono = sqlPronoComponent.getProno(matchSql.get("matchId"), idUser);
+			
+			request.setAttribute("prono", prono.get("prono"));
+			request.setAttribute("credits", prono.get("credits"));
+			request.setAttribute("creditsWon", prono.get("creditsWon"));
+			
+			/** Commentaires */
+			SQLCommentComponent sqlCommentComponent = new SQLCommentComponent();
+			ArrayList<HashMap<String, String>> comments = sqlCommentComponent.getComments(matchSql.get("matchId"));
 			request.setAttribute("comments", comments);
+			
+//			User connectedUser = null;
+//			SQLUsersComponent sqlUsersComponent = new SQLUsersComponent();
+//			connectedUser = sqlUsersComponent.isUserRegistered(request);
+//			if (connectedUser != null)
+//			{
+//				request.setAttribute("user", connectedUser.getUsername());
+//			}
+			
 			
 			this.getServletContext().getRequestDispatcher( "/WEB-INF/jsp/index.jsp" ).forward(request, response);
 		} 
@@ -116,14 +144,27 @@ public class DirectResultServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		String comment = request.getParameter("comment");
-		if (comment != "")
+		if (comment != null  && comment != "")
 		{
-			SQLComponent sqlComponent = new SQLComponent();
-			sqlComponent.insertComment(comment.replace("\n", "<br/>"));
+			String matchId = request.getParameter("matchId");
+			
+			SQLCommentComponent sqlCommentComponent = new SQLCommentComponent();
+			sqlCommentComponent.insertComment(comment.replace("\n", "<br/>"), matchId , idUser);
 
 			doGet(request, response);
 		}
 		
+		String credits = request.getParameter("credits");
+		if (credits != null && credits != "")
+		{
+			String prono = request.getParameter("prono");
+			String matchId = request.getParameter("matchId");
+			
+			SQLPronoComponent sqlPronoComponent = new SQLPronoComponent();
+			sqlPronoComponent.pronostic(matchId, idUser, prono, credits);
+		
+//			doGet(request, response);
+		}
 	}
 	
 }
