@@ -70,7 +70,7 @@ public class SQLUsersComponent extends SQLComponent {
 
 				rs = stmt.executeQuery();
 				if (rs.next()) {
-					return new User(rs.getString("username"), rs.getString("email"), rs.getDate("dateRegistration"), rs.getInt("coins"));
+					return new User(rs.getInt("id"), rs.getString("username"), rs.getString("email"), rs.getDate("dateRegistration"), rs.getInt("coins"));
 				} else {
 					setError(CHAMP_USERNAME,
 							"Vos identifiants sont incorrects.");
@@ -130,12 +130,12 @@ public class SQLUsersComponent extends SQLComponent {
 		try {
 			connexion = DriverManager.getConnection(_url, _user, _password);
 			stmt = connexion
-					.prepareStatement("SELECT username,email,dateRegistration,coins FROM Users WHERE username = ?");
+					.prepareStatement("SELECT id, username,email,dateRegistration,coins FROM Users WHERE username = ?");
 			stmt.setString(1, username);
 
 			rs = stmt.executeQuery();
 			if (rs.next()) {
-				user = new User(rs.getString("username"),
+				user = new User(rs.getInt("id"), rs.getString("username"),
 						rs.getString("email"), rs.getDate("dateRegistration"),
 						rs.getInt("coins"));
 				return user;
@@ -146,6 +146,33 @@ public class SQLUsersComponent extends SQLComponent {
 			System.out.println(e.getMessage());
 
 			return null;
+		} finally {
+			close(rs);
+			close(stmt);
+			close(connexion);
+		}
+	}
+	
+	public int getUserId(String username) {
+		Connection connexion = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		try {
+			connexion = DriverManager.getConnection(_url, _user, _password);
+			stmt = connexion
+					.prepareStatement("SELECT id FROM Users WHERE username = ?");
+			stmt.setString(1, username);
+
+			rs = stmt.executeQuery();
+			if (rs.next()) {
+				return rs.getInt("id");
+			} else {
+				return -1;
+			}
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+
+			return -1;
 		} finally {
 			close(rs);
 			close(stmt);
@@ -210,7 +237,7 @@ public class SQLUsersComponent extends SQLComponent {
 				close(connexion);
 			}
 
-			return new User(username,email,date,10000);
+			return new User(getUserId(username),username,email,date,10000);
 		} else {
 			return null;
 		}
