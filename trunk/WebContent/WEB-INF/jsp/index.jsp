@@ -101,7 +101,7 @@
                             </li>
                             <li class="clearfix">
                                 <div class="widget kp-social">
-                                    <h2 class="widget-title"><span>Réseaux</span></h2>
+                                    <h2 class="widget-title"><span>Rï¿½seaux</span></h2>
                                     <div class="widget-content">
                                         <ul class="list-unstyled">
                                             <li class="format-standard">
@@ -267,7 +267,7 @@
 			                                    			<td style="float: right; width: 90%">Mise:</td>
 			                                    			<td style="width: 30%">
 			                                    				<c:if test="${credits != null}">
-			                                    					${credits} crédits
+			                                    					${credits} crï¿½dits
 			                                    				</c:if>
 			                                    			</td>
 			                                    		</tr>
@@ -275,7 +275,7 @@
 			                                    			<td style="float: right; width: 90%">Gain:</td>
 			                                    			<td style="width: 30%">
 			                                    				<c:if test="${creditsWon != null}">
-				                                    				${creditsWon} crédits
+				                                    				${creditsWon} crï¿½dits
 			                                    				</c:if>
 			                                    			</td>
 			                                    		</tr>
@@ -368,10 +368,13 @@
 		  window.onload = function () {
 			var homeTeam = "${match.homeTeam}";
 			var awayTeam = "${match.awayTeam}";
+			var homeOdd = "${match.homeOdd}";
+			var drawOdd = "${match.drawOdd}";
+			var awayOdd = "${match.awayOdd}";
 		    var chart = new CanvasJS.Chart("info-match", {
 		      
 		    	axisX: {
-		            title: "v:1.95 -- n:3.30 -- d:3.90"
+		            title: "v:" + homeOdd + " -- n:" + drawOdd + " -- d:" + awayOdd + ""
 		          },
 	    		data: [             
 		        {
@@ -402,7 +405,7 @@
 					  {
 		        		  if ($( "#credits" ).val() == "" || $( "#credits" ).val() == 0)
 			        	  {
-			        	  	  alert('Vous devez miser des crédits.');	  
+			        	  	  alert('Vous devez miser des crï¿½dits.');	  
 			        	  }
 		        		  else
 	        			  {
@@ -412,7 +415,7 @@
 					  }
 		        	  else
 	        		  {
-		        	  	  alert('Vous ne pouvez pas miser autant de crédits.');	  
+		        	  	  alert('Vous ne pouvez pas miser autant de crï¿½dits.');	  
 	        		  }
 			        },
 			        "Annuler" : function() {

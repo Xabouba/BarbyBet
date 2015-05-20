@@ -21,6 +21,10 @@ import com.barbyBet.components.SaxComponent;
 import com.barbyBet.object.Match;
 import com.barbyBet.object.User;
 
+/**
+ * Servlet implementation class SaxResultGenerator
+ */
+@WebServlet("/SaxResultGenerator")
 public class DirectResultServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -42,16 +46,19 @@ public class DirectResultServlet extends HttpServlet {
 		SQLComponent sqlComponent = new SQLComponent();
 		try 
 		{
-			String sport = "Football";
-			String competition = "Spanish Liga Primera";
-			
 			ArrayList<HashMap<String, String>> matchs = sqlComponent.getMatchs();
 			
-			HashMap<String, String> matchSql = matchs.get(2);
+			HashMap<String, String> matchSql = matchs.get(3);
 			
 		    String team = matchSql.get("teamH");
 		    String date = matchSql.get("date");
-		    Match match = saxComponent.parseMatch(date, team);
+		    String sport = matchSql.get("sport");
+			String competition = matchSql.get("competition");
+
+		    Match match = saxComponent.parseMatch(date, team); 
+		    match.setCompetition(competition);
+		    match.setSport(sport);
+		    
 		    
 		    // Récupérer les matchs de la journée et boucler sur ces matchs pour récupérer les cotes 
 			// Il faut donc créer une table qui contient le nom de chaque competition 
@@ -60,7 +67,8 @@ public class DirectResultServlet extends HttpServlet {
 			
 			
 			// Fonction qui va chercher les cotes par match et les update directement dans l'objet Match
-//			saxComponent.parseOdds(sport, competition, match);
+			saxComponent.parseOdds(match);
+			System.out.println(match.getOdds());
 
 			// Enregistrer les odds dans la BDD pour le match en question
 			
@@ -74,6 +82,9 @@ public class DirectResultServlet extends HttpServlet {
 		    matchInfo.put("homeImg", matchSql.get("imgH"));
 		    matchInfo.put("awayImg", matchSql.get("imgA"));
 		    matchInfo.put("matchId", matchSql.get("matchId"));
+		    matchInfo.put("homeOdd", match.getOdds().getHomeOdd() + "");
+		    matchInfo.put("drawOdd", match.getOdds().getDrawOdd() + "");
+		    matchInfo.put("awayOdd", match.getOdds().getAwayOdd() + "");
 		    
 		    int statut = Integer.parseInt(match.getStatut());
 		    String msgInfo = "";

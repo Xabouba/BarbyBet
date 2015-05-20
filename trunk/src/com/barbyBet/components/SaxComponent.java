@@ -41,17 +41,18 @@ public class SaxComponent
 	    return saxMatchHandler.getMatch();
 	 }
 	
-	public void parseOdds(String sport, String competition, Match match) throws IOException, SAXException, ParserConfigurationException {
+	public void parseOdds(Match match) throws IOException, SAXException, ParserConfigurationException {
 		SAXParserFactory spf = SAXParserFactory.newInstance();
 	    spf.setNamespaceAware(true);
 	    SAXParser saxParser = spf.newSAXParser();
 	    
 	    XMLReader xmlReader = saxParser.getXMLReader();
 	    
-	    SaxOddsHandler saxOddsHandler = new SaxOddsHandler(sport, competition, match);
+	    SaxOddsHandler saxOddsHandler = new SaxOddsHandler(match);
 	    xmlReader.setContentHandler(saxOddsHandler);
 	    
-	    URL url = new URL("http://xml.cdn.betclic.com/odds_en.xml");
+	    // URL url = new URL("http://xml.cdn.betclic.com/odds_en.xml");
+	    URL url = new URL("http://barbylone.com/odds_en.xml");
 	    InputStream stream = url.openStream();
 	    InputSource source = new InputSource(stream);
 	    xmlReader.parse(source);
