@@ -8,18 +8,14 @@ import com.barbyBet.object.Match;
 
 public class SaxOddsHandler extends DefaultHandler {
 	
-	private String _sport;
-	private String _competition;
 	private Match _match;
 	private boolean _isRightSport = false;
 	private boolean _isRightCompetition = false;
 	private boolean _isRightGame = false;
 	private boolean _isInBets = false;
 	
-	public SaxOddsHandler(String sport, String competition, Match match) {
+	public SaxOddsHandler(Match match) {
 		super();
-		_sport = sport;
-		_competition = competition;
 		_match = match;
 	}
 	
@@ -32,11 +28,11 @@ public class SaxOddsHandler extends DefaultHandler {
     }
     
     public void startElement(String namespaceURI, String localName, String qName, Attributes atts) throws SAXException {
-    	if (localName.equals("sport") && atts.getValue("name").toString().equals(_sport)) {
+    	if (localName.equals("sport") && atts.getValue("name").toString().equals(_match.getSport())) {
     		_isRightSport = true;
-    	} else if(_isRightSport && localName.equals("event") && atts.getValue("name").toString().equals(_competition)) {
+    	} else if(_isRightSport && localName.equals("event") && atts.getValue("name").toString().equals(_match.getCompetition())) {
     		_isRightCompetition = true;
-    	} else if(_isRightCompetition && localName.equals("match") && atts.getValue("name").toString().equals("Elche - Real Sociedad")) {
+    	} else if(_isRightCompetition && localName.equals("match") && atts.getValue("name").toString().equals(_match.getHomeTeam() + " - " + _match.getAwayTeam())) {
     		_isRightGame = true;
     	} else if(_isRightGame && localName.equals("bet") && atts.getValue("name").toString().equals("Match Result")) {
     		_isInBets = true;
