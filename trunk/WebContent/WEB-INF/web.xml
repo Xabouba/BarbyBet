@@ -20,6 +20,17 @@
 	<url-pattern>/sax</url-pattern>
   </servlet-mapping>
   
+  <!-- Servlet for match list -->
+  <servlet>
+    <servlet-name>Match</servlet-name>
+    <servlet-class>com.barbyBet.servlets.MatchServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+	<servlet-name>Match</servlet-name>
+	<url-pattern>/match</url-pattern>
+  </servlet-mapping>
+  
   <!-- Servlet for user registration -->
   <servlet>
     <servlet-name>Register</servlet-name>
