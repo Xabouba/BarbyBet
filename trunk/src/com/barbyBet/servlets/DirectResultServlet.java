@@ -21,10 +21,6 @@ import com.barbyBet.components.SaxComponent;
 import com.barbyBet.object.Match;
 import com.barbyBet.object.User;
 
-/**
- * Servlet implementation class SaxResultGenerator
- */
-@WebServlet("/SaxResultGenerator")
 public class DirectResultServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
