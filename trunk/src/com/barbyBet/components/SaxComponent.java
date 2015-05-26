@@ -13,7 +13,6 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
 import com.barbyBet.object.Match;
-import com.barbyBet.object.Odds;
 
 public class SaxComponent
 {

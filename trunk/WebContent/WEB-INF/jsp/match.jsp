@@ -1,186 +1,220 @@
-<%@ include file="header.jsp" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%@include file="import.jsp" %>
+    </head>
+    <body onLoad="goforit()">
+    <div id="fb-root"></div>
+    	<% response.setIntHeader("Refresh", 120); %>
+    	<div class="wraper">
+        	<%@include file="header.jsp" %>
+    		
+    		<!-- page-header -->
             <!-- page-header -->
             <div id="content">
-                <div class="top-effect clearfix">
-                    <span class="pull-left"><img src="images/top-left-effect.png" class="img-responsive" alt=""></span>
-                    <span class="pull-right"><img src="images/top-right-effect.png" class="img-responsive" alt=""></span>
-                </div>
-                <!-- top-effect -->
-                <div id="main-content" class="pull-left">
-                    <div id="sidebar-main-content" class="pull-left">
-                        <ul class="list-unstyled">
-                            <li class="clearfix">
-                                <div class="widget kp-social">
-                                    <h2 class="widget-title"><span>Réseaux</span></h2>
+                <div class="wraper clearfix">
+                    <div class="top-effect clearfix">
+                        <span class="pull-left"><img src="images/top-left-effect.png" class="img-responsive" alt=""></span>
+                        <span class="pull-right"><img src="images/top-right-effect.png" class="img-responsive" alt=""></span>
+                    </div>
+                    <div id="main-content" class="pull-left">
+                        <div class="page-single listMatch">
+	                        <ul class="list-unstyled">
+	                            <li class="clearfix">
+	                                <div class="widget kp-review">
+	                                    <h2 class="widget-title"><span>Match</span></h2>
+	                                    <h3 class="widget-title"><span>Terminé</span></h3>
+	                                    <div class="widget-content">
+	                                    	<ul class="list-unstyled">
+	                                           	<c:forEach items="${matchsEnded}" var="match">
+	                                           	<li class="format-standard">
+	                                            	<table style="margin-left: auto; margin-right: auto; width: 100%">
+													   <tr>
+											    			<td class="image">
+											    				<img src="images/team/${match.imgH}_128.png" />
+											    			</td>
+											    			<td class="team">
+											    				<span>${match.teamH}</span>
+											    			</td>
+											    			<td class="score">
+											    				<span>${match.scoreH}</span>
+											    			</td>
+											    			<td class="score">
+											    				<span>${match.scoreA}</span>
+											    			</td>
+											    			<td class="team">
+											    				<span>${match.teamA}</span>
+											    			</td>
+											    			<td class="image last">
+											    				<img src="images/team/${match.imgA}_128.png" />
+											    			</td>
+											    			<td class="odd">
+											    				<span>3</span>
+											    			</td>
+											    			<td class="odd">
+											    				<span>2</span>
+											    			</td>
+											    			<td class="odd">
+											    				<span>4</span>
+											    			</td>
+											    			<td class="bet">
+											    				<button>Parier</button>
+											    			</td>
+											    			<td class="direct">
+											    				<button>Direct</button>
+											    			</td>
+											    		</tr>
+											    	</table>
+	                                            </li>
+	                                            </c:forEach>
+	                                        </ul>
+	                                    </div>
+	                                    <div class="widget-content">
+                                           	<c:forEach items="${matchs}" var="matchDay">
+			                                    <h3 class="widget-title"><span>${matchDay.key}</span></h3>
+                                           		<c:forEach items="${matchDay.value}" var="match">
+			                                    	<ul class="list-unstyled">
+			                                           	<li class="format-standard">
+			                                            	<table style="margin-left: auto; margin-right: auto; width: 100%">
+															   <tr>
+													    			<td class="image">
+													    				<img src="images/team/${match.imgH}_128.png" />
+													    			</td>
+													    			<td class="team">
+													    				<span>${match.teamH}</span>
+													    			</td>
+													    			<td class="score">
+													    				<span>${match.scoreH}</span>
+													    			</td>
+													    			<td class="score">
+													    				<span>${match.scoreA}</span>
+													    			</td>
+													    			<td class="team">
+													    				<span>${match.teamA}</span>
+													    			</td>
+													    			<td class="image last">
+													    				<img src="images/team/${match.imgA}_128.png" />
+													    			</td>
+													    			<td class="odd">
+													    				<span>3</span>
+													    			</td>
+													    			<td class="odd">
+													    				<span>2</span>
+													    			</td>
+													    			<td class="odd">
+													    				<span>4</span>
+													    			</td>
+													    			<td class="bet">
+													    				<button>Parier</button>
+													    			</td>
+													    			<td class="direct">
+													    				<button>Direct</button>
+													    			</td>
+													    		</tr>
+													    	</table>
+			                                            </li>
+			                                        </ul>
+	                                            </c:forEach>
+                                        	</c:forEach>
+	                                    </div>
+	                                    <!-- widget-content -->
+	                                </div>
+	                                <!-- kp-review -->
+	                            </li>
+	                        </ul>
+	                    </div>
+		                <!-- main-col -->
+	                    <div class="clearfix"></div>
+                        <!-- page-single -->
+                    </div>
+                    <!-- main-content -->
+
+                    <div id="sidebar" class="pull-right">
+                        <ul class="clearfix list-unstyled">
+                            <li>
+                                <div class="widget kp-last-news">
+                                    <h2 class="widget-title"><span>Latest news</span></h2>
                                     <div class="widget-content">
                                         <ul class="list-unstyled">
                                             <li class="format-standard">
-                                                <span>
-                                                    <a href="http://facebook.com/kopatheme" class="icon-facebook-2"></a>1234
-                                                </span>
-                                                Likes
+                                                <div class="kp-item">
+                                                    <figure class="zoom-image">
+                                                        <a href="#"><img src="placeholders/posts/img-16.jpg" class="img-responsive" alt="">
+                                                            <span class="icon-image post-format"></span>
+                                                        </a>
+                                                    </figure>
+                                                    <ul class="kp-metadata clearfix">
+                                                        <li>10 view&nbsp&nbsp&nbsp-&nbsp&nbsp&nbsp</li>
+                                                        <li>3 comment</li>
+                                                        <li class="kp-time">05 March, 2013</li>
+                                                    </ul>
+                                                    <!-- kp-metadata -->
+                                                    <h3><a href="#">Oprah Winfrey Headed Back to the Big</a></h3>
+                                                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula  </p>
+                                                </div>
+                                                <!-- kp-item -->
                                             </li>
-                                            <li class="format-standard">
-                                                <span>
-                                                    <a href="http://twitter.com/kopasoft" class="icon-twitter"></a>1234
-                                                </span>
-                                                Followers
+                                            <li class="format-gallery">
+                                                <div class="kp-item">
+                                                    <figure class="zoom-image">
+                                                        <a href="#"><img src="placeholders/posts/img-17.jpg" class="img-responsive" alt="">
+                                                            <span class="icon-images post-format"></span>
+                                                        </a>
+                                                    </figure>
+                                                    <ul class="kp-metadata clearfix">
+                                                        <li>10 view&nbsp&nbsp&nbsp-&nbsp&nbsp&nbsp</li>
+                                                        <li>3 comment</li>
+                                                        <li class="kp-time">05 March, 2013</li>
+                                                    </ul>
+                                                    <!-- kp-metadata -->
+                                                    <h3><a href="#">Best tennis competitions of the year</a></h3>
+                                                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula </p>
+                                                </div>
+                                                <!-- kp-item -->
                                             </li>
-                                            <li class="format-standard">
-                                                <span>
-                                                    <a href="http://kopatheme.com/feed/" class="icon-rss-2"></a>1234
-                                                </span>
-                                                Subcribers
+                                            <li class="format-video">
+                                                <div class="kp-item">
+                                                    <figure class="zoom-image">
+                                                        <a href="#"><img src="placeholders/posts/img-18.jpg" class="img-responsive" alt="">
+                                                            <span class="icon-videocamera post-format"></span>
+                                                        </a>
+                                                    </figure>
+                                                    <ul class="kp-metadata clearfix">
+                                                        <li>10 view&nbsp&nbsp&nbsp-&nbsp&nbsp&nbsp</li>
+                                                        <li>3 comment</li>
+                                                        <li class="kp-time">05 March, 2013</li>
+                                                    </ul>
+                                                    <!-- kp-metadata -->
+                                                    <h3><a href="#">Oprah Winfrey Headed Back to the Big Screen </a></h3>
+                                                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula </p>
+                                                </div>
+                                                <!-- kp-item -->
                                             </li>
                                         </ul>
+
                                     </div>
                                     <!-- widget-content -->
                                 </div>
-                                <!-- kp-social -->
+                                <!-- kp-last-news -->
                             </li>
-                        </ul>
+                       </ul>
                     </div>
-                    <!-- sidebar-main-content -->
-                    <div id="main-col" class="pull-left">
-                        <ul class="list-unstyled">
-                            <li class="clearfix">
-                                <div class="widget kp-review">
-                                    <h2 class="widget-title"><span>Match</span></h2>
-                                    <div class="widget-content">
-                                    	<ul class="list-unstyled" style="max-height:600px; overflow:auto;">
-                                    		<c:forEach items="${comments}" var="comment">
-                                            	<li class="format-standard">
-                                            	<table style="margin-left: auto; margin-right: auto; width: 100%">
-												   <tr style="width: 100%">
-										    			<td style="width: 20%;">
-										    				<p><strong>${comment.user}</strong></p>
-										    				<p style="color: green">
-										    					<strong>
-											    					<c:choose>
-																		<c:when test="${comment.prono=='1'}">
-																	    	${match.homeTeam}
-																	    </c:when>
-																		<c:when test="${comment.prono=='2'}">
-																	    	nul
-																	    </c:when>
-																		<c:when test="${comment.prono=='3'}">
-																	    	${match.awayTeam}
-																	    </c:when>
-																	</c:choose>
-																</strong>
-															</p>
-										    			</td>
-										    			<td style="width: 65%;">
-										    				<div style="width: 300px; word-wrap: break-word;">${comment.comment}</div>
-										    			</td>
-										    			<td style="width: 15%; text-align: center;">
-										    				<p>${comment.hour}</p>
-										    				<p>${comment.day}</p>
-										    			</td>
-										    		</tr>
-										    	</table>
-                                            </li>
-											</c:forEach>
-                                        </ul>
-                                        <br/>
-                                        <form action="sax" method="post">
-										  <label for="comments">Message: </label>
-										  <textarea style="width: 100%;" rows="5" name="comment" id="comments" maxlength="450" ></textarea>
-										  <input type="hidden" name="matchId" value="${match.matchId}" />
-										  <input type="submit" value="Envoyer" />
-										</form>
-                                       
-                                    </div>
-                                    <!-- widget-content -->
-                                </div>
-                                <!-- kp-review -->
-                            </li>
-                        </ul>
-                    </div>
-                    <!-- main-col -->
-                    <div class="clearfix"></div>
+
+                    <!-- sidebar -->
                 </div>
-                <!-- main-content -->
-            	<div id="sidebar" class="pull-right">
-                    <ul class="clearfix list-unstyled">
-                        <li>
-                            <div class="widget kp-last-news">
-                                <h2 class="widget-title"><span>Informations</span></h2>
-                                <div class="widget-content">
-                                    <ul class="list-unstyled">
-                                    	<li class="format-standard">
-		                                    <div>
-		                                    	
-		                                    	<table style="margin-left: auto; margin-right: auto; width: 100%;">
-		                                    		<caption style="margin-top: 5px;">
-	                                    			</caption>
-	                                    			<tbody>
-			                                    		<tr>
-			                                    			<td style="float: right; width: 90%; font-size: 20px; margin-top:5px">
-			                                    				<strong>${cookie.cookieUsername.value}</strong>
-															</td>
-			                                    			<td style="width: 30%">
-		                                    					<input class="button-prono" type="button" onclick="openProno()" />
-			                                    			</td>
-			                                    		</tr>
-			                                    		<tr>
-			                                    			<td style="float: right; width: 90%">Pronostique:</td>
-			                                    			<td style="width: 30%">
-			                                    				<c:choose>
-																	<c:when test="${prono=='1'}">
-																    	${match.homeTeam}
-																    </c:when>
-																	<c:when test="${prono=='2'}">
-																    	nul
-																    </c:when>
-																	<c:when test="${prono=='3'}">
-																    	${match.awayTeam}
-																    </c:when>
-																</c:choose>
-			                                    			</td>
-			                                    		</tr>
-			                                    		<tr>
-			                                    			<td style="float: right; width: 90%">Mise:</td>
-			                                    			<td style="width: 30%">
-			                                    				<c:if test="${credits != null}">
-			                                    					${credits} crédits
-			                                    				</c:if>
-			                                    			</td>
-			                                    		</tr>
-	                                    				<tr>
-			                                    			<td style="float: right; width: 90%">Gain:</td>
-			                                    			<td style="width: 30%">
-			                                    				<c:if test="${creditsWon != null}">
-				                                    				${creditsWon} crédits
-			                                    				</c:if>
-			                                    			</td>
-			                                    		</tr>
-	                                    			</tbody>
-		                                    	</table>
-		                                    </div>
-                                    	</li>
-                                        <li class="format-standard">
-                                        	<div id="info-match" class="info-match">
-                                    		</div>
-                                    	</li>
-                                   	</ul>
-                                </div>
-                                <!-- widget-content -->
-                            </div>
-                            <!-- kp-last-news -->
-                        </li>
-                    </ul>
-                </div>
-                <!-- sidebar -->
+                <!-- wraper -->
                 <div class="clearfix"></div>
             </div>
-    	</div>
-    	<div id="test" class="bottom-sidebar">
-    	</div>
-    	<div class="page-footer">
-    	</div>
-    	
-    	<div class="prono-form" id="prono-form" title="Pronostic">
+            <!-- content -->
+        </div>
+        
+        <footer id="page-footer">
+        </footer>
+        <!-- page-footer -->
+
+
+		<div class="prono-form" id="prono-form" title="Pronostic">
 		  <form method="post" action="sax">
 		    <input type="hidden" id="matchId" value="${match.matchId}" />
 		    <table class="prono-table">
@@ -241,30 +275,6 @@
 		</div>
 		
     	<script type="text/javascript">
-		  window.onload = function () {
-			var homeTeam = "${match.homeTeam}";
-			var awayTeam = "${match.awayTeam}";
-		    var chart = new CanvasJS.Chart("info-match", {
-		      
-		    	axisX: {
-		            title: "v:1.95 -- n:3.30 -- d:3.90"
-		          },
-	    		data: [             
-		        {
-		         type: "column",
-		         toolTipContent: "<p>{label} : {y}%</p>",
-		         dataPoints: [
-		         { label: homeTeam, y: 70 },
-		         { label: "nul", y: 20 },
-		         { label: awayTeam, y: 10 }
-		         ]
-		       }
-		       ]
-		     });
-		
-		    chart.render();
-		  }
-		  
 		  openProno = function()
 		  {
 			  dialog = $( "#prono-form" ).dialog({
@@ -317,7 +327,8 @@
 		  };
 		  
 		</script>
-    	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">
+        </script>
         <script src="js/jqueryUi.js"></script>
         <script src="js/bootstrap.js"></script>
         <script src="js/superfish.js"></script>
@@ -330,9 +341,6 @@
         <script src="js/modernizr.js"></script>
         <script src="js/grid.js"></script>
         <script src="js/masonry.pkgd.min.js"></script>
-        <script src="js/chart/jquery.canvasjs.js"></script>
-        <script src="js/chart/canvasjs.js"></script>
-        <script src="js/chart/excanvas.js"></script>
         <script type="text/javascript" src="js/custom.js"></script>
-	</body>
+    </body>
 </html>    

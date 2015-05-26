@@ -1,4 +1,14 @@
-<%@ include file="header.jsp" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%@include file="import.jsp" %>
+    </head>
+    <body onLoad="goforit()">
+    <div id="fb-root"></div>
+    	
+    	<div class="wraper">
+        	<%@include file="header.jsp" %>
             <!-- page-header -->
             <div id="content">
                 <div class="wraper clearfix">
