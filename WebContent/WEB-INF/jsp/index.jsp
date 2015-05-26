@@ -1,5 +1,16 @@
-<%@ include file="header.jsp" %>
-            <!-- page-header -->
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%@include file="import.jsp" %>
+    </head>
+    <body onLoad="goforit()">
+    <div id="fb-root"></div>
+    	<% response.setIntHeader("Refresh", 120); %>
+    	<div class="wraper">
+        	<%@include file="header.jsp" %>
+    		
+    		<!-- page-header -->
             <div id="content">
                 <div class="top-effect clearfix">
                     <span class="pull-left"><img src="images/top-left-effect.png" class="img-responsive" alt=""></span>
@@ -101,7 +112,7 @@
                             </li>
                             <li class="clearfix">
                                 <div class="widget kp-social">
-                                    <h2 class="widget-title"><span>Rï¿½seaux</span></h2>
+                                    <h2 class="widget-title"><span>Réseaux</span></h2>
                                     <div class="widget-content">
                                         <ul class="list-unstyled">
                                             <li class="format-standard">
@@ -267,7 +278,7 @@
 			                                    			<td style="float: right; width: 90%">Mise:</td>
 			                                    			<td style="width: 30%">
 			                                    				<c:if test="${credits != null}">
-			                                    					${credits} crï¿½dits
+			                                    					${credits} crédits
 			                                    				</c:if>
 			                                    			</td>
 			                                    		</tr>
@@ -275,7 +286,7 @@
 			                                    			<td style="float: right; width: 90%">Gain:</td>
 			                                    			<td style="width: 30%">
 			                                    				<c:if test="${creditsWon != null}">
-				                                    				${creditsWon} crï¿½dits
+				                                    				${creditsWon} crédits
 			                                    				</c:if>
 			                                    			</td>
 			                                    		</tr>
@@ -298,8 +309,6 @@
                 <!-- sidebar -->
                 <div class="clearfix"></div>
             </div>
-    	</div>
-    	<div id="test" class="bottom-sidebar">
     	</div>
     	<div class="page-footer">
     	</div>
@@ -368,7 +377,7 @@
 		  window.onload = function () {
 			var homeTeam = "${match.homeTeam}";
 			var awayTeam = "${match.awayTeam}";
-			var homeOdd = "${match.homeOdd}";
+		    var homeOdd = "${match.homeOdd}";
 			var drawOdd = "${match.drawOdd}";
 			var awayOdd = "${match.awayOdd}";
 		    var chart = new CanvasJS.Chart("info-match", {
@@ -405,7 +414,7 @@
 					  {
 		        		  if ($( "#credits" ).val() == "" || $( "#credits" ).val() == 0)
 			        	  {
-			        	  	  alert('Vous devez miser des crï¿½dits.');	  
+			        	  	  alert('Vous devez miser des crédits.');	  
 			        	  }
 		        		  else
 	        			  {
@@ -415,7 +424,7 @@
 					  }
 		        	  else
 	        		  {
-		        	  	  alert('Vous ne pouvez pas miser autant de crï¿½dits.');	  
+		        	  	  alert('Vous ne pouvez pas miser autant de crédits.');	  
 	        		  }
 			        },
 			        "Annuler" : function() {

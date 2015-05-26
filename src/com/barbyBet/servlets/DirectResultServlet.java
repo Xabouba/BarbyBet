@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,12 +13,10 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 import com.barbyBet.components.SQLCommentComponent;
-import com.barbyBet.components.SQLComponent;
+import com.barbyBet.components.SQLMatchComponent;
 import com.barbyBet.components.SQLPronoComponent;
-import com.barbyBet.components.SQLUsersComponent;
 import com.barbyBet.components.SaxComponent;
 import com.barbyBet.object.Match;
-import com.barbyBet.object.User;
 
 public class DirectResultServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -39,10 +36,10 @@ public class DirectResultServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		SaxComponent saxComponent = new SaxComponent();
-		SQLComponent sqlComponent = new SQLComponent();
+		SQLMatchComponent sqlMatchComponent = new SQLMatchComponent();
 		try 
 		{
-			ArrayList<HashMap<String, String>> matchs = sqlComponent.getMatchs();
+			ArrayList<HashMap<String, String>> matchs = sqlMatchComponent.getMatchs();
 			
 			HashMap<String, String> matchSql = matchs.get(3);
 			
@@ -55,7 +52,6 @@ public class DirectResultServlet extends HttpServlet {
 		    match.setCompetition(competition);
 		    match.setSport(sport);
 		    
-		    
 		    // Récupérer les matchs de la journée et boucler sur ces matchs pour récupérer les cotes 
 			// Il faut donc créer une table qui contient le nom de chaque competition 
 			// (une colonne avec le nom d'affichage, une avec le nom de skysport et une avec le nom de betclic)
@@ -64,7 +60,6 @@ public class DirectResultServlet extends HttpServlet {
 			
 			// Fonction qui va chercher les cotes par match et les update directement dans l'objet Match
 			saxComponent.parseOdds(match);
-			System.out.println(match.getOdds());
 
 			// Enregistrer les odds dans la BDD pour le match en question
 			
@@ -78,9 +73,9 @@ public class DirectResultServlet extends HttpServlet {
 		    matchInfo.put("homeImg", matchSql.get("imgH"));
 		    matchInfo.put("awayImg", matchSql.get("imgA"));
 		    matchInfo.put("matchId", matchSql.get("matchId"));
-		    matchInfo.put("homeOdd", match.getOdds().getHomeOdd() + "");
-		    matchInfo.put("drawOdd", match.getOdds().getDrawOdd() + "");
-		    matchInfo.put("awayOdd", match.getOdds().getAwayOdd() + "");
+		    matchInfo.put("homeOdd", String.valueOf(match.getOdds().getHomeOdd()));
+		    matchInfo.put("drawOdd", String.valueOf(match.getOdds().getDrawOdd()));
+		    matchInfo.put("awayOdd", String.valueOf(match.getOdds().getAwayOdd()));
 		    
 		    int statut = Integer.parseInt(match.getStatut());
 		    String msgInfo = "";
