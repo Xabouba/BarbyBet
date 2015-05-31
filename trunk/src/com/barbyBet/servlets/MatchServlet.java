@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.barbyBet.components.SQLMatchComponent;
+import com.barbyBet.object.Match;
 
 /**
  * Servlet implementation class SaxResultGenerator
@@ -32,19 +33,19 @@ public class MatchServlet extends HttpServlet {
 		
 		SQLMatchComponent sqlMatchComponent = new SQLMatchComponent();
 		
-		ArrayList<HashMap<String, String>> matchsSql = sqlMatchComponent.getMatchs();
+		ArrayList<Match> matchsSql = sqlMatchComponent.getMatchs();
 		
 		ArrayList<HashMap<String, String>> matchEnded = new ArrayList<HashMap<String,String>>();
 		HashMap<String,ArrayList<HashMap<String, String>>> matchs = new HashMap<String, ArrayList<HashMap<String,String>>>();
 		String day = "";
-		for (HashMap<String, String> match : matchsSql)
+		for (Match match : matchsSql)
 		{
 			GregorianCalendar calendar = new GregorianCalendar();
-			calendar.setTimeInMillis(Long.valueOf(match.get("dateTime")));
+			calendar.setTimeInMillis(match.getBeginDate().getTime());
 			
-			if (Boolean.parseBoolean(match.get("isEnded")))
+			if (match.getStatut() > 4)
 			{
-				matchEnded.add(match);
+				matchEnded.add(match.toHashMap());
 			}
 			else
 			{
@@ -52,29 +53,17 @@ public class MatchServlet extends HttpServlet {
 				if (day.equals(calendar.getTime().toString()))
 				{
 					list = matchs.get(calendar.getTime().toString());
-					list.add(match);
+					list.add(match.toHashMap());
 				}
 				else
 				{
 					day = calendar.getTime().toString();
 					list = new ArrayList<HashMap<String,String>>();
-					list.add(match);
+					list.add(match.toHashMap());
 
 					matchs.put(calendar.getTime().toString(), list);
 				}
 			}
-//			System.out.println(calendar.getTime());
-//			calendar.set
-//			calendar.setTime(arg0);
-//			/** Match Information */
-//		    HashMap<String, String> matchInfo = new HashMap<String, String>();
-//		    matchInfo.put("homeTeam", match.get("teamH"));
-//		    matchInfo.put("awayTeam", match.get("teamA"));
-//		    matchInfo.put("homeImg", match.get("imgH"));
-//		    matchInfo.put("awayImg", match.get("imgA"));
-//		    matchInfo.put("homeScore", match.get("scoreH"));
-//		    matchInfo.put("awayScore", match.get("scoreA"));
-//		    matchInfo.put("matchId", match.get("matchId"));
 		}
 
 		request.setAttribute("matchsEnded", matchEnded);

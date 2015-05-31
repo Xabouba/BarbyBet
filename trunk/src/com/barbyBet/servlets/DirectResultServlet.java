@@ -35,76 +35,31 @@ public class DirectResultServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		SaxComponent saxComponent = new SaxComponent();
+//		SaxComponent saxComponent = new SaxComponent();
 		SQLMatchComponent sqlMatchComponent = new SQLMatchComponent();
-		try 
-		{
-			ArrayList<HashMap<String, String>> matchs = sqlMatchComponent.getMatchs();
+//		try 
+//		{
+			String matchId = request.getParameter("matchId");
+			if (matchId == null)
+			{
+				matchId = "1";
+			}
+			Match match = sqlMatchComponent.getMatch(matchId);
 			
-			HashMap<String, String> matchSql = matchs.get(3);
-			
-		    String team = matchSql.get("teamH");
-		    String date = matchSql.get("date");
-		    String sport = matchSql.get("sport");
-			String competition = matchSql.get("competition");
-
-		    Match match = saxComponent.parseMatch(date, team); 
-		    match.setCompetition(competition);
-		    match.setSport(sport);
+//		    Match match = saxComponent.parseMatch(date, team); 
+//		    match.setCompetition(competition);
+//		    match.setSport(sport);
 		    
-		    // Récupérer les matchs de la journée et boucler sur ces matchs pour récupérer les cotes 
-			// Il faut donc créer une table qui contient le nom de chaque competition 
-			// (une colonne avec le nom d'affichage, une avec le nom de skysport et une avec le nom de betclic)
-			// Il faut aussi modifier la table des equipes en rajoutant les noms d'équipes de betclic
-			
-			
 			// Fonction qui va chercher les cotes par match et les update directement dans l'objet Match
-			saxComponent.parseOdds(match);
+//			saxComponent.parseOdds(match);
 
 			// Enregistrer les odds dans la BDD pour le match en question
 			
-		    
-		    /** Match Information */
-		    HashMap<String, String> matchInfo = new HashMap<String, String>();
-		    matchInfo.put("homeTeam", match.getHomeTeam());
-		    matchInfo.put("awayTeam", match.getAwayTeam());
-		    matchInfo.put("homeScore", match.getHomeScore());
-		    matchInfo.put("awayScore", match.getAwayScore());
-		    matchInfo.put("homeImg", matchSql.get("imgH"));
-		    matchInfo.put("awayImg", matchSql.get("imgA"));
-		    matchInfo.put("matchId", matchSql.get("matchId"));
-		    matchInfo.put("homeOdd", String.valueOf(match.getOdds().getHomeOdd()));
-		    matchInfo.put("drawOdd", String.valueOf(match.getOdds().getDrawOdd()));
-		    matchInfo.put("awayOdd", String.valueOf(match.getOdds().getAwayOdd()));
-		    
-		    int statut = Integer.parseInt(match.getStatut());
-		    String msgInfo = "";
-		    switch (statut) {
-		    case 0:
-		    case 1:
-		    	msgInfo = "A jouer";
-		    	break;
-		    case 2:
-		    	msgInfo = "1ère période";
-		    	break;
-		    case 3:
-		    	msgInfo = "Mi-temps";
-		    	break;
-		    case 4:
-		    	msgInfo = "2ème période";
-		    	break;
-		    case 5:
-		    	msgInfo = "Terminé";
-		    	break;
-		    default:
-		    	break;
-		    }
-		    matchInfo.put("statut", msgInfo);
-			request.setAttribute("match", matchInfo);
+		    request.setAttribute("match", match.toHashMap());
 			
 			/** Pronostic */
 			SQLPronoComponent sqlPronoComponent = new SQLPronoComponent();
-			HashMap<String, String> prono = sqlPronoComponent.getProno(matchSql.get("matchId"), idUser);
+			HashMap<String, String> prono = sqlPronoComponent.getProno(matchId, idUser);
 			
 			request.setAttribute("prono", prono.get("prono"));
 			request.setAttribute("credits", prono.get("credits"));
@@ -112,7 +67,7 @@ public class DirectResultServlet extends HttpServlet {
 			
 			/** Commentaires */
 			SQLCommentComponent sqlCommentComponent = new SQLCommentComponent();
-			ArrayList<HashMap<String, String>> comments = sqlCommentComponent.getComments(matchSql.get("matchId"));
+			ArrayList<HashMap<String, String>> comments = sqlCommentComponent.getComments(matchId);
 			request.setAttribute("comments", comments);
 			
 //			User connectedUser = null;
@@ -125,15 +80,15 @@ public class DirectResultServlet extends HttpServlet {
 			
 			
 			this.getServletContext().getRequestDispatcher( "/WEB-INF/jsp/index.jsp" ).forward(request, response);
-		} 
-		catch (ParserConfigurationException e) 
-		{
-			e.printStackTrace();
-		} 
-		catch (SAXException e) 
-		{
-			e.printStackTrace();
-		}
+//		} 
+//		catch (ParserConfigurationException e) 
+//		{
+//			e.printStackTrace();
+//		} 
+//		catch (SAXException e) 
+//		{
+//			e.printStackTrace();
+//		}
 	}
 
 	/**
