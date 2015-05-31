@@ -5,6 +5,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import com.barbyBet.object.Match;
+import com.barbyBet.object.Team;
 
 public class SaxMatchResultHandler extends DefaultHandler 
 {
@@ -44,7 +45,7 @@ public class SaxMatchResultHandler extends DefaultHandler
     	}
     	else if (localName.equals("MATCHSTATUS") && _readContent)
     	{
-    		_match.setStatut(atts.getValue("STATUS"));
+    		_match.setStatut(Integer.valueOf(atts.getValue("STATUS")));
     	}
     }
     
@@ -54,34 +55,38 @@ public class SaxMatchResultHandler extends DefaultHandler
     	{
     		if (localName.equals("HOMETEAMNAME"))
 	    	{
-    			_match.setHomeTeam(_content);
+    			Team homeTeam = new Team();
+    			homeTeam.setTeam(_content);
+    			_match.setHomeTeam(homeTeam);
 	    	}
 	    	else if (localName.equals("HOMETEAMSCORE"))
 	    	{
 	    		try 
 	    		{
 					Integer.parseInt(_content);
-					_match.setHomeScore(_content);
+					_match.setHomeScore(Integer.valueOf(_content));
 				} 
 	    		catch (Exception e) 
 	    		{
-					_match.setHomeScore("-");
+					_match.setHomeScore(0);
 				}
 	    	}
 	    	else if (localName.equals("AWAYTEAMNAME"))
 	    	{
-    			_match.setAwayTeam(_content);
+	    		Team awayTeam = new Team();
+	    		awayTeam.setTeam(_content);
+    			_match.setAwayTeam(awayTeam);
 	    	}
 	    	else if (localName.equals("AWAYTEAMSCORE"))
 	    	{
 	    		try 
 	    		{
 					Integer.parseInt(_content);
-					_match.setAwayScore(_content);
+					_match.setAwayScore(Integer.valueOf(_content));
 				} 
 	    		catch (Exception e) 
 	    		{
-					_match.setAwayScore("-");
+					_match.setAwayScore(0);
 				}
 	    	}
 	    	else if (localName.equals("MATCHSTATUS"))

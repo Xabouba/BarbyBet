@@ -32,22 +32,22 @@
 	                                            	<table style="margin-left: auto; margin-right: auto; width: 100%">
 													   <tr>
 											    			<td class="image">
-											    				<img src="images/team/${match.imgH}_128.png" />
+											    				<img src="images/team/${match.homeImg}_128.png" />
 											    			</td>
 											    			<td class="team">
-											    				<span>${match.teamH}</span>
+											    				<span>${match.homeTeam}</span>
 											    			</td>
 											    			<td class="score">
-											    				<span>${match.scoreH}</span>
+											    				<span>${match.homeScore}</span>
 											    			</td>
 											    			<td class="score">
-											    				<span>${match.scoreA}</span>
+											    				<span>${match.awayScore}</span>
 											    			</td>
 											    			<td class="team">
-											    				<span>${match.teamA}</span>
+											    				<span>${match.awayTeam}</span>
 											    			</td>
 											    			<td class="image last">
-											    				<img src="images/team/${match.imgA}_128.png" />
+											    				<img src="images/team/${match.awayImg}_128.png" />
 											    			</td>
 											    			<td class="odd">
 											    				<span>3</span>
@@ -62,8 +62,11 @@
 											    				<button>Parier</button>
 											    			</td>
 											    			<td class="direct">
-											    				<button>Direct</button>
-											    			</td>
+											    				<form method="get" action="sax">
+											    					<input type="hidden" name="matchId" value="${match.matchId}" />
+										    						<input type="submit" value="Direct" />
+									    						</form>
+									    					</td>
 											    		</tr>
 											    	</table>
 	                                            </li>
@@ -79,22 +82,22 @@
 			                                            	<table style="margin-left: auto; margin-right: auto; width: 100%">
 															   <tr>
 													    			<td class="image">
-													    				<img src="images/team/${match.imgH}_128.png" />
+													    				<img src="images/team/${match.homeImg}_128.png" />
 													    			</td>
 													    			<td class="team">
-													    				<span>${match.teamH}</span>
+													    				<span>${match.homeTeam}</span>
 													    			</td>
 													    			<td class="score">
-													    				<span>${match.scoreH}</span>
+													    				<span>${match.homeScore}</span>
 													    			</td>
 													    			<td class="score">
-													    				<span>${match.scoreA}</span>
+													    				<span>${match.awayScore}</span>
 													    			</td>
 													    			<td class="team">
-													    				<span>${match.teamA}</span>
+													    				<span>${match.awayTeam}</span>
 													    			</td>
 													    			<td class="image last">
-													    				<img src="images/team/${match.imgA}_128.png" />
+													    				<img src="images/team/${match.awayImg}_128.png" />
 													    			</td>
 													    			<td class="odd">
 													    				<span>3</span>
@@ -109,8 +112,11 @@
 													    				<button>Parier</button>
 													    			</td>
 													    			<td class="direct">
-													    				<button>Direct</button>
-													    			</td>
+													    				<form method="get" action="sax">
+													    					<input type="hidden" name="matchId" value="${match.matchId}" />
+												    						<input type="submit" value="Direct" />
+											    						</form>
+											    					</td>
 													    		</tr>
 													    	</table>
 			                                            </li>
