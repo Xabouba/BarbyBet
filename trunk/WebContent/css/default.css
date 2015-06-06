@@ -49,6 +49,16 @@
 	margin: -16px 0 0 -15px;
 }
 
+.error {
+	margin: 10px 0px;
+	padding:15px 10px 15px 10px;
+	background-repeat: no-repeat;
+	color: #D8000C;
+	background-color: #FFBABA;
+	border-radius:.5em;
+	border: 1px solid;
+}
+
 .og-expander {
 	position: absolute;
 	background: #F7F7F7;
