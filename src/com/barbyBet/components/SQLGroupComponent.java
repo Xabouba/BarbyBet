@@ -5,7 +5,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.barbyBet.object.Group;
@@ -17,7 +19,72 @@ public class SQLGroupComponent extends SQLComponent
 	{
 		super();
 	}
-	
+
+    public boolean hasCreatedGroupToday(User u){
+    	Connection connexion = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		try 
+		{
+		    connexion = DriverManager.getConnection(_url, _user, _password);
+		    stmt = connexion.prepareStatement("SELECT * FROM LinkUserGroup g Where user_id=? , creation_date < ?");
+		    
+		    stmt.setInt(1,u.getId());
+		    Date dateToday = new Date();
+		    Timestamp date = new Timestamp(dateToday.getTime()-86400000);
+		    stmt.setTimestamp(2, date);
+		    rs = stmt.executeQuery();
+		    while (rs.next())
+		    {
+		    	return true;
+		    }
+		    
+		    return false;
+		} 
+		catch (SQLException e ) 
+		{
+			System.out.println(e.getMessage());
+			return true;
+		} 
+		finally 
+		{
+		    close(rs);
+			close(stmt);
+			close(connexion);
+		}
+    }
+    
+    public String insertGroup(Group group){
+    	Connection connexion = null;
+		PreparedStatement stmt = null;
+		try 
+		{
+		    connexion = DriverManager.getConnection(_url, _user, _password);
+		    stmt = connexion.prepareStatement("INSERT INTO Groups (name, description, status, creation_date) VALUES (?, ?, ?, ?)");
+		    stmt.setString(1, group.getName());
+		    stmt.setString(2, group.getDescription());
+		    stmt.setString(3, group.getStatus());
+		    
+		    Date dateToday = new Date();
+		    Timestamp date = new Timestamp(dateToday.getTime());
+		    stmt.setTimestamp(4, date);
+		    
+		    stmt.executeUpdate();
+		} 
+		catch (SQLException e ) 
+		{
+			if(e.getErrorCode()==1062){
+				return "Ce nom de groupe est déjà utilisé";
+			}
+			return e.getMessage();
+		} 
+		finally 
+		{
+			close(stmt);
+			close(connexion);
+		}
+		return null;
+    }
 	public List<Group> getGroupsBy(String ordering)
 	{
 		List<Group> groups = new ArrayList<Group>();

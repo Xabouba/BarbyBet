@@ -3,6 +3,7 @@
 <html lang="en">
     <head>
         <%@include file="import.jsp" %>
+		<link rel="stylesheet" type="text/css" href="css/match.css">
     </head>
     <body onLoad="goforit()">
     <div id="fb-root"></div>
@@ -149,28 +150,43 @@
                                     <ul class="list-unstyled">
                                     	<li class="format-standard">
                                     	
-        									<form method="POST" action="newGroup" enctype="multipart/form-data" >
+        									<form method="POST" action="newGroup" >
         									<input type="hidden" name="action" value="newGroup"/>
 		                                    	<table style="margin-left: auto; margin-right: auto; width: 100%;">
 		                                    		<caption style="margin-top: 5px;">
 	                                    			</caption>
 	                                    			<tbody>
+	                                    			<%if(request.getAttribute("error")!=null){ %>
 			                                    		<tr>
-			                                    			<td style="float: left; margin-left: 20px; margin-top:20px; font-weight: bold;">
-			                                    				<input type="text" placeholder="Nom" class="form-control" id="group-name" name="groupname" value="">
+			                                    			<td class="error" style="float: left; margin-left: 20px; margin-top:20px; font-weight: bold;">
+			                                    				<%=request.getAttribute("error")%>
 			                                    			</td>
 			                                    		</tr>
+			                                    		<%} %>
 			                                    		<tr>
 			                                    			<td style="float: left; margin-left: 20px; margin-top:20px; font-weight: bold;">
-                                  								Image : 
+			                                    				<input type="text" placeholder="Nom" class="form-control" id="group-name" name="groupname" value="${param.groupname}">
 			                                    			</td>
+			                                    		</tr>
+<!-- 			                                    		<tr> -->
+<!-- 			                                    			<td style="float: left; margin-left: 20px; margin-top:20px; font-weight: bold;"> -->
+<!--                                   								Image :  -->
+<!-- 			                                    			</td> -->
+<!-- 			                                    			<td style="float: left; margin-left: 20px; margin-top:20px; font-weight: bold;"> -->
+<!--                                   							<input type="file" name="image" id="image"/> -->
+<!-- 			                                    			</td> -->
+<!-- 			                                    		</tr> -->
+			                                    		<tr>
 			                                    			<td style="float: left; margin-left: 20px; margin-top:20px; font-weight: bold;">
-                                  							<input type="file" name="image" id="image"/>
+			                                    			
+		                                    				<input type="radio" name="status" value="open" checked="checked"> <span title="Tout le monde peut rejoindre le groupe" > Open <span style="color : blue">&#65110;</span></span>
+			                                    			<input style="margin-left:4em" type="radio" name="status" value="ask"> <span title="Le groupe ne peut être rejoint que par invitation ou sur demande (si acceptée)" > Select<span style="color : blue">&#65110;</span></span>
+			                                    			<input style="margin-left:4em" type="radio" name="status" value="invite"> <span title="Le groupe ne peut être rejoint que par invitation" > VIP<span style="color : blue">&#65110;</span></span>
 			                                    			</td>
 			                                    		</tr>
 			                                    		<tr>
 			                                    			<td style="float: left; margin-left: 20px; margin-top:20px; margin-top:20px; font-weight: bold; width:100%">
-                                  								<textarea placeholder="Description" class="form-control" rows="4" maxlength="250" style="resize: none; width: 70%"></textarea>
+                                  								<textarea placeholder="Description" class="form-control" name="groupdesc" rows="4" maxlength="250" style="resize: none; width: 70%">${param.groupdesc}</textarea>
 			                                    			</td>
 			                                    		</tr>
 			                                    		<tr>
