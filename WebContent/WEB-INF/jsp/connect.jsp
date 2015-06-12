@@ -30,6 +30,11 @@
                             <div class="bottom-contact">
                                 <div class="row">
                                     <div class="col-md-6 col-sm-6 col-xs-6">
+                                   	 	<%if(request.getAttribute("error")!=null){ %>
+			                                  <div class="error" style="float: left; margin-left: 20px; margin-top:20px; font-weight: bold;">
+			                                 		<%=request.getAttribute("error")%>
+			                                  </div>
+			                            <%} %>
                                         <h2 class="widget-title"><span>Connexion</span></h2>
                                         <form action="connect" method="post" id="kp-form-contact">
                                         	<label>
