@@ -11,21 +11,10 @@ import javax.servlet.http.HttpSession;
 
 import com.barbyBet.components.SQLUsersComponent;
 import com.barbyBet.object.User;
+import com.barbyBet.tools.Constants;
 
 public class ConnectServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
-	public static final String ATT_ERRORS 		= "errorsConnect";
-	public static final String ATT_USERNAME 	= "usernameConnect";
-	public static final String VUE_ERROR 		= "/WEB-INF/jsp/connect.jsp";
-	public static final String VUE_SUCCESS 		= "/WEB-INF/jsp/index.jsp";
-	public static final String CHAMP_MEMOIRE   	= "memoire";
-	public static final String CHAMP_USERNAME	= "username";
-	public static final int    COOKIE_MAX_AGE  	= 60 * 60 * 24 * 365;  // 1 an
-	public static final String ATT_INTERVALLE_CONNEXIONS = "intervalleConnexions";
-	public static final String ATT_SESSION_USER          = "sessionUser";
-	public static final String COOKIE_USERNAME 			 = "cookieUsername";
-	public static final String FORMAT_DATE               = "dd/MM/yyyy HH:mm:ss";
 	   
 
 	/**
@@ -41,7 +30,7 @@ public class ConnectServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		this.getServletContext().getRequestDispatcher(VUE_ERROR).forward(request, response);
+		this.getServletContext().getRequestDispatcher(Constants.VUE_ERROR).forward(request, response);
 	}
 
 	/**
@@ -61,34 +50,34 @@ public class ConnectServlet extends HttpServlet {
         
 		if (connectedUser != null) {
 			// Ajout de l'utilisateur à la session
-	        session.setAttribute(ATT_SESSION_USER, connectedUser);
+	        session.setAttribute(Constants.ATT_SESSION_USER, connectedUser);
 	        // la session expire dans 30 min
 	        session.setMaxInactiveInterval(30*60);
 	        
 			// Set a cookie
 			/* Si et seulement si la case du formulaire est cochée */
-		    if (SQLUsersComponent.getValueChamp(request, CHAMP_MEMOIRE) != null) {
+		    if (SQLUsersComponent.getValueChamp(request, Constants.CHAMP_MEMOIRE) != null) {
 		        /* Création du cookie, et ajout à la réponse HTTP */
-		        setCookie(response, COOKIE_USERNAME, connectedUser.getUsername(), COOKIE_MAX_AGE);
+		        setCookie(response, Constants.COOKIE_USERNAME, connectedUser.getUsername(), Constants.COOKIE_MAX_AGE);
 		    } else {
 		        /* Demande de suppression du cookie du navigateur */
-		        setCookie(response, COOKIE_USERNAME, null, 0);
+		        setCookie(response, Constants.COOKIE_USERNAME, null, 0);
 		    }
 			
-			this.getServletContext().getRequestDispatcher(VUE_SUCCESS)
+			this.getServletContext().getRequestDispatcher(Constants.VUE_SUCCESS)
 					.forward(request, response);
 		} else {
 			// Ajout des éventuelles erreurs à la requête
-			request.setAttribute(ATT_ERRORS, sqlComponent.getErrors());
+			request.setAttribute(Constants.ATT_ERRORS, sqlComponent.getErrors());
 
 			// Ajout du username tapé pour qu'il apparaisse dans l'input
-			request.setAttribute(ATT_USERNAME,
-					SQLUsersComponent.getValueChamp(request, ATT_USERNAME));
+			request.setAttribute(Constants.ATT_USERNAME,
+					SQLUsersComponent.getValueChamp(request, Constants.ATT_USERNAME));
 			
 			// La connexion a échoué on met pas d'attribut de session
-			session.setAttribute(ATT_SESSION_USER, null);
+			session.setAttribute(Constants.ATT_SESSION_USER, null);
 
-			this.getServletContext().getRequestDispatcher(VUE_ERROR)
+			this.getServletContext().getRequestDispatcher(Constants.VUE_ERROR)
 					.forward(request, response);
 		}
 	}
@@ -103,19 +92,19 @@ public class ConnectServlet extends HttpServlet {
 	    response.addCookie(cookie);
 	}
 	
-	/**
-     * Méthode utilitaire gérant la récupération de la valeur d'un cookie donné
-     * depuis la requête HTTP.
-     */
-    private static String getCookieValue(HttpServletRequest request, String nom) {
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie != null && nom.equals(cookie.getName())) {
-                    return cookie.getValue();
-                }
-            }
-        }
-        return null;
-    }
+//	/**
+//     * Méthode utilitaire gérant la récupération de la valeur d'un cookie donné
+//     * depuis la requête HTTP.
+//     */
+//    private static String getCookieValue(HttpServletRequest request, String nom) {
+//        Cookie[] cookies = request.getCookies();
+//        if (cookies != null) {
+//            for (Cookie cookie : cookies) {
+//                if (cookie != null && nom.equals(cookie.getName())) {
+//                    return cookie.getValue();
+//                }
+//            }
+//        }
+//        return null;
+//    }
 }

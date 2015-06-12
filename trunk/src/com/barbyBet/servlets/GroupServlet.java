@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.barbyBet.components.SQLGroupComponent;
 import com.barbyBet.object.Group;
+import com.barbyBet.object.User;
+import com.barbyBet.tools.ServletUtil;
 
 /**
  * Servlet implementation class SaxResultGenerator
@@ -20,6 +22,10 @@ public class GroupServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		User user = ServletUtil.isConnected(this,request,response);
+	    if(user==null){
+	    	return;
+	    }
 		this.getServletContext().getRequestDispatcher( "/WEB-INF/jsp/newgroup.jsp" ).forward(request, response);
 	}
 
@@ -28,6 +34,10 @@ public class GroupServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
+		User user = ServletUtil.isConnected(this,request,response);
+	    if(user==null){
+	    	return;
+	    }
 		//TODO add userToGroupLink as admin for current user and check if hasCreatedGroupToday(currentUser)
 		String name = request.getParameter("groupname");
 		String desc = request.getParameter("groupdesc");
@@ -40,7 +50,7 @@ public class GroupServlet extends HttpServlet {
 		}
 		Group g = new Group(name,desc,status);
 		SQLGroupComponent gc = new SQLGroupComponent();
-		String msg = gc.insertGroup(g);
+		String msg = gc.insertGroup(g,user);
 		if(msg!=null){
 			request.setAttribute("error", msg);
 			this.getServletContext().getRequestDispatcher( "/WEB-INF/jsp/newgroup.jsp" ).forward(request, response);

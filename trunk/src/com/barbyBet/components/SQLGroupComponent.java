@@ -12,6 +12,7 @@ import java.util.List;
 
 import com.barbyBet.object.Group;
 import com.barbyBet.object.User;
+import com.barbyBet.tools.Constants;
 
 public class SQLGroupComponent extends SQLComponent
 {
@@ -54,12 +55,13 @@ public class SQLGroupComponent extends SQLComponent
 		}
     }
     
-    public String insertGroup(Group group){
+    public String insertGroup(Group group, User user){
     	Connection connexion = null;
 		PreparedStatement stmt = null;
 		try 
 		{
 		    connexion = DriverManager.getConnection(_url, _user, _password);
+		    connexion.setAutoCommit(false);
 		    stmt = connexion.prepareStatement("INSERT INTO Groups (name, description, status, creation_date) VALUES (?, ?, ?, ?)");
 		    stmt.setString(1, group.getName());
 		    stmt.setString(2, group.getDescription());
@@ -70,9 +72,22 @@ public class SQLGroupComponent extends SQLComponent
 		    stmt.setTimestamp(4, date);
 		    
 		    stmt.executeUpdate();
+			close(stmt);
+		    stmt = connexion.prepareStatement("INSERT INTO LinkUserGroup (user_id, group_name, status) VALUES (?, ?, ?)"); 
+		    stmt.setInt(1, user.getId());
+		    stmt.setString(2, group.getName());
+		    stmt.setString(3, Constants.ADMIN);
+		    stmt.executeUpdate();
+		    
+		    connexion.commit();
 		} 
 		catch (SQLException e ) 
 		{
+			try {
+				connexion.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
 			if(e.getErrorCode()==1062){
 				return "Ce nom de groupe est déjà utilisé";
 			}
