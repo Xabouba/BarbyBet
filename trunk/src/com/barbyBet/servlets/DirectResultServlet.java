@@ -8,14 +8,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.xml.sax.SAXException;
 
 import com.barbyBet.components.SQLCommentComponent;
 import com.barbyBet.components.SQLMatchComponent;
 import com.barbyBet.components.SQLPronoComponent;
-import com.barbyBet.components.SaxComponent;
 import com.barbyBet.object.Match;
 
 public class DirectResultServlet extends HttpServlet {
