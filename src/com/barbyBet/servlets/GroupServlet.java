@@ -38,7 +38,7 @@ public class GroupServlet extends HttpServlet {
 	    if(user==null){
 	    	return;
 	    }
-		//TODO add userToGroupLink as admin for current user and check if hasCreatedGroupToday(currentUser)
+		//TODO check if hasCreatedGroupToday(currentUser)
 		String name = request.getParameter("groupname");
 		String desc = request.getParameter("groupdesc");
 		String status = request.getParameter("status");
