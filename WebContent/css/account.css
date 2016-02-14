@@ -1,0 +1,29 @@
+.account .image-account
+{
+	width: 150px;
+	float: left;
+}
+
+.account .image-account img
+{
+	max-width: 150px;
+}
+
+.account .info-account
+{
+	float: left;
+	margin-left: 10px;
+}
+
+.account .chart-account
+{
+	float: right;
+	margin-right: 50px;
+	margin-top: 20px;
+}
+
+.account .widget-content .list-unstyled > li
+{
+	height: 300px;
+}
+

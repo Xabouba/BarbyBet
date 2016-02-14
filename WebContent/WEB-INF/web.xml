@@ -53,6 +53,17 @@
 	<url-pattern>/connect</url-pattern>
   </servlet-mapping>
   
+  <!-- Servlet for user page -->
+  <servlet>
+    <servlet-name>Account</servlet-name>
+    <servlet-class>com.barbyBet.servlets.AccountServlet</servlet-class>
+  </servlet>
+  
+   <servlet-mapping>
+	<servlet-name>Account</servlet-name>
+	<url-pattern>/account</url-pattern>
+  </servlet-mapping>
+  
   <!-- Servlet for group list -->
   <servlet>
     <servlet-name>Group</servlet-name>

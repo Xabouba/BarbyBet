@@ -5,6 +5,7 @@
 <link rel="stylesheet" type="text/css" href="css/superfish.css">
 <link rel="stylesheet" type="text/css" href="css/result.css">
 <link rel="stylesheet" type="text/css" href="css/match.css">
+<link rel="stylesheet" type="text/css" href="css/account.css">
 <link rel="stylesheet" href="css/prettyPhoto.css">
 <link rel="stylesheet" type="text/css" href="css/default.css">
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
@@ -14,6 +15,7 @@
 <link rel="stylesheet" type="text/css" href="css/direct.css">
 <!--[if !IE]><!-->
 <script src="js/ie10.js"></script>
+<script src="js/chart/Chart.js"></script>
 <script>(function(d, s, id) {
 	  var js, fjs = d.getElementsByTagName(s)[0];
 	  if (d.getElementById(id)) return;
