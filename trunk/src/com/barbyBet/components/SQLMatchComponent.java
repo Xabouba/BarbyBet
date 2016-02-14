@@ -51,7 +51,7 @@ public class SQLMatchComponent extends SQLComponent
 		    	match.setAwayScore(rs.getInt(8));
 		    	match.setStatut(rs.getInt(9));
 		    
-		    	Odds odds = new Odds(rs.getInt(10), rs.getInt(11), rs.getInt(12));
+		    	Odds odds = new Odds(rs.getFloat(10), rs.getFloat(11), rs.getFloat(12));
 		    	match.setOdds(odds);
 		    	
 		    	match.setCompetition(rs.getString(13));

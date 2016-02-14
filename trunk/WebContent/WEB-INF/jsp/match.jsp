@@ -6,7 +6,7 @@
     </head>
     <body onLoad="goforit()">
     <div id="fb-root"></div>
-    	<% response.setIntHeader("Refresh", 120); %>
+<%--     	<% response.setIntHeader("Refresh", 120); %> --%>
     	<div class="wraper">
         	<%@include file="header.jsp" %>
     		
@@ -24,62 +24,31 @@
 	                            <li class="clearfix">
 	                                <div class="widget kp-review">
 	                                    <h2 class="widget-title"><span>Match</span></h2>
-	                                    <h3 class="widget-title"><span>Terminé</span></h3>
-	                                    <div class="widget-content">
-	                                    	<ul class="list-unstyled">
-	                                           	<c:forEach items="${matchsEnded}" var="match">
-	                                           	<li class="format-standard">
-	                                            	<table style="margin-left: auto; margin-right: auto; width: 100%">
-													   <tr>
-											    			<td class="image">
-											    				<img src="images/team/${match.homeImg}_128.png" />
-											    			</td>
-											    			<td class="team">
-											    				<span>${match.homeTeam}</span>
-											    			</td>
-											    			<td class="score">
-											    				<span>${match.homeScore}</span>
-											    			</td>
-											    			<td class="score">
-											    				<span>${match.awayScore}</span>
-											    			</td>
-											    			<td class="team">
-											    				<span>${match.awayTeam}</span>
-											    			</td>
-											    			<td class="image last">
-											    				<img src="images/team/${match.awayImg}_128.png" />
-											    			</td>
-											    			<td class="odd">
-											    				<span>3</span>
-											    			</td>
-											    			<td class="odd">
-											    				<span>2</span>
-											    			</td>
-											    			<td class="odd">
-											    				<span>4</span>
-											    			</td>
-											    			<td class="bet">
-											    				<button>Parier</button>
-											    			</td>
-											    			<td class="direct">
-											    				<form method="get" action="sax">
-											    					<input type="hidden" name="matchId" value="${match.matchId}" />
-										    						<input type="submit" value="Direct" />
-									    						</form>
-									    					</td>
-											    		</tr>
-											    	</table>
-	                                            </li>
-	                                            </c:forEach>
-	                                        </ul>
+	                                    <div class="menu-match">
+	                                    	<ul class="nav nav-tabs kp-tabs">
+									            <li class="active">
+									                <a href="" onclick="allMatch()">Tous</a>
+									            </li>
+									            <li>
+								                    <a href="" onclick="todayMatch()">Aujourd'hui</a>
+								                </li>
+								                <li>
+								                    <a href="" onclick="nextMatch()">Prochainement</a>
+								                </li>
+								                <li>
+								                    <a href="" onclick="endMatch()">Terminés</a>
+								                </li>
+								            </ul>
 	                                    </div>
-	                                    <div class="widget-content">
-                                           	<c:forEach items="${matchs}" var="matchDay">
-			                                    <h3 class="widget-title"><span>${matchDay.key}</span></h3>
-                                           		<c:forEach items="${matchDay.value}" var="match">
-			                                    	<ul class="list-unstyled">
-			                                           	<li class="format-standard">
-			                                            	<table style="margin-left: auto; margin-right: auto; width: 100%">
+	                                    <div id="ended-match">
+		                                    <div class="widget-content">
+		                                    	<c:if test="${not empty matchsEnded}">
+		                                    	<ul class="list-unstyled"><li class="format-standard match-title">Terminé</li></ul>
+                                           		<ul class="list-unstyled">
+		                                           	<c:forEach items="${matchsEnded}" var="match">
+		                                           	<li class="format-standard match-info">
+			                                           <div>
+			                                            	<table class="match-info-table">
 															   <tr>
 													    			<td class="image">
 													    				<img src="images/team/${match.homeImg}_128.png" />
@@ -99,31 +68,255 @@
 													    			<td class="image last">
 													    				<img src="images/team/${match.awayImg}_128.png" />
 													    			</td>
+												    			</tr>
+											    			</table>
+											    			<table class="bet-info-table" id="match_${match.matchId}">
+															   <tr>
 													    			<td class="odd">
-													    				<span>3</span>
+													    				<c:choose>
+													    					<c:when test="${match.prono == '1'}">
+															    				<span class="bet">${match.homeOdd}</span>
+													    					</c:when>
+													    					<c:otherwise>
+															    				<span>${match.homeOdd}</span>
+													    					</c:otherwise>
+													    				</c:choose>
 													    			</td>
 													    			<td class="odd">
-													    				<span>2</span>
+													    				<c:choose>
+													    					<c:when test="${match.prono == '2'}">
+															    				<span class="bet">${match.drawOdd}</span>
+													    					</c:when>
+													    					<c:otherwise>
+															    				<span>${match.drawOdd}</span>
+													    					</c:otherwise>
+													    				</c:choose>
 													    			</td>
 													    			<td class="odd">
-													    				<span>4</span>
-													    			</td>
-													    			<td class="bet">
-													    				<button>Parier</button>
+													    				<c:choose>
+													    					<c:when test="${match.prono == '3'}">
+															    				<span class="bet">${match.awayOdd}</span>
+													    					</c:when>
+													    					<c:otherwise>
+															    				<span>${match.awayOdd}</span>
+													    					</c:otherwise>
+													    				</c:choose>
 													    			</td>
 													    			<td class="direct">
 													    				<form method="get" action="sax">
 													    					<input type="hidden" name="matchId" value="${match.matchId}" />
-												    						<input type="submit" value="Direct" />
+												    						<input class="btn btn-primary" type="submit" value="Direct" />
 											    						</form>
 											    					</td>
+											    					<td class="bet-button">
+											    						<span class="ended">X</span>
+											    					</td>
+													    			<td class="creditsWon">
+													    				<c:choose>
+													    					<c:when test="${match.creditsWon > 0}">
+														    					<span class="positif">+ ${match.creditsWon}</span>
+													    					</c:when>
+													    					<c:when test="${match.creditsWon < 0}">
+														    					<span class="negatif">- ${-match.creditsWon}</span>
+													    					</c:when>
+													    					<c:otherwise>
+													    						<span>-</span>
+													    					</c:otherwise>
+													    				</c:choose>
+													    			</td>
 													    		</tr>
 													    	</table>
-			                                            </li>
-			                                        </ul>
-	                                            </c:forEach>
-                                        	</c:forEach>
-	                                    </div>
+												    	</div>
+		                                            </li>
+		                                            </c:forEach>
+		                                        </ul>
+		                                    	</c:if>
+		                                    </div>
+		                                </div>
+		                                <div id="today-match">
+		                                    <div class="widget-content">
+	                                           	<c:forEach items="${matchsToday}" var="matchDay">
+	                                           		<ul class="list-unstyled"><li class="format-standard match-title">Aujourd'hui - ${matchDay.key}</li></ul>
+	                                           		<c:forEach items="${matchDay.value}" var="match">
+				                                    	<ul class="list-unstyled">
+				                                           	<li class="format-standard match-info">
+					                                            <div>
+					                                            	<table class="match-info-table">
+																	   <tr>
+															    			<td class="image">
+															    				<img src="images/team/${match.homeImg}_128.png" />
+															    			</td>
+															    			<td class="team">
+															    				<span>${match.homeTeam}</span>
+															    			</td>
+															    			<td class="score">
+															    				<span>${match.homeScore}</span>
+															    			</td>
+															    			<td class="score">
+															    				<span>${match.awayScore}</span>
+															    			</td>
+															    			<td class="team">
+															    				<span>${match.awayTeam}</span>
+															    			</td>
+															    			<td class="image last">
+															    				<img src="images/team/${match.awayImg}_128.png" />
+															    			</td>
+														   				</tr>
+											    					</table>
+											    					<table class="bet-info-table" id="match_${match.matchId}">
+															   			<tr>
+													    	 				<td class="odd" id="odd_1_${match.matchId}">
+															    				<c:choose>
+															    					<c:when test="${match.prono == '1'}">
+																	    				<span class="bet">${match.homeOdd}</span>
+															    					</c:when>
+															    					<c:otherwise>
+																	    				<span>${match.homeOdd}</span>
+															    					</c:otherwise>
+															    				</c:choose>
+															    			</td>
+															    			<td class="odd" id="odd_2_${match.matchId}">
+															    				<c:choose>
+															    					<c:when test="${match.prono == '2'}">
+																	    				<span class="bet">${match.drawOdd}</span>
+															    					</c:when>
+															    					<c:otherwise>
+																	    				<span>${match.drawOdd}</span>
+															    					</c:otherwise>
+															    				</c:choose>
+															    			</td>
+															    			<td class="odd" id="odd_3_${match.matchId}">
+															    				<c:choose>
+															    					<c:when test="${match.prono == '3'}">
+																	    				<span class="bet">${match.awayOdd}</span>
+															    					</c:when>
+															    					<c:otherwise>
+																	    				<span>${match.awayOdd}</span>
+															    					</c:otherwise>
+															    				</c:choose>
+															    			</td>
+															    			<td class="direct">
+															    				<form method="get" action="sax">
+															    					<input type="hidden" name="matchId" value="${match.matchId}" />
+														    						<input class="btn btn-primary" type="submit" value="Direct" />
+													    						</form>
+													    					</td>
+															    			<td class="bet-button">
+															    				<button class="btn btn-primary" onclick='bet(${match.matchId})'>Parier</button>
+															    			</td>
+														    				<td class="credits">
+															    				<span id="bet_credits_${match.matchId}">
+															    				<c:choose>
+															    					<c:when test="${match.credits > 0}">
+																    					${match.credits}
+															    					</c:when>
+															    					<c:otherwise>
+															    						-
+															    					</c:otherwise>
+															    				</c:choose>
+															    				</span>
+															    			</td>
+															    		</tr>
+															    	</table>
+														    	</div>
+				                                            </li>
+				                                        </ul>
+		                                            </c:forEach>
+	                                        	</c:forEach>
+		                                    </div>
+		                                </div>
+		                                <div id="next-match">
+		                                    <div class="widget-content">
+	                                           	<c:forEach items="${matchs}" var="matchDay">
+	                                           		<ul class="list-unstyled"><li class="format-standard match-title">${matchDay.key}</li></ul>
+                                           			<c:forEach items="${matchDay.value}" var="match">
+				                                    	<ul class="list-unstyled">
+				                                           	<li class="format-standard match-info">
+				                                            	<div>
+					                                            	<table class="match-info-table">
+																	   <tr>
+															    			<td class="image">
+															    				<img src="images/team/${match.homeImg}_128.png" />
+															    			</td>
+															    			<td class="team">
+															    				<span>${match.homeTeam}</span>
+															    			</td>
+															    			<td class="score">
+															    				<span>${match.homeScore}</span>
+															    			</td>
+															    			<td class="score">
+															    				<span>${match.awayScore}</span>
+															    			</td>
+															    			<td class="team">
+															    				<span>${match.awayTeam}</span>
+															    			</td>
+															    			<td class="image last">
+															    				<img src="images/team/${match.awayImg}_128.png" />
+															    			</td>
+														   				</tr>
+											    					</table>
+											    					<table class="bet-info-table" id="match_${match.matchId}">
+															   			<tr>
+															    			<td class="odd" id="odd_1_${match.matchId}">
+															    				<c:choose>
+															    					<c:when test="${match.prono == '1'}">
+																	    				<span class="bet">${match.homeOdd}</span>
+															    					</c:when>
+															    					<c:otherwise>
+																	    				<span>${match.homeOdd}</span>
+															    					</c:otherwise>
+															    				</c:choose>
+															    			</td>
+															    			<td class="odd" id="odd_2_${match.matchId}">
+															    				<c:choose>
+															    					<c:when test="${match.prono == '2'}">
+																	    				<span class="bet">${match.drawOdd}</span>
+															    					</c:when>
+															    					<c:otherwise>
+																	    				<span>${match.drawOdd}</span>
+															    					</c:otherwise>
+															    				</c:choose>
+															    			</td>
+															    			<td class="odd" id="odd_3_${match.matchId}">
+															    				<c:choose>
+															    					<c:when test="${match.prono == '3'}">
+																	    				<span class="bet">${match.awayOdd}</span>
+															    					</c:when>
+															    					<c:otherwise>
+																	    				<span>${match.awayOdd}</span>
+															    					</c:otherwise>
+															    				</c:choose>
+															    			</td>
+															    			<td class="direct">
+															    				<form method="get" action="sax">
+															    					<input type="hidden" name="matchId" value="${match.matchId}" />
+														    						<input type="submit" class="btn btn-primary" value="Direct" />
+													    						</form>
+													    					</td>
+													    					<td class="bet-button">
+															    				<button class="btn btn-primary" onclick="bet(${match.matchId})">Parier</button>
+															    			</td>
+														    				<td class="credits">
+													    					<span id="bet_credits_${match.matchId}">
+															    				<c:choose>
+															    					<c:when test="${match.credits > 0}">
+																    					${match.credits}
+															    					</c:when>
+														    						<c:otherwise>
+															    						-
+															    					</c:otherwise>
+															    				</c:choose>
+														    				</span>
+															    			</td>
+															    		</tr>
+															    	</table>
+															    </div>	
+				                                            </li>
+				                                        </ul>
+		                                            </c:forEach>
+	                                        	</c:forEach>
+		                                    </div>
+		                                </div>
 	                                    <!-- widget-content -->
 	                                </div>
 	                                <!-- kp-review -->
@@ -138,71 +331,89 @@
 
                     <div id="sidebar" class="pull-right">
                         <ul class="clearfix list-unstyled">
-                            <li>
-                                <div class="widget kp-last-news">
-                                    <h2 class="widget-title"><span>Latest news</span></h2>
+                            <li class="clearfix">
+                                <div class="widget kp-review">
+                                    <h2 class="widget-title"><span>Classement</span></h2>
                                     <div class="widget-content">
-                                        <ul class="list-unstyled">
+										<ul class="list-unstyled">
                                             <li class="format-standard">
-                                                <div class="kp-item">
-                                                    <figure class="zoom-image">
-                                                        <a href="#"><img src="placeholders/posts/img-16.jpg" class="img-responsive" alt="">
-                                                            <span class="icon-image post-format"></span>
-                                                        </a>
-                                                    </figure>
-                                                    <ul class="kp-metadata clearfix">
-                                                        <li>10 view&nbsp&nbsp&nbsp-&nbsp&nbsp&nbsp</li>
-                                                        <li>3 comment</li>
-                                                        <li class="kp-time">05 March, 2013</li>
-                                                    </ul>
-                                                    <!-- kp-metadata -->
-                                                    <h3><a href="#">Oprah Winfrey Headed Back to the Big</a></h3>
-                                                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula  </p>
-                                                </div>
-                                                <!-- kp-item -->
+                                            	<table style="width: 100%">
+                                            		<tr>
+                                            			<td class="td_rank_nb">1</td>
+                                            			<td class="td_rank_progress">=</td>
+                                            			<td class="td_rank_name">User 2</td>
+                                            			<td class="td_rank_credit">15250</td>
+                                            		</tr>
+                                            	</table>
                                             </li>
-                                            <li class="format-gallery">
-                                                <div class="kp-item">
-                                                    <figure class="zoom-image">
-                                                        <a href="#"><img src="placeholders/posts/img-17.jpg" class="img-responsive" alt="">
-                                                            <span class="icon-images post-format"></span>
-                                                        </a>
-                                                    </figure>
-                                                    <ul class="kp-metadata clearfix">
-                                                        <li>10 view&nbsp&nbsp&nbsp-&nbsp&nbsp&nbsp</li>
-                                                        <li>3 comment</li>
-                                                        <li class="kp-time">05 March, 2013</li>
-                                                    </ul>
-                                                    <!-- kp-metadata -->
-                                                    <h3><a href="#">Best tennis competitions of the year</a></h3>
-                                                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula </p>
-                                                </div>
-                                                <!-- kp-item -->
+                                            <li class="format-standard">
+                                                <table style="width: 100%">
+                                            		<tr>
+                                            			<td class="td_rank_nb">2</td>
+                                            			<td class="td_rank_progress">+2</td>
+                                            			<td class="td_rank_name">User 3</td>
+                                            			<td class="td_rank_credit">13250</td>
+                                            		</tr>
+                                            	</table>
                                             </li>
-                                            <li class="format-video">
-                                                <div class="kp-item">
-                                                    <figure class="zoom-image">
-                                                        <a href="#"><img src="placeholders/posts/img-18.jpg" class="img-responsive" alt="">
-                                                            <span class="icon-videocamera post-format"></span>
-                                                        </a>
-                                                    </figure>
-                                                    <ul class="kp-metadata clearfix">
-                                                        <li>10 view&nbsp&nbsp&nbsp-&nbsp&nbsp&nbsp</li>
-                                                        <li>3 comment</li>
-                                                        <li class="kp-time">05 March, 2013</li>
-                                                    </ul>
-                                                    <!-- kp-metadata -->
-                                                    <h3><a href="#">Oprah Winfrey Headed Back to the Big Screen </a></h3>
-                                                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula </p>
-                                                </div>
-                                                <!-- kp-item -->
+                                            <li class="format-standard">
+                                                <p style="text-align: center">..........................................................</p>
+                                            </li>
+                                            <li class="format-standard">
+                                                <table style="width: 100%">
+                                            		<tr>
+                                            			<td class="td_rank_nb">5</td>
+                                            			<td class="td_rank_progress">-1</td>
+                                            			<td class="td_rank_name">User 4</td>
+                                            			<td class="td_rank_credit">8250</td>
+                                            		</tr>
+                                            	</table>
+                                            </li>
+                                            <li class="format-standard">
+                                                <table style="width: 100%">
+                                            		<tr>
+                                            			<td class="td_rank_nb">6</td>
+                                            			<td class="td_rank_progress">=</td>
+                                            			<td class="td_rank_name">User 5</td>
+                                            			<td class="td_rank_credit">7280</td>
+                                            		</tr>
+                                            	</table>
+                                            </li>
+                                            <li class="format-standard">
+                                                <table style="width: 100%">
+                                            		<tr>
+                                            			<td class="td_rank_nb">7</td>
+                                            			<td class="td_rank_progress">+3</td>
+                                            			<td class="td_rank_name" style="color: red">User 1</td>
+                                            			<td class="td_rank_credit">7250</td>
+                                            		</tr>
+                                            	</table>
+                                            </li>
+                                            <li class="format-standard">
+                                                <table style="width: 100%">
+                                            		<tr>
+                                            			<td class="td_rank_nb">8</td>
+                                            			<td class="td_rank_progress">-2</td>
+                                            			<td class="td_rank_name">User 6</td>
+                                            			<td class="td_rank_credit">5420</td>
+                                            		</tr>
+                                            	</table>
+                                            </li>
+                                            <li class="format-standard">
+                                                <table style="width: 100%">
+                                            		<tr>
+                                            			<td class="td_rank_nb">9</td>
+                                            			<td class="td_rank_progress">+1</td>
+                                            			<td class="td_rank_name">User 7</td>
+                                            			<td class="td_rank_credit">3250</td>
+                                            		</tr>
+                                            	</table>
                                             </li>
                                         </ul>
-
                                     </div>
                                     <!-- widget-content -->
                                 </div>
-                                <!-- kp-last-news -->
+                                <!-- kp-story -->
                             </li>
                        </ul>
                     </div>
@@ -218,120 +429,149 @@
         <footer id="page-footer">
         </footer>
         <!-- page-footer -->
-
-
-		<div class="prono-form" id="prono-form" title="Pronostic">
-		  <form method="post" action="sax">
-		    <input type="hidden" id="matchId" value="${match.matchId}" />
-		    <table class="prono-table">
-			   <tr>
-			   		<td/>
-			   		<td/>
-	    			<td class="prono-header" style="font-weight: bold;">E1</td>
-	    			<td style="font-weight: bold;">N</td>
-	    			<td style="font-weight: bold;">E2</td>
-	    			<td/>
-	    			<td/>
-    		   </tr>
-			   <tr>
-	    			<td><img class="prono-img" src="images/team/${match.homeImg}_128.png"></img></td>
-	    			<td class="prono-team" style="">${match.homeTeam}</td>
-	    			<td class="prono-score" style="">
-	    				<c:choose>
-		    				<c:when test="${prono == '1'}">
-		    					<input type="radio" name="prono" value="1" checked/>
-		    				</c:when>
-		    				<c:otherwise>
-		    					<input type="radio" name="prono" value="1" />
-		    				</c:otherwise>
-	    				</c:choose>
-					</td>
-	    			<td class="prono-score">
-	    				<c:choose>
-		    				<c:when test="${prono == '2'}">
-		    					<input type="radio" name="prono" value="2" checked/>
-		    				</c:when>
-		    				<c:otherwise>
-		    					<input type="radio" name="prono" value="2" />
-		    				</c:otherwise>
-	    				</c:choose>
-    				</td>
-	    			<td class="prono-score">
-	    				<c:choose>
-		    				<c:when test="${prono == '3'}">
-		    					<input type="radio" name="prono" value="3" checked/>
-		    				</c:when>
-		    				<c:otherwise>
-		    					<input type="radio" name="prono" value="3" />
-		    				</c:otherwise>
-	    				</c:choose>
-					</td>
-	    			<td class="prono-team">${match.awayTeam}</td>
-	    			<td><img class="prono-img" src="images/team/${match.awayImg}_128.png"></img></td>
-	    		</tr>
-	    		<tr>
-	    			<td/>
-	    			<td class="prono-credits" colspan="5">
-	    				<input id="credits" type="text" value="${credits}"/> / 10000
-	    			</td>
-	    			<td/>
-	    		</tr>
-	    	</table>
-		  </form>
-		</div>
 		
     	<script type="text/javascript">
-		  openProno = function()
+    	  bet = function(id)
+    	  {
+        	  if ($("#bet_" + id).length == 0)
+           	  {
+					var htmlBet = "<tr id='bet_" + id + "'>";
+					htmlBet += "<td class='odd'><input type='radio' name='bet_" + id + "' value='1'/></td>";	
+					htmlBet += "<td class='odd'><input type='radio' name='bet_" + id + "' value='2'/></td>";	
+					htmlBet += "<td class='odd'><input type='radio' name='bet_" + id + "' value='3'/></td>";	
+					htmlBet += "<td class='bet-button'><input type='text' id='credits_" + id + "' style='width:50px' /></td>";
+					htmlBet += "<td class='direct'><input type='button' class='btn btn-primary' value='Ok' onclick='openProno(" + id + ")'/></td>";
+					htmlBet += "<td class='credits'></td>";	
+					htmlBet += "</tr>";
+
+					$("#match_" + id).append(htmlBet);	
+              }
+        	  else
+           	  {
+        		  $("#bet_" + id).remove();
+              }
+          }
+    	
+		  openProno = function(id)
 		  {
-			  dialog = $( "#prono-form" ).dialog({
-			      autoOpen: false,
-			      height: 260,
-			      width: 700,
-			      modal: true,
-			      buttons: {
-			        "Valider": function() {
-		        	  if ($( "#credits" ).val() <= 10000/2)
-					  {
-		        		  if ($( "#credits" ).val() == "" || $( "#credits" ).val() == 0)
-			        	  {
-			        	  	  alert('Vous devez miser des crédits.');	  
-			        	  }
-		        		  else
-	        			  {
-		        			  dialog.dialog( "close" );
-				        	  pronostic();
-	        			  }
-					  }
-		        	  else
-	        		  {
-		        	  	  alert('Vous ne pouvez pas miser autant de crédits.');	  
-	        		  }
-			        },
-			        "Annuler" : function() {
-			          dialog.dialog( "close" );
-			        }
-			      }
-			    });
+			  var prono = $("input[name='bet_" + id + "']:checked").val();
+			  var credits = $( "#credits_" + id ).val();
+
+			  if (prono == null)
+			  {
+				 alert("Vous devez faire un choix");
+				 return;
+			  }
 			  
-			  dialog.dialog( "open" );
+       		  if (credits == "" || credits == 0)
+        	  {
+        	  	  alert('Vous devez miser des crédits.');	  
+        	  }
+        	  else if (credits > 1000) //TODO
+       		  {
+        	  	  alert('Vous ne pouvez pas miser autant de crédits.');	  
+    		  }
+       		  else
+      		  {
+	         	  pronostic(id);
+      		  }
 		  }
 		  
-		  pronostic = function()
+		  pronostic = function(id)
 		  {
-			  var matchId = $("#matchId").val();
-			  var prono = $("input[name='prono']:checked").val();
-			  var credits = $("#credits").val();
+			  var prono = $("input[name='bet_" + id + "']:checked").val();
+			  var credits = $("#credits_" + id).val();
 			  $.ajax(
 			  {
 		      	method: "POST",
 				url: "sax",
-				data: {matchId: matchId, prono: prono, credits: credits}
+				data: {matchId: id, prono: prono, credits: credits}
 			  }).done(function( msg ) 
 			  {
-			  	location.reload()
+				  for (var i = 1; i <= 3; i++)
+				  {
+					  if (i == prono)
+					  {
+						  $("#odd_" + i + "_" + id).addClass("bet");
+					  }
+					  else
+					  {
+						  $("#odd_" + i + "_" + id).removeClass("bet");
+					  }
+				  }
+
+				  $("#bet_credits_" + id).html(credits);
+				  $("#bet_" + id).remove();
 			  });
 		  };
 		  
+		  allMatch = function()
+		  {
+			  $("#ended-match").show();
+			  $("#today-match").show();
+			  $("#next-match").show();
+		  }
+		  
+		  todayMatch = function()
+		  {
+			  $("#ended-match").hide();
+			  $("#today-match").show();
+			  $("#next-match").hide();
+		  }
+		  
+		  endMatch = function()
+		  {
+			  $("#ended-match").show();
+			  $("#today-match").hide();
+			  $("#next-match").hide();
+		  }
+		  
+		  nextMatch = function()
+		  {
+			  $("#ended-match").hide();
+			  $("#today-match").hide();
+			  $("#next-match").show();
+		  }
+
+			var randomScalingFactor = function(){ return Math.round(Math.random()*100)};
+
+			var barChartData = {
+				labels : ["Pronostic du match"],
+				datasets : [
+					{
+						fillColor : "rgba(0,0,220,0.6)",
+						strokeColor : "rgba(0,0,220,0.8)",
+						highlightFill: "rgba(0,0,220,0.5)",
+						highlightStroke: "rgba(0,0,220,0.8)",
+						data : [45]
+					},
+					{
+						fillColor : "rgba(160,160,160,0.6)",
+						strokeColor : "rgba(160,160,160,0.8)",
+						highlightFill: "rgba(160,160,160,0.5)",
+						highlightStroke: "rgba(160,160,160,0.8)",
+						data : [25]
+					},
+					{
+						fillColor : "rgba(90,90,220,0.6)",
+						strokeColor : "rgba(90,90,220,0.8)",
+						highlightFill: "rgba(90,90,220,0.5)",
+						highlightStroke: "rgba(90,90,220,0.8)",
+						data : [30]
+					}
+				]
+
+			}
+			window.onload = function(){
+				var ctx = document.getElementById("canvas").getContext("2d");
+				window.myBar = new Chart(ctx).Bar(barChartData, {
+					responsive : true,
+				    scaleShowGridLines : false,
+				    scaleShowVerticalLines: false,
+				    scaleShowHorizontalLines: false
+				});
+			}
+
 		</script>
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">
         </script>

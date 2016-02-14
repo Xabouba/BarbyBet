@@ -222,7 +222,7 @@
 										  <label for="comments">Message: </label>
 										  <textarea style="width: 100%;" rows="5" name="comment" id="comments" maxlength="450" ></textarea>
 										  <input type="hidden" name="matchId" value="${match.matchId}" />
-										  <input type="submit" value="Envoyer" />
+										  <input class="btn btn-primary" type="submit" value="Envoyer" />
 										</form>
                                        
                                     </div>
@@ -244,9 +244,9 @@
                                 <div class="widget-content">
                                     <ul class="list-unstyled">
                                     	<li class="format-standard">
-		                                    <div>
+		                                    <div id="match_">
 		                                    	
-		                                    	<table style="margin-left: auto; margin-right: auto; width: 100%;">
+		                                    	<table  style="margin-left: auto; margin-right: auto; width: 100%;">
 		                                    		<caption style="margin-top: 5px;">
 	                                    			</caption>
 	                                    			<tbody>
@@ -255,7 +255,7 @@
 			                                    				<strong>${cookie.cookieUsername.value}</strong>
 															</td>
 			                                    			<td style="width: 30%">
-		                                    					<input class="button-prono" type="button" onclick="openProno()" />
+		                                    					<input class="btn btn-primary" type="button" value="Pronostiquer" onclick="bet()" />
 			                                    			</td>
 			                                    		</tr>
 			                                    		<tr>
@@ -313,66 +313,6 @@
     	<div class="page-footer">
     	</div>
     	
-    	<div class="prono-form" id="prono-form" title="Pronostic">
-		  <form method="post" action="sax">
-		    <input type="hidden" id="matchId" value="${match.matchId}" />
-		    <table class="prono-table">
-			   <tr>
-			   		<td/>
-			   		<td/>
-	    			<td class="prono-header" style="font-weight: bold;">E1</td>
-	    			<td style="font-weight: bold;">N</td>
-	    			<td style="font-weight: bold;">E2</td>
-	    			<td/>
-	    			<td/>
-    		   </tr>
-			   <tr>
-	    			<td><img class="prono-img" src="images/team/${match.homeImg}_128.png"></img></td>
-	    			<td class="prono-team" style="">${match.homeTeam}</td>
-	    			<td class="prono-score" style="">
-	    				<c:choose>
-		    				<c:when test="${prono == '1'}">
-		    					<input type="radio" name="prono" value="1" checked/>
-		    				</c:when>
-		    				<c:otherwise>
-		    					<input type="radio" name="prono" value="1" />
-		    				</c:otherwise>
-	    				</c:choose>
-					</td>
-	    			<td class="prono-score">
-	    				<c:choose>
-		    				<c:when test="${prono == '2'}">
-		    					<input type="radio" name="prono" value="2" checked/>
-		    				</c:when>
-		    				<c:otherwise>
-		    					<input type="radio" name="prono" value="2" />
-		    				</c:otherwise>
-	    				</c:choose>
-    				</td>
-	    			<td class="prono-score">
-	    				<c:choose>
-		    				<c:when test="${prono == '3'}">
-		    					<input type="radio" name="prono" value="3" checked/>
-		    				</c:when>
-		    				<c:otherwise>
-		    					<input type="radio" name="prono" value="3" />
-		    				</c:otherwise>
-	    				</c:choose>
-					</td>
-	    			<td class="prono-team">${match.awayTeam}</td>
-	    			<td><img class="prono-img" src="images/team/${match.awayImg}_128.png"></img></td>
-	    		</tr>
-	    		<tr>
-	    			<td/>
-	    			<td class="prono-credits" colspan="5">
-	    				<input id="credits" type="text" value="${credits}"/> / 10000
-	    			</td>
-	    			<td/>
-	    		</tr>
-	    	</table>
-		  </form>
-		</div>
-		
     	<script type="text/javascript">
 		  window.onload = function () {
 			var homeTeam = "${match.homeTeam}";
@@ -401,54 +341,87 @@
 		    chart.render();
 		  }
 		  
-		  openProno = function()
+		  bet = function(id)
+    	  {
+        	  if ($("#bet_" + id).length == 0)
+           	  {
+					var htmlBet = "<table class='table_bet' id='bet_" + id + "'>";
+               	   
+					htmlBet += "<tr>";
+					htmlBet += "<td class='odd'><strong>E1</strong></td>";	
+					htmlBet += "<td class='odd'><strong>N</strong></td>";	
+					htmlBet += "<td class='odd'><strong>E2</strong></td>";	
+					htmlBet += "<td class='credits' />";
+					htmlBet += "<td class='direct' />";	
+					htmlBet += "</tr>";
+
+        		  	htmlBet += "<tr>";
+					htmlBet += "<td class='odd'><input type='radio' name='bet_" + id + "' value='1'/></td>";	
+					htmlBet += "<td class='odd'><input type='radio' name='bet_" + id + "' value='2'/></td>";	
+					htmlBet += "<td class='odd'><input type='radio' name='bet_" + id + "' value='3'/></td>";	
+					htmlBet += "<td class='credits'><input type='text' id='credits_" + id + "' /></td>";
+					htmlBet += "<td class='direct'><input type='button' class='btn btn-primary' value='Ok' onclick='openProno(" + id + ")'/></td>";
+					htmlBet += "</tr>";
+
+					htmlBet += "</table>";
+					$("#match_").append(htmlBet);	
+              }
+        	  else
+           	  {
+        		  $("#bet_" + id).remove();
+              }
+          }
+    	
+		  openProno = function(id)
 		  {
-			  dialog = $( "#prono-form" ).dialog({
-			      autoOpen: false,
-			      height: 260,
-			      width: 700,
-			      modal: true,
-			      buttons: {
-			        "Valider": function() {
-		        	  if ($( "#credits" ).val() <= 10000/2)
-					  {
-		        		  if ($( "#credits" ).val() == "" || $( "#credits" ).val() == 0)
-			        	  {
-			        	  	  alert('Vous devez miser des crédits.');	  
-			        	  }
-		        		  else
-	        			  {
-		        			  dialog.dialog( "close" );
-				        	  pronostic();
-	        			  }
-					  }
-		        	  else
-	        		  {
-		        	  	  alert('Vous ne pouvez pas miser autant de crédits.');	  
-	        		  }
-			        },
-			        "Annuler" : function() {
-			          dialog.dialog( "close" );
-			        }
-			      }
-			    });
+			  var prono = $("input[name='bet_" + id + "']:checked").val();
+			  var credits = $( "#credits_" + id ).val();
+
+			  if (prono == null)
+			  {
+				 alert("Vous devez faire un choix");
+				 return;
+			  }
 			  
-			  dialog.dialog( "open" );
+       		  if (credits == "" || credits == 0)
+        	  {
+        	  	  alert('Vous devez miser des crédits.');	  
+        	  }
+        	  else if (credits > 1000) //TODO
+       		  {
+        	  	  alert('Vous ne pouvez pas miser autant de crédits.');	  
+    		  }
+       		  else
+      		  {
+	         	  pronostic(id);
+      		  }
 		  }
 		  
-		  pronostic = function()
+		  pronostic = function(id)
 		  {
-			  var matchId = $("#matchId").val();
-			  var prono = $("input[name='prono']:checked").val();
-			  var credits = $("#credits").val();
+			  var prono = $("input[name='bet_" + id + "']:checked").val();
+			  var credits = $("#credits_" + id).val();
 			  $.ajax(
 			  {
 		      	method: "POST",
 				url: "sax",
-				data: {matchId: matchId, prono: prono, credits: credits}
+				data: {matchId: id, prono: prono, credits: credits}
 			  }).done(function( msg ) 
 			  {
-			  	location.reload()
+				  for (var i = 1; i <= 3; i++)
+				  {
+					  if (i == prono)
+					  {
+						  $("#odd_" + i + "_" + id).addClass("bet");
+					  }
+					  else
+					  {
+						  $("#odd_" + i + "_" + id).removeClass("bet");
+					  }
+				  }
+
+				  $("#bet_credits_" + id).html(credits);
+				  $("#bet_" + id).remove();
 			  });
 		  };
 		  
