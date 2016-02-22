@@ -3,13 +3,16 @@ package com.barbyBet.servlets;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.barbyBet.components.SQLUsersComponent;
+import com.barbyBet.components.UsersComponent;
 import com.barbyBet.object.User;
+import com.barbyBet.tools.Constants;
 
 public class RegisterServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -52,11 +55,35 @@ public class RegisterServlet extends HttpServlet {
 		insertedUser = sqlComponent.insertUser(request);
 
 		if(insertedUser != null) {
-			// Ajout de l'utilisateur à la session
-	        session.setAttribute(ATT_SESSION_USER, insertedUser);
-	        // la session expire dans 30 min
-	        session.setMaxInactiveInterval(30*60);
+			// Ajout de l'utilisateur aux cookies
+			int cookiesExpiry = 60 * 60 * 24 * 365;
+			
+			Cookie currentUserIdCookie = new Cookie(Constants.COOKIE_CURRENT_USER_ID, String.valueOf(insertedUser.getId()));
+			currentUserIdCookie.setMaxAge(cookiesExpiry);
+			
+			Cookie currentUserNameCookie = new Cookie(Constants.COOKIE_CURRENT_USER_NAME, insertedUser.getUsername());
+			currentUserNameCookie.setMaxAge(cookiesExpiry);
+			
+			Cookie currentUserEmailCookie = new Cookie(Constants.COOKIE_CURRENT_USER_EMAIL, insertedUser.getEmail());
+			currentUserEmailCookie.setMaxAge(cookiesExpiry);
+			
+			Cookie currentUserRegistrationDateCookie = new Cookie(Constants.COOKIE_CURRENT_USER_REGISTRATION_DATE, insertedUser.getRegistrationDate().toString());
+			currentUserRegistrationDateCookie.setMaxAge(cookiesExpiry);
+			
+			Cookie currentUserNumberOfCoinsCookie = new Cookie(Constants.COOKIE_CURRENT_USER_NUMBER_OF_COINS, String.valueOf(insertedUser.getCoins()));
+			currentUserNumberOfCoinsCookie.setMaxAge(cookiesExpiry);
+			
+			response.addCookie(currentUserIdCookie);
+			response.addCookie(currentUserNameCookie);
+			response.addCookie(currentUserEmailCookie);
+			response.addCookie(currentUserRegistrationDateCookie);
+			response.addCookie(currentUserNumberOfCoinsCookie);
+			
+			UsersComponent uc = new UsersComponent();
+			User currentUser = uc.getCurrentUser(request);
 	        
+			request.setAttribute("currentUser", currentUser);
+			
 			this.getServletContext().getRequestDispatcher(VUE_SUCCESS).forward(request, response);
 		} else {
 			// Ajout des éventuelles erreurs à la requête

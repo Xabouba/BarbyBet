@@ -54,16 +54,6 @@ public class ConnectServlet extends HttpServlet {
 	        // la session expire dans 30 min
 	        session.setMaxInactiveInterval(30*60);
 	        
-			// Set a cookie
-			/* Si et seulement si la case du formulaire est cochée */
-		    if (SQLUsersComponent.getValueChamp(request, Constants.CHAMP_MEMOIRE) != null) {
-		        /* Création du cookie, et ajout à la réponse HTTP */
-		        setCookie(response, Constants.COOKIE_USERNAME, connectedUser.getUsername(), Constants.COOKIE_MAX_AGE);
-		    } else {
-		        /* Demande de suppression du cookie du navigateur */
-		        setCookie(response, Constants.COOKIE_USERNAME, null, 0);
-		    }
-			
 			this.getServletContext().getRequestDispatcher(Constants.VUE_SUCCESS)
 					.forward(request, response);
 		} else {
