@@ -11,9 +11,15 @@ public class Constants {
 	public static final int    COOKIE_MAX_AGE  	= 60 * 60 * 24 * 365;  // 1 an
 	public static final String ATT_INTERVALLE_CONNEXIONS = "intervalleConnexions";
 	public static final String ATT_SESSION_USER          = "sessionUser";
-	public static final String COOKIE_USERNAME 			 = "cookieUsername";
 	public static final String FORMAT_DATE               = "dd/MM/yyyy HH:mm:ss";
 	public static final String NOT_CONNECTED_ERROR = "Vous n'êtes pas connecté!";
 	public static final String ADMIN = "admin";
 
+	
+	// Current user cookies
+	public static final String COOKIE_CURRENT_USER_ID                 = "currentUserId";
+	public static final String COOKIE_CURRENT_USER_NAME               = "currentUserName";
+	public static final String COOKIE_CURRENT_USER_EMAIL              = "currentUserEmail";
+	public static final String COOKIE_CURRENT_USER_REGISTRATION_DATE  = "currentUserRegistrationDate";
+	public static final String COOKIE_CURRENT_USER_NUMBER_OF_COINS    = "currentUserNumberOfCoins";
 }

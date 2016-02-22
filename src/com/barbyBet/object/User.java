@@ -10,6 +10,10 @@ public class User {
 	private int _coins;
 	private int _id;
 	
+	public User() {
+		
+	}
+	
 	public User(int id, String username, String email, Date date, int coins) {
 		_id = id;
 		_username = username;
@@ -56,5 +60,10 @@ public class User {
 
 	public void setId(int id) {
 		this._id = id;
+	}
+	
+	@Override
+	public String toString() {
+		return "Id = " + this._id + " / username = " + this._username + " / email = " + this._username + " / registration date = " + this._registrationDate + " / coins = " + this._coins;
 	}
 }

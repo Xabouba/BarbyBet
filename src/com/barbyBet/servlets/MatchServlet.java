@@ -1,7 +1,6 @@
 package com.barbyBet.servlets;
 
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,8 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.barbyBet.components.SQLMatchComponent;
 import com.barbyBet.components.SQLPronoComponent;
+import com.barbyBet.components.UsersComponent;
 import com.barbyBet.object.Match;
-import com.barbyBet.object.Team;
+import com.barbyBet.object.User;
 
 /**
  * Servlet implementation class SaxResultGenerator
@@ -35,7 +35,6 @@ public class MatchServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
 		SQLMatchComponent sqlMatchComponent = new SQLMatchComponent();
 		SQLPronoComponent sqlPronoComponent = new SQLPronoComponent();
 		

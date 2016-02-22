@@ -17,6 +17,7 @@ import com.barbyBet.tools.CipherUtils;
 
 public class SQLUsersComponent extends SQLComponent {
 
+	private static final int DEFAULT_NUMBER_OF_COINS = 10000;
 	private static final String CHAMP_EMAIL = "email";
 	private static final String CHAMP_PASS = "password";
 	private static final String CHAMP_REPEAT_PASS = "repeatPassword";
@@ -213,19 +214,22 @@ public class SQLUsersComponent extends SQLComponent {
 			setError(CHAMP_USERNAME, "Ce nom d'utilisateur est déjà pris.");
 		}
 
-		if (errors.isEmpty()) {
+		if (!errors.isEmpty()) {
+			return null;
+		} else {
 			password = encryptPassword(password);
 			Date dateToday = new Date();
 			Timestamp date = new Timestamp(dateToday.getTime());
 			try {
 				connexion = DriverManager.getConnection(_url, _user, _password);
 				stmt = connexion
-						.prepareStatement("INSERT INTO Users (username, email, password, dateRegistration) VALUES (?, ?, ?, ?)");
+						.prepareStatement("INSERT INTO Users (username, email, password, dateRegistration, coins) VALUES (?, ?, ?, ?, ?)");
 
 				stmt.setString(1, username);
 				stmt.setString(2, email);
 				stmt.setString(3, password);
 				stmt.setTimestamp(4, date);
+				stmt.setInt(5, DEFAULT_NUMBER_OF_COINS);
 
 				stmt.executeUpdate();
 			} catch (SQLException e) {
@@ -237,9 +241,7 @@ public class SQLUsersComponent extends SQLComponent {
 				close(connexion);
 			}
 
-			return new User(getUserId(username),username,email,date,10000);
-		} else {
-			return null;
+			return new User(getUserId(username),username,email,date,DEFAULT_NUMBER_OF_COINS);
 		}
 	}
 
