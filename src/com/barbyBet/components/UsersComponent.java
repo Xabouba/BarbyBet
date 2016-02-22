@@ -1,5 +1,6 @@
 package com.barbyBet.components;
 
+import java.text.ParseException;
 import java.util.Date;
 
 import javax.servlet.http.Cookie;
@@ -7,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.barbyBet.object.User;
 import com.barbyBet.tools.Constants;
+import com.barbyBet.tools.DateUtil;
 
 public class UsersComponent {
 	
@@ -32,7 +34,11 @@ public class UsersComponent {
 			}
 			
 			if(cookie.getName().equals(Constants.COOKIE_CURRENT_USER_REGISTRATION_DATE)) {
-				// currentUser.setRegistrationDate(new Date(cookie.getValue()));
+				try {
+					currentUser.setRegistrationDate(DateUtil.FULL_DATE_FORMAT_FRANCE.parse(cookie.getValue()));
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
 			}
 			
 			if(cookie.getName().equals(Constants.COOKIE_CURRENT_USER_NUMBER_OF_COINS)) {

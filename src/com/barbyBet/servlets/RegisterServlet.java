@@ -13,6 +13,7 @@ import com.barbyBet.components.SQLUsersComponent;
 import com.barbyBet.components.UsersComponent;
 import com.barbyBet.object.User;
 import com.barbyBet.tools.Constants;
+import com.barbyBet.tools.DateUtil;
 
 public class RegisterServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -67,7 +68,7 @@ public class RegisterServlet extends HttpServlet {
 			Cookie currentUserEmailCookie = new Cookie(Constants.COOKIE_CURRENT_USER_EMAIL, insertedUser.getEmail());
 			currentUserEmailCookie.setMaxAge(cookiesExpiry);
 			
-			Cookie currentUserRegistrationDateCookie = new Cookie(Constants.COOKIE_CURRENT_USER_REGISTRATION_DATE, insertedUser.getRegistrationDate().toString());
+			Cookie currentUserRegistrationDateCookie = new Cookie(Constants.COOKIE_CURRENT_USER_REGISTRATION_DATE, DateUtil.FULL_DATE_FORMAT_FRANCE.format(insertedUser.getRegistrationDate()));
 			currentUserRegistrationDateCookie.setMaxAge(cookiesExpiry);
 			
 			Cookie currentUserNumberOfCoinsCookie = new Cookie(Constants.COOKIE_CURRENT_USER_NUMBER_OF_COINS, String.valueOf(insertedUser.getCoins()));
