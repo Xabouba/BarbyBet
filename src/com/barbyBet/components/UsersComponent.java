@@ -1,7 +1,6 @@
 package com.barbyBet.components;
 
 import java.text.ParseException;
-import java.util.Date;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;

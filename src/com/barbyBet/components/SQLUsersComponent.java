@@ -22,7 +22,9 @@ public class SQLUsersComponent extends SQLComponent {
 	private static final String CHAMP_PASS = "password";
 	private static final String CHAMP_REPEAT_PASS = "repeatPassword";
 	private static final String CHAMP_USERNAME = "username";
-
+	private static final String CHAMP_INSCRIPTION = "inscription";
+	private static final String CHAMP_CONNEXION = "connexion";
+	
 	private String result;
 	private Map<String, String> errors = new HashMap<String, String>();
 
@@ -79,7 +81,7 @@ public class SQLUsersComponent extends SQLComponent {
 					return null;
 				}
 			} catch (SQLException e) {
-				System.out.println(e.getMessage());
+				setError(CHAMP_CONNEXION, "Erreur lors de la connexion. Merci de réessayer");
 
 				return null;
 			} finally {
@@ -113,7 +115,7 @@ public class SQLUsersComponent extends SQLComponent {
 				return false;
 			}
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+			setError(CHAMP_INSCRIPTION, "Il y a eu un problème lors de l'inscription. Merci de réessayer.");
 
 			return false;
 		} finally {
@@ -204,12 +206,6 @@ public class SQLUsersComponent extends SQLComponent {
 			setError(CHAMP_REPEAT_PASS, null);
 		}
 
-		try {
-			validationUsername(username);
-		} catch (Exception e) {
-			setError(CHAMP_USERNAME, e.getMessage());
-		}
-
 		if (isUsernameTaken(username)) {
 			setError(CHAMP_USERNAME, "Ce nom d'utilisateur est déjà pris.");
 		}
@@ -233,7 +229,7 @@ public class SQLUsersComponent extends SQLComponent {
 
 				stmt.executeUpdate();
 			} catch (SQLException e) {
-				System.out.println(e.getMessage());
+				setError(CHAMP_INSCRIPTION, "Il y a eu un problème lors de l'inscription. Merci de réessayer.");
 
 				return null;
 			} finally {
@@ -275,20 +271,10 @@ public class SQLUsersComponent extends SQLComponent {
 			if (!password.equals(repeatPassword)) {
 				throw new Exception(
 						"Les mots de passe entrés sont différents, merci de les saisir à nouveau.");
-			} else if (password.length() < 3) {
-				throw new Exception(
-						"Les mots de passe doivent contenir au moins 3 caractères.");
 			}
 		} else {
 			throw new Exception(
 					"Merci de saisir et confirmer votre mot de passe.");
-		}
-	}
-
-	private void validationUsername(String username) throws Exception {
-		if (username != null && username.length() < 3) {
-			throw new Exception(
-					"Le nom d'utilisateur doit contenir au moins 3 caractères.");
 		}
 	}
 
