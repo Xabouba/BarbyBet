@@ -17,7 +17,7 @@ public class ServletUtil {
 		User connectedUser = (User) session.getAttribute(Constants.ATT_SESSION_USER);
 		if(connectedUser==null){
 			request.setAttribute("error", Constants.NOT_CONNECTED_ERROR);
-			servlet.getServletContext().getRequestDispatcher( "/WEB-INF/jsp/connect.jsp" ).forward(request, response);
+			servlet.getServletContext().getRequestDispatcher( "/WEB-INF/jsp/login.jsp" ).forward(request, response);
 			return null;
 		}
 		return connectedUser;

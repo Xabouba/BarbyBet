@@ -24,7 +24,7 @@ public class RegisterServlet extends HttpServlet {
 	public static final String ATT_SESSION_USER = "sessionUser";
 	public static final String CHAMP_USERNAME 	= "username";
 	public static final String CHAMP_EMAIL   	= "email";
-    public static final String VUE_ERROR    	= "/WEB-INF/jsp/register-connect.jsp";
+    public static final String VUE_ERROR    	= "/WEB-INF/jsp/register.jsp";
     public static final String VUE_SUCCESS  	= "/WEB-INF/jsp/index.jsp";
 
     /**
@@ -38,6 +38,20 @@ public class RegisterServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		/*boolean isConnected = false;
+		Cookie[] cookies = request.getCookies();
+		for (Cookie cookie : cookies) {
+			if(cookie.getName().equals(Constants.COOKIE_CURRENT_USER_NAME)) {
+				isConnected = true;
+			}
+		}
+		
+		if(isConnected) {
+			this.getServletContext().getRequestDispatcher(VUE_SUCCESS).forward(request, response);
+		} else {
+			this.getServletContext().getRequestDispatcher(VUE_ERROR).forward(request, response);
+		}*/
+		
 		this.getServletContext().getRequestDispatcher(VUE_ERROR).forward(request, response);
 	}
 
@@ -89,13 +103,6 @@ public class RegisterServlet extends HttpServlet {
 		} else {
 			// Ajout des éventuelles erreurs à la requête
 			request.setAttribute(ATT_ERRORS, sqlComponent.getErrors());
-			
-			// L'inscription a échoué on met pas d'attribut de session
-			session.setAttribute(ATT_SESSION_USER, null);
-						
-			// Ajout de l'username et du mail pour qu'ils apparaissent dans l'input
-			request.setAttribute(ATT_USERNAME, SQLUsersComponent.getValueChamp(request, CHAMP_USERNAME));
-			request.setAttribute(ATT_EMAIL, SQLUsersComponent.getValueChamp(request, CHAMP_EMAIL));
 			
 			this.getServletContext().getRequestDispatcher(VUE_ERROR).forward(request, response);
 		}

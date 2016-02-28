@@ -243,7 +243,7 @@ body {
 }
 
 .btn-facebook:after, .btn-googleplus:after, .btn-twitter:after {
-    background-image: url('./images/social-networks-sprite.png');
+    background-image: url('../images/social-networks-sprite.png');
     content: " ";
     left: 0;
     margin-top: -16px;
@@ -343,11 +343,6 @@ form {
     padding: 10px 16px;
 }
 
-#page_index .index-form-legal, #page_index .index-form-recover {
-    color: #FFFFFF;
-    text-align: center;
-}
-
 #page_index .index-form-legal {
     font-size: 11px;
     margin-bottom: 15px;
@@ -359,3 +354,113 @@ form {
     text-align: center;
 }
 
+@media only screen and (max-height: 700px)
+#page_index .index-form-error {
+    margin: 10px 0;
+}
+
+#page_index .index-form-error {
+    background-color: rgba(238,30,35,0.4);
+    border-radius: 3px;
+    color: #FFFFFF;
+    margin: 15px 0;
+    padding: 8px 14px;
+    text-align: center;
+}
+
+#page_index .has-error {
+    background-color: #FDE8E9;
+}
+
+#page_index .has-success, #page_index .has-error {
+    position: relative;
+}
+
+#page_index .has-error:after {
+    color: #EE1E23;
+    content: "!";
+    font-size: 18px;
+    margin-top: -9px;
+    right: 18px;
+}
+
+#page_index .has-success:after, #page_index .has-error:after {
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 1;
+    margin-top: -7px;
+    position: absolute;
+    top: 50%;
+    right: 15px;
+}
+
+.form-group:after {
+    clear: both;
+}
+
+#page_index .form-control-error {
+    align-items: center;
+    background-color: rgba(255,0,0,0.45);
+    display: none;
+    margin-left: 15px;
+    max-width: 175px;
+    min-height: 28px;
+    padding: 8px 15px;
+}
+
+
+.form-control-error, .form-control-tipster {
+    background-color: #0A0A16;
+    background-color: rgba(10,10,22,0.85);
+    border-radius: 3px;
+    color: #FFFFFF;
+    font-size: 11px;
+    left: 100%;
+    margin-left: 10px;
+    padding: 8px 15px;
+    position: absolute;
+    top: 0;
+    width: 190px;
+    z-index: 100;
+}
+
+#page_index #register_form_submit {
+	opacity:0.4;
+}
+
+#page_index .index-form-recover {
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+#page_index .index-form-legal>a, #page_index .index-form-recover>a {
+    color: #FFFFFF;
+}
+
+.icon-before {
+    padding-right: 5px;
+    content: '\e846';
+}
+
+.icon, .icon-stack {
+    display: inline-block;
+    font-family: "Deezer Icons";
+    font-style: normal;
+    font-variant: normal;
+    font-weight: normal;
+    line-height: 1;
+    position: relative;
+    speak: none;
+    text-rendering: geometricPrecision;
+    text-transform: none;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+}
+
+a {
+    color: #0A0A16;
+    cursor: pointer;
+    outline: 0 none;
+    text-decoration: none;
+}
