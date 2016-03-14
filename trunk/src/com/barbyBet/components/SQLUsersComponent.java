@@ -46,19 +46,23 @@ public class SQLUsersComponent extends SQLComponent {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 
-		String username = getValueChamp(request, CHAMP_USERNAME);
+		String email = getValueChamp(request, CHAMP_EMAIL);
 		String password = getValueChamp(request, CHAMP_PASS);
 
 		try {
-			checkUsername(username);
+			checkUsername(email);
 		} catch (Exception e) {
-			setError(CHAMP_USERNAME, e.getMessage());
+			setError(CHAMP_EMAIL, e.getMessage());
+			
+			return null;
 		}
 
 		try {
 			checkPassword(password);
 		} catch (Exception e) {
 			setError(CHAMP_PASS, e.getMessage());
+			
+			return null;
 		}
 
 		if (errors.isEmpty()) {
@@ -67,15 +71,17 @@ public class SQLUsersComponent extends SQLComponent {
 			try {
 				connexion = DriverManager.getConnection(_url, _user, _password);
 				stmt = connexion
-						.prepareStatement("SELECT id, username, email, dateRegistration, coins FROM Users WHERE username = ? AND password = ?");
-				stmt.setString(1, username);
+						.prepareStatement("SELECT id, username, email, dateRegistration, coins FROM Users WHERE (username = ? AND password = ?) OR (email = ? AND password = ?)");
+				stmt.setString(1, email);
 				stmt.setString(2, password);
+				stmt.setString(3, email);
+				stmt.setString(4, password);
 
 				rs = stmt.executeQuery();
 				if (rs.next()) {
 					return new User(rs.getInt("id"), rs.getString("username"), rs.getString("email"), rs.getDate("dateRegistration"), rs.getInt("coins"));
 				} else {
-					setError(CHAMP_USERNAME,
+					setError(CHAMP_EMAIL,
 							"Vos identifiants sont incorrects.");
 
 					return null;
@@ -197,6 +203,8 @@ public class SQLUsersComponent extends SQLComponent {
 			validationEmail(email);
 		} catch (Exception e) {
 			setError(CHAMP_EMAIL, e.getMessage());
+			
+			return null;
 		}
 
 		try {
@@ -204,10 +212,14 @@ public class SQLUsersComponent extends SQLComponent {
 		} catch (Exception e) {
 			setError(CHAMP_PASS, e.getMessage());
 			setError(CHAMP_REPEAT_PASS, null);
+			
+			return null;
 		}
 
 		if (isUsernameTaken(username)) {
 			setError(CHAMP_USERNAME, "Ce nom d'utilisateur est déjà pris.");
+			
+			return null;
 		}
 
 		if (!errors.isEmpty()) {
