@@ -59,9 +59,15 @@
 										<span class="icon icon-info icon-before"></span> Mot de passe oublié ?
 									</a>
 								</div>
-								<c:if test="${not empty errorsRegister}">
-									<c:if test="${not empty errorsRegister['email']}">
-										<div class="index-form-error" id="register_form_global_error">${errorsLogin['login']}</div>
+								<c:if test="${not empty errorsLogin}">
+									<c:if test="${not empty errorsLogin['email']}">
+										<div class="index-form-error" id="register_form_global_error">${errorsLogin['email']}</div>
+									</c:if>
+									<c:if test="${not empty errorsLogin['password']}">
+										<div class="index-form-error" id="register_form_global_error">${errorsLogin['password']}</div>
+									</c:if>
+									<c:if test="${not empty errorsLogin['connexion']}">
+										<div class="index-form-error" id="register_form_global_error">${errorsLogin['connexion']}</div>
 									</c:if>
 								</c:if>
 								<div class="index-form-submit">
