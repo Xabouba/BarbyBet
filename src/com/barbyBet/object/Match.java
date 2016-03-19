@@ -7,6 +7,7 @@ import java.util.HashMap;
 public class Match {
 
 	private int _id;
+	private int _idWebService;
 	private int _idSport;
 	private int _idCompetition;
 	private Team _homeTeam;
@@ -33,6 +34,14 @@ public class Match {
 	public void setId(int id)
 	{
 		this._id = id;
+	}
+	
+	public int getIdWebService() {
+		return _idWebService;
+	}
+	
+	public void setIdWebService(int idWebService) {
+		this._idWebService = idWebService;
 	}
 	
 	public Team getHomeTeam() 

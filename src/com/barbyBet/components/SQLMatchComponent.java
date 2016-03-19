@@ -137,10 +137,10 @@ public class SQLMatchComponent extends SQLComponent
 		    for(Match m : matchs) {
 		    	boolean isMatchInserted;
 		    	
-			    isMatchInserted = insertMatch(m, stmt, connection);
+			    isMatchInserted = insertMatch(m, connection, stmt);
 			    
 			    if(!isMatchInserted) {
-			    	System.out.println("The match " + m.getHomeTeam() + " - " + m.getAwayTeam() + " has not been inserted !");
+			    	System.out.println("The match " + m.getHomeTeam().getName() + " - " + m.getAwayTeam().getName() + " has not been inserted !");
 			    }
 		    }
 		} catch (SQLException e ) {
@@ -155,23 +155,24 @@ public class SQLMatchComponent extends SQLComponent
 		return true;
 	}
 
-	public boolean insertMatch(Match m, PreparedStatement stmt, Connection connection) {
+	public boolean insertMatch(Match m, Connection connection, PreparedStatement stmt) {
 		try {
-			stmt = connection.prepareStatement("INSERT INTO Matchs (idSport, idCompetition, journee, teamHId, teamAId, "
-	    		+ "scoreH, scoreA, beginDate, statut, oddsHome, oddsDraw, oddsAway) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+			stmt = connection.prepareStatement("INSERT INTO Matchs (idWebService, idSport, idCompetition, journee, teamHId, teamAId, "
+	    		+ "scoreH, scoreA, beginDate, statut, oddsHome, oddsDraw, oddsAway) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 	    
-			stmt.setInt(1, m.getIdSport());
-	    	stmt.setInt(2, m.getIdCompetition());
-		    stmt.setInt(3, m.getJournee());
-		    stmt.setInt(4, m.getHomeTeam().getId());
-		    stmt.setInt(5, m.getAwayTeam().getId());
-		    stmt.setInt(6, m.getHomeScore());
-		    stmt.setInt(7, m.getAwayScore());
-		    stmt.setTimestamp(8, m.getBeginDate());
-		    stmt.setInt(9, m.getStatut());
-		    stmt.setFloat(10, m.getOdds().getHomeOdd());
-		    stmt.setFloat(11, m.getOdds().getDrawOdd());
-		    stmt.setFloat(12, m.getOdds().getAwayOdd());
+			stmt.setInt(1, m.getIdWebService());
+			stmt.setInt(2, m.getIdSport());
+	    	stmt.setInt(3, m.getIdCompetition());
+		    stmt.setInt(4, m.getJournee());
+		    stmt.setInt(5, m.getHomeTeam().getId());
+		    stmt.setInt(6, m.getAwayTeam().getId());
+		    stmt.setInt(7, m.getHomeScore());
+		    stmt.setInt(8, m.getAwayScore());
+		    stmt.setTimestamp(9, m.getBeginDate());
+		    stmt.setInt(10, m.getStatut());
+		    stmt.setFloat(11, m.getOdds().getHomeOdd());
+		    stmt.setFloat(12, m.getOdds().getDrawOdd());
+		    stmt.setFloat(13, m.getOdds().getAwayOdd());
 		    
 		    stmt.executeUpdate();
 		} catch (SQLException e) {
@@ -180,6 +181,43 @@ public class SQLMatchComponent extends SQLComponent
 			return false;
 		}
 		
+		return true;
+	}
+	
+	public boolean updateMatchs(List<Match> matchs) {
+		Connection connection = null;
+		PreparedStatement stmt = null;
+		
+		try {
+		    connection = DriverManager.getConnection(_url, _user, _password);
+		    for (Match match : matchs) {
+				updateMatch(match, connection, stmt);
+		    }
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		} finally {
+			close(stmt);
+			close(connection);
+		}
+		
+		return true;
+	}
+	
+	public boolean updateMatch(Match match, Connection connection, PreparedStatement stmt) {
+	    try {
+			stmt = connection.prepareStatement("UPDATE Matchs SET scoreH = ?, scoreA = ? WHERE idWebService = ?");
+
+			stmt.setInt(1, match.getHomeScore());
+		    stmt.setInt(2, match.getAwayScore());
+		    stmt.setInt(3, match.getIdWebService());
+		    
+		    stmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			
+			return false;
+		}
+	    
 		return true;
 	}
 }
