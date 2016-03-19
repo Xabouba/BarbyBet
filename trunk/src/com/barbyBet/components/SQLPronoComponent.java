@@ -14,7 +14,7 @@ public class SQLPronoComponent extends SQLComponent
 		super();
 	}
 	
-	public HashMap<String, String> getProno(String matchId, String idUser)
+	public HashMap<String, String> getProno(int matchId, int idUser)
 	{
 		HashMap<String, String> prono = new HashMap<String, String>();
 
@@ -24,17 +24,19 @@ public class SQLPronoComponent extends SQLComponent
 		try 
 		{
 		    connexion = DriverManager.getConnection(_url, _user, _password);
-		    stmt = connexion.prepareStatement("SELECT prono, credits, creditsWon FROM Pronostics WHERE idUser = ? AND idMatch = ?");
+		    stmt = connexion.prepareStatement("SELECT scoreHome, scoreAway, prono, credits, creditsWon FROM Pronostics WHERE idUser = ? AND idMatch = ?");
 		    
-		    stmt.setInt(1, Integer.valueOf(idUser));
-		    stmt.setInt(2, Integer.valueOf(matchId));
+		    stmt.setInt(1, idUser);
+		    stmt.setInt(2, matchId);
 		    
 		    rs = stmt.executeQuery();
 		    if (rs.next())
 		    {
-		    	prono.put("prono", String.valueOf(rs.getInt(1)));
-		    	prono.put("credits", String.valueOf(rs.getInt(2)));
-		    	prono.put("creditsWon", String.valueOf(rs.getInt(3)));
+		    	prono.put("scoreHome", String.valueOf(rs.getInt(1)));
+		    	prono.put("scoreAway", String.valueOf(rs.getInt(2)));
+		    	prono.put("prono", String.valueOf(rs.getInt(3)));
+		    	prono.put("credits", String.valueOf(rs.getInt(4)));
+		    	prono.put("creditsWon", String.valueOf(rs.getInt(5)));
 		    }
 		} 
 		catch (SQLException e ) 
@@ -51,46 +53,52 @@ public class SQLPronoComponent extends SQLComponent
 		return prono;
 	}
 	
-	public void insertProno(String matchId, String idUser, String prono, String credits)
+	public boolean insertProno(int matchId, int idUser, int scoreHome, int scoreAway, int prono, int credits)
 	{
 		Connection connexion = null;
 		PreparedStatement stmt = null;
 		try 
 		{
 		    connexion = DriverManager.getConnection(_url, _user, _password);
-		    stmt = connexion.prepareStatement("INSERT INTO Pronostics (idUser, idMatch, prono, credits) VALUES (?, ?, ?, ?)");
+		    stmt = connexion.prepareStatement("INSERT INTO Pronostics (idUser, idMatch, scoreHome, scoreAway, prono, credits) VALUES (?, ?, ?, ?, ?, ?)");
 		    
-		    stmt.setInt(1, Integer.valueOf(idUser));
-		    stmt.setInt(2, Integer.valueOf(matchId));
-		    stmt.setInt(3, Integer.valueOf(prono));
-		    stmt.setString(4, credits);
+		    stmt.setInt(1, idUser);
+		    stmt.setInt(2, matchId);
+		    stmt.setInt(3, scoreHome);
+		    stmt.setInt(4, scoreAway);
+		    stmt.setInt(5, prono);
+		    stmt.setInt(6, credits);
 		    
 		    stmt.executeUpdate();
 		} 
 		catch (SQLException e ) 
 		{
 			System.out.println(e.getMessage());
+			return false;
 		} 
 		finally 
 		{
 			close(stmt);
 			close(connexion);
 		}
+		return true;
 	}
 
-	public void updateProno(String matchId, String idUser, String prono, String credits) 
+	public void updateProno(int matchId, int idUser, int scoreHome, int scoreAway, int prono, int credits) 
 	{
 		Connection connexion = null;
 		PreparedStatement stmt = null;
 		try 
 		{
 		    connexion = DriverManager.getConnection(_url, _user, _password);
-		    stmt = connexion.prepareStatement("UPDATE Pronostics SET prono = ?, credits = ? WHERE idMatch = ? And idUser = ?");
+		    stmt = connexion.prepareStatement("UPDATE Pronostics SET scoreHome = ?, scoreAway = ?, prono = ?, credits = ? WHERE idMatch = ? And idUser = ?");
 		    
-		    stmt.setInt(1, Integer.valueOf(prono));
-		    stmt.setInt(2, Integer.valueOf(credits));
-		    stmt.setInt(3, Integer.valueOf(matchId));
-		    stmt.setInt(4, Integer.valueOf(idUser));
+		    stmt.setInt(1, scoreHome);
+		    stmt.setInt(2, scoreAway);
+		    stmt.setInt(3, prono);
+		    stmt.setInt(4, credits);
+		    stmt.setInt(5, matchId);
+		    stmt.setInt(6, idUser);
 		    
 		    stmt.executeUpdate();
 		} 
@@ -105,15 +113,15 @@ public class SQLPronoComponent extends SQLComponent
 		}
 	}
 	
-	public void pronostic(String matchId, String idUser, String prono, String credits)
+	public void pronostic(int matchId, int idUser, int scoreHome, int scoreAway, int prono, int credits)
 	{
 		if (getProno(matchId, idUser).isEmpty())
 		{
-			insertProno(matchId, idUser, prono, credits);
+			insertProno(matchId, idUser, scoreHome, scoreAway, prono, credits);
 		}
 		else
 		{
-			updateProno(matchId, idUser, prono, credits);
+			updateProno(matchId, idUser, scoreHome, scoreAway, prono, credits);
 		}
 	}
 

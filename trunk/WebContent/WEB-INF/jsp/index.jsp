@@ -11,7 +11,7 @@
         	<%@include file="header.jsp" %>
     		
     		<!-- page-header -->
-            <div id="content">
+            <div id="content" class="match-direct">
                 <div class="top-effect clearfix">
                     <span class="pull-left"><img src="images/top-left-effect.png" class="img-responsive" alt=""></span>
                     <span class="pull-right"><img src="images/top-right-effect.png" class="img-responsive" alt=""></span>
@@ -110,35 +110,6 @@
                                 </div>
                                 <!-- kp-story -->
                             </li>
-                            <li class="clearfix">
-                                <div class="widget kp-social">
-                                    <h2 class="widget-title"><span>Réseaux</span></h2>
-                                    <div class="widget-content">
-                                        <ul class="list-unstyled">
-                                            <li class="format-standard">
-                                                <span>
-                                                    <a href="http://facebook.com/kopatheme" class="icon-facebook-2"></a>1234
-                                                </span>
-                                                Likes
-                                            </li>
-                                            <li class="format-standard">
-                                                <span>
-                                                    <a href="http://twitter.com/kopasoft" class="icon-twitter"></a>1234
-                                                </span>
-                                                Followers
-                                            </li>
-                                            <li class="format-standard">
-                                                <span>
-                                                    <a href="http://kopatheme.com/feed/" class="icon-rss-2"></a>1234
-                                                </span>
-                                                Subcribers
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <!-- widget-content -->
-                                </div>
-                                <!-- kp-social -->
-                            </li>
                         </ul>
                     </div>
                     <!-- sidebar-main-content -->
@@ -236,7 +207,7 @@
                     <div class="clearfix"></div>
                 </div>
                 <!-- main-content -->
-            	<div id="sidebar" class="pull-right">
+            	<div id="sidebar" class="pull-right information">
                     <ul class="clearfix list-unstyled">
                         <li>
                             <div class="widget kp-last-news">
@@ -244,47 +215,37 @@
                                 <div class="widget-content">
                                     <ul class="list-unstyled">
                                     	<li class="format-standard">
-		                                    <div id="match_">
+		                                    <div id="match">
 		                                    	
-		                                    	<table  style="margin-left: auto; margin-right: auto; width: 100%;">
-		                                    		<caption style="margin-top: 5px;">
+		                                    	<table class="table-info">
+		                                    		<caption>
 	                                    			</caption>
 	                                    			<tbody>
 			                                    		<tr>
-			                                    			<td style="float: right; width: 90%; font-size: 20px; margin-top:5px">
+			                                    			<td class="login">
 			                                    				<strong>${cookie.cookieUsername.value}</strong>
 															</td>
-			                                    			<td style="width: 30%">
+			                                    			<td class="bet">
 		                                    					<input class="btn btn-primary" type="button" value="Pronostiquer" onclick="bet()" />
 			                                    			</td>
 			                                    		</tr>
 			                                    		<tr>
-			                                    			<td style="float: right; width: 90%">Pronostique:</td>
-			                                    			<td style="width: 30%">
-			                                    				<c:choose>
-																	<c:when test="${prono=='1'}">
-																    	${match.homeTeam}
-																    </c:when>
-																	<c:when test="${prono=='2'}">
-																    	nul
-																    </c:when>
-																	<c:when test="${prono=='3'}">
-																    	${match.awayTeam}
-																    </c:when>
-																</c:choose>
+			                                    			<td class="prono-title">Pronostique:</td>
+			                                    			<td id="prono-score" class="prono-info">
+														    	${scoreHome} - ${scoreAway}
 			                                    			</td>
 			                                    		</tr>
 			                                    		<tr>
-			                                    			<td style="float: right; width: 90%">Mise:</td>
-			                                    			<td style="width: 30%">
+			                                    			<td class="prono-title">Mise:</td>
+			                                    			<td id="prono-credits" class="prono-info">
 			                                    				<c:if test="${credits != null}">
 			                                    					${credits} crédits
 			                                    				</c:if>
 			                                    			</td>
 			                                    		</tr>
 	                                    				<tr>
-			                                    			<td style="float: right; width: 90%">Gain:</td>
-			                                    			<td style="width: 30%">
+			                                    			<td class="prono-title">Gain:</td>
+			                                    			<td class="prono-info">
 			                                    				<c:if test="${creditsWon != null}">
 				                                    				${creditsWon} crédits
 			                                    				</c:if>
@@ -341,12 +302,11 @@
 		    chart.render();
 		  }
 		  
-		  bet = function(id)
+		  bet = function()
     	  {
-        	  if ($("#bet_" + id).length == 0)
+        	  if ($("#bet_form").length == 0)
            	  {
-					var htmlBet = "<table class='table_bet' id='bet_" + id + "'>";
-               	   
+					var htmlBet = "<table class='table_bet' id='bet_form'>";
 					htmlBet += "<tr>";
 					htmlBet += "<td class='odd'><strong>E1</strong></td>";	
 					htmlBet += "<td class='odd'><strong>N</strong></td>";	
@@ -356,33 +316,49 @@
 					htmlBet += "</tr>";
 
         		  	htmlBet += "<tr>";
-					htmlBet += "<td class='odd'><input type='radio' name='bet_" + id + "' value='1'/></td>";	
-					htmlBet += "<td class='odd'><input type='radio' name='bet_" + id + "' value='2'/></td>";	
-					htmlBet += "<td class='odd'><input type='radio' name='bet_" + id + "' value='3'/></td>";	
-					htmlBet += "<td class='credits'><input type='text' id='credits_" + id + "' /></td>";
-					htmlBet += "<td class='direct'><input type='button' class='btn btn-primary' value='Ok' onclick='openProno(" + id + ")'/></td>";
+        		  	htmlBet += "<td class='odd'><select id='scoreHome'>";
+        		  	for (i = 0; i < 10; i++)
+        		  	{
+						htmlBet += "<option value='" + i + "'";
+						if ('${scoreHome}' == i)
+						{
+							htmlBet += " selected='selected'";
+						}
+						htmlBet += ">" + i + "</option>";
+            		}
+            		htmlBet += "</select></td>";
+
+					htmlBet += "<td class='odd' >-</td>";
+            		
+            		htmlBet += "<td class='odd'><select id='scoreAway'>";
+        		  	for (i = 0; i < 10; i++)
+        		  	{
+        		  		htmlBet += "<option value='" + i + "'";
+						if ('${scoreAway}' == i)
+						{
+							htmlBet += " selected='selected'";
+						}
+						htmlBet += ">" + i + "</option>";
+            		}
+            		htmlBet += "</select></td>";
+            		
+					htmlBet += "<td class='credits'><input type='text' id='credits' value='${credits}'/></td>";
+					htmlBet += "<td class='direct'><input type='button' class='btn btn-primary' value='Ok' onclick='openProno()'/></td>";
 					htmlBet += "</tr>";
 
 					htmlBet += "</table>";
-					$("#match_").append(htmlBet);	
+					$("#match").append(htmlBet);	
               }
         	  else
            	  {
-        		  $("#bet_" + id).remove();
+        		  $("#bet_form").remove();
               }
           }
     	
-		  openProno = function(id)
+		  openProno = function()
 		  {
-			  var prono = $("input[name='bet_" + id + "']:checked").val();
-			  var credits = $( "#credits_" + id ).val();
+			  var credits = $( "#credits").val();
 
-			  if (prono == null)
-			  {
-				 alert("Vous devez faire un choix");
-				 return;
-			  }
-			  
        		  if (credits == "" || credits == 0)
         	  {
         	  	  alert('Vous devez miser des crédits.');	  
@@ -393,35 +369,27 @@
     		  }
        		  else
       		  {
-	         	  pronostic(id);
+	         	  pronostic();
       		  }
 		  }
 		  
-		  pronostic = function(id)
+		  pronostic = function()
 		  {
-			  var prono = $("input[name='bet_" + id + "']:checked").val();
-			  var credits = $("#credits_" + id).val();
+			  var scoreHome = $("#scoreHome").val();
+			  var scoreAway = $("#scoreAway").val();
+			  var credits = $("#credits").val();
+			  var id = '${match.matchId}';
+
+			  $("#bet_form").remove();
 			  $.ajax(
 			  {
 		      	method: "POST",
 				url: "sax",
-				data: {matchId: id, prono: prono, credits: credits}
+				data: {matchId: id, credits: credits, scoreHome: scoreHome, scoreAway: scoreAway}
 			  }).done(function( msg ) 
 			  {
-				  for (var i = 1; i <= 3; i++)
-				  {
-					  if (i == prono)
-					  {
-						  $("#odd_" + i + "_" + id).addClass("bet");
-					  }
-					  else
-					  {
-						  $("#odd_" + i + "_" + id).removeClass("bet");
-					  }
-				  }
-
-				  $("#bet_credits_" + id).html(credits);
-				  $("#bet_" + id).remove();
+				  $("#prono-score").html(scoreHome + " - " + scoreAway);
+				  $("#prono-credits").html(credits + " credits");
 			  });
 		  };
 		  
