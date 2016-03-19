@@ -56,7 +56,7 @@ public class SaxMatchResultHandler extends DefaultHandler
     		if (localName.equals("HOMETEAMNAME"))
 	    	{
     			Team homeTeam = new Team();
-    			homeTeam.setTeam(_content);
+    			homeTeam.setName(_content);
     			_match.setHomeTeam(homeTeam);
 	    	}
 	    	else if (localName.equals("HOMETEAMSCORE"))
@@ -74,7 +74,7 @@ public class SaxMatchResultHandler extends DefaultHandler
 	    	else if (localName.equals("AWAYTEAMNAME"))
 	    	{
 	    		Team awayTeam = new Team();
-	    		awayTeam.setTeam(_content);
+	    		awayTeam.setName(_content);
     			_match.setAwayTeam(awayTeam);
 	    	}
 	    	else if (localName.equals("AWAYTEAMSCORE"))

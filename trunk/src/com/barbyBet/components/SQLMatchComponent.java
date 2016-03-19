@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.barbyBet.object.Match;
 import com.barbyBet.object.Odds;
@@ -38,12 +39,12 @@ public class SQLMatchComponent extends SQLComponent
 		    	match.setBeginDate(rs.getTimestamp(5));
 		    	
 		    	Team homeTeam = new Team();
-		    	homeTeam.setTeam(rs.getString(1));
+		    	homeTeam.setName(rs.getString(1));
 		    	homeTeam.setImg(rs.getString(2));
 		    	match.setHomeTeam(homeTeam);
 		    	
 		    	Team awayTeam = new Team();
-		    	awayTeam.setTeam(rs.getString(3));
+		    	awayTeam.setName(rs.getString(3));
 		    	awayTeam.setImg(rs.getString(4));
 		    	match.setAwayTeam(awayTeam);
 		    	
@@ -95,12 +96,12 @@ public class SQLMatchComponent extends SQLComponent
 		    	match.setBeginDate(rs.getTimestamp(5));
 		    	
 		    	Team homeTeam = new Team();
-		    	homeTeam.setTeam(rs.getString(1));
+		    	homeTeam.setName(rs.getString(1));
 		    	homeTeam.setImg(rs.getString(2));
 		    	match.setHomeTeam(homeTeam);
 		    	
 		    	Team awayTeam = new Team();
-		    	awayTeam.setTeam(rs.getString(3));
+		    	awayTeam.setName(rs.getString(3));
 		    	awayTeam.setImg(rs.getString(4));
 		    	match.setAwayTeam(awayTeam);
 		    	
@@ -127,4 +128,58 @@ public class SQLMatchComponent extends SQLComponent
 		}
 	}
 
+	public boolean insertMatchs(List<Match> matchs) {
+		Connection connection = null;
+		PreparedStatement stmt = null;
+		
+		try {
+			connection = DriverManager.getConnection(_url, _user, _password);
+		    for(Match m : matchs) {
+		    	boolean isMatchInserted;
+		    	
+			    isMatchInserted = insertMatch(m, stmt, connection);
+			    
+			    if(!isMatchInserted) {
+			    	System.out.println("The match " + m.getHomeTeam() + " - " + m.getAwayTeam() + " has not been inserted !");
+			    }
+		    }
+		} catch (SQLException e ) {
+			System.out.println(e.getMessage());
+			
+			return false;
+		} finally {
+			close(stmt);
+			close(connection);
+		}
+		
+		return true;
+	}
+
+	public boolean insertMatch(Match m, PreparedStatement stmt, Connection connection) {
+		try {
+			stmt = connection.prepareStatement("INSERT INTO Matchs (idSport, idCompetition, journee, teamHId, teamAId, "
+	    		+ "scoreH, scoreA, beginDate, statut, oddsHome, oddsDraw, oddsAway) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+	    
+			stmt.setInt(1, m.getIdSport());
+	    	stmt.setInt(2, m.getIdCompetition());
+		    stmt.setInt(3, m.getJournee());
+		    stmt.setInt(4, m.getHomeTeam().getId());
+		    stmt.setInt(5, m.getAwayTeam().getId());
+		    stmt.setInt(6, m.getHomeScore());
+		    stmt.setInt(7, m.getAwayScore());
+		    stmt.setTimestamp(8, m.getBeginDate());
+		    stmt.setInt(9, m.getStatut());
+		    stmt.setFloat(10, m.getOdds().getHomeOdd());
+		    stmt.setFloat(11, m.getOdds().getDrawOdd());
+		    stmt.setFloat(12, m.getOdds().getAwayOdd());
+		    
+		    stmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			
+			return false;
+		}
+		
+		return true;
+	}
 }

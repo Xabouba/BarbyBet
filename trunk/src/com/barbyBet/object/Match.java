@@ -7,11 +7,14 @@ import java.util.HashMap;
 public class Match {
 
 	private int _id;
+	private int _idSport;
+	private int _idCompetition;
 	private Team _homeTeam;
 	private Team _awayTeam;
 	private int _homeScore;
 	private int _awayScore;
 	private int _statut;
+	private int _journee;
 	private String _competition;
 	private String _sport;
 	private Odds _odds = new Odds(0, 0, 0);
@@ -122,12 +125,20 @@ public class Match {
 		this._beginDate = beginDate;
 	}
 	
+	public int getJournee() {
+		return _journee;
+	}
+
+	public void setJournee(int _journee) {
+		this._journee = _journee;
+	}
+	
 	public HashMap<String, String> toHashMap()
 	{
 		/** Match Information */
 	    HashMap<String, String> matchInfo = new HashMap<String, String>();
-	    matchInfo.put("homeTeam", _homeTeam.getTeam());
-	    matchInfo.put("awayTeam", _awayTeam.getTeam());
+	    matchInfo.put("homeTeam", _homeTeam.getName());
+	    matchInfo.put("awayTeam", _awayTeam.getName());
 	    matchInfo.put("homeScore", String.valueOf(_homeScore));
 	    matchInfo.put("awayScore", String.valueOf(_awayScore));
 	    matchInfo.put("homeImg", _homeTeam.getImg());
@@ -161,5 +172,21 @@ public class Match {
 	    matchInfo.put("statut", msgInfo);
 		
 	    return matchInfo;
+	}
+
+	public int getIdCompetition() {
+		return _idCompetition;
+	}
+
+	public void setIdCompetition(int _idCompetition) {
+		this._idCompetition = _idCompetition;
+	}
+
+	public int getIdSport() {
+		return _idSport;
+	}
+
+	public void setIdSport(int _idSport) {
+		this._idSport = _idSport;
 	}
 }
