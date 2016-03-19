@@ -12,14 +12,14 @@ import javax.servlet.http.HttpServletResponse;
 import com.barbyBet.components.SQLCommentComponent;
 import com.barbyBet.components.SQLMatchComponent;
 import com.barbyBet.components.SQLPronoComponent;
+import com.barbyBet.components.UsersComponent;
 import com.barbyBet.object.Match;
+import com.barbyBet.object.User;
+import com.barbyBet.tools.RequestUtils;
 
 public class DirectResultServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	//TODO
-	private static String idUser = "3";
-	
     /**
      * Default constructor. 
      */
@@ -31,33 +31,30 @@ public class DirectResultServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		SaxComponent saxComponent = new SaxComponent();
+		UsersComponent usersComponent = new UsersComponent();
+		User currentUser = usersComponent.getCurrentUser(request);
 		SQLMatchComponent sqlMatchComponent = new SQLMatchComponent();
-//		try 
-//		{
-			String matchId = request.getParameter("matchId");
-			if (matchId == null)
-			{
-				matchId = "1";
-			}
+			
+		String matchIdAsString = request.getParameter("matchId");
+		if (matchIdAsString == null)
+		{
+			//TODO redirecto to matchs
+			this.getServletContext().getRequestDispatcher( "/WEB-INF/jsp/match.jsp" ).forward(request, response);
+		}
+		else
+		{
+			/** Match information */
+			int matchId = Integer.parseInt(matchIdAsString);
 			Match match = sqlMatchComponent.getMatch(matchId);
-			
-//		    Match match = saxComponent.parseMatch(date, team); 
-//		    match.setCompetition(competition);
-//		    match.setSport(sport);
-		    
-			// Fonction qui va chercher les cotes par match et les update directement dans l'objet Match
-//			saxComponent.parseOdds(match);
-
-			// Enregistrer les odds dans la BDD pour le match en question
-			
-		    request.setAttribute("match", match.toHashMap());
+			request.setAttribute("match", match.toHashMap());
 			
 			/** Pronostic */
 			SQLPronoComponent sqlPronoComponent = new SQLPronoComponent();
-			HashMap<String, String> prono = sqlPronoComponent.getProno(matchId, idUser);
+			HashMap<String, String> prono = sqlPronoComponent.getProno(matchId, currentUser.getId());
 			
 			request.setAttribute("prono", prono.get("prono"));
+			request.setAttribute("scoreHome", prono.get("scoreHome"));
+			request.setAttribute("scoreAway", prono.get("scoreAway"));
 			request.setAttribute("credits", prono.get("credits"));
 			request.setAttribute("creditsWon", prono.get("creditsWon"));
 			
@@ -76,15 +73,7 @@ public class DirectResultServlet extends HttpServlet {
 			
 			
 			this.getServletContext().getRequestDispatcher( "/WEB-INF/jsp/index.jsp" ).forward(request, response);
-//		} 
-//		catch (ParserConfigurationException e) 
-//		{
-//			e.printStackTrace();
-//		} 
-//		catch (SAXException e) 
-//		{
-//			e.printStackTrace();
-//		}
+		}
 	}
 
 	/**
@@ -92,28 +81,34 @@ public class DirectResultServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
-		String comment = request.getParameter("comment");
-		if (comment != null  && comment != "")
-		{
-			String matchId = request.getParameter("matchId");
-			
-			SQLCommentComponent sqlCommentComponent = new SQLCommentComponent();
-			sqlCommentComponent.insertComment(comment.replace("\n", "<br/>"), matchId , idUser);
-
-			doGet(request, response);
-		}
+		UsersComponent usersComponent = new UsersComponent();
+		User currentUser = usersComponent.getCurrentUser(request);
+//		
+//		String comment = request.getParameter("comment");
+//		if (comment != null  && comment != "")
+//		{
+//			String matchId = request.getParameter("matchId");
+//			
+//			SQLCommentComponent sqlCommentComponent = new SQLCommentComponent();
+//			sqlCommentComponent.insertComment(comment.replace("\n", "<br/>"), matchId , currentUser.getId());
+//
+//			doGet(request, response);
+//		}
 		
-		String credits = request.getParameter("credits");
-		if (credits != null && credits != "")
+		String matchIdAsString = request.getParameter("matchId");
+		if (matchIdAsString != null)
 		{
-			String prono = request.getParameter("prono");
-			String matchId = request.getParameter("matchId");
+			int prono = Integer.parseInt(RequestUtils.getParameter(request, "prono", "0"));
+			int scoreHome = Integer.parseInt(RequestUtils.getParameter(request, "scoreHome", "0"));
+			int scoreAway = Integer.parseInt(RequestUtils.getParameter(request, "scoreAway", "0"));
+			
+			int credits = 0;
+			int matchId = Integer.parseInt(matchIdAsString);
 			
 			SQLPronoComponent sqlPronoComponent = new SQLPronoComponent();
-			sqlPronoComponent.pronostic(matchId, idUser, prono, credits);
+			sqlPronoComponent.pronostic(matchId, currentUser.getId(), scoreHome, scoreAway, prono, credits);
 		
 //			doGet(request, response);
 		}
 	}
-	
 }

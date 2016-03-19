@@ -75,9 +75,8 @@ public class SQLMatchComponent extends SQLComponent
 		}
 	}
 	
-	public Match getMatch(String matchID)
+	public Match getMatch(int matchId)
 	{
-//		HashMap<String, String> match = new HashMap<String, String>();
 		Match match = new Match();
 		
 		Connection connexion = null;
@@ -87,29 +86,11 @@ public class SQLMatchComponent extends SQLComponent
 		{
 		    connexion = DriverManager.getConnection(_url, _user, _password);
 		    stmt = connexion.prepareStatement("SELECT t1.sname, t1.img, t2.sname, t2.img, m.beginDate, m.id, m.scoreH, m.scoreA, m.statut, c.name, s.name  FROM Matchs m, Team t1, Team t2, Sport s, Competition c  WHERE m.teamHId = t1.id AND m.teamAId = t2.id AND c.id = m.idCompetition AND s.id = m.idSport AND m.id = ? ");
-		    stmt.setInt(1, Integer.valueOf(matchID));
+		    stmt.setInt(1, matchId);
 		    
 		    rs = stmt.executeQuery();
 		    if (rs.next())
 		    {
-//		    	Timestamp date = rs.getTimestamp(5);
-//		    	GregorianCalendar calendar = new GregorianCalendar();
-//		    	calendar.setTime(date);
-//		    	
-//		    	String yearAsString = String.valueOf(calendar.get(Calendar.YEAR));
-//		    	int month = calendar.get(Calendar.MONTH) + 1;
-//		    	String monthAsSring = String.valueOf(month);
-//		    	if (month < 9)
-//		    	{
-//		    		monthAsSring = "0" + monthAsSring;
-//		    	}
-//		    	String dayAsString = String.valueOf(calendar.get(Calendar.DATE));
-//		    	
-//		    	String dateAsString = yearAsString + monthAsSring + dayAsString;
-		    	
-//		    	match.put("date", dateAsString);
-//		    	match.put("dateTime", String.valueOf(date.getTime()));
-		    	
 		    	match.setId(rs.getInt(6));
 		    	match.setBeginDate(rs.getTimestamp(5));
 		    	

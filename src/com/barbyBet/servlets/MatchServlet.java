@@ -17,6 +17,7 @@ import com.barbyBet.components.SQLPronoComponent;
 import com.barbyBet.components.UsersComponent;
 import com.barbyBet.object.Match;
 import com.barbyBet.object.User;
+import com.barbyBet.tools.RequestUtils;
 
 /**
  * Servlet implementation class SaxResultGenerator
@@ -37,6 +38,8 @@ public class MatchServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		SQLMatchComponent sqlMatchComponent = new SQLMatchComponent();
 		SQLPronoComponent sqlPronoComponent = new SQLPronoComponent();
+		UsersComponent usersComponent = new UsersComponent();
+		User currentUser = usersComponent.getCurrentUser(request);
 		
 		ArrayList<Match> matchsSql = sqlMatchComponent.getMatchs();
 		
@@ -59,8 +62,7 @@ public class MatchServlet extends HttpServlet {
 			GregorianCalendar calendar = new GregorianCalendar();
 			calendar.setTimeInMillis(match.getBeginDate().getTime());
 			
-//			HashMap<String, String> pronoMap = sqlPronoComponent.getProno(String.valueOf(match.getId()), "3");
-			HashMap<String, String> pronoMap = new HashMap<String, String>();
+			HashMap<String, String> pronoMap = sqlPronoComponent.getProno(match.getId(), currentUser.getId());
 			
 			if (match.getStatut() > 4)
 			{
@@ -134,7 +136,24 @@ public class MatchServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
+		UsersComponent usersComponent = new UsersComponent();
+		User currentUser = usersComponent.getCurrentUser(request);
 		
+		String matchIdAsString = request.getParameter("matchId");
+		if (matchIdAsString != null)
+		{
+			int prono = Integer.parseInt(RequestUtils.getParameter(request, "prono", "0"));
+			int scoreHome = Integer.parseInt(RequestUtils.getParameter(request, "scoreHome", "0"));
+			int scoreAway = Integer.parseInt(RequestUtils.getParameter(request, "scoreAway", "0"));
+			
+			int credits = 0;
+			int matchId = Integer.parseInt(matchIdAsString);
+			
+			SQLPronoComponent sqlPronoComponent = new SQLPronoComponent();
+			sqlPronoComponent.pronostic(matchId, currentUser.getId(), scoreHome, scoreAway, prono, credits);
+		
+//			doGet(request, response);
+		}
 	}
 	
 }
