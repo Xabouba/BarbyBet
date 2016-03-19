@@ -36,7 +36,7 @@ public class SaxOddsHandler extends DefaultHandler {
         } else if (_isRightCompetition
                 && localName.equals("match")
                 && atts.getValue("name").toString()
-                        .equals(_match.getHomeTeam().getTeam() + " - " + _match.getAwayTeam().getTeam())) {
+                        .equals(_match.getHomeTeam().getName() + " - " + _match.getAwayTeam().getName())) {
             _isRightGame = true;
         } else if (_isRightGame && localName.equals("bet") && atts.getValue("name").toString().equals("Match Result")) {
             _isInBets = true;

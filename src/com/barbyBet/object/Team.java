@@ -3,22 +3,24 @@ package com.barbyBet.object;
 
 public class Team {
 
-	private String _team;
+	private int _id;
+	private String _name;
 	private String _img;
+	private int _idWebService;
 	
 	public Team()
 	{
 		
 	}
 	
-	public String getTeam() 
+	public String getName() 
 	{
-		return _team;
+		return _name;
 	}
 	
-	public void setTeam(String team) 
+	public void setName(String name) 
 	{
-		this._team = team;
+		this._name = name;
 	}
 
 	public String getImg() 
@@ -29,6 +31,22 @@ public class Team {
 	public void setImg(String img) 
 	{
 		this._img = img;
+	}
+
+	public int getId() {
+		return _id;
+	}
+
+	public void setId(int _id) {
+		this._id = _id;
+	}
+
+	public int getIdWebService() {
+		return _idWebService;
+	}
+
+	public void setIdWebService(int _idWebService) {
+		this._idWebService = _idWebService;
 	}
 
 }

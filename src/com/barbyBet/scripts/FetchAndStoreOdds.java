@@ -25,10 +25,10 @@ public class FetchAndStoreOdds {
 
         Match m1 = new Match();
         Team homeTeam1 = new Team();
-        homeTeam1.setTeam("Marseille");
+        homeTeam1.setName("Marseille");
 
         Team awayTeam1 = new Team();
-        awayTeam1.setTeam("Bastia");
+        awayTeam1.setName("Bastia");
 
         m1.setHomeTeam(homeTeam1);
         m1.setAwayTeam(awayTeam1);
@@ -37,10 +37,10 @@ public class FetchAndStoreOdds {
 
         Match m2 = new Match();
         Team homeTeam2 = new Team();
-        homeTeam2.setTeam("Lorient");
+        homeTeam2.setName("Lorient");
 
         Team awayTeam2 = new Team();
-        awayTeam2.setTeam("Monaco");
+        awayTeam2.setName("Monaco");
 
         m2.setHomeTeam(homeTeam2);
         m2.setAwayTeam(awayTeam2);
