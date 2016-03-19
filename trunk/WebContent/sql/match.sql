@@ -2,6 +2,7 @@ DROP TABLE IF EXISTS Matchs;
 
 CREATE TABLE Matchs (
 	id INT AUTO_INCREMENT PRIMARY KEY,
+	idWebService INT,
 	idSport INT,
 	idCompetition INT,
 	journee INT,
@@ -16,6 +17,7 @@ CREATE TABLE Matchs (
 	oddsAway FLOAT
 );
 
+/*
 INSERT INTO Matchs (teamHId, teamAId, idSport, idCompetition, journee, scoreH, scoreA, beginDate, statut, oddsHome, oddsDraw, oddsAway)
 VALUES (8, 3, 1, 1, 1, 0, 0, '2015-04-19 14:00:00', 5, 1.0, 2.0, 3.0)
 ,(14, 4, 1, 1, 1, 0, 0, '2015-04-19 17:00:00', 5, 1.0, 2.0, 3.0)
@@ -31,3 +33,4 @@ VALUES (8, 3, 1, 1, 1, 0, 0, '2015-04-19 14:00:00', 5, 1.0, 2.0, 3.0)
 ,(1, 6, 1, 1, 38, 0, 0, '2015-05-23 21:00:00', 1, 1.0, 2.0, 3.0)
 ,(20, 16, 1, 1, 38, 0, 0, '2015-05-23 21:00:00', 1, 1.0, 2.0, 3.0)
 ;
+*/

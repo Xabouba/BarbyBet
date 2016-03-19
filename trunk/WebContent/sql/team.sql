@@ -2,11 +2,12 @@ DROP TABLE IF EXISTS Team;
 
 CREATE TABLE Team (
 	id INT AUTO_INCREMENT PRIMARY KEY,
-	team VARCHAR(128) NOT NULL,
-	sname VARCHAR(128) NOT NULL,
-	img VARCHAR(128)
+	name VARCHAR(128) NOT NULL,
+	img VARCHAR(128),
+	idWebService INT
 );
 
+/*
 INSERT INTO Team (team, sname, img)
 VALUES ("Saint-Etienne", "Saint-Etienne", "asse")
 ,("Bastia", "Bastia", "bastia")
@@ -29,3 +30,4 @@ VALUES ("Saint-Etienne", "Saint-Etienne", "asse")
 ,("Rennes", "Rennes", "rennes")
 ,("Toulouse", "Toulouse", "toulouse")
 ;
+*/
