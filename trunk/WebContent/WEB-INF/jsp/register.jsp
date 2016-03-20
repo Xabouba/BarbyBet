@@ -11,11 +11,11 @@
 					<span class="index-header-logo icon icon-deezer"></span>
 					<div class="index-header-actions index-header-discover pull-left hidden-phone hidden-tablet">
 						<a class="btn btn-shadow" href="/features">
-						<span class="label">Découvrir Deezer</span>
+						<span class="label"></span>
 						</a>
 					</div>
 					<div class="index-header-actions hidden-phone">
-						<form action="./login">
+						<form action="login">
 							<button class="btn btn-shadow" id="login_button" type="submit">
 								<span class="label">Connexion</span>
 							</button>

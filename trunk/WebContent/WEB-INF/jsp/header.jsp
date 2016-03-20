@@ -16,14 +16,14 @@
                 </li>
                 <%-- VÃ©rification de l'absence du nom d'utilisateur en cookie --%>
                 <c:choose>
-					<c:when test="${empty cookie.cookieUsername}">
+					<c:when test="${empty cookie.currentUserId}">
 				    	<li>
 	                    	<a href="register">Inscription</a>
 	                    </li>
 				    </c:when>
 					<c:otherwise>
 				        <li>
-	                        <a href="register">Déconnexion</a>
+	                        <a href="logout">Déconnexion</a>
 	                    </li>
 				    </c:otherwise>
                 </c:choose>

@@ -15,7 +15,7 @@
 						</a>
 					</div>
 					<div class="index-header-actions hidden-phone">
-						<form action="./register">
+						<form action="register" method="get">
 							<button class="btn btn-shadow" id="login_button" type="submit">
 								<span class="label">Inscription</span>
 							</button>
