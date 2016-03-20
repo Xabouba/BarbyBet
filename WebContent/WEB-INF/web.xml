@@ -53,6 +53,17 @@
 	<url-pattern>/login</url-pattern>
   </servlet-mapping>
   
+   	<!-- Servlet for user logout -->
+	<servlet>
+		<servlet-name>Logout</servlet-name>
+		<servlet-class>com.barbyBet.servlets.LogoutServlet</servlet-class>
+	</servlet>
+	 
+	<servlet-mapping>
+		<servlet-name>Logout</servlet-name>
+		<url-pattern>/logout</url-pattern>
+	</servlet-mapping>
+  
   <!-- Servlet for user page -->
   <servlet>
     <servlet-name>Account</servlet-name>

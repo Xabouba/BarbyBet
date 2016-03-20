@@ -21,19 +21,20 @@ public class UsersComponent {
 		
 		if(cookies != null) {
 			for(Cookie cookie : cookies) {
-				if(cookie.getName().equals(Constants.COOKIE_CURRENT_USER_ID)) {
+				if(cookie.getName().equals(Constants.COOKIE_CURRENT_USER_ID) && cookie.getMaxAge() != 0) {
+					System.out.println(cookie.getMaxAge());
 					currentUser.setId(Integer.parseInt(cookie.getValue()));
 				}
 				
-				if(cookie.getName().equals(Constants.COOKIE_CURRENT_USER_NAME)) {
+				if(cookie.getName().equals(Constants.COOKIE_CURRENT_USER_NAME) && cookie.getMaxAge() != 0) {
 					currentUser.setUsername(cookie.getValue());
 				}
 				
-				if(cookie.getName().equals(Constants.COOKIE_CURRENT_USER_EMAIL)) {
+				if(cookie.getName().equals(Constants.COOKIE_CURRENT_USER_EMAIL) && cookie.getMaxAge() != 0) {
 					currentUser.setEmail(cookie.getValue());
 				}
 				
-				if(cookie.getName().equals(Constants.COOKIE_CURRENT_USER_REGISTRATION_DATE)) {
+				if(cookie.getName().equals(Constants.COOKIE_CURRENT_USER_REGISTRATION_DATE) && cookie.getMaxAge() != 0) {
 					try {
 						currentUser.setRegistrationDate(DateUtil.FULL_DATE_FORMAT_FRANCE.parse(cookie.getValue()));
 					} catch (ParseException e) {
@@ -41,7 +42,7 @@ public class UsersComponent {
 					}
 				}
 				
-				if(cookie.getName().equals(Constants.COOKIE_CURRENT_USER_NUMBER_OF_COINS)) {
+				if(cookie.getName().equals(Constants.COOKIE_CURRENT_USER_NUMBER_OF_COINS) && cookie.getMaxAge() != 0) {
 					currentUser.setCoins(Integer.parseInt(cookie.getValue()));
 				}
 			}

@@ -1,6 +1,7 @@
 package com.barbyBet.tools;
 
 import java.io.IOException;
+import java.text.ParseException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -52,5 +53,16 @@ public class ServletUtil {
 	         }
 	     }
 	     return null;
+	 }
+	 
+	 public static void removeCookies(HttpServletRequest request, HttpServletResponse response) {
+		Cookie[] cookies = request.getCookies();
+			
+		if(cookies != null) {
+			for(Cookie cookie : cookies) {
+				cookie.setMaxAge(0);
+				response.addCookie(cookie);
+			}
+		}
 	 }
 }
