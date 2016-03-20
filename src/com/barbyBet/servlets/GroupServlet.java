@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.barbyBet.components.SQLGroupComponent;
+import com.barbyBet.components.UsersComponent;
 import com.barbyBet.object.Group;
 import com.barbyBet.object.User;
 import com.barbyBet.tools.ServletUtil;
@@ -17,16 +18,22 @@ import com.barbyBet.tools.ServletUtil;
  */
 public class GroupServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	public static final String VUE_NEW_GROUP   = "/WEB-INF/jsp/newgroup.jsp";
+    public static final String VUE_INDEX  	   = "/WEB-INF/jsp/index.jsp";
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		User user = ServletUtil.isConnected(this,request,response);
-	    if(user==null){
-	    	return;
-	    }
-		this.getServletContext().getRequestDispatcher( "/WEB-INF/jsp/newgroup.jsp" ).forward(request, response);
+		UsersComponent usersComponent = new UsersComponent();
+		User currentUser = usersComponent.getCurrentUser(request);
+		
+		if(currentUser == null) {
+			this.getServletContext().getRequestDispatcher(VUE_INDEX).forward(request, response);
+		} else {
+			this.getServletContext().getRequestDispatcher(VUE_NEW_GROUP).forward(request, response);
+		}
 	}
 
 	/**
