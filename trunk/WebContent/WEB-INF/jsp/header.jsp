@@ -1,12 +1,20 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <header id="page-header">
 	<div class="top-header clearfix">
 	    <div class="title_BarbyBet" id="logo"><a href="index.html">BarbyBet</a></div>
 	    <nav>
 	        <ul class="sf-menu" id="main-menu">
 	            <li class="current-menu-item">
-	                <a href="index.html">home</a>
+	                <a href="index">Accueil</a>
 	            </li>
-	            <%-- Vérification de l'absence du nom d'utilisateur en cookie --%>
+                
+                <li>
+                    <a href="match">Directs</a>
+                </li>
+                <li>
+                    <a href="contact">contact</a>
+                </li>
+                <%-- Vérification de l'absence du nom d'utilisateur en cookie --%>
                 <c:choose>
 					<c:when test="${empty cookie.cookieUsername}">
 				    	<li>
@@ -15,22 +23,10 @@
 				    </c:when>
 					<c:otherwise>
 				        <li>
-	                        <a href="register">Deconnexion</a>
+	                        <a href="register">D�connexion</a>
 	                    </li>
 				    </c:otherwise>
                 </c:choose>
-                <li>
-                    <a href="contact.html">contact</a>
-                </li>
-                <li>
-                    <a href="#">entertaiment</a>
-                </li>
-                <li>
-                    <a href="#">world</a>
-                </li>
-                <li>
-                    <a href="#">photography</a>
-                </li>
             </ul>
             <div id="mobile-menu">
                 <span>Menu</span>

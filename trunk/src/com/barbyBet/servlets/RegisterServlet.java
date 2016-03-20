@@ -37,7 +37,7 @@ public class RegisterServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if(ServletUtil.getCookieValue(request, Constants.COOKIE_CURRENT_USER_ID).isEmpty()) {
+		if(ServletUtil.getCookieValue(request, Constants.COOKIE_CURRENT_USER_ID) == null) {
 			this.getServletContext().getRequestDispatcher(Constants.VUE_ERROR).forward(request, response);
 		} else {
 			this.getServletContext().getRequestDispatcher(Constants.VUE_SUCCESS).forward(request, response);
