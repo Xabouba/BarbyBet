@@ -9,6 +9,7 @@ import com.barbyBet.components.SQLTeamComponent;
 import com.barbyBet.object.Match;
 import com.barbyBet.object.Team;
 import com.barbyBet.tools.WebServiceConstants;
+import com.barbyBet.tools.WebServiceUtil;
 import com.github.pabloo99.xmlsoccer.api.dto.GetLiveScoreResultDto;
 import com.github.pabloo99.xmlsoccer.api.service.XmlSoccerService;
 import com.github.pabloo99.xmlsoccer.client.XmlSoccerServiceImpl;
@@ -48,8 +49,7 @@ public class UpdateLiveGamesInTheDatabase {
 			m.setAwayScore(liveScore.getAwayGoals());
 			m.setHomeTeam(homeTeam);
 			m.setAwayTeam(awayTeam);
-			
-			System.out.println(liveScore.getTime());
+			m.setStatut(WebServiceUtil.createStatus(liveScore.getTime()));
 			
 			matchs.add(m);
 		}
