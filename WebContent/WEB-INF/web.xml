@@ -2,11 +2,10 @@
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
   <display-name>Barby Bet</display-name>
   <welcome-file-list>
-  	<welcome-file>login</welcome-file>
-    <welcome-file>index.jsp</welcome-file>
+   	<welcome-file>login</welcome-file>
   </welcome-file-list>
   
-  <!-- Wall servlet : my profile is here & for now it's the index page of the website -->
+  <!-- Wall servlet : my profile is here & for now it's the index page of the website 
   <servlet>
     <servlet-name>My Account</servlet-name>
     <servlet-class>com.barbyBet.servlets.MyAccountServlet</servlet-class>
@@ -15,7 +14,7 @@
   <servlet-mapping>
 	<servlet-name>MyAccount</servlet-name>
 	<url-pattern>/accueil</url-pattern>
-  </servlet-mapping>
+  </servlet-mapping> -->
   
   <!-- Servlet for game score parsing -->
   <servlet>
