@@ -10,6 +10,7 @@ import com.barbyBet.object.Match;
 import com.barbyBet.object.Odds;
 import com.barbyBet.object.Team;
 import com.barbyBet.tools.WebServiceConstants;
+import com.barbyBet.tools.WebServiceUtil;
 import com.github.pabloo99.xmlsoccer.api.dto.GetFixturesResultDto;
 import com.github.pabloo99.xmlsoccer.api.service.XmlSoccerService;
 import com.github.pabloo99.xmlsoccer.client.XmlSoccerServiceImpl;
@@ -54,6 +55,7 @@ public class CreateGamesInTheDatabase {
 			m.setJournee(Integer.parseInt(game.getRound()));
 			m.setHomeTeam(homeTeam);
 			m.setAwayTeam(awayTeam);
+			m.setStatut(WebServiceUtil.createStatus(game.getTime()));
 			
 			if(game.getHomeGoals() != null) {
 				m.setHomeScore(game.getHomeGoals());
@@ -68,9 +70,8 @@ public class CreateGamesInTheDatabase {
 			}
 			
 			m.setBeginDate(new java.sql.Timestamp(game.getDate().getTime()));
-			m.setStatut(0);
 			m.setOdds(odds);
-			
+						
 			matchs.add(m);
 		}
 		
