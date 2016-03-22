@@ -22,13 +22,13 @@ import com.barbyBet.tools.RequestUtils;
 /**
  * Servlet implementation class SaxResultGenerator
  */
-public class MatchServlet extends HttpServlet {
+public class InformationServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
     /**
      * Default constructor. 
      */
-    public MatchServlet() {
+    public InformationServlet() {
         // TODO Auto-generated constructor stub
     }
 
@@ -128,7 +128,7 @@ public class MatchServlet extends HttpServlet {
 		request.setAttribute("matchsToday", matchsToday);
 		request.setAttribute("matchs", matchs);
 		
-		this.getServletContext().getRequestDispatcher( "/WEB-INF/jsp/match.jsp" ).forward(request, response);
+		this.getServletContext().getRequestDispatcher( "/WEB-INF/jsp/information.jsp" ).forward(request, response);
 	}
 
 	/**

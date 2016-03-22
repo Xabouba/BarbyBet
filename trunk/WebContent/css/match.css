@@ -8,14 +8,34 @@
 .listMatch .score
 {
 	width: 20px;
+	position: relative;
 }
 
+.listMatch .score-home
+{
+	float: left;
+}
 
-.listMatch .score-prono
+.listMatch .score-prono-home
+{
+	left: 0px;
+}
+
+.listMatch .score-away
+{
+	float: right;
+}
+
+.listMatch .score-prono-away
+{
+	right: 0px;
+}
+
+.listMatch .score-prono-home,
+.listMatch .score-prono-away
 {
 	position: absolute;
 	display: block;
-    padding-left: 2px;
     font-weight: bold;
     color: orange;
 }

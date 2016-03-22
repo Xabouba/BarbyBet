@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.barbyBet.object.Match;
@@ -19,7 +20,7 @@ public class SQLMatchComponent extends SQLComponent
 		super();
 	}
 	
-	public ArrayList<Match> getMatchs()
+	public ArrayList<Match> getMatchs(Date dateToday)
 	{
 		ArrayList<Match> listMatch = new ArrayList<Match>();
 		
@@ -29,7 +30,7 @@ public class SQLMatchComponent extends SQLComponent
 		try 
 		{
 		    connexion = DriverManager.getConnection(_url, _user, _password);
-		    stmt = connexion.prepareStatement("SELECT t1.name, t1.img, t2.name, t2.img, m.beginDate, m.id, m.scoreH, m.scoreA, m.statut, m.oddsHome, m.oddsDraw, m.oddsAway, c.name, s.name  FROM Matchs m, Team t1, Team t2, Sport s, Competition c  WHERE m.teamHId = t1.id AND m.teamAId = t2.id AND c.id = m.idCompetition AND s.id = m.idSport ORDER BY m.beginDate");
+		    stmt = connexion.prepareStatement("SELECT t1.name, t1.img, t2.name, t2.img, m.beginDate, m.id, m.scoreH, m.scoreA, m.statut, m.oddsHome, m.oddsDraw, m.oddsAway, c.name, s.name  FROM Matchs m, Team t1, Team t2, Sport s, Competition c  WHERE m.teamHId = t1.id AND m.teamAId = t2.id AND c.id = m.idCompetition AND s.id = m.idSport AND (m.beginDate BETWEEN '2016-03-13 14:15:55' AND '2016-04-03 14:15:55') ORDER BY m.beginDate");
 		    
 		    rs = stmt.executeQuery();
 		    while (rs.next())
@@ -86,7 +87,7 @@ public class SQLMatchComponent extends SQLComponent
 		try 
 		{
 		    connexion = DriverManager.getConnection(_url, _user, _password);
-		    stmt = connexion.prepareStatement("SELECT t1.sname, t1.img, t2.sname, t2.img, m.beginDate, m.id, m.scoreH, m.scoreA, m.statut, c.name, s.name  FROM Matchs m, Team t1, Team t2, Sport s, Competition c  WHERE m.teamHId = t1.id AND m.teamAId = t2.id AND c.id = m.idCompetition AND s.id = m.idSport AND m.id = ? ");
+		    stmt = connexion.prepareStatement("SELECT t1.name, t1.img, t2.name, t2.img, m.beginDate, m.id, m.scoreH, m.scoreA, m.statut, c.name, s.name  FROM Matchs m, Team t1, Team t2, Sport s, Competition c  WHERE m.teamHId = t1.id AND m.teamAId = t2.id AND c.id = m.idCompetition AND s.id = m.idSport AND m.id = ? ");
 		    stmt.setInt(1, matchId);
 		    
 		    rs = stmt.executeQuery();

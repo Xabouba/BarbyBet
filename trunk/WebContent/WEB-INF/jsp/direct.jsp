@@ -19,7 +19,7 @@
                 <!-- top-effect -->
                 <div id="main-content" class="pull-left">
                     <div id="sidebar-main-content" class="pull-left">
-                        <ul class="list-unstyled">
+                        <ul class="list-unstyled classement">
                             <li class="clearfix">
                                 <div class="widget kp-review">
                                     <h2 class="widget-title"><span>Classement</span></h2>
@@ -130,12 +130,12 @@
 												    	<br/>
 												    	<table style="margin-left: auto; margin-right: auto;">
 														   <tr>
-												    			<td><img style="width:80px; height:80px" src="images/team/${match.homeImg}_128.png"></img></td>
+												    			<td><img class="result-img" src="images/team/${match.homeImg}_128.png"></img></td>
 												    			<td class="result-team">${match.homeTeam}</td>
 												    			<td class="result-score">${match.homeScore}</td>
 												    			<td class="result-score">${match.awayScore}</td>
 												    			<td class="result-team">${match.awayTeam}</td>
-												    			<td><img style="width:80px; height:80px" src="images/team/${match.awayImg}_128.png"></img></td>
+												    			<td><img class="result-img" src="images/team/${match.awayImg}_128.png"></img></td>
 												    		</tr>
 												    	</table>
 												    	<br/>
@@ -232,22 +232,14 @@
 			                                    		<tr>
 			                                    			<td class="prono-title">Pronostique:</td>
 			                                    			<td id="prono-score" class="prono-info">
-														    	${scoreHome} - ${scoreAway}
-			                                    			</td>
-			                                    		</tr>
-			                                    		<tr>
-			                                    			<td class="prono-title">Mise:</td>
-			                                    			<td id="prono-credits" class="prono-info">
-			                                    				<c:if test="${credits != null}">
-			                                    					${credits} crédits
-			                                    				</c:if>
+														    	<span id="score-home">${scoreHome}</span> - <span id="score-away">${scoreAway}</span>
 			                                    			</td>
 			                                    		</tr>
 	                                    				<tr>
-			                                    			<td class="prono-title">Gain:</td>
+			                                    			<td class="prono-title">Point:</td>
 			                                    			<td class="prono-info">
 			                                    				<c:if test="${creditsWon != null}">
-				                                    				${creditsWon} crédits
+				                                    				${creditsWon}
 			                                    				</c:if>
 			                                    			</td>
 			                                    		</tr>
@@ -304,6 +296,9 @@
 		  
 		  bet = function()
     	  {
+			  var scoreHome = $("#score-home").html();
+			  var scoreAway = $("#score-away").html();
+	    	  
         	  if ($("#bet_form").length == 0)
            	  {
 					var htmlBet = "<table class='table_bet' id='bet_form'>";
@@ -311,7 +306,6 @@
 					htmlBet += "<td class='odd'><strong>E1</strong></td>";	
 					htmlBet += "<td class='odd'><strong>N</strong></td>";	
 					htmlBet += "<td class='odd'><strong>E2</strong></td>";	
-					htmlBet += "<td class='credits' />";
 					htmlBet += "<td class='direct' />";	
 					htmlBet += "</tr>";
 
@@ -320,7 +314,7 @@
         		  	for (i = 0; i < 10; i++)
         		  	{
 						htmlBet += "<option value='" + i + "'";
-						if ('${scoreHome}' == i)
+						if (scoreHome == i)
 						{
 							htmlBet += " selected='selected'";
 						}
@@ -334,7 +328,7 @@
         		  	for (i = 0; i < 10; i++)
         		  	{
         		  		htmlBet += "<option value='" + i + "'";
-						if ('${scoreAway}' == i)
+						if (scoreAway == i)
 						{
 							htmlBet += " selected='selected'";
 						}
@@ -342,8 +336,7 @@
             		}
             		htmlBet += "</select></td>";
             		
-					htmlBet += "<td class='credits'><input type='text' id='credits' value='${credits}'/></td>";
-					htmlBet += "<td class='direct'><input type='button' class='btn btn-primary' value='Ok' onclick='openProno()'/></td>";
+					htmlBet += "<td class='prono'><input type='button' class='btn btn-primary' value='Ok' onclick='pronostic()'/></td>";
 					htmlBet += "</tr>";
 
 					htmlBet += "</table>";
@@ -355,41 +348,23 @@
               }
           }
     	
-		  openProno = function()
-		  {
-			  var credits = $( "#credits").val();
-
-       		  if (credits == "" || credits == 0)
-        	  {
-        	  	  alert('Vous devez miser des crédits.');	  
-        	  }
-        	  else if (credits > 1000) //TODO
-       		  {
-        	  	  alert('Vous ne pouvez pas miser autant de crédits.');	  
-    		  }
-       		  else
-      		  {
-	         	  pronostic();
-      		  }
-		  }
-		  
 		  pronostic = function()
 		  {
 			  var scoreHome = $("#scoreHome").val();
 			  var scoreAway = $("#scoreAway").val();
-			  var credits = $("#credits").val();
 			  var id = '${match.matchId}';
 
-			  $("#bet_form").remove();
 			  $.ajax(
 			  {
 		      	method: "POST",
-				url: "sax",
-				data: {matchId: id, credits: credits, scoreHome: scoreHome, scoreAway: scoreAway}
+				url: "direct",
+				data: {matchId: id, scoreHome: scoreHome, scoreAway: scoreAway}
 			  }).done(function( msg ) 
 			  {
-				  $("#prono-score").html(scoreHome + " - " + scoreAway);
-				  $("#prono-credits").html(credits + " credits");
+				  $("#score-home").html(scoreHome);
+				  $("#score-away").html(scoreAway);
+
+				  $("#bet_form").remove();
 			  });
 		  };
 		  
