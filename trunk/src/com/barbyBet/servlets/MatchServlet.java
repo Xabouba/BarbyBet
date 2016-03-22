@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.Locale;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -54,9 +55,10 @@ public class MatchServlet extends HttpServlet {
 			String day = "";
 			String hour = "";
 			
-			SimpleDateFormat dateFormat = new SimpleDateFormat("d MMMMMMMMM - HH:mm");
-			SimpleDateFormat hourFormat = new SimpleDateFormat("HH:mm");
-			SimpleDateFormat dayFormat = new SimpleDateFormat("d MMMMMMMMM");
+			Locale locale = new Locale("fr");
+			SimpleDateFormat dateFormat = new SimpleDateFormat("d MMMMMMMMM - HH:mm", locale);
+			SimpleDateFormat hourFormat = new SimpleDateFormat("HH:mm", locale);
+			SimpleDateFormat dayFormat = new SimpleDateFormat("d MMMMMMMMM", locale);
 	//		GregorianCalendar calendarsss = new GregorianCalendar(2015, 11, 05);
 	//		System.out.println(calendarsss.getTime());
 			String today = dayFormat.format(dateToday);
