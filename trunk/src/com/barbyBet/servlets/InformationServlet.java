@@ -36,99 +36,104 @@ public class InformationServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		SQLMatchComponent sqlMatchComponent = new SQLMatchComponent();
-		SQLPronoComponent sqlPronoComponent = new SQLPronoComponent();
 		UsersComponent usersComponent = new UsersComponent();
 		User currentUser = usersComponent.getCurrentUser(request);
-		
-		Date dateToday = new Date(); //TODO
-		ArrayList<Match> matchsSql = sqlMatchComponent.getMatchs(dateToday);
-		
-		ArrayList<HashMap<String, String>> matchEnded = new ArrayList<HashMap<String,String>>();
-		HashMap<String,ArrayList<HashMap<String, String>>> matchs = new HashMap<String, ArrayList<HashMap<String,String>>>();
-		HashMap<String,ArrayList<HashMap<String, String>>> matchsToday = new HashMap<String, ArrayList<HashMap<String,String>>>();
-		
-		String day = "";
-		String hour = "";
-		
-		SimpleDateFormat dateFormat = new SimpleDateFormat("d MMMMMMMMM - HH:mm");
-		SimpleDateFormat hourFormat = new SimpleDateFormat("HH:mm");
-		SimpleDateFormat dayFormat = new SimpleDateFormat("d MMMMMMMMM");
-//		GregorianCalendar calendarsss = new GregorianCalendar(2015, 11, 05);
-//		System.out.println(calendarsss.getTime());
-		String today = dayFormat.format(dateToday);
-		for (Match match : matchsSql)
-		{
-			GregorianCalendar calendar = new GregorianCalendar();
-			calendar.setTimeInMillis(match.getBeginDate().getTime());
+
+		if(currentUser == null) {
+			this.getServletContext().getRequestDispatcher( "/WEB-INF/jsp/login.jsp" ).forward(request, response);
+		} else {
+			SQLMatchComponent sqlMatchComponent = new SQLMatchComponent();
+			SQLPronoComponent sqlPronoComponent = new SQLPronoComponent();
 			
-			HashMap<String, String> pronoMap = sqlPronoComponent.getProno(match.getId(), currentUser.getId());
+			Date dateToday = new Date(); //TODO
+			ArrayList<Match> matchsSql = sqlMatchComponent.getMatchs(dateToday);
 			
-			if (match.getStatut() > 4)
+			ArrayList<HashMap<String, String>> matchEnded = new ArrayList<HashMap<String,String>>();
+			HashMap<String,ArrayList<HashMap<String, String>>> matchs = new HashMap<String, ArrayList<HashMap<String,String>>>();
+			HashMap<String,ArrayList<HashMap<String, String>>> matchsToday = new HashMap<String, ArrayList<HashMap<String,String>>>();
+			
+			String day = "";
+			String hour = "";
+			
+			SimpleDateFormat dateFormat = new SimpleDateFormat("d MMMMMMMMM - HH:mm");
+			SimpleDateFormat hourFormat = new SimpleDateFormat("HH:mm");
+			SimpleDateFormat dayFormat = new SimpleDateFormat("d MMMMMMMMM");
+	//		GregorianCalendar calendarsss = new GregorianCalendar(2015, 11, 05);
+	//		System.out.println(calendarsss.getTime());
+			String today = dayFormat.format(dateToday);
+			for (Match match : matchsSql)
 			{
-				HashMap<String,String> matchMap = match.toHashMap();
-				matchMap.putAll(pronoMap);
+				GregorianCalendar calendar = new GregorianCalendar();
+				calendar.setTimeInMillis(match.getBeginDate().getTime());
 				
-				matchEnded.add(matchMap);
-			}
-			else
-			{
-				if (today.equals(dayFormat.format(calendar.getTime())))
+				HashMap<String, String> pronoMap = sqlPronoComponent.getProno(match.getId(), currentUser.getId());
+				
+				if (match.getStatut() > 4)
 				{
-					ArrayList<HashMap<String, String>> list;
-					if (hour.equals(hourFormat.format(calendar.getTime())))
-					{
-						list = matchsToday.get(hourFormat.format(calendar.getTime()));
-						
-						HashMap<String,String> matchMap = match.toHashMap();
-						matchMap.putAll(pronoMap);
-								
-						list.add(matchMap);
-					}
-					else
-					{
-						hour = hourFormat.format(calendar.getTime());
-						list = new ArrayList<HashMap<String,String>>();
-						
-						HashMap<String,String> matchMap = match.toHashMap();
-						matchMap.putAll(pronoMap);
-						
-						list.add(matchMap);
-	
-						matchsToday.put(hour, list);
-					}
+					HashMap<String,String> matchMap = match.toHashMap();
+					matchMap.putAll(pronoMap);
+					
+					matchEnded.add(matchMap);
 				}
 				else
 				{
-					ArrayList<HashMap<String, String>> list;
-					if (day.equals(dateFormat.format(calendar.getTime())))
+					if (today.equals(dayFormat.format(calendar.getTime())))
 					{
-						list = matchs.get(dateFormat.format(calendar.getTime()));
-						HashMap<String,String> matchMap = match.toHashMap();
-						matchMap.putAll(pronoMap);
-						
-						list.add(matchMap);
+						ArrayList<HashMap<String, String>> list;
+						if (hour.equals(hourFormat.format(calendar.getTime())))
+						{
+							list = matchsToday.get(hourFormat.format(calendar.getTime()));
+							
+							HashMap<String,String> matchMap = match.toHashMap();
+							matchMap.putAll(pronoMap);
+									
+							list.add(matchMap);
+						}
+						else
+						{
+							hour = hourFormat.format(calendar.getTime());
+							list = new ArrayList<HashMap<String,String>>();
+							
+							HashMap<String,String> matchMap = match.toHashMap();
+							matchMap.putAll(pronoMap);
+							
+							list.add(matchMap);
+		
+							matchsToday.put(hour, list);
+						}
 					}
 					else
 					{
-						day = dateFormat.format(calendar.getTime());
-						list = new ArrayList<HashMap<String,String>>();
-						
-						HashMap<String,String> matchMap = match.toHashMap();
-						matchMap.putAll(pronoMap);
-						list.add(matchMap);
-	
-						matchs.put(day, list);
+						ArrayList<HashMap<String, String>> list;
+						if (day.equals(dateFormat.format(calendar.getTime())))
+						{
+							list = matchs.get(dateFormat.format(calendar.getTime()));
+							HashMap<String,String> matchMap = match.toHashMap();
+							matchMap.putAll(pronoMap);
+							
+							list.add(matchMap);
+						}
+						else
+						{
+							day = dateFormat.format(calendar.getTime());
+							list = new ArrayList<HashMap<String,String>>();
+							
+							HashMap<String,String> matchMap = match.toHashMap();
+							matchMap.putAll(pronoMap);
+							list.add(matchMap);
+		
+							matchs.put(day, list);
+						}
 					}
 				}
 			}
+	
+			request.setAttribute("matchsEnded", matchEnded);
+			request.setAttribute("matchsToday", matchsToday);
+			request.setAttribute("matchs", matchs);
+			
+			this.getServletContext().getRequestDispatcher( "/WEB-INF/jsp/information.jsp" ).forward(request, response);
 		}
-
-		request.setAttribute("matchsEnded", matchEnded);
-		request.setAttribute("matchsToday", matchsToday);
-		request.setAttribute("matchs", matchs);
-		
-		this.getServletContext().getRequestDispatcher( "/WEB-INF/jsp/information.jsp" ).forward(request, response);
 	}
 
 	/**

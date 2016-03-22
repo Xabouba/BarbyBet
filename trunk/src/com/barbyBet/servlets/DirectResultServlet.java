@@ -33,46 +33,51 @@ public class DirectResultServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		UsersComponent usersComponent = new UsersComponent();
 		User currentUser = usersComponent.getCurrentUser(request);
-		SQLMatchComponent sqlMatchComponent = new SQLMatchComponent();
-			
-		String matchIdAsString = request.getParameter("matchId");
-		if (matchIdAsString == null)
-		{
-			//TODO redirect to matchs
-			this.getServletContext().getRequestDispatcher( "/WEB-INF/jsp/match.jsp" ).forward(request, response);
-		}
-		else
-		{
-			/** Match information */
-			int matchId = Integer.parseInt(matchIdAsString);
-			Match match = sqlMatchComponent.getMatch(matchId);
-			request.setAttribute("match", match.toHashMap());
-			
-			/** Pronostic */
-			SQLPronoComponent sqlPronoComponent = new SQLPronoComponent();
-			HashMap<String, String> prono = sqlPronoComponent.getProno(matchId, currentUser.getId());
-			
-			request.setAttribute("prono", prono.get("prono"));
-			request.setAttribute("scoreHome", prono.get("scoreHome"));
-			request.setAttribute("scoreAway", prono.get("scoreAway"));
-			request.setAttribute("credits", prono.get("credits"));
-			request.setAttribute("creditsWon", prono.get("creditsWon"));
-			
-			/** Commentaires */
-			SQLCommentComponent sqlCommentComponent = new SQLCommentComponent();
-			ArrayList<HashMap<String, String>> comments = sqlCommentComponent.getComments(matchId);
-			request.setAttribute("comments", comments);
-			
-//			User connectedUser = null;
-//			SQLUsersComponent sqlUsersComponent = new SQLUsersComponent();
-//			connectedUser = sqlUsersComponent.isUserRegistered(request);
-//			if (connectedUser != null)
-//			{
-//				request.setAttribute("user", connectedUser.getUsername());
-//			}
-			
-			
-			this.getServletContext().getRequestDispatcher( "/WEB-INF/jsp/direct.jsp" ).forward(request, response);
+		
+		if(currentUser == null) {
+			this.getServletContext().getRequestDispatcher( "/WEB-INF/jsp/login.jsp" ).forward(request, response);
+		} else {
+			SQLMatchComponent sqlMatchComponent = new SQLMatchComponent();
+				
+			String matchIdAsString = request.getParameter("matchId");
+			if (matchIdAsString == null)
+			{
+				//TODO redirect to matchs
+				this.getServletContext().getRequestDispatcher( "/WEB-INF/jsp/match.jsp" ).forward(request, response);
+			}
+			else
+			{
+				/** Match information */
+				int matchId = Integer.parseInt(matchIdAsString);
+				Match match = sqlMatchComponent.getMatch(matchId);
+				request.setAttribute("match", match.toHashMap());
+				
+				/** Pronostic */
+				SQLPronoComponent sqlPronoComponent = new SQLPronoComponent();
+				HashMap<String, String> prono = sqlPronoComponent.getProno(matchId, currentUser.getId());
+				
+				request.setAttribute("prono", prono.get("prono"));
+				request.setAttribute("scoreHome", prono.get("scoreHome"));
+				request.setAttribute("scoreAway", prono.get("scoreAway"));
+				request.setAttribute("credits", prono.get("credits"));
+				request.setAttribute("creditsWon", prono.get("creditsWon"));
+				
+				/** Commentaires */
+				SQLCommentComponent sqlCommentComponent = new SQLCommentComponent();
+				ArrayList<HashMap<String, String>> comments = sqlCommentComponent.getComments(matchId);
+				request.setAttribute("comments", comments);
+				
+	//			User connectedUser = null;
+	//			SQLUsersComponent sqlUsersComponent = new SQLUsersComponent();
+	//			connectedUser = sqlUsersComponent.isUserRegistered(request);
+	//			if (connectedUser != null)
+	//			{
+	//				request.setAttribute("user", connectedUser.getUsername());
+	//			}
+				
+				
+				this.getServletContext().getRequestDispatcher( "/WEB-INF/jsp/direct.jsp" ).forward(request, response);
+			}
 		}
 	}
 
