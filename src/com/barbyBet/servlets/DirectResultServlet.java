@@ -38,7 +38,7 @@ public class DirectResultServlet extends HttpServlet {
 		String matchIdAsString = request.getParameter("matchId");
 		if (matchIdAsString == null)
 		{
-			//TODO redirecto to matchs
+			//TODO redirect to matchs
 			this.getServletContext().getRequestDispatcher( "/WEB-INF/jsp/match.jsp" ).forward(request, response);
 		}
 		else
@@ -72,7 +72,7 @@ public class DirectResultServlet extends HttpServlet {
 //			}
 			
 			
-			this.getServletContext().getRequestDispatcher( "/WEB-INF/jsp/index.jsp" ).forward(request, response);
+			this.getServletContext().getRequestDispatcher( "/WEB-INF/jsp/direct.jsp" ).forward(request, response);
 		}
 	}
 

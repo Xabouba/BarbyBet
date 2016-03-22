@@ -11,13 +11,13 @@
   </welcome-file-list>
   <!-- Servlet for game score parsing -->
   <servlet>
-    <servlet-name>Sax</servlet-name>
+    <servlet-name>Direct</servlet-name>
     <servlet-class>com.barbyBet.servlets.DirectResultServlet</servlet-class>
   </servlet>
   
   <servlet-mapping>
-	<servlet-name>Sax</servlet-name>
-	<url-pattern>/sax</url-pattern>
+	<servlet-name>Direct</servlet-name>
+	<url-pattern>/direct</url-pattern>
   </servlet-mapping>
   
   <!-- Servlet for match list -->
@@ -90,5 +90,16 @@
 	<servlet-name>Group</servlet-name>
 	<url-pattern>/newGroup</url-pattern>
   </servlet-mapping>
-
+  
+  <!-- Servlet for real score -->
+  <servlet>
+    <servlet-name>Information</servlet-name>
+    <servlet-class>com.barbyBet.servlets.InformationServlet</servlet-class>
+  </servlet>
+  
+   <servlet-mapping>
+	<servlet-name>Information</servlet-name>
+	<url-pattern>/information</url-pattern>
+  </servlet-mapping>
+  
 </web-app>

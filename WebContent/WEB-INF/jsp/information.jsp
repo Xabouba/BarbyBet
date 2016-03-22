@@ -10,7 +10,6 @@
     	<div class="wraper">
         	<%@include file="header.jsp" %>
     		
-    		<!-- page-header -->
             <!-- page-header -->
             <div id="content">
                 <div class="wraper clearfix">
@@ -24,22 +23,6 @@
 	                            <li class="clearfix">
 	                                <div class="widget kp-review">
 	                                    <h2 class="widget-title"><span>Match</span></h2>
-	                                    <div class="menu-match">
-	                                    	<ul class="nav nav-tabs kp-tabs">
-									            <li class="active">
-									                <a href="" onclick="allMatch()">Tous</a>
-									            </li>
-									            <li>
-								                    <a href="" onclick="todayMatch()">Aujourd'hui</a>
-								                </li>
-								                <li>
-								                    <a href="" onclick="nextMatch()">Prochainement</a>
-								                </li>
-								                <li>
-								                    <a href="" onclick="endMatch()">Terminés</a>
-								                </li>
-								            </ul>
-	                                    </div>
 	                                    <div id="ended-match">
 		                                    <div class="widget-content">
 		                                    	<c:if test="${not empty matchsEnded}">

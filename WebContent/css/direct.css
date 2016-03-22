@@ -6,6 +6,11 @@
 	margin-top: 10px;
 }
 
+.match-direct .table_bet .prono
+{
+	width: 60px;
+}
+
 .match-direct .odd
 {
 	width: 50px;
@@ -57,4 +62,50 @@
 .match-direct .information table.table-info .prono-info
 {
 	width: 30%
+}
+
+.match-direct .result-img
+{
+	width:80px !important; 
+	height:80px;
+}
+
+@media (max-width: 979px)
+{
+	.match-direct #main-content
+	{
+		margin-top: 20px;
+	}
+}
+
+@media (max-width: 767px)
+{
+	.match-direct .classement
+	{
+		display: none;
+	}
+}
+
+@media (max-width: 479px)
+{
+	.match-direct .result-img
+	{
+		width:50px !important; 
+		height:50px;
+	}
+	
+	.match-direct .result-team
+	{
+		font-size: 16px;
+	}
+	
+	.match-direct .result-score
+	{
+		font-size: 25px;
+	}
+	
+	.match-direct .result-title
+	{
+		font-size: 25px;
+	}
 }
