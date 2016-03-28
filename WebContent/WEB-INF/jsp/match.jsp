@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -158,7 +159,7 @@
 		                                <div id="today-match">
 		                                    <div class="widget-content">
 	                                           	<c:forEach items="${matchsToday}" var="matchDay">
-	                                           		<ul class="list-unstyled"><li class="format-standard match-title">Aujourd'hui - ${matchDay.key}</li></ul>
+	                                           		<ul class="list-unstyled"><li class="format-standard match-title">Aujourd'hui - <fmt:formatDate pattern="HH:mm" value="${matchDay.key}" /></li></ul>
 	                                           		<c:forEach items="${matchDay.value}" var="match">
 				                                    	<ul class="list-unstyled">
 				                                           	<li class="format-standard match-info">
@@ -272,7 +273,7 @@
 		                                <div id="next-match">
 		                                    <div class="widget-content">
 	                                           	<c:forEach items="${matchs}" var="matchDay">
-	                                           		<ul class="list-unstyled"><li class="format-standard match-title">${matchDay.key}</li></ul>
+	                                           		<ul class="list-unstyled"><li class="format-standard match-title"><fmt:formatDate pattern="dd MMMMMMM - HH:mm" value="${matchDay.key}" /></li></ul>
                                            			<c:forEach items="${matchDay.value}" var="match">
 				                                    	<ul class="list-unstyled">
 				                                           	<li class="format-standard match-info">

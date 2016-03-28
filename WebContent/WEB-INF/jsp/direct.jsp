@@ -207,7 +207,7 @@
                     <div class="clearfix"></div>
                 </div>
                 <!-- main-content -->
-            	<div id="sidebar" class="pull-right information">
+            	<div id="sidebar" class="pull-right user-information">
                     <ul class="clearfix list-unstyled">
                         <li>
                             <div class="widget kp-last-news">
