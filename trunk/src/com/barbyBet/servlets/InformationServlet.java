@@ -1,11 +1,15 @@
 package com.barbyBet.servlets;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -16,8 +20,10 @@ import com.barbyBet.components.SQLMatchComponent;
 import com.barbyBet.components.SQLPronoComponent;
 import com.barbyBet.components.UsersComponent;
 import com.barbyBet.object.Match;
+import com.barbyBet.object.Team;
 import com.barbyBet.object.User;
 import com.barbyBet.tools.RequestUtils;
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Collections;
 
 /**
  * Servlet implementation class SaxResultGenerator
@@ -45,69 +51,84 @@ public class InformationServlet extends HttpServlet {
 			SQLMatchComponent sqlMatchComponent = new SQLMatchComponent();
 			SQLPronoComponent sqlPronoComponent = new SQLPronoComponent();
 			
-			Date dateToday = new Date(); //TODO
-			ArrayList<Match> matchsSql = sqlMatchComponent.getMatchs(dateToday);
+			int idCompetition = 1; //TODO
+			ArrayList<Match> matchsSql = sqlMatchComponent.getMatchsFromCompetition(idCompetition);
+			List<Match> groupe1 = new ArrayList<Match>();
+			List<Match> groupe2 = new ArrayList<Match>();
+			List<Match> groupe3 = new ArrayList<Match>();
 			
-			ArrayList<HashMap<String, String>> matchEnded = new ArrayList<HashMap<String,String>>();
-			HashMap<String,ArrayList<HashMap<String, String>>> matchs = new HashMap<String, ArrayList<HashMap<String,String>>>();
-			HashMap<String,ArrayList<HashMap<String, String>>> matchsToday = new HashMap<String, ArrayList<HashMap<String,String>>>();
-			
-			String day = "";
-			String hour = "";
-			
-			SimpleDateFormat dateFormat = new SimpleDateFormat("d MMMMMMMMM - HH:mm");
-			SimpleDateFormat hourFormat = new SimpleDateFormat("HH:mm");
-			SimpleDateFormat dayFormat = new SimpleDateFormat("d MMMMMMMMM");
-	//		GregorianCalendar calendarsss = new GregorianCalendar(2015, 11, 05);
-	//		System.out.println(calendarsss.getTime());
-			String today = dayFormat.format(dateToday);
+			Map<String, List<Match>> groups = new HashMap<String, List<Match>>();
 			for (Match match : matchsSql)
 			{
-				GregorianCalendar calendar = new GregorianCalendar();
-				calendar.setTimeInMillis(match.getBeginDate().getTime());
-				
-				HashMap<String, String> pronoMap = sqlPronoComponent.getProno(match.getId(), currentUser.getId());
-				
-				if (match.getStatut() > 4)
+				if (match.getJournee() < 12)
 				{
-					HashMap<String,String> matchMap = match.toHashMap();
-					matchMap.putAll(pronoMap);
-					
-					matchEnded.add(matchMap);
+					if (match.getAwayTeam().getId() < 5 && match.getHomeTeam().getId() < 5)
+					{
+						groupe1.add(match);
+					}
+					else if (match.getAwayTeam().getId() > 4 && match.getHomeTeam().getId() > 4 && match.getAwayTeam().getId() < 9 && match.getHomeTeam().getId() < 9)
+					{
+						groupe2.add(match);
+					}
+					else if (match.getAwayTeam().getId() > 8 && match.getHomeTeam().getId() > 8)
+					{
+						groupe3.add(match);
+					}
 				}
-				else
+			}
+			
+			groups.put("Groupe A", groupe1);
+			groups.put("Groupe B", groupe2);
+			groups.put("Groupe C", groupe3);
+
+			Map<String, Map<String, Map<Date, ArrayList<HashMap<String, String>>>>> matchsGroup = new TreeMap<String, Map<String, Map<Date, ArrayList<HashMap<String, String>>>>>();
+			Map<String, Map<Integer, HashMap<String, Object>>> ranksGroup = new TreeMap<String, Map<Integer, HashMap<String, Object>>>();
+			for (String group : groups.keySet())
+			{
+				Map<Date, ArrayList<HashMap<String, String>>> matchEnded = new TreeMap<Date, ArrayList<HashMap<String, String>>>();
+				Map<Date, ArrayList<HashMap<String, String>>> matchs = new TreeMap<Date, ArrayList<HashMap<String, String>>>();
+				HashMap<Integer, HashMap<String, Object>> rank = new HashMap<Integer, HashMap<String, Object>>();
+				
+				Date day = new Date();
+				
+				for (Match match : groups.get(group))
 				{
-					if (today.equals(dayFormat.format(calendar.getTime())))
+					GregorianCalendar calendar = new GregorianCalendar();
+					calendar.setTimeInMillis(match.getBeginDate().getTime());
+
+					HashMap<String, String> pronoMap = sqlPronoComponent.getProno(match.getId(), currentUser.getId());
+					_initializeStatTeam(match.getHomeTeam(), rank);
+					_initializeStatTeam(match.getAwayTeam(), rank);
+					
+					if (match.getStatut() > 2)
 					{
 						ArrayList<HashMap<String, String>> list;
-						if (hour.equals(hourFormat.format(calendar.getTime())))
+						if (day.equals(calendar.getTime()))
 						{
-							list = matchsToday.get(hourFormat.format(calendar.getTime()));
-							
+							list = matchEnded.get(calendar.getTime());
 							HashMap<String,String> matchMap = match.toHashMap();
 							matchMap.putAll(pronoMap);
-									
+							
 							list.add(matchMap);
 						}
 						else
 						{
-							hour = hourFormat.format(calendar.getTime());
+							day = calendar.getTime();
 							list = new ArrayList<HashMap<String,String>>();
 							
 							HashMap<String,String> matchMap = match.toHashMap();
 							matchMap.putAll(pronoMap);
-							
 							list.add(matchMap);
 		
-							matchsToday.put(hour, list);
+							matchEnded.put(day, list);
 						}
 					}
 					else
 					{
 						ArrayList<HashMap<String, String>> list;
-						if (day.equals(dateFormat.format(calendar.getTime())))
+						if (day.equals(calendar.getTime()))
 						{
-							list = matchs.get(dateFormat.format(calendar.getTime()));
+							list = matchs.get(calendar.getTime().getTime());
 							HashMap<String,String> matchMap = match.toHashMap();
 							matchMap.putAll(pronoMap);
 							
@@ -115,24 +136,129 @@ public class InformationServlet extends HttpServlet {
 						}
 						else
 						{
-							day = dateFormat.format(calendar.getTime());
+							day = calendar.getTime();
 							list = new ArrayList<HashMap<String,String>>();
 							
 							HashMap<String,String> matchMap = match.toHashMap();
 							matchMap.putAll(pronoMap);
 							list.add(matchMap);
-		
 							matchs.put(day, list);
 						}
+						
+						int homeTeam = match.getHomeTeam().getId();
+						int awayTeam = match.getAwayTeam().getId();
+						
+						_setHomeTeamStats(homeTeam, match, rank);
+						_setAwayTeamStats(awayTeam, match, rank);
 					}
 				}
+		
+				HashMap<String, Map<Date, ArrayList<HashMap<String, String>>>> groupMatchs = new HashMap<String, Map<Date, ArrayList<HashMap<String, String>>>>();
+				groupMatchs.put("matchsEnded", matchEnded);
+				groupMatchs.put("matchs", matchs);
+				
+				ranksGroup.put(group, _orderRankMap(rank));
+				matchsGroup.put(group, groupMatchs);
 			}
-	
-			request.setAttribute("matchsEnded", matchEnded);
-			request.setAttribute("matchsToday", matchsToday);
-			request.setAttribute("matchs", matchs);
+			
+			request.setAttribute("groups", matchsGroup);
+			request.setAttribute("ranks", ranksGroup);
+			
 			
 			this.getServletContext().getRequestDispatcher( "/WEB-INF/jsp/information.jsp" ).forward(request, response);
+		}
+	}
+
+	private Map<Integer, HashMap<String, Object>> _orderRankMap(HashMap<Integer, HashMap<String, Object>> rank) 
+	{
+		TreeMap<Integer, HashMap<String, Object>> treeMap = new TreeMap<Integer, HashMap<String,Object>>();
+		for (HashMap<String, Object> map : rank.values())
+		{
+			int win = (Integer) map.get("win");
+			int draw = (Integer) map.get("draw");
+			int goal = (Integer) map.get("goal");
+			int taken = (Integer) map.get("taken");
+			
+			int point = (3 * win + draw) * 10000 + (goal - taken) * 100 + goal;
+			treeMap.put(point, map);
+		}
+		
+		return treeMap.descendingMap();
+	}
+
+	private void _setHomeTeamStats(int idHomeTeam, Match match, HashMap<Integer, HashMap<String, Object>> rank) 
+	{
+		if (!rank.containsKey(idHomeTeam))
+		{
+			rank.put(idHomeTeam, new HashMap<String, Object>());
+		}
+		HashMap<String, Object> homeTeamStats = rank.get(idHomeTeam);
+		
+		if (match.getHomeScore() > match.getAwayScore())
+		{
+			homeTeamStats.put("win", _incrementStat("win", 1, homeTeamStats));
+		}
+		else if (match.getHomeScore() < match.getAwayScore())
+		{
+			homeTeamStats.put("lost", _incrementStat("lost", 1, homeTeamStats));
+		}
+		else
+		{
+			homeTeamStats.put("draw", _incrementStat("draw", 1, homeTeamStats));
+		}
+		homeTeamStats.put("goal", _incrementStat("goal", match.getHomeScore(), homeTeamStats));
+		homeTeamStats.put("taken", _incrementStat("taken", match.getAwayScore(), homeTeamStats));
+	}
+	
+	private void _setAwayTeamStats(int idAwayTeam, Match match, HashMap<Integer, HashMap<String, Object>> rank) 
+	{
+		if (!rank.containsKey(idAwayTeam))
+		{
+			rank.put(idAwayTeam, new HashMap<String, Object>());
+		}
+		HashMap<String, Object> awayTeamStats = rank.get(idAwayTeam);
+		
+		if (match.getHomeScore() < match.getAwayScore())
+		{
+			awayTeamStats.put("win", _incrementStat("win", 1, awayTeamStats));
+		}
+		else if (match.getHomeScore() > match.getAwayScore())
+		{
+			awayTeamStats.put("lost", _incrementStat("lost", 1, awayTeamStats));
+		}
+		else
+		{
+			awayTeamStats.put("draw", _incrementStat("draw", 1, awayTeamStats));
+		}
+		awayTeamStats.put("goal", _incrementStat("goal", match.getAwayScore(), awayTeamStats));
+		awayTeamStats.put("taken", _incrementStat("taken", match.getHomeScore(), awayTeamStats));
+	}
+
+	private int _incrementStat(String stat, int value, HashMap<String, Object> homeTeamStats) 
+	{
+		int statValue = 0;
+		if (homeTeamStats.containsKey(stat))
+		{
+			statValue = (Integer) homeTeamStats.get(stat);
+		}
+		
+		return statValue + value;
+	}
+	
+	private void _initializeStatTeam(Team team, HashMap<Integer, HashMap<String, Object>> rank)
+	{
+		if (!rank.containsKey(team.getId()))
+		{
+			HashMap<String, Object> statMap = new HashMap<String, Object>();
+			statMap.put("name", team.getName());
+			statMap.put("img", team.getImg());
+			statMap.put("win", 0);
+			statMap.put("lost", 0);
+			statMap.put("draw", 0);
+			statMap.put("goal", 0);
+			statMap.put("taken", 0);
+			
+			rank.put(team.getId(), statMap);
 		}
 	}
 

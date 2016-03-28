@@ -7,6 +7,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
+import java.util.TreeMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -49,18 +51,15 @@ public class MatchServlet extends HttpServlet {
 			ArrayList<Match> matchsSql = sqlMatchComponent.getMatchs(dateToday);
 			
 			ArrayList<HashMap<String, String>> matchEnded = new ArrayList<HashMap<String,String>>();
-			HashMap<String,ArrayList<HashMap<String, String>>> matchs = new HashMap<String, ArrayList<HashMap<String,String>>>();
-			HashMap<String,ArrayList<HashMap<String, String>>> matchsToday = new HashMap<String, ArrayList<HashMap<String,String>>>();
+			Map<Date,ArrayList<HashMap<String, String>>> matchs = new TreeMap<Date, ArrayList<HashMap<String,String>>>();
+			Map<Date,ArrayList<HashMap<String, String>>> matchsToday = new TreeMap<Date, ArrayList<HashMap<String,String>>>();
 			
-			String day = "";
+			Date day = new Date();
 			String hour = "";
 			
 			Locale locale = new Locale("fr");
-			SimpleDateFormat dateFormat = new SimpleDateFormat("d MMMMMMMMM - HH:mm", locale);
 			SimpleDateFormat hourFormat = new SimpleDateFormat("HH:mm", locale);
 			SimpleDateFormat dayFormat = new SimpleDateFormat("d MMMMMMMMM", locale);
-	//		GregorianCalendar calendarsss = new GregorianCalendar(2015, 11, 05);
-	//		System.out.println(calendarsss.getTime());
 			String today = dayFormat.format(dateToday);
 			for (Match match : matchsSql)
 			{
@@ -83,7 +82,11 @@ public class MatchServlet extends HttpServlet {
 						ArrayList<HashMap<String, String>> list;
 						if (hour.equals(hourFormat.format(calendar.getTime())))
 						{
-							list = matchsToday.get(hourFormat.format(calendar.getTime()));
+							list = matchsToday.get(calendar.getTime());
+							if (list == null)
+							{
+								list = new ArrayList<HashMap<String,String>>();
+							}
 							
 							HashMap<String,String> matchMap = match.toHashMap();
 							matchMap.putAll(pronoMap);
@@ -100,15 +103,19 @@ public class MatchServlet extends HttpServlet {
 							
 							list.add(matchMap);
 		
-							matchsToday.put(hour, list);
+							matchsToday.put(calendar.getTime(), list);
 						}
 					}
 					else
 					{
 						ArrayList<HashMap<String, String>> list;
-						if (day.equals(dateFormat.format(calendar.getTime())))
+						if (day.equals(calendar.getTime()))
 						{
-							list = matchs.get(dateFormat.format(calendar.getTime()));
+							list = matchs.get(calendar.getTime());
+							if (list == null)
+							{
+								list = new ArrayList<HashMap<String,String>>();
+							}
 							HashMap<String,String> matchMap = match.toHashMap();
 							matchMap.putAll(pronoMap);
 							
@@ -116,7 +123,7 @@ public class MatchServlet extends HttpServlet {
 						}
 						else
 						{
-							day = dateFormat.format(calendar.getTime());
+							day = calendar.getTime();
 							list = new ArrayList<HashMap<String,String>>();
 							
 							HashMap<String,String> matchMap = match.toHashMap();
