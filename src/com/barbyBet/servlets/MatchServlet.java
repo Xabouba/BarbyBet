@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.barbyBet.components.RankComponent;
 import com.barbyBet.components.SQLMatchComponent;
 import com.barbyBet.components.SQLPronoComponent;
 import com.barbyBet.components.UsersComponent;
@@ -139,6 +140,10 @@ public class MatchServlet extends HttpServlet {
 			request.setAttribute("matchsEnded", matchEnded);
 			request.setAttribute("matchsToday", matchsToday);
 			request.setAttribute("matchs", matchs);
+			
+			/** Classement */
+			RankComponent rankComponent = new RankComponent();
+			request.setAttribute("rank", rankComponent.getMinimizedRank(1, currentUser.getUsername()));
 			
 			this.getServletContext().getRequestDispatcher( "/WEB-INF/jsp/match.jsp" ).forward(request, response);
 		}

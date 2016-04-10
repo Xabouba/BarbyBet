@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.barbyBet.components.RankComponent;
 import com.barbyBet.components.SQLCommentComponent;
 import com.barbyBet.components.SQLMatchComponent;
 import com.barbyBet.components.SQLPronoComponent;
@@ -66,6 +67,10 @@ public class DirectResultServlet extends HttpServlet {
 				SQLCommentComponent sqlCommentComponent = new SQLCommentComponent();
 				ArrayList<HashMap<String, String>> comments = sqlCommentComponent.getComments(matchId);
 				request.setAttribute("comments", comments);
+				
+				/** Classement */
+				RankComponent rankComponent = new RankComponent();
+				request.setAttribute("rank", rankComponent.getMinimizedRank(1, currentUser.getUsername()));
 				
 	//			User connectedUser = null;
 	//			SQLUsersComponent sqlUsersComponent = new SQLUsersComponent();
