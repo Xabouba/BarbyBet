@@ -109,4 +109,15 @@
 	<url-pattern>/information</url-pattern>
   </servlet-mapping>
   
+  <!-- Servlet for rank -->
+  <servlet>
+    <servlet-name>Rank</servlet-name>
+    <servlet-class>com.barbyBet.servlets.RankServlet</servlet-class>
+  </servlet>
+  
+   <servlet-mapping>
+	<servlet-name>Rank</servlet-name>
+	<url-pattern>/rank</url-pattern>
+  </servlet-mapping>
+  
 </web-app>

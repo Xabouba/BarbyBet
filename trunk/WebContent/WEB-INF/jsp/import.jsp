@@ -15,6 +15,8 @@
 <link rel="stylesheet" type="text/css" href="css/responsive.css">
 <link rel="stylesheet" type="text/css" href="css/direct.css">
 <link rel="stylesheet" type="text/css" href="css/information.css">
+<link rel="stylesheet" type="text/css" href="css/rank.css">
+<link rel="stylesheet" type="text/css" href="css/generalRank.css">
 <!--[if !IE]><!-->
 <script src="js/ie10.js"></script>
 <script src="js/chart/Chart.js"></script>

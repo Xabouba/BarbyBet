@@ -392,88 +392,56 @@
                     <div id="sidebar" class="pull-right">
                         <ul class="clearfix list-unstyled">
                             <li class="clearfix">
-                                <div class="widget kp-review">
+                                <div class="widget kp-review rank">
                                     <h2 class="widget-title"><span>Classement</span></h2>
                                     <div class="widget-content">
+	                                    <select style="width: 100%; margin-bottom: 2px;">
+										  <option value="group1">Groupe 1</option>
+										  <option value="group2">Groupe 2</option>
+										  <option value="group3">Groupe 3</option>
+										  <option value="group4">Groupe 4</option>
+										</select>
 										<ul class="list-unstyled">
-                                            <li class="format-standard">
-                                            	<table style="width: 100%">
-                                            		<tr>
-                                            			<td class="td_rank_nb">1</td>
-                                            			<td class="td_rank_progress">=</td>
-                                            			<td class="td_rank_name">User 2</td>
-                                            			<td class="td_rank_credit">15250</td>
-                                            		</tr>
-                                            	</table>
-                                            </li>
-                                            <li class="format-standard">
-                                                <table style="width: 100%">
-                                            		<tr>
-                                            			<td class="td_rank_nb">2</td>
-                                            			<td class="td_rank_progress">+2</td>
-                                            			<td class="td_rank_name">User 3</td>
-                                            			<td class="td_rank_credit">13250</td>
-                                            		</tr>
-                                            	</table>
-                                            </li>
-                                            <li class="format-standard">
-                                                <p style="text-align: center">..........................................................</p>
-                                            </li>
-                                            <li class="format-standard">
-                                                <table style="width: 100%">
-                                            		<tr>
-                                            			<td class="td_rank_nb">5</td>
-                                            			<td class="td_rank_progress">-1</td>
-                                            			<td class="td_rank_name">User 4</td>
-                                            			<td class="td_rank_credit">8250</td>
-                                            		</tr>
-                                            	</table>
-                                            </li>
-                                            <li class="format-standard">
-                                                <table style="width: 100%">
-                                            		<tr>
-                                            			<td class="td_rank_nb">6</td>
-                                            			<td class="td_rank_progress">=</td>
-                                            			<td class="td_rank_name">User 5</td>
-                                            			<td class="td_rank_credit">7280</td>
-                                            		</tr>
-                                            	</table>
-                                            </li>
-                                            <li class="format-standard">
-                                                <table style="width: 100%">
-                                            		<tr>
-                                            			<td class="td_rank_nb">7</td>
-                                            			<td class="td_rank_progress">+3</td>
-                                            			<td class="td_rank_name" style="color: red">User 1</td>
-                                            			<td class="td_rank_credit">7250</td>
-                                            		</tr>
-                                            	</table>
-                                            </li>
-                                            <li class="format-standard">
-                                                <table style="width: 100%">
-                                            		<tr>
-                                            			<td class="td_rank_nb">8</td>
-                                            			<td class="td_rank_progress">-2</td>
-                                            			<td class="td_rank_name">User 6</td>
-                                            			<td class="td_rank_credit">5420</td>
-                                            		</tr>
-                                            	</table>
-                                            </li>
-                                            <li class="format-standard">
-                                                <table style="width: 100%">
-                                            		<tr>
-                                            			<td class="td_rank_nb">9</td>
-                                            			<td class="td_rank_progress">+1</td>
-                                            			<td class="td_rank_name">User 7</td>
-                                            			<td class="td_rank_credit">3250</td>
-                                            		</tr>
-                                            	</table>
-                                            </li>
+											<c:forEach items="${rank}" var="user" varStatus="i">
+                                            	<c:if test="${user.value.hasBefore == 'false'}">
+	                                            	<li class="format-standard">
+	                                            		<p style="text-align: center">..........................................................</p>
+	                                            	</li>
+                                            	</c:if>
+                                            	<li class="format-standard">
+	                                            	<table style="width: 100%">
+	                                            		<tr>
+	                                            			<td class="td_rank_nb">${user.value.rank}</td>
+	                                            			<td class="td_rank_progress">
+	                                            				<c:choose>
+	                                            					<c:when test="${user.value.diff > 0}">
+	                                            						<span class="positif">+${user.value.diff}</span>
+	                                            					</c:when>
+	                                            					<c:when test="${user.value.diff < 0}">
+	                                            						<span class="negatif">${user.value.diff}</span>
+	                                            					</c:when>
+	                                            					<c:otherwise>=</c:otherwise>
+	                                            				</c:choose>
+	                                            			</td>
+	                                            			<td class="td_rank_name">
+	                                            				<c:choose>
+	                                            					<c:when test="${user.value.currentUser == 'true'}">
+	                                            						<span class="current_user">${user.key}</span>
+	                                            					</c:when>
+	                                            					<c:otherwise>
+			                                            				${user.key}
+	                                            					</c:otherwise>
+	                                            				</c:choose>
+                                            				</td>
+	                                            			<td class="td_rank_credit">${user.value.point}</td>
+	                                            		</tr>
+	                                            	</table>
+	                                            </li>
+											</c:forEach>
                                         </ul>
                                     </div>
                                     <!-- widget-content -->
                                 </div>
-                                <!-- kp-story -->
                             </li>
                        </ul>
                     </div>

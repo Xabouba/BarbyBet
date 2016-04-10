@@ -1,0 +1,82 @@
+.general-rank .rank .positif
+{
+	color : green;
+}
+
+.general-rank .rank .negatif
+{
+	color : red;
+}
+
+.general-rank .rank .td_rank_nb
+{
+	text-align: center; 
+	font-size: 20px; 
+	font-weight: bold;
+	width: 30px;
+	color: #07A3F7;
+}
+
+.general-rank .rank .td_rank_progress
+{
+	padding-left: 7px; 
+	text-align: center; 
+	font-size: 11px;
+	width: 30px;
+}
+
+.general-rank .rank .td_rank_name
+{
+	padding-left: 0px;
+	text-align: center;
+	font-weight: bold;
+}
+
+.general-rank .rank .td_rank_credit
+{
+	width: 20px;
+}
+
+.general-rank .rank .current_user
+{
+	color : blue;
+}
+
+.general-rank .rank-title
+{
+	font-size: 17px;
+	text-align: center;
+	font-weight: bold;
+}
+
+.general-rank .groups .group-name
+{
+	text-align: center;
+	font-size: 14px;
+	font-weight: bold;
+	width: 100%;
+	display: block;
+}
+
+.general-rank .groups table
+{
+	margin-top: 15px;
+	text-align: center;
+	width: 100%;
+}
+
+.general-rank .groups table .information
+{
+	float: left;
+}
+
+.general-rank .groups table .information .attribute-name
+{
+	font-weight: bold;
+	float: left;
+}
+
+.general-rank .groups table .information .attribute-value
+{
+	margin-left: 10px;
+}

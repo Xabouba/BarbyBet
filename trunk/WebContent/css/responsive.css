@@ -380,7 +380,7 @@
  	#sidebar > ul > li {
  		float: left;
  		margin-left: 20px;
- 		width: 300px
+ 		width: 100%
  	}
  	#sidebar > ul > li:first-child {
  		margin-top: 15px;
@@ -476,7 +476,7 @@
  		width: 100%
  	}
  	#sidebar {
- 		width: 940px;
+ 		width: 100%;
  	}
  	#sidebar > ul {
  		margin-left: -20px;
@@ -484,7 +484,7 @@
  	#sidebar > ul > li {
  		float: left;
  		margin-left: 20px;
- 		width: 273px
+ 		width: 100%
  	}
  	.kp-last-news .kp-metadata {
  		background: none
@@ -597,7 +597,7 @@
  	#sidebar > ul > li {
  		float: left;
  		margin-left: 20px;
- 		width: 239px
+ 		width: 100%
  	}
  	.kp-last-news .kp-metadata {
  		background: none;
@@ -709,7 +709,7 @@
  	#sidebar > ul > li {
  		float: left;
  		margin-left: 20px;
- 		width: 354px
+ 		width: 100%
  	}
  	#sidebar > ul .num4 {
  		clear: none;
@@ -852,7 +852,7 @@
  	#sidebar > ul > li {
  		float: left;
  		margin-left: 20px;
- 		width: 290px
+ 		width: 100%
  	}
  	#sidebar > ul .num4 {
  		clear: none;
