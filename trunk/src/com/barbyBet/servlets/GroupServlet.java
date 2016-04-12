@@ -1,6 +1,11 @@
 package com.barbyBet.servlets;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -11,7 +16,7 @@ import com.barbyBet.components.SQLGroupComponent;
 import com.barbyBet.components.UsersComponent;
 import com.barbyBet.object.Group;
 import com.barbyBet.object.User;
-import com.barbyBet.tools.ServletUtil;
+import com.barbyBet.tools.Constants;
 
 /**
  * Servlet implementation class SaxResultGenerator
@@ -19,8 +24,8 @@ import com.barbyBet.tools.ServletUtil;
 public class GroupServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	public static final String VUE_NEW_GROUP   = "/WEB-INF/jsp/newgroup.jsp";
-    public static final String VUE_INDEX  	   = "/WEB-INF/jsp/index.jsp";
+	public static final String VUE_GROUP = "/WEB-INF/jsp/group.jsp";
+    public static final String VUE_INDEX = "/login";
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -32,39 +37,60 @@ public class GroupServlet extends HttpServlet {
 		if(currentUser == null) {
 			this.getServletContext().getRequestDispatcher(VUE_INDEX).forward(request, response);
 		} else {
-			this.getServletContext().getRequestDispatcher(VUE_NEW_GROUP).forward(request, response);
+			String groupIdStr = request.getParameter("groupId");
+			
+			if(groupIdStr != null) {
+				redirectToRightServlet(request, response, groupIdStr);
+			} else {
+				this.getServletContext().getRequestDispatcher(VUE_INDEX).forward(request, response);
+			}
 		}
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
-	{
-		User user = ServletUtil.isConnected(this,request,response);
-	    if(user==null){
-	    	return;
-	    }
-		//TODO check if hasCreatedGroupToday(currentUser)
-		String name = request.getParameter("groupname");
-		String desc = request.getParameter("groupdesc");
-		String status = request.getParameter("status");
-		request.setAttribute("groupname", name);
-		if(name.equals("") || name.startsWith(" ")){
-			request.setAttribute("error", "Le nom du groupe est invalide.");
-			this.getServletContext().getRequestDispatcher( "/WEB-INF/jsp/newgroup.jsp" ).forward(request, response);
-			return;
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		UsersComponent usersComponent = new UsersComponent();
+		User currentUser = usersComponent.getCurrentUser(request);
+		
+		if(currentUser == null) {
+			this.getServletContext().getRequestDispatcher(VUE_INDEX).forward(request, response);
+		} else {
+			String groupIdStr = request.getAttribute("groupId").toString();
+			
+			if(groupIdStr != null) {
+				redirectToRightServlet(request, response, groupIdStr);
+			} else {
+				this.getServletContext().getRequestDispatcher(VUE_INDEX).forward(request, response);
+			}
 		}
-		Group g = new Group(name,desc,status);
-		SQLGroupComponent gc = new SQLGroupComponent();
-		String msg = gc.insertGroup(g,user);
-		if(msg!=null){
-			request.setAttribute("error", msg);
-			this.getServletContext().getRequestDispatcher( "/WEB-INF/jsp/newgroup.jsp" ).forward(request, response);
-			return;
-		}
-		//TODO change redirection to group view
-		this.getServletContext().getRequestDispatcher( "/WEB-INF/jsp/newgroup.jsp" ).forward(request, response);
 	}
 	
+	public void redirectToRightServlet(HttpServletRequest request, HttpServletResponse response, String groupIdStr) throws ServletException, IOException {
+		Long groupId = Long.parseLong(groupIdStr);
+		SQLGroupComponent sqlGroupComponent = new SQLGroupComponent();
+		Group group = sqlGroupComponent.getGroup(groupId);
+		if(group == null || group.getId() == null) {
+			// Remove all request attributes
+			Enumeration<?> e = request.getAttributeNames();
+			while(e.hasMoreElements()){
+				String attName = (String)e.nextElement();
+				request.removeAttribute(attName);
+			}
+			  
+			this.getServletContext().getRequestDispatcher(VUE_INDEX).forward(request, response);
+		} else {
+			request.setAttribute("group", group.toHashMap());
+			List<HashMap<String, String>> members = new ArrayList<HashMap<String, String>>();
+			for (User u : group.getMembers()) {
+				members.add(u.toHashMap());
+			}
+			
+			request.setAttribute("members", members);
+			request.setAttribute("groupImagePath", Constants.GROUP_PICS_ROOT_FOLDER + File.separator + group.getImg());
+			
+			this.getServletContext().getRequestDispatcher(VUE_GROUP).forward(request, response);
+		}
+	}
 }

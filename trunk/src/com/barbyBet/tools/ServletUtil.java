@@ -64,4 +64,24 @@ public class ServletUtil {
 			}
 		}
 	 }
+	 
+	 public static int getGroupStatusFromString(String groupStatus) {
+		 if("public".equals(groupStatus)) {
+			 return 0;
+		 } else if("private".equals(groupStatus)) {
+			 return 1;
+		 }
+		 
+		 return 0;
+	 }
+	 
+	 public static String getGroupStatusStringFromInt(int groupStatus) {
+		 if(groupStatus == 0) {
+			 return "Public";
+		 } else if(groupStatus == 1) {
+			 return "Privé";
+		 }
+		 
+		 return "Public";
+	 }
 }

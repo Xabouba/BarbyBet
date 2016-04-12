@@ -22,8 +22,7 @@ public class UsersComponent {
 		if(cookies != null) {
 			for(Cookie cookie : cookies) {
 				if(cookie.getName().equals(Constants.COOKIE_CURRENT_USER_ID) && cookie.getMaxAge() != 0) {
-					System.out.println(cookie.getMaxAge());
-					currentUser.setId(Integer.parseInt(cookie.getValue()));
+					currentUser.setId(Long.parseLong(cookie.getValue()));
 				}
 				
 				if(cookie.getName().equals(Constants.COOKIE_CURRENT_USER_NAME) && cookie.getMaxAge() != 0) {

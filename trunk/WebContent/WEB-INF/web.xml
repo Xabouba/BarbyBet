@@ -2,113 +2,88 @@
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
   <display-name>Barby Bet</display-name>
   <welcome-file-list>
-   	<welcome-file>login</welcome-file>
+    <welcome-file>login</welcome-file>
   </welcome-file-list>
-  
-  <!-- Wall servlet : my profile is here & for now it's the index page of the website 
-  <servlet>
-    <servlet-name>My Account</servlet-name>
-    <servlet-class>com.barbyBet.servlets.MyAccountServlet</servlet-class>
-  </servlet>
-  
-  <servlet-mapping>
-	<servlet-name>MyAccount</servlet-name>
-	<url-pattern>/accueil</url-pattern>
-  </servlet-mapping> -->
-  
-  <!-- Servlet for game score parsing -->
   <servlet>
     <servlet-name>Direct</servlet-name>
     <servlet-class>com.barbyBet.servlets.DirectResultServlet</servlet-class>
   </servlet>
-  
   <servlet-mapping>
-	<servlet-name>Direct</servlet-name>
-	<url-pattern>/direct</url-pattern>
+    <servlet-name>Direct</servlet-name>
+    <url-pattern>/direct</url-pattern>
   </servlet-mapping>
-  
-  <!-- Servlet for match list -->
   <servlet>
     <servlet-name>Match</servlet-name>
     <servlet-class>com.barbyBet.servlets.MatchServlet</servlet-class>
   </servlet>
-  
   <servlet-mapping>
-	<servlet-name>Match</servlet-name>
-	<url-pattern>/match</url-pattern>
+    <servlet-name>Match</servlet-name>
+    <url-pattern>/match</url-pattern>
   </servlet-mapping>
-  
-  <!-- Servlet for user registration -->
   <servlet>
     <servlet-name>Register</servlet-name>
     <servlet-class>com.barbyBet.servlets.RegisterServlet</servlet-class>
   </servlet>
-  
-   <servlet-mapping>
-	<servlet-name>Register</servlet-name>
-	<url-pattern>/register</url-pattern>
+  <servlet-mapping>
+    <servlet-name>Register</servlet-name>
+    <url-pattern>/register</url-pattern>
   </servlet-mapping>
-  
-  <!-- Servlet for user connection -->
   <servlet>
     <servlet-name>Login</servlet-name>
     <servlet-class>com.barbyBet.servlets.LoginServlet</servlet-class>
   </servlet>
-  
-   <servlet-mapping>
-	<servlet-name>Login</servlet-name>
-	<url-pattern>/login</url-pattern>
+  <servlet-mapping>
+    <servlet-name>Login</servlet-name>
+    <url-pattern>/login</url-pattern>
   </servlet-mapping>
-  
-   	<!-- Servlet for user logout -->
-	<servlet>
-		<servlet-name>Logout</servlet-name>
-		<servlet-class>com.barbyBet.servlets.LogoutServlet</servlet-class>
-	</servlet>
-	 
-	<servlet-mapping>
-		<servlet-name>Logout</servlet-name>
-		<url-pattern>/logout</url-pattern>
-	</servlet-mapping>
-  
-  <!-- Servlet for user page -->
+  <servlet>
+    <servlet-name>Logout</servlet-name>
+    <servlet-class>com.barbyBet.servlets.LogoutServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Logout</servlet-name>
+    <url-pattern>/logout</url-pattern>
+  </servlet-mapping>
   <servlet>
     <servlet-name>Account</servlet-name>
     <servlet-class>com.barbyBet.servlets.AccountServlet</servlet-class>
   </servlet>
-  
-   <servlet-mapping>
-	<servlet-name>Account</servlet-name>
-	<url-pattern>/account</url-pattern>
+  <servlet-mapping>
+    <servlet-name>Account</servlet-name>
+    <url-pattern>/account</url-pattern>
   </servlet-mapping>
-  
-  <!-- Servlet for group list -->
   <servlet>
     <servlet-name>Group</servlet-name>
     <servlet-class>com.barbyBet.servlets.GroupServlet</servlet-class>
   </servlet>
-  
-   <servlet-mapping>
-	<servlet-name>Group</servlet-name>
-	<url-pattern>/group</url-pattern>
+  <servlet-mapping>
+    <servlet-name>Group</servlet-name>
+    <url-pattern>/group</url-pattern>
   </servlet-mapping>
-  
-   <servlet-mapping>
-	<servlet-name>Group</servlet-name>
-	<url-pattern>/newGroup</url-pattern>
+  <servlet>
+    <servlet-name>CreateGroup</servlet-name>
+    <servlet-class>com.barbyBet.servlets.CreateGroupServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CreateGroup</servlet-name>
+    <url-pattern>/createGroup</url-pattern>
   </servlet-mapping>
-  
-  <!-- Servlet for real score -->
   <servlet>
     <servlet-name>Information</servlet-name>
     <servlet-class>com.barbyBet.servlets.InformationServlet</servlet-class>
   </servlet>
-  
-   <servlet-mapping>
-	<servlet-name>Information</servlet-name>
-	<url-pattern>/information</url-pattern>
+  <servlet-mapping>
+    <servlet-name>Information</servlet-name>
+    <url-pattern>/information</url-pattern>
   </servlet-mapping>
-  
+  <servlet>
+    <servlet-name>UserAutoComplete</servlet-name>
+    <servlet-class>com.barbyBet.servlets.UserAutoCompleteServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UserAutoComplete</servlet-name>
+    <url-pattern>/userAutoComplete</url-pattern>
+  </servlet-mapping>
   <!-- Servlet for rank -->
   <servlet>
     <servlet-name>Rank</servlet-name>

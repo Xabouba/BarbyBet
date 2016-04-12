@@ -1,9 +1,12 @@
 DROP TABLE IF EXISTS Groups;
 
 CREATE TABLE Groups (
-	name VARCHAR(128) PRIMARY KEY,
-	description VARCHAR(1024),
-	status VARCHAR(128) NOT NULL,
+	id INT AUTO_INCREMENT PRIMARY KEY,
+	name VARCHAR(128),
+	description TEXT,
+	status INT NOT NULL,
 	img VARCHAR(128),
-	creation_date timestamp
+	groupCreator INT,
+	creationDate timestamp,
+	FOREIGN KEY (groupCreator) REFERENCES Users(id)
 );

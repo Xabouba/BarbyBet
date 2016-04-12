@@ -7,7 +7,6 @@
     </head>
     <body onLoad="goforit()">
     <div id="fb-root"></div>
-    	<% response.setIntHeader("Refresh", 120); %>
     	<div class="wraper">
         	<%@include file="header.jsp" %>
     		
@@ -150,8 +149,7 @@
                                     <ul class="list-unstyled">
                                     	<li class="format-standard">
                                     	
-        									<form method="POST" action="newGroup" >
-        									<input type="hidden" name="action" value="newGroup"/>
+        									<form method="POST" action="createGroup" enctype="multipart/form-data">
 		                                    	<table style="margin-left: auto; margin-right: auto; width: 100%;">
 		                                    		<caption style="margin-top: 5px;">
 	                                    			</caption>
@@ -164,33 +162,39 @@
 			                                    		</tr>
 			                                    		<%} %>
 			                                    		<tr>
-			                                    			<td style="float: left; margin-left: 20px; margin-top:20px; font-weight: bold;">
-			                                    				<input type="text" placeholder="Nom" class="form-control" id="group-name" name="groupname" value="${param.groupname}">
-			                                    			</td>
-			                                    		</tr>
-<!-- 			                                    		<tr> -->
-<!-- 			                                    			<td style="float: left; margin-left: 20px; margin-top:20px; font-weight: bold;"> -->
-<!--                                   								Image :  -->
-<!-- 			                                    			</td> -->
-<!-- 			                                    			<td style="float: left; margin-left: 20px; margin-top:20px; font-weight: bold;"> -->
-<!--                                   							<input type="file" name="image" id="image"/> -->
-<!-- 			                                    			</td> -->
-<!-- 			                                    		</tr> -->
-			                                    		<tr>
-			                                    			<td style="float: left; margin-left: 20px; margin-top:20px; font-weight: bold;">
-			                                    			
-		                                    				<input type="radio" name="status" value="open" checked="checked"> <span title="Tout le monde peut rejoindre le groupe" > Open <span style="color : blue">&#65110;</span></span>
-			                                    			<input style="margin-left:4em" type="radio" name="status" value="ask"> <span title="Le groupe ne peut être rejoint que par invitation ou sur demande (si acceptée)" > Select<span style="color : blue">&#65110;</span></span>
-			                                    			<input style="margin-left:4em" type="radio" name="status" value="invite"> <span title="Le groupe ne peut être rejoint que par invitation" > VIP<span style="color : blue">&#65110;</span></span>
+			                                    			<td style="float: left; margin-left: 5%; margin-top:20px; font-weight: bold; width:90%; text-align:center;">
+			                                    				<input type="text" placeholder="Nom du groupe" class="form-control" id="group-name" name="groupName" value="${param.groupname}">
 			                                    			</td>
 			                                    		</tr>
 			                                    		<tr>
-			                                    			<td style="float: left; margin-left: 20px; margin-top:20px; margin-top:20px; font-weight: bold; width:100%">
-                                  								<textarea placeholder="Description" class="form-control" name="groupdesc" rows="4" maxlength="250" style="resize: none; width: 70%">${param.groupdesc}</textarea>
+			                                    			<td style="float: left; margin-left: 5%; margin-top:20px; font-weight: bold; width:90%">
+			                                    				<input type="radio" name="status" value="public" checked="checked"> <span title="Tout le monde peut rejoindre le groupe">Public<span style="color : blue">&#65110;</span></span>
+				                                    			<input style="margin-left:4em" type="radio" name="status" value="private"> <span title="Le groupe ne peut être rejoint que par invitation" >Privé<span style="color : blue">&#65110;</span></span>
 			                                    			</td>
 			                                    		</tr>
 			                                    		<tr>
-			                                    			<td style="float: left; margin-left: 20px; margin-top:20px; margin-top:20px; font-weight: bold; width:100%">
+			                                    			<td style="float: left; margin-left: 5%; margin-top:20px; font-weight: bold; width:100%">
+                                  								<textarea placeholder="Description du groupe" class="form-control" name="groupDescription" rows="6" maxlength="250" style="resize: none; width: 90%">${param.groupdesc}</textarea>
+			                                    			</td>
+			                                    		</tr>
+			                                    		
+														<tr>
+															<td>
+														  		<div id="holder">
+														  			<img src="images/icn-upload.png" />
+														  			<p style="text-align:center; font-weight:300; color:#b1b3b7">Déposez une image ici</p>
+														  			<p style="text-align:center; font-weight:100; color:#000">ou alors ...</p>
+																</div> 
+																<p id="upload">
+																	<input type="file" style="margin:0 auto;" name="group-pic">
+																</p>
+															 	<p id="filereader">File API &amp; FileReader API not supported</p>
+															 	<p id="formdata">XHR2's FormData is not supported</p>
+															 	<p id="progress">XHR2's upload progress isn't supported</p>
+														 	</td>
+														</tr>
+			                                    		<tr>
+			                                    			<td style="float: left; margin-left: 0; margin-top:20px; font-weight: bold; width:100%; text-align:center;">
 	                                  							<input type="submit" name="submit" class="btn btn-primary" value="Valider" id="input-submit">
            													</td>
 			                                    		</tr>
@@ -207,224 +211,104 @@
                     <!-- main-col -->
                     <div class="clearfix"></div>
                 </div>
-                <!-- main-content -->
-            	<div id="sidebar" class="pull-right">
-                    <ul class="clearfix list-unstyled">
-                        <li>
-                            <div class="widget kp-last-news">
-                                <h2 class="widget-title"><span>Informations</span></h2>
-                                <div class="widget-content">
-                                    <ul class="list-unstyled">
-                                    	<li class="format-standard">
-		                                    <div>
-		                                    	
-		                                    	<table style="margin-left: auto; margin-right: auto; width: 100%;">
-		                                    		<caption style="margin-top: 5px;">
-	                                    			</caption>
-	                                    			<tbody>
-			                                    		<tr>
-			                                    			<td style="float: right; width: 90%; font-size: 20px; margin-top:5px">
-			                                    				<strong>${cookie.cookieUsername.value}</strong>
-															</td>
-			                                    			<td style="width: 30%">
-		                                    					<input class="button-prono" type="button" onclick="openProno()" />
-			                                    			</td>
-			                                    		</tr>
-			                                    		<tr>
-			                                    			<td style="float: right; width: 90%">Pronostique:</td>
-			                                    			<td style="width: 30%">
-			                                    				<c:choose>
-																	<c:when test="${prono=='1'}">
-																    	${match.homeTeam}
-																    </c:when>
-																	<c:when test="${prono=='2'}">
-																    	nul
-																    </c:when>
-																	<c:when test="${prono=='3'}">
-																    	${match.awayTeam}
-																    </c:when>
-																</c:choose>
-			                                    			</td>
-			                                    		</tr>
-			                                    		<tr>
-			                                    			<td style="float: right; width: 90%">Mise:</td>
-			                                    			<td style="width: 30%">
-			                                    				<c:if test="${credits != null}">
-			                                    					${credits} crédits
-			                                    				</c:if>
-			                                    			</td>
-			                                    		</tr>
-	                                    				<tr>
-			                                    			<td style="float: right; width: 90%">Gain:</td>
-			                                    			<td style="width: 30%">
-			                                    				<c:if test="${creditsWon != null}">
-				                                    				${creditsWon} crédits
-			                                    				</c:if>
-			                                    			</td>
-			                                    		</tr>
-	                                    			</tbody>
-		                                    	</table>
-		                                    </div>
-                                    	</li>
-                                        <li class="format-standard">
-                                        	<div id="info-match" class="info-match">
-                                    		</div>
-                                    	</li>
-                                   	</ul>
-                                </div>
-                                <!-- widget-content -->
-                            </div>
-                            <!-- kp-last-news -->
-                        </li>
-                    </ul>
-                </div>
-                <!-- sidebar -->
-                <div class="clearfix"></div>
             </div>
     	</div>
     	<div class="page-footer">
     	</div>
     	
-    	<div class="prono-form" id="prono-form" title="Pronostic">
-		  <form method="post" action="sax">
-		    <input type="hidden" id="matchId" value="${match.matchId}" />
-		    <table class="prono-table">
-			   <tr>
-			   		<td/>
-			   		<td/>
-	    			<td class="prono-header" style="font-weight: bold;">E1</td>
-	    			<td style="font-weight: bold;">N</td>
-	    			<td style="font-weight: bold;">E2</td>
-	    			<td/>
-	    			<td/>
-    		   </tr>
-			   <tr>
-	    			<td><img class="prono-img" src="images/team/${match.homeImg}_128.png"></img></td>
-	    			<td class="prono-team" style="">${match.homeTeam}</td>
-	    			<td class="prono-score" style="">
-	    				<c:choose>
-		    				<c:when test="${prono == '1'}">
-		    					<input type="radio" name="prono" value="1" checked/>
-		    				</c:when>
-		    				<c:otherwise>
-		    					<input type="radio" name="prono" value="1" />
-		    				</c:otherwise>
-	    				</c:choose>
-					</td>
-	    			<td class="prono-score">
-	    				<c:choose>
-		    				<c:when test="${prono == '2'}">
-		    					<input type="radio" name="prono" value="2" checked/>
-		    				</c:when>
-		    				<c:otherwise>
-		    					<input type="radio" name="prono" value="2" />
-		    				</c:otherwise>
-	    				</c:choose>
-    				</td>
-	    			<td class="prono-score">
-	    				<c:choose>
-		    				<c:when test="${prono == '3'}">
-		    					<input type="radio" name="prono" value="3" checked/>
-		    				</c:when>
-		    				<c:otherwise>
-		    					<input type="radio" name="prono" value="3" />
-		    				</c:otherwise>
-	    				</c:choose>
-					</td>
-	    			<td class="prono-team">${match.awayTeam}</td>
-	    			<td><img class="prono-img" src="images/team/${match.awayImg}_128.png"></img></td>
-	    		</tr>
-	    		<tr>
-	    			<td/>
-	    			<td class="prono-credits" colspan="5">
-	    				<input id="credits" type="text" value="${credits}"/> / 10000
-	    			</td>
-	    			<td/>
-	    		</tr>
-	    	</table>
-		  </form>
-		</div>
-		
-    	<script type="text/javascript">
-		  window.onload = function () {
-			var homeTeam = "${match.homeTeam}";
-			var awayTeam = "${match.awayTeam}";
-		    var homeOdd = "${match.homeOdd}";
-			var drawOdd = "${match.drawOdd}";
-			var awayOdd = "${match.awayOdd}";
-		    var chart = new CanvasJS.Chart("info-match", {
-		      
-		    	axisX: {
-		            title: "v:" + homeOdd + " -- n:" + drawOdd + " -- d:" + awayOdd + ""
-		          },
-	    		data: [             
-		        {
-		         type: "column",
-		         toolTipContent: "<p>{label} : {y}%</p>",
-		         dataPoints: [
-		         { label: homeTeam, y: 70 },
-		         { label: "nul", y: 20 },
-		         { label: awayTeam, y: 10 }
-		         ]
-		       }
-		       ]
-		     });
-		
-		    chart.render();
-		  }
-		  
-		  openProno = function()
-		  {
-			  dialog = $( "#prono-form" ).dialog({
-			      autoOpen: false,
-			      height: 260,
-			      width: 700,
-			      modal: true,
-			      buttons: {
-			        "Valider": function() {
-		        	  if ($( "#credits" ).val() <= 10000/2)
-					  {
-		        		  if ($( "#credits" ).val() == "" || $( "#credits" ).val() == 0)
-			        	  {
-			        	  	  alert('Vous devez miser des crédits.');	  
-			        	  }
-		        		  else
-	        			  {
-		        			  dialog.dialog( "close" );
-				        	  pronostic();
-	        			  }
-					  }
-		        	  else
-	        		  {
-		        	  	  alert('Vous ne pouvez pas miser autant de crédits.');	  
-	        		  }
-			        },
-			        "Annuler" : function() {
-			          dialog.dialog( "close" );
+		<script>
+			var holder = document.getElementById('holder'),
+			    tests = {
+			      filereader: typeof FileReader != 'undefined',
+			      dnd: 'draggable' in document.createElement('span'),
+			      formdata: !!window.FormData,
+			      progress: "upload" in new XMLHttpRequest
+			    }, 
+			    support = {
+			      filereader: document.getElementById('filereader'),
+			      formdata: document.getElementById('formdata'),
+			      progress: document.getElementById('progress')
+			    },
+			    acceptedTypes = {
+			      'image/png': true,
+			      'image/jpeg': true,
+			      'image/gif': true
+			    },
+			    progress = document.getElementById('uploadprogress'),
+			    fileupload = document.getElementById('upload');
+			"filereader formdata progress".split(' ').forEach(function (api) {
+			  if (tests[api] === false) {
+			    support[api].className = 'fail';
+			  } else {
+			    // FFS. I could have done el.hidden = true, but IE doesn't support
+			    // hidden, so I tried to create a polyfill that would extend the
+			    // Element.prototype, but then IE10 doesn't even give me access
+			    // to the Element object. Brilliant.
+			    support[api].className = 'hidden';
+			  }
+			});
+			
+			function previewfile(file) {
+			  if (tests.filereader === true && acceptedTypes[file.type] === true) {
+			    var reader = new FileReader();
+			    reader.onload = function (event) {
+			      var image = new Image();
+			      image.src = event.target.result;
+			      image.width = 150; // a fake resize
+			      
+			      // Sets the image where the "cloud" image is
+			      var item = holder.childNodes[1];
+				  holder.replaceChild(image,item);
+			    };
+			    reader.readAsDataURL(file);
+			  }  else {
+			    holder.innerHTML += '<p>Uploaded ' + file.name + ' ' + (file.size ? (file.size/1024|0) + 'K' : '');
+			    console.log(file);
+			  }
+			}
+			
+			function readfiles(files) {
+			    debugger;
+			    var formData = tests.formdata ? new FormData() : null;
+			    for (var i = 0; i < files.length; i++) {
+			      if (tests.formdata) formData.append('file', files[i]);
+			      previewfile(files[i]);
+			    }
+			    // now post a new XHR request
+			    if (tests.formdata) {
+			      var xhr = new XMLHttpRequest();
+			      xhr.open('POST', '/devnull.php');
+			      xhr.onload = function() {
+			        progress.value = progress.innerHTML = 100;
+			      };
+			      if (tests.progress) {
+			        xhr.upload.onprogress = function (event) {
+			          if (event.lengthComputable) {
+			            var complete = (event.loaded / event.total * 100 | 0);
+			            progress.value = progress.innerHTML = complete;
+			          }
 			        }
 			      }
-			    });
-			  
-			  dialog.dialog( "open" );
-		  }
-		  
-		  pronostic = function()
-		  {
-			  var matchId = $("#matchId").val();
-			  var prono = $("input[name='prono']:checked").val();
-			  var credits = $("#credits").val();
-			  $.ajax(
-			  {
-		      	method: "POST",
-				url: "sax",
-				data: {matchId: matchId, prono: prono, credits: credits}
-			  }).done(function( msg ) 
-			  {
-			  	location.reload()
-			  });
-		  };
-		  
+			      xhr.send(formData);
+			    }
+			}
+			
+			if (tests.dnd) { 
+			  holder.ondragover = function () { this.className = 'hover'; return false; };
+			  holder.ondragend = function () { this.className = ''; return false; };
+			  holder.ondrop = function (e) {
+			    this.className = '';
+			    e.preventDefault();
+			    readfiles(e.dataTransfer.files);
+			  }
+			} else {
+			  fileupload.className = 'hidden';
+			  fileupload.querySelector('input').onchange = function () {
+			    readfiles(this.files);
+			  };
+			}
 		</script>
+		
     	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
         <script src="js/jqueryUi.js"></script>
         <script src="js/bootstrap.js"></script>

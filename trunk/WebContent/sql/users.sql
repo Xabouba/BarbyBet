@@ -7,5 +7,6 @@ CREATE TABLE Users(
     password VARCHAR (128) NOT NULL,
     dateRegistration timestamp,
     coins INT DEFAULT 10000,
+    rank INT,
     PRIMARY KEY ( id )
-    ) 
+) 
