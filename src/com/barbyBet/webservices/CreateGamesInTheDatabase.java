@@ -49,7 +49,7 @@ public class CreateGamesInTheDatabase {
 			Odds odds = new Odds(0, 0, 0);
 			
 			Match m = new Match();
-			m.setIdWebService(game.getId());
+			m.setIdWebService(new Long(game.getId()));
 			m.setIdSport(WebServiceConstants.SPORT_FOOTBALL_ID);
 			m.setIdCompetition(WebServiceConstants.SPORT_FOOTBALL_ID);
 			m.setJournee(Integer.parseInt(game.getRound()));

@@ -14,7 +14,7 @@ public class SQLPronoComponent extends SQLComponent
 		super();
 	}
 	
-	public HashMap<String, String> getProno(int matchId, int idUser)
+	public HashMap<String, String> getProno(Long matchId, Long idUser)
 	{
 		HashMap<String, String> prono = new HashMap<String, String>();
 
@@ -26,8 +26,8 @@ public class SQLPronoComponent extends SQLComponent
 		    connexion = DriverManager.getConnection(_url, _user, _password);
 		    stmt = connexion.prepareStatement("SELECT scoreHome, scoreAway, prono, credits, creditsWon FROM Pronostics WHERE idUser = ? AND idMatch = ?");
 		    
-		    stmt.setInt(1, idUser);
-		    stmt.setInt(2, matchId);
+		    stmt.setLong(1, idUser);
+		    stmt.setLong(2, matchId);
 		    
 		    rs = stmt.executeQuery();
 		    if (rs.next())
@@ -53,7 +53,7 @@ public class SQLPronoComponent extends SQLComponent
 		return prono;
 	}
 	
-	public boolean insertProno(int matchId, int idUser, int scoreHome, int scoreAway, int prono, int credits)
+	public boolean insertProno(Long matchId, Long idUser, int scoreHome, int scoreAway, int prono, int credits)
 	{
 		Connection connexion = null;
 		PreparedStatement stmt = null;
@@ -62,8 +62,8 @@ public class SQLPronoComponent extends SQLComponent
 		    connexion = DriverManager.getConnection(_url, _user, _password);
 		    stmt = connexion.prepareStatement("INSERT INTO Pronostics (idUser, idMatch, scoreHome, scoreAway, prono, credits) VALUES (?, ?, ?, ?, ?, ?)");
 		    
-		    stmt.setInt(1, idUser);
-		    stmt.setInt(2, matchId);
+		    stmt.setLong(1, idUser);
+		    stmt.setLong(2, matchId);
 		    stmt.setInt(3, scoreHome);
 		    stmt.setInt(4, scoreAway);
 		    stmt.setInt(5, prono);
@@ -84,7 +84,7 @@ public class SQLPronoComponent extends SQLComponent
 		return true;
 	}
 
-	public void updateProno(int matchId, int idUser, int scoreHome, int scoreAway, int prono, int credits) 
+	public void updateProno(Long matchId, Long idUser, int scoreHome, int scoreAway, int prono, int credits) 
 	{
 		Connection connexion = null;
 		PreparedStatement stmt = null;
@@ -97,8 +97,8 @@ public class SQLPronoComponent extends SQLComponent
 		    stmt.setInt(2, scoreAway);
 		    stmt.setInt(3, prono);
 		    stmt.setInt(4, credits);
-		    stmt.setInt(5, matchId);
-		    stmt.setInt(6, idUser);
+		    stmt.setLong(5, matchId);
+		    stmt.setLong(6, idUser);
 		    
 		    stmt.executeUpdate();
 		} 
@@ -113,7 +113,7 @@ public class SQLPronoComponent extends SQLComponent
 		}
 	}
 	
-	public void pronostic(int matchId, int idUser, int scoreHome, int scoreAway, int prono, int credits)
+	public void pronostic(Long matchId, Long idUser, int scoreHome, int scoreAway, int prono, int credits)
 	{
 		if (getProno(matchId, idUser).isEmpty())
 		{

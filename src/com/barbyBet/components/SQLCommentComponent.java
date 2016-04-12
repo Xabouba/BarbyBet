@@ -18,7 +18,7 @@ public class SQLCommentComponent extends SQLComponent {
 		super();
 	}
 	
-	public ArrayList<HashMap<String, String>> getComments(int matchId)
+	public ArrayList<HashMap<String, String>> getComments(Long matchId)
 	{
 		ArrayList<HashMap<String, String>> listComment = new ArrayList<HashMap<String, String>>();
 		
@@ -29,7 +29,7 @@ public class SQLCommentComponent extends SQLComponent {
 		{
 		    connexion = DriverManager.getConnection(_url, _user, _password);
 		    stmt = connexion.prepareStatement("SELECT c.dateComment, u.username, c.comment, u.id FROM Comments c, Users u WHERE c.idMatch = ? AND u.id = c.idUser ORDER BY dateComment DESC LIMIT 0, 20");
-		    stmt.setInt(1, matchId);
+		    stmt.setLong(1, matchId);
 		    
 		    rs = stmt.executeQuery();
 		    while (rs.next())
@@ -45,7 +45,7 @@ public class SQLCommentComponent extends SQLComponent {
 		    	comment.put("comment", rs.getString(3));
 		    	
 		    	SQLPronoComponent sqlPronoComponent = new SQLPronoComponent();
-		    	HashMap<String, String> prono = sqlPronoComponent.getProno(matchId, rs.getInt(4));
+		    	HashMap<String, String> prono = sqlPronoComponent.getProno(matchId, rs.getLong(4));
 	    		comment.put("prono", prono.get("prono"));
 		    	
 		    	listComment.add(comment);

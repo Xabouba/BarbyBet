@@ -1,7 +1,12 @@
 DROP TABLE IF EXISTS LinkUserGroup;
 
 CREATE TABLE LinkUserGroup (
-	user_id INT PRIMARY KEY,
-	group_name VARCHAR(128) NOT NULL,
-	status VARCHAR(128) NOT NULL
+	groupId INT,
+	userId INT,
+	isAdmin BOOLEAN,
+	userRank INT,
+	userRankBeforeLastGame INT,
+	dateUserAdded timestamp,
+	FOREIGN KEY (groupId) REFERENCES Groups(id),
+	FOREIGN KEY (userId) REFERENCES Users(id)
 );

@@ -6,10 +6,10 @@ import java.util.HashMap;
 
 public class Match {
 
-	private int _id;
-	private int _idWebService;
-	private int _idSport;
-	private int _idCompetition;
+	private Long _id;
+	private Long _idWebService;
+	private Long _idSport;
+	private Long _idCompetition;
 	private Team _homeTeam;
 	private Team _awayTeam;
 	private int _homeScore;
@@ -26,21 +26,21 @@ public class Match {
 		
 	}
 	
-	public int getId()
+	public Long getId()
 	{
 		return _id;
 	}
 	
-	public void setId(int id)
+	public void setId(Long id)
 	{
 		this._id = id;
 	}
 	
-	public int getIdWebService() {
+	public Long getIdWebService() {
 		return _idWebService;
 	}
 	
-	public void setIdWebService(int idWebService) {
+	public void setIdWebService(Long idWebService) {
 		this._idWebService = idWebService;
 	}
 	
@@ -183,19 +183,19 @@ public class Match {
 	    return matchInfo;
 	}
 
-	public int getIdCompetition() {
+	public Long getIdCompetition() {
 		return _idCompetition;
 	}
 
-	public void setIdCompetition(int _idCompetition) {
+	public void setIdCompetition(Long _idCompetition) {
 		this._idCompetition = _idCompetition;
 	}
 
-	public int getIdSport() {
+	public Long getIdSport() {
 		return _idSport;
 	}
 
-	public void setIdSport(int _idSport) {
+	public void setIdSport(Long _idSport) {
 		this._idSport = _idSport;
 	}
 }

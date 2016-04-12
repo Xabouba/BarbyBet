@@ -49,7 +49,7 @@ public class DirectResultServlet extends HttpServlet {
 			else
 			{
 				/** Match information */
-				int matchId = Integer.parseInt(matchIdAsString);
+				Long matchId = Long.parseLong(matchIdAsString);
 				Match match = sqlMatchComponent.getMatch(matchId);
 				request.setAttribute("match", match.toHashMap());
 				
@@ -113,7 +113,7 @@ public class DirectResultServlet extends HttpServlet {
 			int scoreAway = Integer.parseInt(RequestUtils.getParameter(request, "scoreAway", "0"));
 			
 			int credits = 0;
-			int matchId = Integer.parseInt(matchIdAsString);
+			Long matchId = Long.parseLong(matchIdAsString);
 			
 			SQLPronoComponent sqlPronoComponent = new SQLPronoComponent();
 			sqlPronoComponent.pronostic(matchId, currentUser.getId(), scoreHome, scoreAway, prono, credits);

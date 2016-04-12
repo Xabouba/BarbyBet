@@ -6,8 +6,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -79,7 +81,7 @@ public class SQLUsersComponent extends SQLComponent {
 
 				rs = stmt.executeQuery();
 				if (rs.next()) {
-					return new User(rs.getInt("id"), rs.getString("username"), rs.getString("email"), rs.getDate("dateRegistration"), rs.getInt("coins"));
+					return new User(rs.getLong("id"), rs.getString("username"), rs.getString("email"), rs.getDate("dateRegistration"), rs.getInt("coins"));
 				} else {
 					setError(CHAMP_EMAIL,
 							"Vos identifiants sont incorrects.");
@@ -130,6 +132,37 @@ public class SQLUsersComponent extends SQLComponent {
 			close(connexion);
 		}
 	}
+	
+	public User getUser(Long id) {
+		User user = null;
+		Connection connexion = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		try {
+			connexion = DriverManager.getConnection(_url, _user, _password);
+			stmt = connexion
+					.prepareStatement("SELECT id, username, email, dateRegistration, coins FROM Users WHERE id = ?");
+			stmt.setLong(1, id);
+
+			rs = stmt.executeQuery();
+			if (rs.next()) {
+				user = new User(rs.getLong("id"), rs.getString("username"),
+						rs.getString("email"), rs.getDate("dateRegistration"),
+						rs.getInt("coins"));
+				return user;
+			} else {
+				return null;
+			}
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+
+			return null;
+		} finally {
+			close(rs);
+			close(stmt);
+			close(connexion);
+		}
+	}
 
 	public User getUser(String username) {
 		User user = null;
@@ -139,12 +172,12 @@ public class SQLUsersComponent extends SQLComponent {
 		try {
 			connexion = DriverManager.getConnection(_url, _user, _password);
 			stmt = connexion
-					.prepareStatement("SELECT id, username,email,dateRegistration,coins FROM Users WHERE username = ?");
+					.prepareStatement("SELECT id, username, email, dateRegistration, coins FROM Users WHERE username = ?");
 			stmt.setString(1, username);
 
 			rs = stmt.executeQuery();
 			if (rs.next()) {
-				user = new User(rs.getInt("id"), rs.getString("username"),
+				user = new User(rs.getLong("id"), rs.getString("username"),
 						rs.getString("email"), rs.getDate("dateRegistration"),
 						rs.getInt("coins"));
 				return user;
@@ -162,7 +195,7 @@ public class SQLUsersComponent extends SQLComponent {
 		}
 	}
 	
-	public int getUserId(String username) {
+	public Long getUserId(String username) {
 		Connection connexion = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -174,14 +207,14 @@ public class SQLUsersComponent extends SQLComponent {
 
 			rs = stmt.executeQuery();
 			if (rs.next()) {
-				return rs.getInt("id");
+				return rs.getLong("id");
 			} else {
-				return -1;
+				return -1L;
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 
-			return -1;
+			return -1L;
 		} finally {
 			close(rs);
 			close(stmt);
@@ -251,6 +284,33 @@ public class SQLUsersComponent extends SQLComponent {
 
 			return new User(getUserId(username),username,email,date,DEFAULT_NUMBER_OF_COINS);
 		}
+	}
+	
+	public ArrayList<String> getUserNames(String term) {
+		ArrayList<String> usernames = new ArrayList<>();
+		Connection connexion = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		try {
+			connexion = DriverManager.getConnection(_url, _user, _password);
+			stmt = connexion
+					.prepareStatement("SELECT username FROM Users WHERE username like ?");
+			stmt.setString(1, "%" + term + "%");
+
+			rs = stmt.executeQuery();
+						
+			while(rs.next()) {
+				usernames.add(rs.getString("username"));
+			}
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		} finally {
+			close(rs);
+			close(stmt);
+			close(connexion);
+		}
+		
+		return usernames;
 	}
 
 	/*

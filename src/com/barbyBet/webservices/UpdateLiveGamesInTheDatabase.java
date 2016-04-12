@@ -44,7 +44,7 @@ public class UpdateLiveGamesInTheDatabase {
 			awayTeam.setName(liveScore.getAwayteam());
 			
 			Match m = new Match();
-			m.setIdWebService(liveScore.getId());
+			m.setIdWebService(new Long(liveScore.getId()));
 			m.setHomeScore(liveScore.getHomeGoals());
 			m.setAwayScore(liveScore.getAwayGoals());
 			m.setHomeTeam(homeTeam);

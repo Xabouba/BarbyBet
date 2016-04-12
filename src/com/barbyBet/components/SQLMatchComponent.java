@@ -36,7 +36,7 @@ public class SQLMatchComponent extends SQLComponent
 		    while (rs.next())
 		    {
 		    	Match match = new Match();
-		    	match.setId(rs.getInt(6));
+		    	match.setId(rs.getLong(6));
 		    	match.setBeginDate(rs.getTimestamp(5));
 		    	
 		    	Team homeTeam = new Team();
@@ -93,7 +93,7 @@ public class SQLMatchComponent extends SQLComponent
 		    while (rs.next())
 		    {
 		    	Match match = new Match();
-		    	match.setId(rs.getInt(6));
+		    	match.setId(rs.getLong(6));
 		    	match.setBeginDate(rs.getTimestamp(5));
 		    	
 		    	Team homeTeam = new Team();
@@ -136,7 +136,7 @@ public class SQLMatchComponent extends SQLComponent
 		}
 	}
 	
-	public Match getMatch(int matchId)
+	public Match getMatch(Long matchId)
 	{
 		Match match = new Match();
 		
@@ -147,12 +147,12 @@ public class SQLMatchComponent extends SQLComponent
 		{
 		    connexion = DriverManager.getConnection(_url, _user, _password);
 		    stmt = connexion.prepareStatement("SELECT t1.name, t1.img, t2.name, t2.img, m.beginDate, m.id, m.scoreH, m.scoreA, m.statut, c.name, s.name  FROM Matchs m, Team t1, Team t2, Sport s, Competition c  WHERE m.teamHId = t1.id AND m.teamAId = t2.id AND c.id = m.idCompetition AND s.id = m.idSport AND m.id = ? ");
-		    stmt.setInt(1, matchId);
+		    stmt.setLong(1, matchId);
 		    
 		    rs = stmt.executeQuery();
 		    if (rs.next())
 		    {
-		    	match.setId(rs.getInt(6));
+		    	match.setId(rs.getLong(6));
 		    	match.setBeginDate(rs.getTimestamp(5));
 		    	
 		    	Team homeTeam = new Team();
@@ -220,9 +220,9 @@ public class SQLMatchComponent extends SQLComponent
 			stmt = connection.prepareStatement("INSERT INTO Matchs (idWebService, idSport, idCompetition, journee, teamHId, teamAId, "
 	    		+ "scoreH, scoreA, beginDate, statut, oddsHome, oddsDraw, oddsAway) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 	    
-			stmt.setInt(1, m.getIdWebService());
-			stmt.setInt(2, m.getIdSport());
-	    	stmt.setInt(3, m.getIdCompetition());
+			stmt.setLong(1, m.getIdWebService());
+			stmt.setLong(2, m.getIdSport());
+	    	stmt.setLong(3, m.getIdCompetition());
 		    stmt.setInt(4, m.getJournee());
 		    stmt.setInt(5, m.getHomeTeam().getId());
 		    stmt.setInt(6, m.getAwayTeam().getId());
@@ -269,7 +269,7 @@ public class SQLMatchComponent extends SQLComponent
 
 			stmt.setInt(1, match.getHomeScore());
 		    stmt.setInt(2, match.getAwayScore());
-		    stmt.setInt(3, match.getIdWebService());
+		    stmt.setLong(3, match.getIdWebService());
 		    
 		    stmt.executeUpdate();
 		} catch (SQLException e) {

@@ -2,11 +2,9 @@ package com.barbyBet.servlets;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -23,7 +21,6 @@ import com.barbyBet.object.Match;
 import com.barbyBet.object.Team;
 import com.barbyBet.object.User;
 import com.barbyBet.tools.RequestUtils;
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Collections;
 
 /**
  * Servlet implementation class SaxResultGenerator
@@ -278,7 +275,7 @@ public class InformationServlet extends HttpServlet {
 			int scoreAway = Integer.parseInt(RequestUtils.getParameter(request, "scoreAway", "0"));
 			
 			int credits = 0;
-			int matchId = Integer.parseInt(matchIdAsString);
+			Long matchId = Long.parseLong(matchIdAsString);
 			
 			SQLPronoComponent sqlPronoComponent = new SQLPronoComponent();
 			sqlPronoComponent.pronostic(matchId, currentUser.getId(), scoreHome, scoreAway, prono, credits);

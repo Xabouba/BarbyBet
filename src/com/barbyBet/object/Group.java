@@ -1,26 +1,46 @@
 package com.barbyBet.object;
 
-import java.sql.Timestamp;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+
+import com.barbyBet.components.SQLUsersComponent;
+import com.barbyBet.tools.DateUtil;
+import com.barbyBet.tools.ServletUtil;
 
 public class Group {
 
+	private Long id;
 	private String name;
+	private int status;
 	private String img;
-	private String status;
 	private String description;
-	private Timestamp creationDate;
+	private Long groupCreator;
+	private Date creationDate;
 	private List<User> members;
 
-	public Group(String name2, String desc, String status2) {
-		name=name2;
-		status=status2;
-		setDescription(desc);
+	public Group(Long id, String name, int status, String description, Long groupCreator, Date creationDate, List<User> members) {
+		this.id = id;
+		this.name = name;
+		this.status = status;
+		this.description = description;
+		this.groupCreator = groupCreator;
+		this.creationDate = creationDate;
+		this.members = members;
 	}
 
 	public Group() {
+		
 	}
 
+	public Long getId() {
+		return id;
+	}
+	
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
 	public String getName() {
 		return name;
 	}
@@ -45,12 +65,20 @@ public class Group {
 		this.img = img;
 	}
 
-	public String getStatus() {
+	public int getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(int status) {
 		this.status = status;
+	}
+	
+	public Long getGroupCreator() {
+		return groupCreator;
+	}
+
+	public void setGroupCreator(Long groupCreator) {
+		this.groupCreator = groupCreator;
 	}
 
 	public String getDescription() {
@@ -61,13 +89,36 @@ public class Group {
 		this.description = description;
 	}
 
-	public Timestamp getCreationDate() {
+	public Date getCreationDate() {
 		return creationDate;
 	}
 
-	public void setCreationDate(Timestamp creationDate) {
+	public void setCreationDate(Date creationDate) {
 		this.creationDate = creationDate;
 	}
 	
-	
+	public HashMap<String, String> toHashMap() {
+		/** Group Information */
+	    HashMap<String, String> groupInfo = new HashMap<String, String>();
+	    groupInfo.put("id", String.valueOf(this.getId()));
+	    groupInfo.put("name", this.getName());
+	    groupInfo.put("img", this.getImg());
+	    groupInfo.put("description", this.getDescription());
+	    
+	    if(this.getMembers().size() == 1) {
+	    	groupInfo.put("numberOfMembers", String.valueOf(this.getMembers().size()) + " membre");
+	    } else {
+	    	groupInfo.put("numberOfMembers", String.valueOf(this.getMembers().size()) + " membres");
+	    }
+	    
+	    // Retrieve the user who created the group
+	    SQLUsersComponent userComponent = new SQLUsersComponent();
+	    User u = userComponent.getUser(this.getGroupCreator());
+	    
+	    groupInfo.put("groupCreator", u.getUsername());
+	    groupInfo.put("creationDate", DateUtil.SHORT_DATE_FORMAT_FRANCE.format(this.getCreationDate()));
+	    groupInfo.put("statusStr", ServletUtil.getGroupStatusStringFromInt(this.getStatus()));
+	    
+	    return groupInfo;
+	}
 }
