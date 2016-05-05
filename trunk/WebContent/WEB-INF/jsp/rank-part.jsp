@@ -37,7 +37,14 @@
                        					</c:otherwise>
                        				</c:choose>
                     			</td>
-                       			<td class="td_rank_credit">${user.value.point}</td>
+                       			<td class="td_rank_credit">
+                       				<c:choose>
+				       					<c:when test="${user.value.point > 0}">
+				       						${user.value.point}
+				       					</c:when>
+				       					<c:otherwise>0</c:otherwise>
+				       				</c:choose>
+			       				</td>
                        		</tr>
                        	</table>
                        </li>

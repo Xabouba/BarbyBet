@@ -95,4 +95,37 @@
 	<url-pattern>/rank</url-pattern>
   </servlet-mapping>
   
+  <!-- Servlet for rank action -->
+  <servlet>
+    <servlet-name>RankAction</servlet-name>
+    <servlet-class>com.barbyBet.servlets.actions.RankServletAction</servlet-class>
+  </servlet>
+  
+   <servlet-mapping>
+	<servlet-name>RankAction</servlet-name>
+	<url-pattern>/rankAction</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet for pronostic action -->
+  <servlet>
+    <servlet-name>BetAction</servlet-name>
+    <servlet-class>com.barbyBet.servlets.actions.BetServletAction</servlet-class>
+  </servlet>
+  
+   <servlet-mapping>
+	<servlet-name>BetAction</servlet-name>
+	<url-pattern>/betAction</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Servlet for comment action -->
+  <servlet>
+    <servlet-name>CommentAction</servlet-name>
+    <servlet-class>com.barbyBet.servlets.actions.CommentServletAction</servlet-class>
+  </servlet>
+  
+   <servlet-mapping>
+	<servlet-name>CommentAction</servlet-name>
+	<url-pattern>/commentAction</url-pattern>
+  </servlet-mapping>
+  
 </web-app>

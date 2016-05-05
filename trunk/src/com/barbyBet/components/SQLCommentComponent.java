@@ -66,7 +66,7 @@ public class SQLCommentComponent extends SQLComponent {
 		}
 	}
 	
-	public void insertComment(String comment, String idMatch, String idUser)
+	public void insertComment(String comment, long idMatch, long idUser)
 	{
 		Connection connexion = null;
 		PreparedStatement stmt = null;
@@ -75,8 +75,8 @@ public class SQLCommentComponent extends SQLComponent {
 		    connexion = DriverManager.getConnection(_url, _user, _password);
 		    stmt = connexion.prepareStatement("INSERT INTO Comments (idUser, idMatch, comment, dateComment) VALUES (?, ?, ?, ?)");
 		    
-		    stmt.setInt(1, Integer.valueOf(idUser));
-		    stmt.setInt(2, Integer.valueOf(idMatch));
+		    stmt.setLong(1, idUser);
+		    stmt.setLong(2, idMatch);
 		    stmt.setString(3, comment);
 		    
 		    Date dateToday = new Date();
