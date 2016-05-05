@@ -13,7 +13,7 @@ public class RankComponent {
 		
 	}
 	
-	public Map<String, Map<String, String>> getMinimizedRank(Integer groupId, String login)
+	public Map<String, Map<String, String>> getMinimizedRank(Long groupId, String login)
 	{
 		SQLRankComponent rankComponent = new SQLRankComponent();
 		Map<String, Map<String, String>> rank = new HashMap<String, Map<String,String>>();
@@ -74,7 +74,7 @@ public class RankComponent {
 		return newRank;
 	}
 	
-	public Map<String, Map<String, String>> getRank(Integer groupId, String login, int page, int nbUser)
+	public Map<String, Map<String, String>> getRank(Long groupId, String login, int page, int nbUser)
 	{
 		SQLRankComponent rankComponent = new SQLRankComponent();
 		Map<String, Map<String, String>> rank = new HashMap<String, Map<String,String>>();
@@ -105,7 +105,7 @@ public class RankComponent {
 		return newRank;
 	}
 	
-	public int getSize(Integer groupId)
+	public int getSize(Long groupId)
 	{
 		SQLRankComponent rankComponent = new SQLRankComponent();
 		if (groupId != null)

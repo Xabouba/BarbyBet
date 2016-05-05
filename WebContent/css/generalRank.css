@@ -79,4 +79,5 @@
 .general-rank .groups table .information .attribute-value
 {
 	margin-left: 10px;
+	float: left;
 }

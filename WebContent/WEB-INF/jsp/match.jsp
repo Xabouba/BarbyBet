@@ -13,14 +13,17 @@
     		
     		<!-- page-header -->
             <!-- page-header -->
-            <div id="content">
+            <div id="content" class="listMatch">
                 <div class="wraper clearfix">
                     <div class="top-effect clearfix">
                         <span class="pull-left"><img src="images/top-left-effect.png" class="img-responsive" alt=""></span>
                         <span class="pull-right"><img src="images/top-right-effect.png" class="img-responsive" alt=""></span>
                     </div>
                     <div id="main-content" class="pull-left">
-                        <div class="page-single listMatch">
+                    	<div id="sidebar-main-content" class="pull-left">
+                    		<%@include file='minimized-rank.jsp'%>
+                    	</div>
+                        <div class="matchs page-single pull-left">
 	                        <ul class="list-unstyled">
 	                            <li class="clearfix">
 	                                <div class="widget kp-review">
@@ -139,11 +142,11 @@
 													    					<c:when test="${match.creditsWon > 0}">
 														    					<span class="positif">+ ${match.creditsWon}</span>
 													    					</c:when>
-													    					<c:when test="${match.creditsWon < 0}">
-														    					<span class="negatif">- ${-match.creditsWon}</span>
+													    					<c:when test="${match.scoreHome == null}">
+													    						<span>-</span>
 													    					</c:when>
 													    					<c:otherwise>
-													    						<span>-</span>
+													    						<span class="negatif">0</span>
 													    					</c:otherwise>
 													    				</c:choose>
 													    			</td>
@@ -388,65 +391,6 @@
                         <!-- page-single -->
                     </div>
                     <!-- main-content -->
-
-                    <div id="sidebar" class="pull-right">
-                        <ul class="clearfix list-unstyled">
-                            <li class="clearfix">
-                                <div class="widget kp-review rank">
-                                    <h2 class="widget-title"><span>Classement</span></h2>
-                                    <div class="widget-content">
-	                                    <select style="width: 100%; margin-bottom: 2px;">
-										  <option value="group1">Groupe 1</option>
-										  <option value="group2">Groupe 2</option>
-										  <option value="group3">Groupe 3</option>
-										  <option value="group4">Groupe 4</option>
-										</select>
-										<ul class="list-unstyled">
-											<c:forEach items="${rank}" var="user" varStatus="i">
-                                            	<c:if test="${user.value.hasBefore == 'false'}">
-	                                            	<li class="format-standard">
-	                                            		<p style="text-align: center">..........................................................</p>
-	                                            	</li>
-                                            	</c:if>
-                                            	<li class="format-standard">
-	                                            	<table style="width: 100%">
-	                                            		<tr>
-	                                            			<td class="td_rank_nb">${user.value.rank}</td>
-	                                            			<td class="td_rank_progress">
-	                                            				<c:choose>
-	                                            					<c:when test="${user.value.diff > 0}">
-	                                            						<span class="positif">+${user.value.diff}</span>
-	                                            					</c:when>
-	                                            					<c:when test="${user.value.diff < 0}">
-	                                            						<span class="negatif">${user.value.diff}</span>
-	                                            					</c:when>
-	                                            					<c:otherwise>=</c:otherwise>
-	                                            				</c:choose>
-	                                            			</td>
-	                                            			<td class="td_rank_name">
-	                                            				<c:choose>
-	                                            					<c:when test="${user.value.currentUser == 'true'}">
-	                                            						<span class="current_user">${user.key}</span>
-	                                            					</c:when>
-	                                            					<c:otherwise>
-			                                            				${user.key}
-	                                            					</c:otherwise>
-	                                            				</c:choose>
-                                            				</td>
-	                                            			<td class="td_rank_credit">${user.value.point}</td>
-	                                            		</tr>
-	                                            	</table>
-	                                            </li>
-											</c:forEach>
-                                        </ul>
-                                    </div>
-                                    <!-- widget-content -->
-                                </div>
-                            </li>
-                       </ul>
-                    </div>
-
-                    <!-- sidebar -->
                 </div>
                 <!-- wraper -->
                 <div class="clearfix"></div>
@@ -513,7 +457,7 @@
 			  $.ajax(
 			  {
 		      	method: "POST",
-				url: "match",
+				url: "betAction",
 				data: {matchId: id, scoreHome: scoreHome, scoreAway: scoreAway}
 			  }).done(function( msg ) 
 			  {

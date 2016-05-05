@@ -36,6 +36,11 @@
 	font-weight: bold;
 }
 
+.classement .td_rank_name
+{
+	float: left;
+}
+
 .rank .td_rank_credit
 {
 	width: 20px;
@@ -73,3 +78,19 @@
 {
 	float: right;
 }
+
+@media (max-width: 1157px)
+{
+	.rank {
+    	margin-top: 15px;
+	}
+}
+
+@media (max-width: 767px)
+{
+	.classement
+	{
+		display: none;
+	}
+}
+

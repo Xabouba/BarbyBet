@@ -16,7 +16,7 @@ public class SQLRankComponent extends SQLComponent
 		super();
 	}
 	
-	public Map<String, Map<String, String>> getGroupRank(int groupId)
+	public Map<String, Map<String, String>> getGroupRank(Long groupId)
 	{
 		Map<String, Map<String, String>> rank = new LinkedHashMap<String, Map<String,String>>();
 		
@@ -26,8 +26,8 @@ public class SQLRankComponent extends SQLComponent
 		try 
 		{
 		    connexion = DriverManager.getConnection(_url, _user, _password);
-		    stmt = connexion.prepareStatement("SELECT u.username, lu.userRankBeforeLastGame - lu.userRank, (SELECT count(creditsWon) FROM Pronostics p WHERE p.idUser = u.id) FROM Users u, LinkUserGroup lu WHERE lu.groupId = ? AND lu.userId = u.id ORDER BY lu.userRank");
-		    stmt.setInt(1, groupId);
+		    stmt = connexion.prepareStatement("SELECT u.username, lu.userRankBeforeLastGame - lu.userRank, (SELECT SUM(creditsWon) FROM Pronostics p WHERE p.idUser = u.id), u.id FROM Users u, LinkUserGroup lu WHERE lu.groupId = ? AND lu.userId = u.id ORDER BY lu.userRank");
+		    stmt.setLong(1, groupId);
 		    
 		    rs = stmt.executeQuery();
 		    while (rs.next())
@@ -35,6 +35,7 @@ public class SQLRankComponent extends SQLComponent
 		    	Map<String, String> attribute = new HashMap<String, String>();
 		    	attribute.put("point", rs.getString(3));
 		    	attribute.put("diff", rs.getString(2));
+		    	attribute.put("id", rs.getString(4));
 		    	
 		    	rank.put(rs.getString(1), attribute);
 		    }		    	
@@ -54,7 +55,7 @@ public class SQLRankComponent extends SQLComponent
 		}
 	}
 	
-	public Map<String, Map<String, String>> getGroupRank(int groupId, int page, int nbUser)
+	public Map<String, Map<String, String>> getGroupRank(Long groupId, int page, int nbUser)
 	{
 		Map<String, Map<String, String>> rank = new LinkedHashMap<String, Map<String,String>>();
 		
@@ -64,19 +65,18 @@ public class SQLRankComponent extends SQLComponent
 		try 
 		{
 		    connexion = DriverManager.getConnection(_url, _user, _password);
-		    stmt = connexion.prepareStatement("SELECT u.username, lu.userRankBeforeLastGame - lu.userRank, (SELECT count(creditsWon) FROM Pronostics p WHERE p.idUser = u.id) FROM Users u, LinkUserGroup lu WHERE lu.groupId = ? AND lu.userId = u.id ORDER BY lu.userRank LIMIT ?, ?");
-		    stmt.setInt(1, groupId);
+		    stmt = connexion.prepareStatement("SELECT u.username, lu.userRankBeforeLastGame - lu.userRank, (SELECT SUM(creditsWon) FROM Pronostics p WHERE p.idUser = u.id), u.id FROM Users u, LinkUserGroup lu WHERE lu.groupId = ? AND lu.userId = u.id ORDER BY lu.userRank LIMIT ?, ?");
+		    stmt.setLong(1, groupId);
 		    stmt.setInt(2, (page-1)*nbUser);
 		    stmt.setInt(3, nbUser);
 		    
-		    System.out.println(stmt.toString());
-		    
 		    rs = stmt.executeQuery();
 		    while (rs.next())
 		    {
 		    	Map<String, String> attribute = new HashMap<String, String>();
 		    	attribute.put("point", rs.getString(3));
 		    	attribute.put("diff", rs.getString(2));
+		    	attribute.put("id", rs.getString(4));
 		    	
 		    	rank.put(rs.getString(1), attribute);
 		    }		    	
@@ -96,7 +96,7 @@ public class SQLRankComponent extends SQLComponent
 		}
 	}
 	
-	public int getGroupSize(int groupId)
+	public int getGroupSize(Long groupId)
 	{
 		Connection connexion = null;
 		PreparedStatement stmt = null;
@@ -105,7 +105,7 @@ public class SQLRankComponent extends SQLComponent
 		{
 		    connexion = DriverManager.getConnection(_url, _user, _password);
 		    stmt = connexion.prepareStatement("SELECT count(*) FROM Users u, LinkUserGroup lu WHERE lu.groupId = ? AND lu.userId = u.id");
-		    stmt.setInt(1, groupId);
+		    stmt.setLong(1, groupId);
 		    
 		    rs = stmt.executeQuery();
 		    if (rs.next())
@@ -138,7 +138,7 @@ public class SQLRankComponent extends SQLComponent
 		try 
 		{
 		    connexion = DriverManager.getConnection(_url, _user, _password);
-		    stmt = connexion.prepareStatement("SELECT u.username, u.rankBeforeLastGame - u.rank, (SELECT count(creditsWon) FROM Pronostics p WHERE p.idUser = u.id) FROM Users u ORDER BY u.rank");
+		    stmt = connexion.prepareStatement("SELECT u.username, u.rankBeforeLastGame - u.rank, (SELECT SUM(creditsWon) FROM Pronostics p WHERE p.idUser = u.id), u.id FROM Users u ORDER BY u.rank");
 		    
 		    rs = stmt.executeQuery();
 		    while (rs.next())
@@ -146,6 +146,7 @@ public class SQLRankComponent extends SQLComponent
 		    	Map<String, String> attribute = new HashMap<String, String>();
 		    	attribute.put("point", rs.getString(3));
 		    	attribute.put("diff", rs.getString(2));
+		    	attribute.put("id", rs.getString(4));
 		    	
 		    	rank.put(rs.getString(1), attribute);
 		    }		    	
@@ -175,7 +176,7 @@ public class SQLRankComponent extends SQLComponent
 		try 
 		{
 		    connexion = DriverManager.getConnection(_url, _user, _password);
-		    stmt = connexion.prepareStatement("SELECT u.username, u.rankBeforeLastGame - u.rank, (SELECT count(creditsWon) FROM Pronostics p WHERE p.idUser = u.id) FROM Users u ORDER BY u.rank LIMIT ?, ?");
+		    stmt = connexion.prepareStatement("SELECT u.username, u.rankBeforeLastGame - u.rank, (SELECT SUM(creditsWon) FROM Pronostics p WHERE p.idUser = u.id), u.id FROM Users u ORDER BY u.rank LIMIT ?, ?");
 		    stmt.setInt(1, (page-1)*nbUser);
 		    stmt.setInt(2, nbUser);
 		    
@@ -185,6 +186,7 @@ public class SQLRankComponent extends SQLComponent
 		    	Map<String, String> attribute = new HashMap<String, String>();
 		    	attribute.put("point", rs.getString(3));
 		    	attribute.put("diff", rs.getString(2));
+		    	attribute.put("id", rs.getString(4));
 		    	
 		    	rank.put(rs.getString(1), attribute);
 		    }		    	

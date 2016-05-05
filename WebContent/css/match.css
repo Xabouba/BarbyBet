@@ -5,6 +5,11 @@
 	font-size: 13px;	
 }
 
+.listMatch #main-content
+{
+	width: 100%;	
+}
+
 .listMatch .score
 {
 	width: 20px;
@@ -56,7 +61,7 @@
 	height: 40px;
 }
 
-.listMatch td
+.listMatch .matchs td
 {
 	text-align: center;
 }

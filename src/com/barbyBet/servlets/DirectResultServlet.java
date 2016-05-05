@@ -11,8 +11,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.barbyBet.components.RankComponent;
 import com.barbyBet.components.SQLCommentComponent;
+import com.barbyBet.components.SQLGroupComponent;
 import com.barbyBet.components.SQLMatchComponent;
 import com.barbyBet.components.SQLPronoComponent;
+import com.barbyBet.components.SQLUsersComponent;
 import com.barbyBet.components.UsersComponent;
 import com.barbyBet.object.Match;
 import com.barbyBet.object.User;
@@ -70,7 +72,11 @@ public class DirectResultServlet extends HttpServlet {
 				
 				/** Classement */
 				RankComponent rankComponent = new RankComponent();
-				request.setAttribute("rank", rankComponent.getMinimizedRank(1, currentUser.getUsername()));
+				request.setAttribute("rank", rankComponent.getMinimizedRank(null, currentUser.getUsername()));
+				
+				/** Group */
+				SQLGroupComponent sqlGroupComponent = new SQLGroupComponent();
+				request.setAttribute("userGroups", sqlGroupComponent.getGroups(currentUser.getId()));
 				
 	//			User connectedUser = null;
 	//			SQLUsersComponent sqlUsersComponent = new SQLUsersComponent();
@@ -91,34 +97,5 @@ public class DirectResultServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
-		UsersComponent usersComponent = new UsersComponent();
-		User currentUser = usersComponent.getCurrentUser(request);
-//		
-//		String comment = request.getParameter("comment");
-//		if (comment != null  && comment != "")
-//		{
-//			String matchId = request.getParameter("matchId");
-//			
-//			SQLCommentComponent sqlCommentComponent = new SQLCommentComponent();
-//			sqlCommentComponent.insertComment(comment.replace("\n", "<br/>"), matchId , currentUser.getId());
-//
-//			doGet(request, response);
-//		}
-		
-		String matchIdAsString = request.getParameter("matchId");
-		if (matchIdAsString != null)
-		{
-			int prono = Integer.parseInt(RequestUtils.getParameter(request, "prono", "0"));
-			int scoreHome = Integer.parseInt(RequestUtils.getParameter(request, "scoreHome", "0"));
-			int scoreAway = Integer.parseInt(RequestUtils.getParameter(request, "scoreAway", "0"));
-			
-			int credits = 0;
-			Long matchId = Long.parseLong(matchIdAsString);
-			
-			SQLPronoComponent sqlPronoComponent = new SQLPronoComponent();
-			sqlPronoComponent.pronostic(matchId, currentUser.getId(), scoreHome, scoreAway, prono, credits);
-		
-//			doGet(request, response);
-		}
 	}
 }

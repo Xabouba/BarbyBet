@@ -5,6 +5,11 @@
 	font-size: 13px;	
 }
 
+.information #main-content
+{
+	width: 100%;	
+}
+
 .information .score
 {
 	width: 20px;

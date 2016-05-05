@@ -5,7 +5,13 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+
+import com.barbyBet.object.Match;
+import com.barbyBet.object.Odds;
+import com.barbyBet.object.Team;
 
 public class SQLPronoComponent extends SQLComponent
 {
@@ -124,5 +130,129 @@ public class SQLPronoComponent extends SQLComponent
 			updateProno(matchId, idUser, scoreHome, scoreAway, prono, credits);
 		}
 	}
+	
+	public ArrayList<HashMap<String, String>> getNextMatchPronostic(long idUser)
+	{
+		ArrayList<HashMap<String, String>> listMatch = new ArrayList<HashMap<String, String>>();
+		
+		Connection connexion = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		try 
+		{
+		    connexion = DriverManager.getConnection(_url, _user, _password);
+		    stmt = connexion.prepareStatement("SELECT t1.name, t1.img, t2.name, t2.img, m.beginDate, m.id, m.scoreH, m.scoreA, m.statut, m.oddsHome, m.oddsDraw, m.oddsAway, c.name, s.name, p.scoreHome, p.scoreAway FROM Matchs m, Team t1, Team t2, Sport s, Competition c, Pronostics p WHERE p.idMatch = m.id AND p.idUser = ? AND m.teamHId = t1.id AND m.teamAId = t2.id AND c.id = m.idCompetition AND s.id = m.idSport AND m.statut = 0 ORDER BY m.beginDate LIMIT 0, 5");
+		    
+		    stmt.setLong(1, idUser);
+		    rs = stmt.executeQuery();
+		    while (rs.next())
+		    {
+		    	Match match = new Match();
+		    	match.setId(rs.getLong(6));
+		    	match.setBeginDate(rs.getTimestamp(5));
+		    	
+		    	Team homeTeam = new Team();
+		    	homeTeam.setName(rs.getString(1));
+		    	homeTeam.setImg(rs.getString(2));
+		    	match.setHomeTeam(homeTeam);
+		    	
+		    	Team awayTeam = new Team();
+		    	awayTeam.setName(rs.getString(3));
+		    	awayTeam.setImg(rs.getString(4));
+		    	match.setAwayTeam(awayTeam);
+		    	
+		    	match.setHomeScore(rs.getInt(7));
+		    	match.setAwayScore(rs.getInt(8));
+		    	match.setStatut(rs.getInt(9));
+		    
+		    	Odds odds = new Odds(rs.getFloat(10), rs.getFloat(11), rs.getFloat(12));
+		    	match.setOdds(odds);
+		    	
+		    	match.setCompetition(rs.getString(13));
+		    	match.setSport(rs.getString(14));
 
+		    	HashMap<String, String> matchMap = match.toHashMap();
+		    	matchMap.put("scoreHome", String.valueOf(rs.getInt(15)));
+		    	matchMap.put("scoreAway", String.valueOf(rs.getInt(16)));
+		    	
+		    	listMatch.add(matchMap);
+		    }		    	
+		    
+		    return listMatch;
+		} 
+		catch (SQLException e ) 
+		{
+			System.out.println(e.getMessage());
+			return null;
+		} 
+		finally 
+		{
+		    close(rs);
+			close(stmt);
+			close(connexion);
+		}
+	}
+	
+	public ArrayList<HashMap<String, String>> getPastMatchPronostic(long idUser)
+	{
+		ArrayList<HashMap<String, String>> listMatch = new ArrayList<HashMap<String, String>>();
+		
+		Connection connexion = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		try 
+		{
+		    connexion = DriverManager.getConnection(_url, _user, _password);
+		    stmt = connexion.prepareStatement("SELECT t1.name, t1.img, t2.name, t2.img, m.beginDate, m.id, m.scoreH, m.scoreA, m.statut, m.oddsHome, m.oddsDraw, m.oddsAway, c.name, s.name, p.scoreHome, p.scoreAway, p.creditsWon FROM Matchs m, Team t1, Team t2, Sport s, Competition c, Pronostics p WHERE p.idMatch = m.id AND p.idUser = ? AND m.teamHId = t1.id AND m.teamAId = t2.id AND c.id = m.idCompetition AND s.id = m.idSport AND m.statut = 3 ORDER BY m.beginDate LIMIT 0, 5");
+		    
+		    stmt.setLong(1, idUser);
+		    rs = stmt.executeQuery();
+		    while (rs.next())
+		    {
+		    	Match match = new Match();
+		    	match.setId(rs.getLong(6));
+		    	match.setBeginDate(rs.getTimestamp(5));
+		    	
+		    	Team homeTeam = new Team();
+		    	homeTeam.setName(rs.getString(1));
+		    	homeTeam.setImg(rs.getString(2));
+		    	match.setHomeTeam(homeTeam);
+		    	
+		    	Team awayTeam = new Team();
+		    	awayTeam.setName(rs.getString(3));
+		    	awayTeam.setImg(rs.getString(4));
+		    	match.setAwayTeam(awayTeam);
+		    	
+		    	match.setHomeScore(rs.getInt(7));
+		    	match.setAwayScore(rs.getInt(8));
+		    	match.setStatut(rs.getInt(9));
+		    
+		    	Odds odds = new Odds(rs.getFloat(10), rs.getFloat(11), rs.getFloat(12));
+		    	match.setOdds(odds);
+		    	
+		    	match.setCompetition(rs.getString(13));
+		    	match.setSport(rs.getString(14));
+
+		    	HashMap<String, String> matchMap = match.toHashMap();
+		    	matchMap.put("scoreHome", String.valueOf(rs.getInt(15)));
+		    	matchMap.put("scoreAway", String.valueOf(rs.getInt(16)));
+		    	matchMap.put("creditsWon", String.valueOf(rs.getInt(17)));
+			    
+		    	listMatch.add(matchMap);
+		    }		    	
+		    
+		    return listMatch;
+		} 
+		catch (SQLException e ) 
+		{
+			System.out.println(e.getMessage());
+			return null;
+		} 
+		finally 
+		{
+		    close(rs);
+			close(stmt);
+			close(connexion);
+		}
+	}
 }

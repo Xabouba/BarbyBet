@@ -6,7 +6,6 @@
     </head>
     <body onLoad="goforit()">
     <div id="fb-root"></div>
-    	<% response.setIntHeader("Refresh", 120); %>
     	<div class="wraper">
         	<%@include file="header.jsp" %>
     		
@@ -19,61 +18,7 @@
                 <!-- top-effect -->
                 <div id="main-content" class="pull-left">
                     <div id="sidebar-main-content" class="pull-left">
-                        <ul class="list-unstyled classement">
-                            <li class="clearfix">
-                                <div class="widget kp-review rank">
-                                    <h2 class="widget-title"><span>Classement</span></h2>
-                                    <div class="widget-content">
-	                                    <select style="width: 100%; margin-bottom: 2px;">
-										  <option value="group1">Groupe 1</option>
-										  <option value="group2">Groupe 2</option>
-										  <option value="group3">Groupe 3</option>
-										  <option value="group4">Groupe 4</option>
-										</select>
-										<ul class="list-unstyled">
-											<c:forEach items="${rank}" var="user" varStatus="i">
-                                            	<c:if test="${user.value.hasBefore == 'false'}">
-	                                            	<li class="format-standard">
-	                                            		<p style="text-align: center">..........................................................</p>
-	                                            	</li>
-                                            	</c:if>
-                                            	<li class="format-standard">
-	                                            	<table style="width: 100%">
-	                                            		<tr>
-	                                            			<td class="td_rank_nb">${user.value.rank}</td>
-	                                            			<td class="td_rank_progress">
-	                                            				<c:choose>
-	                                            					<c:when test="${user.value.diff > 0}">
-	                                            						<span class="positif">+${user.value.diff}</span>
-	                                            					</c:when>
-	                                            					<c:when test="${user.value.diff < 0}">
-	                                            						<span class="negatif">${user.value.diff}</span>
-	                                            					</c:when>
-	                                            					<c:otherwise>=</c:otherwise>
-	                                            				</c:choose>
-	                                            			</td>
-	                                            			<td class="td_rank_name">
-	                                            				<c:choose>
-	                                            					<c:when test="${user.value.currentUser == 'true'}">
-	                                            						<span class="current_user">${user.key}</span>
-	                                            					</c:when>
-	                                            					<c:otherwise>
-			                                            				${user.key}
-	                                            					</c:otherwise>
-	                                            				</c:choose>
-                                            				</td>
-	                                            			<td class="td_rank_credit">${user.value.point}</td>
-	                                            		</tr>
-	                                            	</table>
-	                                            </li>
-											</c:forEach>
-                                        </ul>
-                                    </div>
-                                    <!-- widget-content -->
-                                </div>
-                                <!-- kp-story -->
-                            </li>
-                        </ul>
+                    	<%@include file='minimized-rank.jsp'%>
                     </div>
                     <!-- sidebar-main-content -->
                     <div id="main-col" class="pull-left">
@@ -114,52 +59,13 @@
                             </li>
                             <li class="clearfix">
                                 <div class="widget kp-review">
-                                    <h2 class="widget-title"><span>Chat</span></h2>
-                                    <div class="widget-content">
-                                    	<ul class="list-unstyled" style="max-height:600px; overflow:auto;">
-                                    		<c:forEach items="${comments}" var="comment">
-                                            	<li class="format-standard">
-                                            	<table style="margin-left: auto; margin-right: auto; width: 100%">
-												   <tr style="width: 100%">
-										    			<td style="width: 20%;">
-										    				<p><strong>${comment.user}</strong></p>
-										    				<p style="color: green">
-										    					<strong>
-											    					<c:choose>
-																		<c:when test="${comment.prono=='1'}">
-																	    	${match.homeTeam}
-																	    </c:when>
-																		<c:when test="${comment.prono=='2'}">
-																	    	nul
-																	    </c:when>
-																		<c:when test="${comment.prono=='3'}">
-																	    	${match.awayTeam}
-																	    </c:when>
-																	</c:choose>
-																</strong>
-															</p>
-										    			</td>
-										    			<td style="width: 65%;">
-										    				<div style="width: 300px; word-wrap: break-word;">${comment.comment}</div>
-										    			</td>
-										    			<td style="width: 15%; text-align: center;">
-										    				<p>${comment.hour}</p>
-										    				<p>${comment.day}</p>
-										    			</td>
-										    		</tr>
-										    	</table>
-                                            </li>
-											</c:forEach>
-                                        </ul>
-                                        <br/>
-                                        <form action="sax" method="post">
-										  <label for="comments">Message: </label>
-										  <textarea style="width: 100%;" rows="5" name="comment" id="comments" maxlength="450" ></textarea>
-										  <input type="hidden" name="matchId" value="${match.matchId}" />
-										  <input class="btn btn-primary" type="submit" value="Envoyer" />
-										</form>
-                                       
+                                    <h2 class="widget-title"><span>Commentaire</span></h2>
+                                    <div id="chat" class="widget-content">
+                                   		<%@include file='chat.jsp'%>
                                     </div>
+								  	<label for="comments">Message: </label>
+								 	<textarea style="width: 100%;" rows="5" name="comment" id="comments" maxlength="450" ></textarea>
+									<input class="btn btn-primary" type="submit" value="Envoyer" onclick="post()"/>
                                     <!-- widget-content -->
                                 </div>
                                 <!-- kp-review -->
@@ -320,7 +226,7 @@
 			  $.ajax(
 			  {
 		      	method: "POST",
-				url: "direct",
+				url: "betAction",
 				data: {matchId: id, scoreHome: scoreHome, scoreAway: scoreAway}
 			  }).done(function( msg ) 
 			  {
@@ -330,7 +236,27 @@
 				  $("#bet_form").remove();
 			  });
 		  };
-		  
+
+		  post = function()
+		  {
+			  var matchId = ${match.matchId};
+			  var comment = $("#comments").val();
+			  
+			  $.ajax(
+			  {
+		      	method: "POST",
+				url: "commentAction",
+				data: {matchId: matchId, comment: comment}
+			  }).done(function( msg ) {
+					$("#comments").val("");
+					$("#chat").load("commentAction", {matchId: matchId, refresh: "true"}).fadeIn("slow");
+			  });
+		  }
+
+		  setInterval(function(){
+			  var matchId = ${match.matchId};
+			  $("#chat").load("commentAction", {matchId: matchId, refresh: "true"}).fadeIn("slow");
+			}, 2000);
 		</script>
     	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
         <script src="js/jqueryUi.js"></script>

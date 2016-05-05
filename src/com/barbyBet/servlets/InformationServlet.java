@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.barbyBet.components.RankComponent;
+import com.barbyBet.components.SQLGroupComponent;
 import com.barbyBet.components.SQLMatchComponent;
 import com.barbyBet.components.SQLPronoComponent;
 import com.barbyBet.components.UsersComponent;
@@ -45,139 +47,100 @@ public class InformationServlet extends HttpServlet {
 		if(currentUser == null) {
 			this.getServletContext().getRequestDispatcher( "/WEB-INF/jsp/login.jsp" ).forward(request, response);
 		} else {
-			SQLMatchComponent sqlMatchComponent = new SQLMatchComponent();
-			SQLPronoComponent sqlPronoComponent = new SQLPronoComponent();
-			
+			/** Competition Group Name */
+			String[] groupNames = {"A", "B", "C", "D", "E", "F"};
+			request.setAttribute("groupNames", groupNames);
+
+			/** Competition Group */
 			int idCompetition = 1; //TODO
-			ArrayList<Match> matchsSql = sqlMatchComponent.getMatchsFromCompetition(idCompetition);
-			List<Match> groupe1 = new ArrayList<Match>();
-			List<Match> groupe2 = new ArrayList<Match>();
-			List<Match> groupe3 = new ArrayList<Match>();
+			_setInfoGroup(request, "A", idCompetition, currentUser);
 			
-			Map<String, List<Match>> groups = new HashMap<String, List<Match>>();
-			for (Match match : matchsSql)
-			{
-				if (match.getJournee() < 12)
-				{
-					if (match.getAwayTeam().getId() < 5 && match.getHomeTeam().getId() < 5)
-					{
-						groupe1.add(match);
-					}
-					else if (match.getAwayTeam().getId() > 4 && match.getHomeTeam().getId() > 4 && match.getAwayTeam().getId() < 9 && match.getHomeTeam().getId() < 9)
-					{
-						groupe2.add(match);
-					}
-					else if (match.getAwayTeam().getId() > 8 && match.getHomeTeam().getId() > 8)
-					{
-						groupe3.add(match);
-					}
-				}
-			}
+			/** Selected group */
+			request.setAttribute("selectedGroup", "A");
 			
-			groups.put("Groupe A", groupe1);
-			groups.put("Groupe B", groupe2);
-			groups.put("Groupe C", groupe3);
-
-			Map<String, Map<String, Map<Date, ArrayList<HashMap<String, String>>>>> matchsGroup = new TreeMap<String, Map<String, Map<Date, ArrayList<HashMap<String, String>>>>>();
-			Map<String, Map<Integer, HashMap<String, Object>>> ranksGroup = new TreeMap<String, Map<Integer, HashMap<String, Object>>>();
-			for (String group : groups.keySet())
-			{
-				Map<Date, ArrayList<HashMap<String, String>>> matchEnded = new TreeMap<Date, ArrayList<HashMap<String, String>>>();
-				Map<Date, ArrayList<HashMap<String, String>>> matchs = new TreeMap<Date, ArrayList<HashMap<String, String>>>();
-				HashMap<Integer, HashMap<String, Object>> rank = new HashMap<Integer, HashMap<String, Object>>();
-				
-				Date day = new Date();
-				
-				for (Match match : groups.get(group))
-				{
-					GregorianCalendar calendar = new GregorianCalendar();
-					calendar.setTimeInMillis(match.getBeginDate().getTime());
-
-					HashMap<String, String> pronoMap = sqlPronoComponent.getProno(match.getId(), currentUser.getId());
-					_initializeStatTeam(match.getHomeTeam(), rank);
-					_initializeStatTeam(match.getAwayTeam(), rank);
-					
-					if (match.getStatut() > 2)
-					{
-						ArrayList<HashMap<String, String>> list;
-						if (day.equals(calendar.getTime()))
-						{
-							list = matchEnded.get(calendar.getTime());
-							HashMap<String,String> matchMap = match.toHashMap();
-							matchMap.putAll(pronoMap);
-							
-							list.add(matchMap);
-						}
-						else
-						{
-							day = calendar.getTime();
-							list = new ArrayList<HashMap<String,String>>();
-							
-							HashMap<String,String> matchMap = match.toHashMap();
-							matchMap.putAll(pronoMap);
-							list.add(matchMap);
-		
-							matchEnded.put(day, list);
-						}
-					}
-					else
-					{
-						ArrayList<HashMap<String, String>> list;
-						if (day.equals(calendar.getTime()))
-						{
-							list = matchs.get(calendar.getTime().getTime());
-							HashMap<String,String> matchMap = match.toHashMap();
-							matchMap.putAll(pronoMap);
-							
-							list.add(matchMap);
-						}
-						else
-						{
-							day = calendar.getTime();
-							list = new ArrayList<HashMap<String,String>>();
-							
-							HashMap<String,String> matchMap = match.toHashMap();
-							matchMap.putAll(pronoMap);
-							list.add(matchMap);
-							matchs.put(day, list);
-						}
-						
-						int homeTeam = match.getHomeTeam().getId();
-						int awayTeam = match.getAwayTeam().getId();
-						
-						_setHomeTeamStats(homeTeam, match, rank);
-						_setAwayTeamStats(awayTeam, match, rank);
-					}
-				}
-		
-				HashMap<String, Map<Date, ArrayList<HashMap<String, String>>>> groupMatchs = new HashMap<String, Map<Date, ArrayList<HashMap<String, String>>>>();
-				groupMatchs.put("matchsEnded", matchEnded);
-				groupMatchs.put("matchs", matchs);
-				
-				ranksGroup.put(group, _orderRankMap(rank));
-				matchsGroup.put(group, groupMatchs);
-			}
+			/** Classement */
+			RankComponent rankComponent = new RankComponent();
+			request.setAttribute("rank", rankComponent.getMinimizedRank(null, currentUser.getUsername()));
 			
-			request.setAttribute("groups", matchsGroup);
-			request.setAttribute("ranks", ranksGroup);
-			
+			/** User group */
+			SQLGroupComponent sqlGroupComponent = new SQLGroupComponent();
+			request.setAttribute("userGroups", sqlGroupComponent.getGroups(currentUser.getId()));
 			
 			this.getServletContext().getRequestDispatcher( "/WEB-INF/jsp/information.jsp" ).forward(request, response);
 		}
 	}
 
-	private Map<Integer, HashMap<String, Object>> _orderRankMap(HashMap<Integer, HashMap<String, Object>> rank) 
+	private void _setInfoGroup(HttpServletRequest request, String groupName, int idCompetition, User currentUser)
 	{
-		TreeMap<Integer, HashMap<String, Object>> treeMap = new TreeMap<Integer, HashMap<String,Object>>();
-		for (HashMap<String, Object> map : rank.values())
+		SQLMatchComponent sqlMatchComponent = new SQLMatchComponent();
+		SQLPronoComponent sqlPronoComponent = new SQLPronoComponent();
+		
+		List<Match> matchByGroup = sqlMatchComponent.getMatchByGroup(idCompetition, groupName);
+
+		Map<Date, ArrayList<HashMap<String, String>>> matchEnded = new TreeMap<Date, ArrayList<HashMap<String, String>>>();
+		Map<Date, ArrayList<HashMap<String, String>>> matchs = new TreeMap<Date, ArrayList<HashMap<String, String>>>();
+		HashMap<Integer, HashMap<String, Object>> rank = new HashMap<Integer, HashMap<String, Object>>();
+		
+		Date day = new Date();
+		
+		for (Match match : matchByGroup)
 		{
+			GregorianCalendar calendar = new GregorianCalendar();
+			calendar.setTimeInMillis(match.getBeginDate().getTime());
+
+			HashMap<String, String> pronoMap = sqlPronoComponent.getProno(match.getId(), currentUser.getId());
+			_initializeStatTeam(match.getHomeTeam(), rank);
+			_initializeStatTeam(match.getAwayTeam(), rank);
+			
+			ArrayList<HashMap<String, String>> list;
+			if (day.equals(calendar.getTime()))
+			{
+				list = matchs.get(calendar.getTime());
+				HashMap<String,String> matchMap = match.toHashMap();
+				matchMap.putAll(pronoMap);
+				
+				list.add(matchMap);
+			}
+			else
+			{
+				day = calendar.getTime();
+				list = new ArrayList<HashMap<String,String>>();
+				
+				HashMap<String,String> matchMap = match.toHashMap();
+				matchMap.putAll(pronoMap);
+				list.add(matchMap);
+				matchs.put(day, list);
+			}
+			
+			int homeTeam = match.getHomeTeam().getId();
+			int awayTeam = match.getAwayTeam().getId();
+			
+			_setHomeTeamStats(homeTeam, match, rank);
+			_setAwayTeamStats(awayTeam, match, rank);
+		}
+
+		HashMap<String, Map<Date, ArrayList<HashMap<String, String>>>> groupMatchs = new HashMap<String, Map<Date, ArrayList<HashMap<String, String>>>>();
+		groupMatchs.put("matchsEnded", matchEnded);
+		groupMatchs.put("matchs", matchs);
+		
+		request.setAttribute("group", groupMatchs);
+		request.setAttribute("ranks", _orderRankMap(rank));
+	}
+	
+	
+	private Map<String, HashMap<String, Object>> _orderRankMap(HashMap<Integer, HashMap<String, Object>> rank) 
+	{
+		TreeMap<String, HashMap<String, Object>> treeMap = new TreeMap<String, HashMap<String,Object>>();
+		for (Integer key : rank.keySet())
+		{ 
+			HashMap<String, Object> map = rank.get(key);
 			int win = (Integer) map.get("win");
 			int draw = (Integer) map.get("draw");
 			int goal = (Integer) map.get("goal");
 			int taken = (Integer) map.get("taken");
 			
-			int point = (3 * win + draw) * 10000 + (goal - taken) * 100 + goal;
-			treeMap.put(point, map);
+			double point = (3 * win + draw) * 10000 + (goal - taken) * 100 + goal;
+			treeMap.put(point + "_" + key, map);
 		}
 		
 		return treeMap.descendingMap();
@@ -267,20 +230,21 @@ public class InformationServlet extends HttpServlet {
 		UsersComponent usersComponent = new UsersComponent();
 		User currentUser = usersComponent.getCurrentUser(request);
 		
-		String matchIdAsString = request.getParameter("matchId");
-		if (matchIdAsString != null)
+		String groupName = request.getParameter("group");
+		if (groupName != null)
 		{
-			int prono = Integer.parseInt(RequestUtils.getParameter(request, "prono", "0"));
-			int scoreHome = Integer.parseInt(RequestUtils.getParameter(request, "scoreHome", "0"));
-			int scoreAway = Integer.parseInt(RequestUtils.getParameter(request, "scoreAway", "0"));
+			/** Competition Group Name */
+			String[] groupNames = {"A", "B", "C", "D", "E", "F"};
+			request.setAttribute("groupNames", groupNames);
+
+			/** Competition Group */
+			int idCompetition = 1; //TODO
+			_setInfoGroup(request, groupName, idCompetition, currentUser);
+
+			/** Selected group */
+			request.setAttribute("selectedGroup", groupName);
 			
-			int credits = 0;
-			Long matchId = Long.parseLong(matchIdAsString);
-			
-			SQLPronoComponent sqlPronoComponent = new SQLPronoComponent();
-			sqlPronoComponent.pronostic(matchId, currentUser.getId(), scoreHome, scoreAway, prono, credits);
-		
-//			doGet(request, response);
+			this.getServletContext().getRequestDispatcher( "/WEB-INF/jsp/information-part.jsp" ).forward(request, response);
 		}
 	}
 	

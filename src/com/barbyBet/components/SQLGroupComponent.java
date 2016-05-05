@@ -8,7 +8,9 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.barbyBet.object.Group;
 import com.barbyBet.object.User;
@@ -242,6 +244,35 @@ public class SQLGroupComponent extends SQLComponent
 		    group.setMembers(members);
 		    
 		    return group;
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+			return null;
+		} finally {
+		    close(rs);
+			close(stmt);
+			close(connexion);
+		}
+	}
+	
+	public Map<Long, String> getGroups(Long userId) {
+		Map<Long, String> groups = new HashMap<Long, String>();
+		
+		Connection connexion = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		try {
+		    connexion = DriverManager.getConnection(_url, _user, _password);
+		    stmt = connexion.prepareStatement("SELECT g.id, g.name FROM Groups g, Users u, LinkUserGroup lug WHERE u.id = ? AND lug.groupId = g.id AND lug.userId = u.id");
+		    
+		    stmt.setLong(1, userId);
+
+		    rs = stmt.executeQuery();
+		    while (rs.next()) {
+		    	groups.put(rs.getLong(1), rs.getString(2));
+		    }
+		    
+		    return groups;
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 			return null;

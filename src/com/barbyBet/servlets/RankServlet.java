@@ -1,15 +1,9 @@
 package com.barbyBet.servlets;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.Locale;
 import java.util.Map;
-import java.util.TreeMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -17,12 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.barbyBet.components.RankComponent;
-import com.barbyBet.components.SQLMatchComponent;
-import com.barbyBet.components.SQLPronoComponent;
 import com.barbyBet.components.UsersComponent;
-import com.barbyBet.object.Match;
 import com.barbyBet.object.User;
-import com.barbyBet.tools.RequestUtils;
 
 /**
  * Servlet implementation class SaxResultGenerator
@@ -48,7 +38,7 @@ public class RankServlet extends HttpServlet {
 			this.getServletContext().getRequestDispatcher( "/WEB-INF/jsp/login.jsp" ).forward(request, response);
 		} else {
 			/** Classement */
-			setRankRequest(request, currentUser, null, 1, 3);
+			setRankRequest(request, currentUser, null, 1, 25);
 				
 			this.getServletContext().getRequestDispatcher( "/WEB-INF/jsp/rank.jsp" ).forward(request, response);
 		}
@@ -67,18 +57,18 @@ public class RankServlet extends HttpServlet {
 			page = Integer.valueOf(request.getParameter("page"));
 		}
 		
-		Integer idGroup = null;
+		Long idGroup = null;
 		if (request.getParameter("group") != null && !request.getParameter("group").equals("all"))
 		{
-			idGroup = Integer.valueOf(request.getParameter("group"));
+			idGroup = Long.parseLong((request.getParameter("group")));
 		}
 		/** Classement */
-		setRankRequest(request, currentUser, idGroup, page, 3);
+		setRankRequest(request, currentUser, idGroup, page, 25);
 		
 		this.getServletContext().getRequestDispatcher( "/WEB-INF/jsp/rank-part.jsp" ).forward(request, response);
 	}
 	
-	protected void setRankRequest(HttpServletRequest request, User currentUser, Integer groupId, int page, int nbUser)
+	protected void setRankRequest(HttpServletRequest request, User currentUser, Long groupId, int page, int nbUser)
 	{
 		RankComponent rankComponent = new RankComponent();
 		request.setAttribute("rank", rankComponent.getRank(groupId, currentUser.getUsername(), page, nbUser));
