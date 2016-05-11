@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.barbyBet.components.SQLUsersComponent;
+import com.barbyBet.components.UsersComponent;
 import com.barbyBet.object.User;
 import com.barbyBet.tools.Constants;
 import com.barbyBet.tools.DateUtil;
@@ -38,7 +39,10 @@ public class LoginServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		if(ServletUtil.getCookieValue(request, Constants.COOKIE_CURRENT_USER_ID) == null) {
+		UsersComponent usersComponent = new UsersComponent();
+		User currentUser = usersComponent.getCurrentUser(request);
+		
+		if(currentUser == null) {
 			this.getServletContext().getRequestDispatcher(Constants.VUE_ERROR).forward(request, response);
 		} else {
 			this.getServletContext().getRequestDispatcher(Constants.VUE_SUCCESS).forward(request, response);

@@ -257,7 +257,7 @@ public class SQLMatchComponent extends SQLComponent
 		PreparedStatement stmt = null;
 		
 		try {
-			connection = DriverManager.getConnection(_url, _user, _password);
+		    connection = DriverManager.getConnection(_url, _user, _password);
 		    for(Match m : matchs) {
 		    	boolean isMatchInserted;
 		    	
@@ -267,10 +267,8 @@ public class SQLMatchComponent extends SQLComponent
 			    	System.out.println("The match " + m.getHomeTeam().getName() + " - " + m.getAwayTeam().getName() + " has not been inserted !");
 			    }
 		    }
-		} catch (SQLException e ) {
-			System.out.println(e.getMessage());
-			
-			return false;
+		} catch (SQLException e) {
+			e.printStackTrace();
 		} finally {
 			close(stmt);
 			close(connection);
@@ -318,7 +316,7 @@ public class SQLMatchComponent extends SQLComponent
 				updateMatch(match, connection, stmt);
 		    }
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 		} finally {
 			close(stmt);
 			close(connection);

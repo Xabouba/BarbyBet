@@ -7,7 +7,14 @@
 		        <select onchange="changeGroup(this.value)" style="width: 100%; margin-bottom: 2px;">
 					<option value="general">General</option>
 					<c:forEach items="${userGroups}" var="userGroup">
-						<option value="${userGroup.key}">${userGroup.value}</option>
+						<c:choose>
+							<c:when test="${userGroup.key == group.id}">
+								<option value="${userGroup.key}" selected>${userGroup.value}</option>
+							</c:when>
+							<c:otherwise>
+								<option value="${userGroup.key}">${userGroup.value}</option>
+							</c:otherwise>
+						</c:choose>
 					</c:forEach>
 				</select>
 				<ul id="minimized-rank" class="list-unstyled">
