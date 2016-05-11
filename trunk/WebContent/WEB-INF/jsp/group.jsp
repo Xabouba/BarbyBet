@@ -19,127 +19,7 @@
                 <!-- top-effect -->
                 <div id="main-content" class="pull-left">
                     <div id="sidebar-main-content" class="pull-left">
-                        <ul class="list-unstyled">
-                            <li class="clearfix">
-                                <div class="widget kp-review">
-                                    <h2 class="widget-title"><span>Classement</span></h2>
-                                    <div class="widget-content">
-	                                    <select style="width: 100%; margin-bottom: 2px;">
-										  <option value="group1">Groupe 1</option>
-										  <option value="group2">Groupe 2</option>
-										  <option value="group3">Groupe 3</option>
-										  <option value="group4">Groupe 4</option>
-										</select>
-										<ul class="list-unstyled">
-                                            <li class="format-standard">
-                                            	<table style="width: 100%">
-                                            		<tr>
-                                            			<td class="td_rank_nb">1</td>
-                                            			<td class="td_rank_progress">=</td>
-                                            			<td class="td_rank_name">User 2</td>
-                                            			<td class="td_rank_credit">15250</td>
-                                            		</tr>
-                                            	</table>
-                                            </li>
-                                            <li class="format-standard">
-                                                <table style="width: 100%">
-                                            		<tr>
-                                            			<td class="td_rank_nb">2</td>
-                                            			<td class="td_rank_progress">+2</td>
-                                            			<td class="td_rank_name">User 3</td>
-                                            			<td class="td_rank_credit">13250</td>
-                                            		</tr>
-                                            	</table>
-                                            </li>
-                                            <li class="format-standard">
-                                                <p style="text-align: center">..........................................................</p>
-                                            </li>
-                                            <li class="format-standard">
-                                                <table style="width: 100%">
-                                            		<tr>
-                                            			<td class="td_rank_nb">5</td>
-                                            			<td class="td_rank_progress">-1</td>
-                                            			<td class="td_rank_name">User 4</td>
-                                            			<td class="td_rank_credit">8250</td>
-                                            		</tr>
-                                            	</table>
-                                            </li>
-                                            <li class="format-standard">
-                                                <table style="width: 100%">
-                                            		<tr>
-                                            			<td class="td_rank_nb">6</td>
-                                            			<td class="td_rank_progress">=</td>
-                                            			<td class="td_rank_name">User 5</td>
-                                            			<td class="td_rank_credit">7280</td>
-                                            		</tr>
-                                            	</table>
-                                            </li>
-                                            <li class="format-standard">
-                                                <table style="width: 100%">
-                                            		<tr>
-                                            			<td class="td_rank_nb">7</td>
-                                            			<td class="td_rank_progress">+3</td>
-                                            			<td class="td_rank_name" style="color: red">User 1</td>
-                                            			<td class="td_rank_credit">7250</td>
-                                            		</tr>
-                                            	</table>
-                                            </li>
-                                            <li class="format-standard">
-                                                <table style="width: 100%">
-                                            		<tr>
-                                            			<td class="td_rank_nb">8</td>
-                                            			<td class="td_rank_progress">-2</td>
-                                            			<td class="td_rank_name">User 6</td>
-                                            			<td class="td_rank_credit">5420</td>
-                                            		</tr>
-                                            	</table>
-                                            </li>
-                                            <li class="format-standard">
-                                                <table style="width: 100%">
-                                            		<tr>
-                                            			<td class="td_rank_nb">9</td>
-                                            			<td class="td_rank_progress">+1</td>
-                                            			<td class="td_rank_name">User 7</td>
-                                            			<td class="td_rank_credit">3250</td>
-                                            		</tr>
-                                            	</table>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <!-- widget-content -->
-                                </div>
-                                <!-- kp-story -->
-                            </li>
-                            <li class="clearfix">
-                                <div class="widget kp-social">
-                                    <h2 class="widget-title"><span>Réseaux</span></h2>
-                                    <div class="widget-content">
-                                        <ul class="list-unstyled">
-                                            <li class="format-standard">
-                                                <span>
-                                                    <a href="http://facebook.com/kopatheme" class="icon-facebook-2"></a>1234
-                                                </span>
-                                                Likes
-                                            </li>
-                                            <li class="format-standard">
-                                                <span>
-                                                    <a href="http://twitter.com/kopasoft" class="icon-twitter"></a>1234
-                                                </span>
-                                                Followers
-                                            </li>
-                                            <li class="format-standard">
-                                                <span>
-                                                    <a href="http://kopatheme.com/feed/" class="icon-rss-2"></a>1234
-                                                </span>
-                                                Subcribers
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <!-- widget-content -->
-                                </div>
-                                <!-- kp-social -->
-                            </li>
-                        </ul>
+                       <%@include file='minimized-rank.jsp'%>
                     </div>
                     <!-- sidebar-main-content -->
                     <div id="main-col" class="pull-left">
@@ -164,8 +44,8 @@
 													</c:choose>
 		                                        </figure>
 		                                        <ul class="kp-metadata clearfix">
-		                                            <li>${group.numberOfMembers}&nbsp&nbsp&nbsp-&nbsp&nbsp&nbsp</li>
-		                                            <li>3 comment</li>
+		                                            <li>${group.numberOfMembersFullStr}&nbsp&nbsp&nbsp</li>
+		                                            <li></li>
 		                                            <li class="kp-time">Groupe ${group.statusStr}</li>
 		                                        </ul>
 		                                        <!-- kp-metadata -->
@@ -192,21 +72,234 @@
                 <!-- main-content -->
             	<div id="sidebar" class="pull-right">
             		<ul class="clearfix list-unstyled">
-                    	<c:if test="${cookie.currentUserName.value == group.groupCreator}">
-	                    	<li>
-	                        	<div class="widget widget-new-letter">
-		                            <h2 class="widget-title"><span>Ajouter un utilisateur</span></h2>
-		                            <p>Entrez ici le nom d'utilisateur de la personne que vous souhaitez ajouter à ce groupe</p>
-		
-		                            <form action="#" method="post" class="clearfix" style="text-align:center">
-		                                <div class="form-group">
-		                                    <input type=text placeholder="Nom d'utilisateur" class="form-control" id="user-search" name="user-search">
+            			<li class="clearfix">
+                        	<div class="widget kp-review">
+	                            <h2 class="widget-title"><span>Chercher un groupe</span></h2>
+	                            <div class="widget-content groups">
+	                            	<ul class="list-unstyled">
+                                    	<li class="format-standard">
+				                            <p>Ici vous pouvez chercher un groupe et le rejoindre (seuls les groups publics sont accessibles)</p>
+				
+								            <div class="form-group" style="text-align:center">
+								            	<form action="group" method="post">
+									            	<input type="text" placeholder="Nom du groupe" class="form-control" id="look-for-group" name="groupName">
+									            	<br />
+									            	
+									            	<c:if test="${not empty lookForGroupMsg}">
+										           	 	<div id="look-for-group-msg" style="font-weight:bold">
+					                                		${lookForGroupMsg}
+					                                	</div>
+														<br />
+				                                	</c:if>
+			                                		<input type="hidden" name="actionType" value="look-for-group" />
+			                                		<input type="hidden" name="groupId" value="${group.id}" />
+			                                		<input type="submit" class="btn btn-primary" value="Valider" id="s">
+				                            	</form>
+				                            </div>
+		                                </li>
+                                	</ul>
+                                </div>
+                        	</div>
+                        </li>
+            			<li class="clearfix">
+                                <div class="widget kp-review">
+                                    <h2 class="widget-title"><span>Mes Groupes</span></h2>
+	                                <div class="widget-content groups">
+	                                    <ul class="list-unstyled">
+	                                    	<li class="format-standard">
+			                                    <div id="match">
+			                                    	<form name="userGroupsForm" action="group" method="POST">
+				                                    	<select id="user-groups-list" name="groupId" onchange="javascript:document.userGroupsForm.submit();" style="width: 100%; margin-bottom: 2px;">
+                                                    		<c:forEach items="${userGroupList}" var="userGroup">
+                                                    			<c:choose>
+                                                    				<c:when test="${userGroup.id == group.id}">
+															  			<option value="${userGroup.id}" selected>${userGroup.name}</option>
+																	</c:when>
+																	<c:otherwise>
+													  					<option value="${userGroup.id}">${userGroup.name}</option>
+																	</c:otherwise>
+																</c:choose>
+                                                        	</c:forEach>
+														</select>
+			                                    	</form>
+			                                    </div>
+	                                    	</li>
+	                                   	</ul>
+	                                </div>
+                                </div>
+                            </li>
+            		    <!-- If the connected user is the group admin, they can add a user to this group, delete a user from this group & delete this group -->
+            			<c:choose>
+	                    	<c:when test="${cookie.currentUserName.value == group.groupCreator}">
+		                    	<li class="clearfix">
+		                        	<div class="widget kp-review">
+			                            <h2 class="widget-title"><span>Ajouter un utilisateur</span></h2>
+			                            <div class="widget-content groups">
+			                            	<ul class="list-unstyled">
+		                                    	<li class="format-standard">
+						                            <p>Entrez ici le nom d'utilisateur de la personne que vous souhaitez ajouter à ce groupe</p>
+						
+					                                <div class="form-group" style="text-align:center">
+					                                    <input type="text" placeholder="Nom d'utilisateur" class="form-control" id="add-user-from-group-search" name="add-user-from-group-search">
+					                                	<br />
+					                                	<div id="add-user-to-group-msg" style="display:none; font-weight:bold">
+					                                		Test div
+					                                	</div>
+					                                	<div id="add-user-to-group-msg-line-break" style="display:none">
+					                                	</div>
+					                                	<input type="submit" class="btn btn-primary" value="Valider" id="s" onclick="addUserToGroup()">
+					                                </div>
+				                                </li>
+		                                	</ul>
 		                                </div>
-		                                <input type="submit" value="Valider" id="s">
-		                            </form>
-	                        	</div>
-	                        </li>
-                        </c:if>
+		                        	</div>
+		                        </li>
+		                        <li class="clearfix">
+		                        	<div class="widget kp-review">
+			                            <h2 class="widget-title"><span>Supprimer un utilisateur</span></h2>
+			                            <div class="widget-content groups">
+			                            	<ul class="list-unstyled">
+		                                    	<li class="format-standard">
+						                            <p>Entrez ici le nom d'utilisateur de la personne que vous souhaitez supprimer de ce groupe</p>
+													<div class="form-group" style="text-align:center">
+					                                    <input type=text placeholder="Nom d'utilisateur" class="form-control" id="delete-user-from-group-search" name="delete-user-from-group-search">
+						                               	<br />
+					                                	<div id="delete-user-from-group-msg" style="display:none; font-weight:bold">
+					                                		Test div
+					                                	</div>
+					                                	<div id="delete-user-from-msg-line-break" style="display:none">
+					                                	</div>
+						                                <input type="submit" value="Valider" class="btn btn-primary" id="s" onclick="deleteUserFromGroup()">
+					                                </div>
+				                                </li>
+			                                </ul>
+	                                	</div>
+		                        	</div>
+		                        </li>
+		                        <li class="clearfix">
+		                        	<div class="widget kp-review">
+			                            <h2 class="widget-title"><span>Supprimer ce groupe</span></h2>
+			                             <div class="widget-content groups">
+			                            	<ul class="list-unstyled">
+		                                    	<li class="format-standard">
+						                            <p>Cliquez sur ce bouton si vous souhaitez supprimer ce groupe. Attention lors de la suppression d'un groupe, plus aucun utilisateur n'aura accès à ce groupe.</p>
+						
+													<br />
+										            <div class="form-group" style="text-align:center">
+										            	<c:if test="${not empty deleteGroupMsg}">
+											           	 	<div id="delete-group-msg" style="display:none; font-weight:bold">
+						                                		${deleteGroupMsg}
+						                                	</div>
+						                                	<div id="delete-group-msg-line-break" style="display:none">
+						                                	</div>
+					                                	</c:if>
+					                                	<form action="group" method="post">
+					                                		<input type="hidden" name="groupIdLeaveDeleteGroup" value="${group.id}" />
+					                                		<input type="hidden" name="actionType" value="delete-group" />
+						                                	<input type="submit" value="Supprimer groupe" class="btn btn-primary" id="s">
+						                            	</form>
+						                            </div>
+		                            			</li>
+	                            			</ul>
+		                            	</div>
+		                        	</div>
+		                        </li>
+	                        </c:when>
+	                        <c:otherwise>
+								<!-- In this case the connected user is not the group administrator & we need to check wether the group is public or not to give the appropriate options -->
+	                        	<!-- Group status = 0 : group is public -->
+	                        	<c:choose>
+	                        		<c:when test="${group.status == '0' }">
+	                        			<!-- We check if the user is a member of the group -->
+	                        			<c:choose>
+		                        			<c:when test="${isUserInGroup == true}">
+	                       						<!-- If the user is a member, they can add a user to the group and leave the group -->
+	                        					<li class="clearfix">
+						                        	<div class="widget kp-review">
+							                            <h2 class="widget-title"><span>Ajouter un utilisateur</span></h2>
+							                            <div class="widget-content groups">
+							                            	<ul class="list-unstyled">
+						                                    	<li class="format-standard">
+										                            <p>Entrez ici le nom d'utilisateur de la personne que vous souhaitez ajouter à ce groupe</p>
+										
+									                                <div class="form-group" style="text-align:center">
+									                                    <input type="text" placeholder="Nom d'utilisateur" class="form-control" id="add-user-from-group-search" name="add-user-from-group-search">
+									                                	<br />
+									                                	<div id="add-user-to-group-msg" style="display:none; font-weight:bold">
+									                                		Test div
+									                                	</div>
+									                                	<div id="add-user-to-group-msg-line-break" style="display:none">
+									                                	</div>
+									                                	<input type="submit" value="Valider" id="s" class="btn btn-primary" onclick="addUserToGroup()" />
+									                                </div>
+								                                </li>
+							                                </ul>
+						                                </div>
+						                        	</div>
+						                        </li>
+						                        <!-- Anybody can leave a group if they are not the group admin (otherwise they need to delete the group) -->
+					                        	<li class="clearfix">
+						                        	<div class="widget kp-review">
+						                        		<div class="widget-content groups">
+							                            	<ul class="list-unstyled">
+						                                    	<li class="format-standard">
+										                            <h2 class="widget-title"><span>Quitter ce groupe</span></h2>
+										                            <p>Cliquez sur ce bouton si vous souhaitez quitter ce groupe.</p>
+										
+										                             <div class="form-group" style="text-align:center">
+										                             	<c:if test="${not empty leaveGroupMsg}">
+											                                <div id="leave-group-msg" style="display:none; font-weight:bold">
+										                                		${leaveGroupMsg}
+										                                	</div>
+										                                	<br />
+									                                	</c:if>
+									                                	<form action="group" method="post">
+											                                <input type="hidden" name="actionType" value="leave-group" />
+											                                <input type="hidden" name="groupIdLeaveDeleteGroup" value="${group.id}" />
+											                                <input type="hidden" name="username" value="${cookie.currentUserName.value}" />
+											                                <input type="submit" value="Quitter groupe" class="btn btn-primary" id="s" />
+																		</form>
+										                            </div>
+									                            </li>
+								                            </ul>
+							                            </div>
+						                        	</div>
+						                        </li>
+					                        </c:when>
+	                        				<c:otherwise>
+	                        					<!-- Otherwise you can only join this group -->
+	                        					<li class="clearfix">
+						                        	<div class="widget kp-review">
+							                            <h2 class="widget-title"><span>Rejoindre ce groupe</span></h2>
+							                            <div class="widget-content groups">
+							                            	<ul class="list-unstyled">
+						                                    	<li class="format-standard">
+										                            <p>Cliquez sur ce bouton si vous souhaitez rejoindre ce groupe.</p>
+										
+										                             <div class="form-group" style="text-align:center">
+										                             	<c:if test="${not empty joinGroupMsg}">
+											                                <div id="join-group-msg" style="font-weight:bold">
+										                                		${joinGroupMsg}
+										                                	</div>
+										                                	<br />
+									                                	</c:if>
+									                                	<form action="group" method="post">
+											                                <input type="hidden" name="actionType" value="join-group" />
+											                                <input type="hidden" name="groupIdJoinGroup" value="${group.id}" />
+										                                	<input type="submit" value="Rejoindre groupe" class="btn btn-primary" id="s" />
+																		</form>
+										                            </div>
+									                            </li>
+								                            </ul>
+							                            </div>
+						                        	</div>
+						                        </li>
+	                        				</c:otherwise>
+                        				</c:choose>
+                       				</c:when>
+	                        	</c:choose>
+	                        </c:otherwise>
+                        </c:choose>
                         <li>
                             <div class="widget widget-kp-tab">
                                 <h2 class="widget-title"><span>Les 5 derniers membres</span></h2>
@@ -217,7 +310,7 @@
                                                     <li>
                                                     	<c:set var="membersCount" value="0" scope="page" />
                                                     	
-                                                    	<c:forEach items="${members}" var="member">
+                                                    	<c:forEach items="${lastFiveMembers}" var="member">
                                                     		<c:set var="membersCount" value="${membersCount + 1}" scope="page"/>
                                                     	
 	                                                        <div class="kp-group clearfix">
@@ -243,8 +336,7 @@
                 <div class="clearfix"></div>
             </div>
     	</div>
-    	<div class="page-footer">
-    	</div>
+    	<%@include file="footer.jsp" %>
     	
     	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
         <script src="js/jqueryUi.js"></script>
@@ -264,5 +356,47 @@
         <script src="js/chart/excanvas.js"></script>
         <script type="text/javascript" src="js/custom.js"></script>
         <script src="js/autocomplete.js"></script>
+        
+        <script type="text/javascript">
+        	initializeAutocompleteDeleteUserFromGroup(${group.id});
+        	initializeAutocompleteLookForUser();
+        	initializeAutocompleteLookForGroup();
+        	initializeAutocompleteAddUserToGroup();
+        	
+        	// Add a user to the group
+	        addUserToGroup = function () {
+	        	var username = $("#add-user-from-group-search").val();
+	            var groupId = ${group.id};
+	            	            
+	            $.ajax({
+	                method: "POST",
+	           		url: "group",
+	           		data: {username: username, groupId: groupId, actionType: "add-user-to-group"}
+	            }).done(function(msg) {
+	            	$("#add-user-to-group-msg").html(msg);
+	            	$("#add-user-to-group-msg").show();
+	            	$("#add-user-to-group-msg-line-break").show();
+	            	
+	            	// Update the last five added members
+	            	$("#div-name").load("group", {groupId: groupId}).fadeIn("slow");
+	            });
+	        }
+        	
+	        // Delete a user from the group
+	        deleteUserFromGroup = function () {
+	        	var username = $("#delete-user-from-group-search").val();
+	            var groupId = ${group.id};
+	            	            
+	            $.ajax({
+	                method: "POST",
+	           		url: "group",
+	           		data: {username: username, groupId: groupId, actionType: "delete-user-from-group"}
+	            }).done(function(msg) {
+	            	$("#delete-user-from-group-msg").html(msg);
+					$("#delete-user-from-group-msg").show();
+					$("#delete-user-from-group-msg-line-break").show();
+	            });
+	        }
+    	</script>
 	</body>
 </html>    

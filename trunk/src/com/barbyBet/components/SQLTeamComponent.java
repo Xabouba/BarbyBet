@@ -48,7 +48,7 @@ public class SQLTeamComponent extends SQLComponent {
 		PreparedStatement stmt = null;
 		
 		try {
-			connection = DriverManager.getConnection(_url, _user, _password);
+		    connection = DriverManager.getConnection(_url, _user, _password);
 		    for(Team t : teams) {
 		    	boolean isTeamInserted;
 		    	
@@ -58,10 +58,8 @@ public class SQLTeamComponent extends SQLComponent {
 			    	System.out.println("The team " + t.getName() + " (web service id : " + t.getIdWebService() + ") has not been inserted !");
 			    }
 		    }
-		} catch (SQLException e ) {
-			System.out.println(e.getMessage());
-			
-			return false;
+		} catch (SQLException e) {
+			e.printStackTrace();
 		} finally {
 			close(stmt);
 			close(connection);

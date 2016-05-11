@@ -18,6 +18,9 @@ import com.barbyBet.tools.Constants;
 
 public class SQLGroupComponent extends SQLComponent
 {
+	public String DELETE_SUCCESSFUL = "Suppression réussie";
+	public String ADD_SUCCESSFUL = "Ajout réussi";
+	
 	public SQLGroupComponent() {
 		super();
 	}
@@ -223,7 +226,7 @@ public class SQLGroupComponent extends SQLComponent
 		
 		try {
 		    connexion = DriverManager.getConnection(_url, _user, _password);
-		    stmt = connexion.prepareStatement("SELECT g.id, g.name, g.description, g.status, g.img, g.groupCreator, g.creationDate, u.id, u.username, u.email, u.dateRegistration, u.coins, lug.isAdmin, lug.userRank, lug.userRankBeforeLastGame, lug.dateUserAdded  FROM Groups g, Users u, LinkUserGroup lug WHERE g.id = ? AND lug.groupId = ? AND lug.userId = u.id");
+		    stmt = connexion.prepareStatement("SELECT g.id, g.name, g.description, g.status, g.img, g.groupCreator, g.creationDate, u.id, u.username, u.email, u.dateRegistration, u.coins, lug.isAdmin, lug.userRank, lug.userRankBeforeLastGame, lug.dateUserAdded FROM Groups g, Users u, LinkUserGroup lug WHERE g.id = ? AND lug.groupId = ? AND lug.userId = u.id ORDER BY lug.dateUserAdded DESC");
 		    
 		    stmt.setLong(1, groupId);
 		    stmt.setLong(2, groupId);
@@ -243,6 +246,10 @@ public class SQLGroupComponent extends SQLComponent
 		    
 		    group.setMembers(members);
 		    
+		    if(group.getId() == null) {
+		    	return null;
+		    }
+		    
 		    return group;
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
@@ -252,6 +259,254 @@ public class SQLGroupComponent extends SQLComponent
 			close(stmt);
 			close(connexion);
 		}
+	}
+
+	public List<Group> getUserGroups(Long id) {
+		List<Group> groups = new ArrayList<Group>();		
+		
+		Connection connexion = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		try {
+		    connexion = DriverManager.getConnection(_url, _user, _password);
+		    stmt = connexion.prepareStatement("SELECT g.id FROM Groups g, LinkUserGroup lug WHERE g.id = lug.groupId AND lug.userId = ? ORDER BY g.name ASC");
+		    
+		    stmt.setLong(1, id);
+
+		    rs = stmt.executeQuery();
+		    
+		    while (rs.next()) {
+		    	Long groupId = rs.getLong("g.id");
+		    	
+		    	PreparedStatement innertStmt = null;
+		    	ResultSet innerResultSet = null;
+		    	try {
+		    	
+		    		innertStmt = connexion.prepareStatement("SELECT g.id, g.name, g.description, g.status, g.img, g.groupCreator, g.creationDate, u.id, u.username, u.email, u.dateRegistration, u.coins, lug.isAdmin, lug.userRank, lug.userRankBeforeLastGame, lug.dateUserAdded FROM Groups g, Users u, LinkUserGroup lug WHERE g.id = ? AND lug.groupId = ? AND lug.userId = u.id ORDER BY lug.dateUserAdded DESC");
+			    	innertStmt.setLong(1, groupId);
+			    	innertStmt.setLong(2, groupId);
+	
+			    	innerResultSet = innertStmt.executeQuery();
+			    	Group group = new Group();
+					List<User> members = new ArrayList<User>();
+					
+				    while (innerResultSet.next()) {
+				    	User member = new User(innerResultSet.getLong("u.id"), innerResultSet.getString("u.username"), innerResultSet.getString("u.email"), innerResultSet.getDate("u.dateRegistration"), innerResultSet.getInt("u.coins"));
+				    	members.add(member);
+				    	group.setId(innerResultSet.getLong("g.id"));
+				    	group.setName(innerResultSet.getString("g.name"));
+				    	group.setDescription(innerResultSet.getString("g.description"));
+				    	group.setStatus(innerResultSet.getInt("g.status"));
+				    	group.setImg(innerResultSet.getString("g.img"));
+				    	group.setGroupCreator(innerResultSet.getLong("g.groupCreator"));
+				    	group.setCreationDate(innerResultSet.getTimestamp("g.creationDate"));
+				    }
+				    
+				    group.setMembers(members);
+			    
+			    	groups.add(group);
+		    	} catch (SQLException e) {
+					System.out.println(e.getMessage());
+					return null;
+				} finally {
+				    close(innerResultSet);
+				    close(innertStmt);
+				}
+		    }
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+			return null;
+		} finally {
+		    close(rs);
+		    close(stmt);
+			close(connexion);
+		}
+		
+		return groups;
+	}
+
+	public String addUserToGroup(Group g, User u) {
+		Connection connexion = null;
+		PreparedStatement stmt = null;
+		
+	    if(!userInGroup(g.getId(), u.getId())) {
+	    	try {
+	    		connexion = DriverManager.getConnection(_url, _user, _password);
+			    connexion.setAutoCommit(false);
+			    
+			    Date now = new Date();
+			    
+			    stmt = connexion.prepareStatement("INSERT INTO LinkUserGroup (groupId, userId, isAdmin, userRank, userRankBeforeLastGame, dateUserAdded) VALUES (?, ?, ?, ?, ?, ?)"); 
+			    stmt.setLong(1, g.getId());
+			    stmt.setLong(2, u.getId());
+			    stmt.setInt(3, Constants.NOT_ADMIN);
+			    stmt.setInt(4, g.getMembers().size()+1);
+			    stmt.setInt(5, g.getMembers().size()+1);
+			    stmt.setTimestamp(6, new Timestamp(now.getTime()));
+			    
+			    stmt.executeUpdate();
+			    
+			    connexion.commit();
+			} catch (SQLException e) {
+				try {
+					connexion.rollback();
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+				
+				return "Il y a eu une erreur lors de l'ajout. Veuillez réessayer";
+			} finally {
+				close(stmt);
+				close(connexion);
+			}
+	    } else {
+	    	return "Cet utilisateur est déjà dans le groupe : " + g.getName() + " !";
+	    }
+		
+		return ADD_SUCCESSFUL;
+	}
+	
+	public String deleteUserFromGroup(Group g, User userToDelete, User currentUser) {
+		if(userToDelete.getId() == currentUser.getId()) {
+			return "Vous ne pouvez pas vous supprimer d'un groupe. Veuillez cliquer sur \"Quitter ce groupe\"";
+		}
+		
+		if(isGroupAdmin(g.getId(), userToDelete.getId())) {
+			return "Vous ne pouvez pas supprimer le créateur du groupe";
+		}
+		
+		return leaveGroup(g, userToDelete);
+	}
+	
+	public String leaveGroup(Group g, User userToDelete) {
+		Connection connexion = null;
+		PreparedStatement stmt = null;
+		
+	    if(userInGroup(g.getId(), userToDelete.getId())) {
+	    	try {
+	    		connexion = DriverManager.getConnection(_url, _user, _password);
+			    connexion.setAutoCommit(false);
+			    
+			    stmt = connexion.prepareStatement("DELETE FROM LinkUserGroup WHERE groupId = ? AND userId = ?"); 
+			    stmt.setLong(1, g.getId());
+			    stmt.setLong(2, userToDelete.getId());
+			    
+			    stmt.executeUpdate();
+			    
+			    connexion.commit();
+			} catch (SQLException e) {
+				try {
+					connexion.rollback();
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+					
+					return "Il y a eu un problème lors de la suppression. Veuillez réessayer";
+				}
+				
+				return e.getMessage();
+			} finally {
+				close(stmt);
+				close(connexion);
+			}
+	    } else {
+	    	return "Cet utilisateur n'est pas dans ce groupe !";
+	    }
+		
+		return DELETE_SUCCESSFUL;
+	}
+
+	private boolean isGroupAdmin(Long groupId, Long userId) {
+		Connection connexion = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+
+		try {
+			connexion = DriverManager.getConnection(_url, _user, _password);
+		    stmt = connexion.prepareStatement("SELECT groupCreator FROM Groups WHERE groupId = ? AND groupCreator = ?");
+		    stmt.setLong(1, groupId);
+		    stmt.setLong(2, userId);
+		    
+		    rs = stmt.executeQuery();
+		    while (rs.next()) {
+		    	return true;
+		    }
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+			return false;
+		} finally {
+		    close(rs);
+			close(stmt);
+			close(connexion);
+		}
+		
+		return false;
+	}
+
+	private boolean userInGroup(Long groupId, Long userId) {
+		Connection connexion = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+
+		try {
+			connexion = DriverManager.getConnection(_url, _user, _password);
+		    stmt = connexion.prepareStatement("SELECT userId FROM LinkUserGroup WHERE groupId = ? AND userId = ?");
+		    stmt.setLong(1, groupId);
+		    stmt.setLong(2, userId);
+		    
+		    rs = stmt.executeQuery();
+		    while (rs.next()) {
+		    	return true;
+		    }
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+			return false;
+		} finally {
+		    close(rs);
+			close(stmt);
+			close(connexion);
+		}
+		
+		return false;
+	}
+
+	public String deleteGroup(Group g) {
+		Connection connexion = null;
+		PreparedStatement stmt = null;
+		
+    	try {
+    		connexion = DriverManager.getConnection(_url, _user, _password);
+		    connexion.setAutoCommit(false);
+		    
+		    stmt = connexion.prepareStatement("DELETE FROM LinkUserGroup WHERE groupId = ?"); 
+		    stmt.setLong(1, g.getId());
+		    
+		    stmt.executeUpdate();
+		    close(stmt);
+		    
+		    stmt = connexion.prepareStatement("DELETE FROM Groups WHERE id = ?");
+		    stmt.setLong(1, g.getId());
+		    
+		    stmt.executeUpdate();
+		    close(stmt);
+		    
+		    connexion.commit();
+		} catch (SQLException e) {
+			try {
+				connexion.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+				
+				return "Il y a eu un problème lors de la suppression. Veuillez réessayer";
+			}
+			
+			return e.getMessage();
+		} finally {
+			close(stmt);
+			close(connexion);
+		}
+		
+		return DELETE_SUCCESSFUL;
 	}
 	
 	public Map<Long, String> getGroups(Long userId) {
@@ -282,5 +537,118 @@ public class SQLGroupComponent extends SQLComponent
 			close(connexion);
 		}
 	}
-	
+
+	public ArrayList<String> getAllPublicGroupNames(String term) {
+		ArrayList<String> groups = new ArrayList<>();
+		Connection connexion = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		try {
+			connexion = DriverManager.getConnection(_url, _user, _password);
+			stmt = connexion
+					.prepareStatement("SELECT name FROM Groups WHERE name LIKE ? AND status = ?");
+			stmt.setString(1, "%" + term + "%");
+			stmt.setInt(2, 0);
+
+
+			rs = stmt.executeQuery();
+						
+			while(rs.next()) {
+				groups.add(rs.getString("name"));
+			}
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		} finally {
+			close(rs);
+			close(stmt);
+			close(connexion);
+		}
+		
+		return groups;
+	}
+
+	public Long getGroupId(String groupName) {
+		Long groupId = 0L;
+
+		Connection connexion = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		try {
+		    connexion = DriverManager.getConnection(_url, _user, _password);
+		    stmt = connexion.prepareStatement("SELECT id FROM Groups WHERE name = ?");
+		    stmt.setString(1, groupName);
+
+		    rs = stmt.executeQuery();
+		    while (rs.next()) {
+		    	groupId = rs.getLong("id");
+		    }
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		} finally {
+		    close(rs);
+			close(stmt);
+			close(connexion);
+		}
+		
+	    return groupId;
+	}
+
+	public void updateRankAfterModificationInGroup(Group g, User u) {
+		Connection connexion = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		try {
+		    connexion = DriverManager.getConnection(_url, _user, _password);
+		    connexion.setAutoCommit(false);
+		    
+		    // Select users ranks to loop through them and update rank before last game
+		    stmt = connexion.prepareStatement("SELECT userId, userRank FROM LinkUserGroup WHERE groupId = ?");
+		    stmt.setLong(1, g.getId());
+		    rs = stmt.executeQuery();
+		    close(stmt);
+		    
+		    // Update rank before last game
+		    while(rs.next()) {
+		    	stmt = connexion.prepareStatement("UPDATE LinkUserGroup SET userRankBeforeLastGame = ? WHERE groupId = ? AND userId = ?");
+		    	stmt.setInt(1, rs.getInt("userRank"));
+		    	stmt.setLong(2, g.getId());
+		    	stmt.setLong(3, rs.getLong("userId"));
+			    stmt.executeUpdate();
+			    close(stmt);
+		    }
+		    
+		    // Select users sorted by points to loop through them and update their rank
+		    stmt = connexion.prepareStatement("SELECT userId FROM LinkUserGroup WHERE groupId = ? ORDER BY points DESC");
+		    stmt.setLong(1, g.getId());
+		    rs = stmt.executeQuery();
+		    close(stmt);
+		    
+		    // Update rank
+		    int rank = 1;
+		    while(rs.next()) {
+		    	stmt = connexion.prepareStatement("UPDATE LinkUserGroup SET userRank = ? WHERE groupId = ? AND userId = ?");
+		    	stmt.setInt(1, rank);
+		    	stmt.setLong(2, g.getId());
+		    	stmt.setLong(3, rs.getLong("userId"));
+			    stmt.executeUpdate();
+			    rank++;
+			    close(stmt);
+		    }
+		    
+		    connexion.commit();
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		} finally {
+			try {
+				if(!stmt.isClosed()) {
+					close(stmt);
+				}
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
+			close(connexion);
+		}
+	}
 }

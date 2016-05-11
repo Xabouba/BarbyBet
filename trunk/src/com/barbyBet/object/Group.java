@@ -104,12 +104,15 @@ public class Group {
 	    groupInfo.put("name", this.getName());
 	    groupInfo.put("img", this.getImg());
 	    groupInfo.put("description", this.getDescription());
+	    groupInfo.put("status", String.valueOf(this.getStatus()));
 	    
 	    if(this.getMembers().size() == 1) {
-	    	groupInfo.put("numberOfMembers", String.valueOf(this.getMembers().size()) + " membre");
+	    	groupInfo.put("numberOfMembersFullStr", String.valueOf(this.getMembers().size()) + " membre");
 	    } else {
-	    	groupInfo.put("numberOfMembers", String.valueOf(this.getMembers().size()) + " membres");
+	    	groupInfo.put("numberOfMembersFullStr", String.valueOf(this.getMembers().size()) + " membres");
 	    }
+	    
+	    groupInfo.put("numberOfMembers", String.valueOf(this.getMembers().size()));
 	    
 	    // Retrieve the user who created the group
 	    SQLUsersComponent userComponent = new SQLUsersComponent();

@@ -84,6 +84,15 @@
     <servlet-name>UserAutoComplete</servlet-name>
     <url-pattern>/userAutoComplete</url-pattern>
   </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>GroupAutoComplete</servlet-name>
+    <servlet-class>com.barbyBet.servlets.GroupAutoCompleteServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GroupAutoComplete</servlet-name>
+    <url-pattern>/groupAutoComplete</url-pattern>
+  </servlet-mapping>
   <!-- Servlet for rank -->
   <servlet>
     <servlet-name>Rank</servlet-name>

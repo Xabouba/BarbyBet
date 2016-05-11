@@ -19,12 +19,12 @@ public class CreateTeamsInTheDatabase {
 		xmlSoccerService.setApiKey(WebServiceConstants.API_KEY);
 		
 		// demo access
-		xmlSoccerService.setServiceUrl("http://www.xmlsoccer.com/FootballDataDemo.asmx");
+		// xmlSoccerService.setServiceUrl("http://www.xmlsoccer.com/FootballDataDemo.asmx");
 		
 		// full access
-		//xmlSoccerService.setServiceUrl("http://www.xmlsoccer.com/FootballData.asmx");
+		xmlSoccerService.setServiceUrl("http://www.xmlsoccer.com/FootballData.asmx");
 		
-		List<GetTeamResultDto> euro2016Teams = xmlSoccerService.getAllTeamsByLeagueAndSeason(Leagues.SCOTLAND_SCOTTISH_PREMIER_LEAGUE.getParam(), Seasons.SEASON_2015_2016.getParam());
+		List<GetTeamResultDto> euro2016Teams = xmlSoccerService.getAllTeamsByLeagueAndSeason("EURO 2016", "");
 		List<Team> teams = new ArrayList<Team>();
 		
 		for (GetTeamResultDto team : euro2016Teams) {

@@ -24,55 +24,57 @@ public class CreateGamesInTheDatabase {
 		xmlSoccerService.setApiKey(WebServiceConstants.API_KEY);
 		
 		// demo access
-		xmlSoccerService.setServiceUrl("http://www.xmlsoccer.com/FootballDataDemo.asmx");
+		// xmlSoccerService.setServiceUrl("http://www.xmlsoccer.com/FootballDataDemo.asmx");
 		
 		// full access
-		//xmlSoccerService.setServiceUrl("http://www.xmlsoccer.com/FootballData.asmx");
+		xmlSoccerService.setServiceUrl("http://www.xmlsoccer.com/FootballData.asmx");
 		
 		SQLTeamComponent sqlTeamComponent = new SQLTeamComponent();
 		HashMap<Integer, Integer> teamsIdMap = sqlTeamComponent.getTeamsIdMap();
 		
-		List<GetFixturesResultDto> allScotishPremiereLeagueGames = xmlSoccerService.getFixturesByLeagueAndSeason(Leagues.SCOTLAND_SCOTTISH_PREMIER_LEAGUE.getParam(), Seasons.SEASON_2015_2016.getParam());
+		List<GetFixturesResultDto> allEuro2016Games = xmlSoccerService.getFixturesByLeagueAndSeason("EURO 2016", "");
 		List<Match> matchs = new ArrayList<Match>();
 		
-		for (GetFixturesResultDto game : allScotishPremiereLeagueGames) {
-			Team homeTeam = new Team();
-			homeTeam.setName(game.getHomeTeam());
-			homeTeam.setId(teamsIdMap.get(game.getHomeTeamId()));
-			homeTeam.setIdWebService(game.getHomeTeamId());
-			
-			Team awayTeam = new Team();
-			awayTeam.setName(game.getAwayTeam());
-			awayTeam.setId(teamsIdMap.get(game.getAwayTeamId()));
-			awayTeam.setIdWebService(game.getAwayTeamId());
-
-			Odds odds = new Odds(0, 0, 0);
-			
-			Match m = new Match();
-			m.setIdWebService(new Long(game.getId()));
-			m.setIdSport(WebServiceConstants.SPORT_FOOTBALL_ID);
-			m.setIdCompetition(WebServiceConstants.SPORT_FOOTBALL_ID);
-			m.setJournee(Integer.parseInt(game.getRound()));
-			m.setHomeTeam(homeTeam);
-			m.setAwayTeam(awayTeam);
-			m.setStatut(WebServiceUtil.createStatus(game.getTime()));
-			
-			if(game.getHomeGoals() != null) {
-				m.setHomeScore(game.getHomeGoals());
-			} else {
-				m.setHomeScore(0);
+		for (GetFixturesResultDto game : allEuro2016Games) {
+			if(game.getRound() != null) {
+				Team homeTeam = new Team();
+				homeTeam.setName(game.getHomeTeam());
+				homeTeam.setId(teamsIdMap.get(game.getHomeTeamId()));
+				homeTeam.setIdWebService(game.getHomeTeamId());
+				
+				Team awayTeam = new Team();
+				awayTeam.setName(game.getAwayTeam());
+				awayTeam.setId(teamsIdMap.get(game.getAwayTeamId()));
+				awayTeam.setIdWebService(game.getAwayTeamId());
+	
+				Odds odds = new Odds(0, 0, 0);
+				
+				Match m = new Match();
+				m.setIdWebService(new Long(game.getId()));
+				m.setIdSport(WebServiceConstants.SPORT_FOOTBALL_ID);
+				m.setIdCompetition(WebServiceConstants.SPORT_FOOTBALL_ID);
+				m.setJournee(Integer.parseInt(game.getRound()));
+				m.setHomeTeam(homeTeam);
+				m.setAwayTeam(awayTeam);
+				m.setStatut(WebServiceUtil.createStatus(game.getTime()));
+				
+				if(game.getHomeGoals() != null) {
+					m.setHomeScore(game.getHomeGoals());
+				} else {
+					m.setHomeScore(0);
+				}
+				
+				if(game.getAwayGoals() != null) {
+					m.setAwayScore(game.getAwayGoals());
+				} else {
+					m.setAwayScore(0);
+				}
+				
+				m.setBeginDate(new java.sql.Timestamp(game.getDate().getTime()));
+				m.setOdds(odds);
+							
+				matchs.add(m);
 			}
-			
-			if(game.getAwayGoals() != null) {
-				m.setAwayScore(game.getAwayGoals());
-			} else {
-				m.setAwayScore(0);
-			}
-			
-			m.setBeginDate(new java.sql.Timestamp(game.getDate().getTime()));
-			m.setOdds(odds);
-						
-			matchs.add(m);
 		}
 		
 		/* to pass in a parameter the name of the league or the season,

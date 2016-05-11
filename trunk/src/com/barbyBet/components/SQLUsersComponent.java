@@ -71,7 +71,7 @@ public class SQLUsersComponent extends SQLComponent {
 			password = encryptPassword(password);
 			
 			try {
-				connexion = DriverManager.getConnection(_url, _user, _password);
+			    connexion = DriverManager.getConnection(_url, _user, _password);
 				stmt = connexion
 						.prepareStatement("SELECT id, username, email, dateRegistration, coins FROM Users WHERE (username = ? AND password = ?) OR (email = ? AND password = ?)");
 				stmt.setString(1, email);
@@ -107,7 +107,7 @@ public class SQLUsersComponent extends SQLComponent {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		try {
-			connexion = DriverManager.getConnection(_url, _user, _password);
+		    connexion = DriverManager.getConnection(_url, _user, _password);
 			stmt = connexion
 					.prepareStatement("SELECT COUNT(username) FROM Users WHERE username = ?");
 			stmt.setString(1, username);
@@ -139,7 +139,7 @@ public class SQLUsersComponent extends SQLComponent {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		try {
-			connexion = DriverManager.getConnection(_url, _user, _password);
+		    connexion = DriverManager.getConnection(_url, _user, _password);
 			stmt = connexion
 					.prepareStatement("SELECT id, username, email, dateRegistration, coins FROM Users WHERE id = ?");
 			stmt.setLong(1, id);
@@ -170,7 +170,7 @@ public class SQLUsersComponent extends SQLComponent {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		try {
-			connexion = DriverManager.getConnection(_url, _user, _password);
+		    connexion = DriverManager.getConnection(_url, _user, _password);
 			stmt = connexion
 					.prepareStatement("SELECT id, username, email, dateRegistration, coins FROM Users WHERE username = ?");
 			stmt.setString(1, username);
@@ -200,7 +200,7 @@ public class SQLUsersComponent extends SQLComponent {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		try {
-			connexion = DriverManager.getConnection(_url, _user, _password);
+		    connexion = DriverManager.getConnection(_url, _user, _password);
 			stmt = connexion
 					.prepareStatement("SELECT id FROM Users WHERE username = ?");
 			stmt.setString(1, username);
@@ -262,17 +262,32 @@ public class SQLUsersComponent extends SQLComponent {
 			Date dateToday = new Date();
 			Timestamp date = new Timestamp(dateToday.getTime());
 			try {
-				connexion = DriverManager.getConnection(_url, _user, _password);
+			    connexion = DriverManager.getConnection(_url, _user, _password);
+			    connexion.setAutoCommit(false);
+			    
+			    stmt = connexion.prepareStatement("SELECT count(*) as numberOfUsers FROM Users");
+			    ResultSet rs = stmt.executeQuery();
+			    Long numberOfUsers = 0L;
+			    
+			    while(rs.next()) {
+			    	numberOfUsers = rs.getLong("numberOfUsers");
+			    }
+			    
+			    close(stmt);
+			    
 				stmt = connexion
-						.prepareStatement("INSERT INTO Users (username, email, password, dateRegistration, coins) VALUES (?, ?, ?, ?, ?)");
+						.prepareStatement("INSERT INTO Users (username, email, password, dateRegistration, coins, rank) VALUES (?, ?, ?, ?, ?, ?)");
 
 				stmt.setString(1, username);
 				stmt.setString(2, email);
 				stmt.setString(3, password);
 				stmt.setTimestamp(4, date);
 				stmt.setInt(5, DEFAULT_NUMBER_OF_COINS);
+				stmt.setLong(6, numberOfUsers+1);
 
 				stmt.executeUpdate();
+				
+				connexion.commit();
 			} catch (SQLException e) {
 				setError(CHAMP_INSCRIPTION, "Il y a eu un problème lors de l'inscription. Merci de réessayer.");
 
@@ -286,7 +301,7 @@ public class SQLUsersComponent extends SQLComponent {
 		}
 	}
 	
-	public ArrayList<String> getUserNames(String term) {
+	public ArrayList<String> getUserNames(String term, String username) {
 		ArrayList<String> usernames = new ArrayList<>();
 		Connection connexion = null;
 		PreparedStatement stmt = null;
@@ -294,8 +309,44 @@ public class SQLUsersComponent extends SQLComponent {
 		try {
 			connexion = DriverManager.getConnection(_url, _user, _password);
 			stmt = connexion
-					.prepareStatement("SELECT username FROM Users WHERE username like ?");
+					.prepareStatement("SELECT username FROM Users WHERE username like ? AND username <> ?");
 			stmt.setString(1, "%" + term + "%");
+			stmt.setString(2, username);
+
+			rs = stmt.executeQuery();
+						
+			while(rs.next()) {
+				usernames.add(rs.getString("username"));
+			}
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		} finally {
+			close(rs);
+			close(stmt);
+			close(connexion);
+		}
+		
+		return usernames;
+	}
+	
+	/**
+	 * Get the list of usernames containing the "term" in the group of ID : groupId (while not displaying username) 
+	 * @param term
+	 * @param username
+	 * @return
+	 */
+	public ArrayList<String> getUserNamesFromGroup(String term, String username, Long groupId) {
+		ArrayList<String> usernames = new ArrayList<>();
+		Connection connexion = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		try {
+		    connexion = DriverManager.getConnection(_url, _user, _password);
+			stmt = connexion
+					.prepareStatement("SELECT u.username FROM Users u, LinkUserGroup lug WHERE u.username like ? AND u.username <> ? AND u.id = lug.userId AND lug.groupId = ?");
+			stmt.setString(1, "%" + term + "%");
+			stmt.setString(2, username);
+			stmt.setLong(3, groupId);
 
 			rs = stmt.executeQuery();
 						
