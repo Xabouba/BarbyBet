@@ -9,7 +9,7 @@
               <div class="widget-content">
 				<ul class="list-unstyled">
 					<li class="format-standard rank-title">
-						<span>Groupe A</span>
+						<span>${groupName}</span>
 					</li>
 					<c:forEach items="${rank}" var="user" varStatus="i">
                       	<li class="format-standard">
@@ -28,14 +28,16 @@
                        				</c:choose>
                        			</td>
                        			<td class="td_rank_name">
-                       				<c:choose>
-                       					<c:when test="${user.value.currentUser == 'true'}">
-                       						<span class="current_user">${user.key}</span>
-                       					</c:when>
-                       					<c:otherwise>
-                         					${user.key}
-                       					</c:otherwise>
-                       				</c:choose>
+                       				<a href="account?userId=${user.value.id}">
+					       				<c:choose>
+					       					<c:when test="${user.value.currentUser == 'true'}">
+					       						<span class="current_user">${user.key}</span>
+					       					</c:when>
+					       					<c:otherwise>
+					         						${user.key}
+					       					</c:otherwise>
+					       				</c:choose>
+				       				</a>
                     			</td>
                        			<td class="td_rank_credit">
                        				<c:choose>

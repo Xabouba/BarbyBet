@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.barbyBet.components.RankComponent;
+import com.barbyBet.components.SQLGroupComponent;
+import com.barbyBet.components.SQLUsersComponent;
 import com.barbyBet.components.UsersComponent;
 import com.barbyBet.object.User;
 
@@ -40,6 +42,17 @@ public class RankServlet extends HttpServlet {
 			/** Classement */
 			setRankRequest(request, currentUser, null, 1, 25);
 				
+			/** User group */
+			SQLGroupComponent sqlGroupComponent = new SQLGroupComponent();
+			request.setAttribute("groups", sqlGroupComponent.getGroups(currentUser.getId()));
+			
+			/** User info */
+			SQLUsersComponent sqlUserComponent = new SQLUsersComponent();
+			User user = sqlUserComponent.getUser(currentUser.getId());
+			request.setAttribute("userPoint", user.getCoins());
+			request.setAttribute("userRank", user.getRank());
+			
+			
 			this.getServletContext().getRequestDispatcher( "/WEB-INF/jsp/rank.jsp" ).forward(request, response);
 		}
 	}
@@ -70,6 +83,16 @@ public class RankServlet extends HttpServlet {
 	
 	protected void setRankRequest(HttpServletRequest request, User currentUser, Long groupId, int page, int nbUser)
 	{
+		if (groupId == null)
+		{
+			request.setAttribute("groupName", "General");
+		}
+		else
+		{
+			SQLGroupComponent sqlGroupComponent = new SQLGroupComponent();
+			request.setAttribute("groupName", sqlGroupComponent.getGroup(groupId).getName());
+		}
+		
 		RankComponent rankComponent = new RankComponent();
 		request.setAttribute("rank", rankComponent.getRank(groupId, currentUser.getUsername(), page, nbUser));
 		request.setAttribute("page", page);

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.barbyBet.components.RankComponent;
 import com.barbyBet.components.SQLGroupComponent;
 import com.barbyBet.components.SQLPronoComponent;
+import com.barbyBet.components.SQLUsersComponent;
 import com.barbyBet.components.UsersComponent;
 import com.barbyBet.object.User;
 
@@ -53,6 +54,9 @@ public class AccountServlet extends HttpServlet {
 				id = Long.parseLong(idUser);
 			}
 			
+			/** Current User */
+			request.setAttribute("isCurrentUser", id == currentUser.getId());
+			
 			/** Next Pronostic */
 			SQLPronoComponent sqlPronoComponent = new SQLPronoComponent();
 			ArrayList<HashMap<String, String>> nextMatchPronostic = sqlPronoComponent.getNextMatchPronostic(id);
@@ -62,8 +66,18 @@ public class AccountServlet extends HttpServlet {
 			ArrayList<HashMap<String, String>> pastMatchPronostic = sqlPronoComponent.getPastMatchPronostic(id);
 			request.setAttribute("pastProno", pastMatchPronostic);
 
-			this.getServletContext().getRequestDispatcher( "/WEB-INF/jsp/account.jsp" ).forward(request, response);
+			/** User stat */
+			SQLUsersComponent sqlUserComponent = new SQLUsersComponent();
+			request.setAttribute("userStat", sqlPronoComponent.getUserStatPronostic(id));
+			User user = sqlUserComponent.getUser(id);
+			request.setAttribute("userLogin", user.getUsername());
+			request.setAttribute("userPoint", user.getCoins());
+			request.setAttribute("userRank", user.getRank());
 			
+			/** User group */
+			request.setAttribute("groups", sqlGroupComponent.getGroups(id));
+			
+			this.getServletContext().getRequestDispatcher( "/WEB-INF/jsp/account.jsp" ).forward(request, response);
 		}
 	}
 

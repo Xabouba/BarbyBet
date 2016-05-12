@@ -36,6 +36,16 @@
 	font-weight: bold;
 }
 
+.rank a
+{
+	color: #666;
+}
+
+.rank a:hover
+{
+	color: grey;
+}
+
 .classement .td_rank_name
 {
 	float: left;
@@ -48,7 +58,12 @@
 
 .rank .current_user
 {
-	color : blue;
+	color : #07A3F7;
+}
+
+.rank .current_user:hover
+{
+	color : #09dff7;
 }
 
 .rank .pagination

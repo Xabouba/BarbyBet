@@ -141,14 +141,14 @@ public class SQLUsersComponent extends SQLComponent {
 		try {
 		    connexion = DriverManager.getConnection(_url, _user, _password);
 			stmt = connexion
-					.prepareStatement("SELECT id, username, email, dateRegistration, coins FROM Users WHERE id = ?");
+					.prepareStatement("SELECT id, username, email, dateRegistration, coins, rank FROM Users WHERE id = ?");
 			stmt.setLong(1, id);
 
 			rs = stmt.executeQuery();
 			if (rs.next()) {
 				user = new User(rs.getLong("id"), rs.getString("username"),
 						rs.getString("email"), rs.getDate("dateRegistration"),
-						rs.getInt("coins"));
+						rs.getInt("coins"), rs.getInt("rank"));
 				return user;
 			} else {
 				return null;
