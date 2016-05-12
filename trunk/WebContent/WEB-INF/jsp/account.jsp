@@ -26,11 +26,14 @@
                             <li class="clearfix">
                                 <div class="widget kp-main-news next-prono">
                                    <h2 class="widget-title"><span>Prochains pronostics</span></h2>
-                                      <c:forEach items="${nextProno}" var="match">
-                                      <div class="widget-content">
+                                    <div class="widget-content">
+                                    <c:if test="${empty nextProno}">
+                                    	<ul class="list-unstyled"><li class="format-standard">Aucun prochain pronostic</li></ul>
+                                    </c:if>
+                                    <c:forEach items="${nextProno}" var="match">
                                         <ul class="list-unstyled">
                                           	<li class="format-standard match-info">
-                                            <div>
+                                            <div class="${isCurrentUser == 'true' ? 'current-user' : ''}">
                                             	<table class="match-info-table">
 												   <tr>
 										    			<td class="image">
@@ -73,8 +76,10 @@
 										    			<td class="image last">
 										    				<img src="images/team/${match.awayImg}_128.png" />
 										    			</td>
+										    			<td class="creditsWon" />
 									   				</tr>
 						    					</table>
+						    					<c:if test="${isCurrentUser == 'true'}">
 						    					<table class="bet-info-table" id="match_${match.matchId}">
 										   			<tr>
 								    	 				<td class="odd" id="odd_1_${match.matchId}">
@@ -118,19 +123,23 @@
 										    			</td>
 										    		</tr>
 										    	</table>
+										    	</c:if>
 									    	</div>
                                            </li>
                                        </ul>
-                                     </div> 
                                      </c:forEach>
+                                     </div> 
                                   </div>
                                   <!-- widget-content -->
                             </li>
                             <li class="clearfix">
                                 <div class="widget kp-review last-prono">
                                     <h2 class="widget-title"><span>Derniers pronostics</span></h2>
+                                    <div class="widget-content">
+                                    <c:if test="${empty pastProno}">
+                                    	<ul class="list-unstyled"><li class="format-standard">Aucun dernier pronostic</li></ul>
+                                    </c:if>
                                     <c:forEach items="${pastProno}" var="match">
-	                                       <div class="widget-content">
 	                                         <ul class="list-unstyled">
 	                                           	<li class="format-standard match-info">
 		                                            <div>
@@ -191,8 +200,8 @@
 											    	</div>
 	                                            </li>
 	                                        </ul>
-	                                      </div> 
                                        </c:forEach>
+                                    </div> 
                                 </div>
                                 <!-- kp-review -->
                             </li>
@@ -210,9 +219,65 @@
                                 <div class="widget-content">
                                     <ul class="list-unstyled">
                                     	<li class="format-standard">
+                                    		<p class="user-title">${userLogin}</p>
+                                    		<p class="user-info">
+                                    			<span class="user-rank">
+                                    				<c:choose>
+                                    					<c:when test="${userRank == 1}">${userRank}er</c:when>
+                                    					<c:otherwise>${userRank}ème</c:otherwise>
+                                    				</c:choose>
+                                    			</span>
+                                    			-
+                                    			<span class="user-point">${userPoint}
+                                    				<c:choose>
+                                    					<c:when test="${userPoint > 1}">points</c:when>
+                                    					<c:otherwise>point</c:otherwise>
+                                    				</c:choose>
+                                    			</span>
+                                    		</p>
+                                    		<div class="user-stat">
+	                                    		<canvas id="chart-area" width="150" height="150"></canvas>
+                                    		</div>
                                     	</li>
                                    	</ul>
                                 </div>
+                                <!-- widget-content -->
+                            </div>
+                            <!-- kp-last-news -->
+                        </li>
+                    </ul>
+                    <ul class="clearfix list-unstyled">
+                        <li>
+                            <div class="widget widget-kp-tab">
+                                <h2 class="widget-title"><span>Groupes</span></h2>
+                                <div class="widget-content">
+                                   <div class="tab-content">
+                                       <div class="tab-pane active" id="tab_popular">
+                                           <ul class="list-unstyled">
+                                           	 <c:forEach items="${groups}" var="userGroup" varStatus="i">
+                                               <li>
+                                                   <div class="kp-group clearfix">
+                                                       <span>${i.index}</span>
+                                                       <a href="#">${userGroup.value.name}</a>
+                                                       <ul class="kp-metadata clearfix">
+                                                           <li>
+                                                           	<c:choose>
+                                                           		<c:when test="${userGroup.value.rank > 1}">${userGroup.value.rank}ème</c:when>
+                                                           		<c:otherwise>${userGroup.value.rank}er</c:otherwise>
+                                                           	</c:choose>
+                                                           	&nbsp&nbsp&nbsp-&nbsp&nbsp&nbsp
+                                                           </li>
+                                                           <li>
+                                                           	10 points
+                                                           </li>
+                                                       </ul>
+                                                   </div>
+                                               </li>
+                                             </c:forEach>
+                                         	</ul>
+                                        </div>
+                                     </div>
+                                 </div>
                                 <!-- widget-content -->
                             </div>
                             <!-- kp-last-news -->
@@ -327,6 +392,44 @@
 				  $("#bet_" + id).remove();
 			  });
 		  };
+
+		  var nbProno = ${userStat.nbProno};
+		  var nbWin = ${userStat.nbWin};
+		  var nbLose = ${userStat.nbLose};
+		  var nbExact = ${userStat.nbExact};
+
+		  if (nbProno != 0)
+		  {
+			  var win = Math.floor(nbWin / nbProno * 100);
+			  var lose = Math.floor(nbLose / nbProno * 100);
+			  var exact = Math.floor(nbExact / nbProno * 100);
+			  
+			  var pieData = [
+				{
+					value: 20,//win,
+					color: "#0000FF",
+					highlight: "#55E451",
+					label: "Prono réussi"
+				},
+				{
+					value: 10,//exact,
+					color: "#F7F2B4",
+					highlight: "#5AD3D1",
+					label: "Prono exact"
+				},
+				{
+					value: 50,//lose,
+					color: "#FF0000",
+					highlight: "#889D88",
+					label: "Prono raté"
+				}
+			];
+				
+			window.onload = function(){
+				var ctx = document.getElementById("chart-area").getContext("2d");
+				window.myPie = new Chart(ctx).Pie(pieData);
+			};
+		  }
 		</script>
     	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
         <script src="js/jqueryUi.js"></script>

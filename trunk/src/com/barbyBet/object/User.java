@@ -14,6 +14,7 @@ public class User {
 	private Date _registrationDate;
 	private int _coins;
 	private Long _id;
+	private int _rank;
 	
 	public User() {
 		
@@ -25,6 +26,15 @@ public class User {
 		_email = email;
 		_registrationDate = date;
 		_coins = coins;
+	}
+	
+	public User(Long id, String username, String email, Date date, int coins, int rank) {
+		_id = id;
+		_username = username;
+		_email = email;
+		_registrationDate = date;
+		_coins = coins;
+		_rank = rank;
 	}
 
 	public String getUsername() {
@@ -65,6 +75,14 @@ public class User {
 
 	public void setId(Long id) {
 		this._id = id;
+	}
+	
+	public int getRank() {
+		return _rank;
+	}
+
+	public void setRank(int rank) {
+		this._rank = rank;
 	}
 	
 	@Override

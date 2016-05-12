@@ -509,8 +509,8 @@ public class SQLGroupComponent extends SQLComponent
 		return DELETE_SUCCESSFUL;
 	}
 	
-	public Map<Long, String> getGroups(Long userId) {
-		Map<Long, String> groups = new HashMap<Long, String>();
+	public Map<Long, Map<String, String>> getGroups(Long userId) {
+		Map<Long, Map<String, String> > groups = new HashMap<Long, Map<String, String>>();
 		
 		Connection connexion = null;
 		PreparedStatement stmt = null;
@@ -518,13 +518,16 @@ public class SQLGroupComponent extends SQLComponent
 		
 		try {
 		    connexion = DriverManager.getConnection(_url, _user, _password);
-		    stmt = connexion.prepareStatement("SELECT g.id, g.name FROM Groups g, Users u, LinkUserGroup lug WHERE u.id = ? AND lug.groupId = g.id AND lug.userId = u.id");
+		    stmt = connexion.prepareStatement("SELECT g.id, g.name, lug.userRank FROM Groups g, Users u, LinkUserGroup lug WHERE u.id = ? AND lug.groupId = g.id AND lug.userId = u.id");
 		    
 		    stmt.setLong(1, userId);
 
 		    rs = stmt.executeQuery();
 		    while (rs.next()) {
-		    	groups.put(rs.getLong(1), rs.getString(2));
+		    	Map<String, String> attribut = new HashMap<String, String>();
+		    	attribut.put("name", rs.getString(2));
+		    	attribut.put("rank", rs.getString(3));
+		    	groups.put(rs.getLong(1), attribut);
 		    }
 		    
 		    return groups;
@@ -537,7 +540,7 @@ public class SQLGroupComponent extends SQLComponent
 			close(connexion);
 		}
 	}
-
+	
 	public ArrayList<String> getAllPublicGroupNames(String term) {
 		ArrayList<String> groups = new ArrayList<>();
 		Connection connexion = null;
