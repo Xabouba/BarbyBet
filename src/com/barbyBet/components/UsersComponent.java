@@ -45,8 +45,6 @@ public class UsersComponent {
 					currentUser.setCoins(Integer.parseInt(cookie.getValue()));
 				}
 			}
-		} else {
-			return null;
 		}
 		
 		return currentUser;

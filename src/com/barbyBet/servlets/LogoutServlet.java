@@ -12,7 +12,7 @@ import com.barbyBet.tools.ServletUtil;
 public class LogoutServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	   
-    public static final String VUE = "/WEB-INF/jsp/login.jsp";
+    public static final String VUE = "/Barby_Bet/login";
 
 	/**
 	 * Default constructor.
@@ -28,7 +28,7 @@ public class LogoutServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		ServletUtil.removeCookies(request, response);
-		this.getServletContext().getRequestDispatcher(VUE).forward(request, response);
+		response.sendRedirect(VUE);
 	}
 
 	/**

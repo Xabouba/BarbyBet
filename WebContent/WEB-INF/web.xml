@@ -84,7 +84,6 @@
     <servlet-name>UserAutoComplete</servlet-name>
     <url-pattern>/userAutoComplete</url-pattern>
   </servlet-mapping>
-  
   <servlet>
     <servlet-name>GroupAutoComplete</servlet-name>
     <servlet-class>com.barbyBet.servlets.GroupAutoCompleteServlet</servlet-class>
@@ -93,48 +92,44 @@
     <servlet-name>GroupAutoComplete</servlet-name>
     <url-pattern>/groupAutoComplete</url-pattern>
   </servlet-mapping>
-  <!-- Servlet for rank -->
   <servlet>
     <servlet-name>Rank</servlet-name>
     <servlet-class>com.barbyBet.servlets.RankServlet</servlet-class>
   </servlet>
-  
-   <servlet-mapping>
-	<servlet-name>Rank</servlet-name>
-	<url-pattern>/rank</url-pattern>
+  <servlet-mapping>
+    <servlet-name>Rank</servlet-name>
+    <url-pattern>/rank</url-pattern>
   </servlet-mapping>
-  
-  <!-- Servlet for rank action -->
+  <servlet>
+    <servlet-name>Index</servlet-name>
+    <servlet-class>com.barbyBet.servlets.IndexServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Index</servlet-name>
+    <url-pattern>/index</url-pattern>
+  </servlet-mapping>
   <servlet>
     <servlet-name>RankAction</servlet-name>
     <servlet-class>com.barbyBet.servlets.actions.RankServletAction</servlet-class>
   </servlet>
-  
-   <servlet-mapping>
-	<servlet-name>RankAction</servlet-name>
-	<url-pattern>/rankAction</url-pattern>
+  <servlet-mapping>
+    <servlet-name>RankAction</servlet-name>
+    <url-pattern>/rankAction</url-pattern>
   </servlet-mapping>
-  
-  <!-- Servlet for pronostic action -->
   <servlet>
     <servlet-name>BetAction</servlet-name>
     <servlet-class>com.barbyBet.servlets.actions.BetServletAction</servlet-class>
   </servlet>
-  
-   <servlet-mapping>
-	<servlet-name>BetAction</servlet-name>
-	<url-pattern>/betAction</url-pattern>
+  <servlet-mapping>
+    <servlet-name>BetAction</servlet-name>
+    <url-pattern>/betAction</url-pattern>
   </servlet-mapping>
-  
-  <!-- Servlet for comment action -->
   <servlet>
     <servlet-name>CommentAction</servlet-name>
     <servlet-class>com.barbyBet.servlets.actions.CommentServletAction</servlet-class>
   </servlet>
-  
-   <servlet-mapping>
-	<servlet-name>CommentAction</servlet-name>
-	<url-pattern>/commentAction</url-pattern>
+  <servlet-mapping>
+    <servlet-name>CommentAction</servlet-name>
+    <url-pattern>/commentAction</url-pattern>
   </servlet-mapping>
-  
 </web-app>

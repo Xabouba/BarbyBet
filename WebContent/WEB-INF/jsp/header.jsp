@@ -5,10 +5,17 @@
 	    <nav>
 	        <ul class="sf-menu" id="main-menu">
 	            <li class="current-menu-item">
-	                <a href="index.jsp">Accueil</a>
+	                <a href="index">Accueil</a>
 	            </li>
                 <li>
                     <a href="match">Directs</a>
+                </li>
+                <li>
+                    <a href="#">Groupes</a>
+                    <ul>
+                        <li><a href="createGroup">Créer Groupe</a></li>
+                        <li><a href="group">Mes Groupes</a></li>
+                    </ul>
                 </li>
                 <li>
                     <a href="contact">contact</a>

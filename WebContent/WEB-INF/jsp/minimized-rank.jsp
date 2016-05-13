@@ -9,10 +9,10 @@
 					<c:forEach items="${userGroups}" var="userGroup">
 						<c:choose>
 							<c:when test="${userGroup.key == group.id}">
-								<option value="${userGroup.key}" selected>${userGroup.value}</option>
+								<option value="${userGroup.key}" selected>${userGroup.value.name}</option>
 							</c:when>
 							<c:otherwise>
-								<option value="${userGroup.key}">${userGroup.value}</option>
+								<option value="${userGroup.key}">${userGroup.value.name}</option>
 							</c:otherwise>
 						</c:choose>
 					</c:forEach>

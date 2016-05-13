@@ -37,7 +37,7 @@ public class GroupAutoCompleteServlet extends HttpServlet {
 		UsersComponent usersComponent = new UsersComponent();
 		User currentUser = usersComponent.getCurrentUser(request);
 		
-		if(currentUser == null) {
+		if(currentUser.getId() == null) {
 			this.getServletContext().getRequestDispatcher(VUE_INDEX).forward(request, response);
 		} else {
 			String actionType = request.getParameter("actionType").toString();
