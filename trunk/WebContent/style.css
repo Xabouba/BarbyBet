@@ -1445,12 +1445,14 @@ h1,h2,h3,h4,h5,h6
 }
 .widget-kp-tab .tab-content li:nth-child(2) .kp-group > span
 {
-    background: #42b3e5;
+    /*background: #42b3e5;*/
+    background: #3156a3;
     color: #fff;
 }
 .widget-kp-tab .tab-content li:nth-child(3) .kp-group > span
 {
-    background: #b6b6b6;
+    /*background: #b6b6b6;*/
+    background: #3156a3;
     color: #fff;
 }
 .widget-kp-tab .kp-metadata li,

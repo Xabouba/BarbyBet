@@ -254,10 +254,12 @@
                                    <div class="tab-content">
                                        <div class="tab-pane active" id="tab_popular">
                                            <ul class="list-unstyled">
-                                           	 <c:forEach items="${groups}" var="userGroup" varStatus="i">
+                                           	<c:set var="groupsCount" value="0" scope="page" />
+                                           	 <c:forEach items="${groups}" var="userGroup">
+                                              	<c:set var="groupsCount" value="${groupsCount + 1}" scope="page"/>
                                                <li>
                                                    <div class="kp-group clearfix">
-                                                       <span>${i.index}</span>
+                                                       <span>${groupsCount}</span>
                                                        <a href="#">${userGroup.value.name}</a>
                                                        <ul class="kp-metadata clearfix">
                                                            <li>
@@ -288,9 +290,7 @@
                 <div class="clearfix"></div>
             </div>
     	</div>
-    	<div class="page-footer">
-    	</div>
-    	
+    	<%@include file="footer.jsp" %>
     	<script type="text/javascript">
     	  bet = function(id)
     	  {
