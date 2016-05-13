@@ -37,8 +37,11 @@ public class RegisterServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if(ServletUtil.getCookieValue(request, Constants.COOKIE_CURRENT_USER_ID) == null) {
-			this.getServletContext().getRequestDispatcher(VUE_ERROR).forward(request, response);
+		UsersComponent usersComponent = new UsersComponent();
+		User currentUser = usersComponent.getCurrentUser(request);
+		
+		if(currentUser.getId() == null) {
+			this.getServletContext().getRequestDispatcher( "/WEB-INF/jsp/login.jsp" ).forward(request, response);
 		} else {
 			this.getServletContext().getRequestDispatcher(VUE_SUCCESS).forward(request, response);
 		}
