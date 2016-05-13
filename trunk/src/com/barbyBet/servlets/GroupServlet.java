@@ -41,7 +41,7 @@ public class GroupServlet extends HttpServlet {
 		UsersComponent usersComponent = new UsersComponent();
 		currentUser = usersComponent.getCurrentUser(request);
 		
-		if(currentUser == null) {
+		if(currentUser.getId() == null) {
 			this.getServletContext().getRequestDispatcher(VUE_INDEX).forward(request, response);
 		} else {
 			// If we are in the case of a user deleting a group, the groupId is not set anymore and Group group will be null 
@@ -80,7 +80,7 @@ public class GroupServlet extends HttpServlet {
 		UsersComponent usersComponent = new UsersComponent();
 		User currentUser = usersComponent.getCurrentUser(request);
 		
-		if(currentUser == null) {
+		if(currentUser.getId() == null) {
 			this.getServletContext().getRequestDispatcher(VUE_INDEX).forward(request, response);
 		} else {
 			String actionType = request.getParameter("actionType");
@@ -262,13 +262,15 @@ public class GroupServlet extends HttpServlet {
 			
 			request.setAttribute("lastFiveMembers", lastFiveMembers);
 			
-			// Gets the groups where the user is in
-			List<HashMap<String, String>> userGroupList = new ArrayList<HashMap<String, String>>();
-			for(Group userGroup : userGroups) {
-				userGroupList.add(userGroup.toHashMap());
+			if(userGroups != null) {
+				// Gets the groups where the user is in
+				List<HashMap<String, String>> userGroupList = new ArrayList<HashMap<String, String>>();
+				for(Group userGroup : userGroups) {
+					userGroupList.add(userGroup.toHashMap());
+				}
+				
+				request.setAttribute("userGroupList", userGroupList);
 			}
-			
-			request.setAttribute("userGroupList", userGroupList);
 			request.setAttribute("groupImagePath", Constants.GROUP_PICS_ROOT_FOLDER + File.separator + group.getImg());
 			
 			/** Classement */

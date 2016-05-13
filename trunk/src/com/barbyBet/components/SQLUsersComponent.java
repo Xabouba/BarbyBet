@@ -249,8 +249,14 @@ public class SQLUsersComponent extends SQLComponent {
 			return null;
 		}
 
+		if (isEmailTaken(email)) {
+			setError(CHAMP_USERNAME, "Un utilisateur avec cet email est déjà inscrit sur notre site");
+			
+			return null;
+		}
+		
 		if (isUsernameTaken(username)) {
-			setError(CHAMP_USERNAME, "Ce nom d'utilisateur est déjà pris.");
+			setError(CHAMP_USERNAME, "Un utilisateur avec ce nom d'utilisateur est déjà inscrit sur notre site");
 			
 			return null;
 		}
@@ -301,6 +307,37 @@ public class SQLUsersComponent extends SQLComponent {
 		}
 	}
 	
+	private boolean isEmailTaken(String username) {
+		Connection connexion = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		try {
+		    connexion = DriverManager.getConnection(_url, _user, _password);
+			stmt = connexion
+					.prepareStatement("SELECT COUNT(email) FROM Users WHERE email = ?");
+			stmt.setString(1, username);
+
+			rs = stmt.executeQuery();
+			if (rs.next()) {
+				if (rs.getString("COUNT(email)").equals("0")) {
+					return false;
+				} else {
+					return true;
+				}
+			} else {
+				return false;
+			}
+		} catch (SQLException e) {
+			setError(CHAMP_INSCRIPTION, "Il y a eu un problème lors de l'inscription. Merci de réessayer.");
+
+			return false;
+		} finally {
+			close(rs);
+			close(stmt);
+			close(connexion);
+		}
+	}
+
 	public ArrayList<String> getUserNames(String term, String username) {
 		ArrayList<String> usernames = new ArrayList<>();
 		Connection connexion = null;

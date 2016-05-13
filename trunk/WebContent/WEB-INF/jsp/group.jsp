@@ -101,7 +101,8 @@
                                 </div>
                         	</div>
                         </li>
-            			<li class="clearfix">
+                        <c:if test="${not empty userGroupList}">
+            				<li class="clearfix">
                                 <div class="widget kp-review">
                                     <h2 class="widget-title"><span>Mes Groupes</span></h2>
 	                                <div class="widget-content groups">
@@ -128,6 +129,7 @@
 	                                </div>
                                 </div>
                             </li>
+                        </c:if>
             		    <!-- If the connected user is the group admin, they can add a user to this group, delete a user from this group & delete this group -->
             			<c:choose>
 	                    	<c:when test="${cookie.currentUserName.value == group.groupCreator}">
@@ -395,6 +397,9 @@
 	            	$("#delete-user-from-group-msg").html(msg);
 					$("#delete-user-from-group-msg").show();
 					$("#delete-user-from-group-msg-line-break").show();
+					
+					// Update the last five added members
+	            	$("#div-name").load("group", {groupId: groupId}).fadeIn("slow");
 	            });
 	        }
     	</script>

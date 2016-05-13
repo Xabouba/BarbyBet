@@ -32,18 +32,20 @@
 						<h2 class="heading-2">Pronostiquez l'Euro de Football 2016.<br class="hidden-phone">Inscrivez-vous gratuitement.</h2>
 					</div>
 					<div class="index-form " id="index_form">
-						<div class="index-social clearfix" id="social_form">
-							<div class="index-social-col">
-								<button id="home_account_fb" class="btn btn-facebook btn-block evt-click" type="button" data-login-redirect="{&quot;type&quot;:&quot;refresh&quot;,&quot;link&quot;:&quot;\/&quot;}" data-tracking="1" data-tracking-tag="unlogged_home_click" data-tracking-params="{'type': 'facebook'}">
-									<span class="label">Facebook</span>
-								</button>
+						<!-- 
+							<div class="index-social clearfix" id="social_form">
+								<div class="index-social-col">
+									<button id="home_account_fb" class="btn btn-facebook btn-block evt-click" type="button" data-login-redirect="{&quot;type&quot;:&quot;refresh&quot;,&quot;link&quot;:&quot;\/&quot;}" data-tracking="1" data-tracking-tag="unlogged_home_click" data-tracking-params="{'type': 'facebook'}">
+										<span class="label">Facebook</span>
+									</button>
+								</div>
+								<div class="index-social-col">
+									<button id="home_account_gp" class="btn btn-googleplus btn-block evt-click" type="button" data-redirect="{&quot;type&quot;:&quot;refresh&quot;,&quot;link&quot;:&quot;\/&quot;}" data-tracking="1" data-tracking-tag="unlogged_home_click" data-tracking-params="{'type': 'google'}" data-gapiattached="true">
+										<span class="label">Google+</span>
+									</button>
+								</div>
 							</div>
-							<div class="index-social-col">
-								<button id="home_account_gp" class="btn btn-googleplus btn-block evt-click" type="button" data-redirect="{&quot;type&quot;:&quot;refresh&quot;,&quot;link&quot;:&quot;\/&quot;}" data-tracking="1" data-tracking-tag="unlogged_home_click" data-tracking-params="{'type': 'google'}" data-gapiattached="true">
-									<span class="label">Google+</span>
-								</button>
-							</div>
-						</div>
+						 -->
 						<div id="register_form">
 							<form data-type="form-page" method="post">
 								<div class="index-form-groups clearfix">

@@ -24,7 +24,7 @@ public class LoginServlet extends HttpServlet {
 	public static final String CHAMP_EMAIL   	= "email";
 	public static final String CHAMP_PASSWORD   = "password";
     public static final String VUE_ERROR    	= "/WEB-INF/jsp/login.jsp";
-    public static final String VUE_SUCCESS  	= "/WEB-INF/jsp/index.jsp";
+    public static final String VUE_SUCCESS  	= "/Barby_Bet/index";
 
 	/**
 	 * Default constructor.
@@ -42,10 +42,10 @@ public class LoginServlet extends HttpServlet {
 		UsersComponent usersComponent = new UsersComponent();
 		User currentUser = usersComponent.getCurrentUser(request);
 		
-		if(currentUser == null) {
+		if(currentUser.getId() == null) {
 			this.getServletContext().getRequestDispatcher(Constants.VUE_ERROR).forward(request, response);
 		} else {
-			this.getServletContext().getRequestDispatcher(Constants.VUE_SUCCESS).forward(request, response);
+			response.sendRedirect(VUE_SUCCESS);
 		}
 	}
 
@@ -74,7 +74,7 @@ public class LoginServlet extends HttpServlet {
 	        
 //			request.setAttribute("currentUser", currentUser);
 			
-			this.getServletContext().getRequestDispatcher(VUE_SUCCESS).forward(request, response);
+			response.sendRedirect(VUE_SUCCESS);
 		} else {
 			// Ajout des éventuelles erreurs à la requête
 			request.setAttribute(ATT_ERRORS, sqlComponent.getErrors());

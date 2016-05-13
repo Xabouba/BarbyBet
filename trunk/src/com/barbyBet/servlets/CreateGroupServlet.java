@@ -20,6 +20,7 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
+import com.barbyBet.components.RankComponent;
 import com.barbyBet.components.SQLGroupComponent;
 import com.barbyBet.components.UsersComponent;
 import com.barbyBet.object.Group;
@@ -55,9 +56,12 @@ public class CreateGroupServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		User currentUser = usersComponent.getCurrentUser(request);
 		
-		if(currentUser == null) {
+		if(currentUser.getId() == null) {
 			this.getServletContext().getRequestDispatcher(VUE_INDEX).forward(request, response);
 		} else {
+			RankComponent rankComponent = new RankComponent();
+			request.setAttribute("rank", rankComponent.getMinimizedRank(null, currentUser.getUsername()));
+			
 			this.getServletContext().getRequestDispatcher(VUE_CREATE_GROUP).forward(request, response);
 		}
 	}
@@ -68,7 +72,7 @@ public class CreateGroupServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		User currentUser = usersComponent.getCurrentUser(request);
 
-		if(currentUser == null){
+		if(currentUser.getId() == null){
 			this.getServletContext().getRequestDispatcher(VUE_INDEX).forward(request, response);
 	    }
 		

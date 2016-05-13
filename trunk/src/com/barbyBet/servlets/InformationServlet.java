@@ -44,7 +44,7 @@ public class InformationServlet extends HttpServlet {
 		UsersComponent usersComponent = new UsersComponent();
 		User currentUser = usersComponent.getCurrentUser(request);
 
-		if(currentUser == null) {
+		if(currentUser.getId() == null) {
 			this.getServletContext().getRequestDispatcher( "/WEB-INF/jsp/login.jsp" ).forward(request, response);
 		} else {
 			/** Competition Group Name */
