@@ -7,6 +7,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.barbyBet.components.UsersComponent;
+import com.barbyBet.object.User;
+
 /**
  * Servlet implementation class IndexServlet
  */
@@ -25,7 +28,14 @@ public class IndexServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/index.jsp").forward(request, response);
+		UsersComponent usersComponent = new UsersComponent();
+		User currentUser = usersComponent.getCurrentUser(request);
+		
+		if(currentUser.getId() == null) {
+			this.getServletContext().getRequestDispatcher( "/WEB-INF/jsp/login.jsp" ).forward(request, response);
+		} else {
+			this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/index.jsp").forward(request, response);
+		}
 	}
 
 	/**
