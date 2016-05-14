@@ -51,7 +51,7 @@ public class BetServletAction extends HttpServlet {
 			Long matchId = Long.parseLong(matchIdAsString);
 			
 			SQLPronoComponent sqlPronoComponent = new SQLPronoComponent();
-			sqlPronoComponent.pronostic(matchId, currentUser.getId(), scoreHome, scoreAway, prono, credits);
+			boolean result = sqlPronoComponent.pronostic(matchId, currentUser.getId(), scoreHome, scoreAway, prono, credits);
 		}
 	}
 }

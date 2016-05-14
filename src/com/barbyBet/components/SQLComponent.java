@@ -1,30 +1,29 @@
 package com.barbyBet.components;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class SQLComponent {
-	
-	protected int _port = 3306;
-    protected String _user = "root";
-    protected String _password = "malikloic";
-    protected String _url = "jdbc:mysql://localhost:" +_port+ "/barbybet";
-    protected String _driverName = "com.mysql.jdbc.Driver";
+
+	// protected static String _url = "jdbc:mysql://45.55.225.41:3306/barbybet";
+	protected static String _url = "jdbc:mysql://mysql-instance1.chlueibc5lof.us-west-2.rds.amazonaws.com:3306/barbybet";
+	protected static String _user = "root";
+	protected static String _password = "malikloic";
 	
 	public SQLComponent()
 	{
 		try 
 		{
-            Class.forName(_driverName);
+            Class.forName("com.mysql.jdbc.Driver");
         } 
 		catch (ClassNotFoundException e) 
 		{
 			System.out.println(e.getMessage());
         }
 	}
+	
 		
 	public void close(Connection connexion)
 	{
@@ -36,7 +35,7 @@ public class SQLComponent {
 	        } 
 	        catch (SQLException e) 
 	        {
-	        	System.out.println(e.getMessage());
+	        	
 	        }
 	    }
 	}
@@ -51,7 +50,7 @@ public class SQLComponent {
 	        } 
 	        catch (SQLException e) 
 	        {
-	        	System.out.println(e.getMessage());
+	        	
 	        }
 	    }
 	}
@@ -66,7 +65,7 @@ public class SQLComponent {
 	        } 
 	        catch (SQLException e) 
 	        {
-	        	System.out.println(e.getMessage());
+	        	
 	        }
 	    }
 	}

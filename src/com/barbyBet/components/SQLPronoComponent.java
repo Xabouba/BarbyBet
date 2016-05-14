@@ -90,7 +90,7 @@ public class SQLPronoComponent extends SQLComponent
 		return true;
 	}
 
-	public void updateProno(Long matchId, Long idUser, int scoreHome, int scoreAway, int prono, int credits) 
+	public boolean updateProno(Long matchId, Long idUser, int scoreHome, int scoreAway, int prono, int credits) 
 	{
 		Connection connexion = null;
 		PreparedStatement stmt = null;
@@ -107,10 +107,12 @@ public class SQLPronoComponent extends SQLComponent
 		    stmt.setLong(6, idUser);
 		    
 		    stmt.executeUpdate();
+		    return true;
 		} 
 		catch (SQLException e ) 
 		{
 			System.out.println(e.getMessage());
+			return false;
 		} 
 		finally 
 		{
@@ -119,16 +121,22 @@ public class SQLPronoComponent extends SQLComponent
 		}
 	}
 	
-	public void pronostic(Long matchId, Long idUser, int scoreHome, int scoreAway, int prono, int credits)
+	public boolean pronostic(Long matchId, Long idUser, int scoreHome, int scoreAway, int prono, int credits)
 	{
-		if (getProno(matchId, idUser).isEmpty())
+		SQLMatchComponent sqlMatchComponent = new SQLMatchComponent();
+		if (!sqlMatchComponent.hasMatchBegin(matchId))
 		{
-			insertProno(matchId, idUser, scoreHome, scoreAway, prono, credits);
+			if (getProno(matchId, idUser).isEmpty())
+			{
+				return insertProno(matchId, idUser, scoreHome, scoreAway, prono, credits);
+			}
+			else
+			{
+				return updateProno(matchId, idUser, scoreHome, scoreAway, prono, credits);
+			}
 		}
-		else
-		{
-			updateProno(matchId, idUser, scoreHome, scoreAway, prono, credits);
-		}
+		
+		return false;
 	}
 	
 	public ArrayList<HashMap<String, String>> getNextMatchPronostic(long idUser)
