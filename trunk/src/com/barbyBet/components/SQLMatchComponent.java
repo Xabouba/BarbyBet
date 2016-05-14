@@ -5,11 +5,10 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.barbyBet.object.Match;
 import com.barbyBet.object.Odds;
@@ -252,6 +251,37 @@ public class SQLMatchComponent extends SQLComponent
 		}
 	}
 
+	public boolean hasMatchBegin(Long matchId)
+	{
+		Connection connexion = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		try 
+		{
+		    connexion = DriverManager.getConnection(_url, _user, _password);
+		    stmt = connexion.prepareStatement("SELECT * FROM Matchs m WHERE m.beginDate > ? AND m.id = ? ");
+		    
+		    Date dateToday = new Date();
+		    Timestamp dateSql = new Timestamp(dateToday.getTime());
+		    stmt.setTimestamp(1, dateSql);
+		    stmt.setLong(2, matchId);
+		    
+		    rs = stmt.executeQuery();
+		    return rs.next();
+		} 
+		catch (SQLException e ) 
+		{
+			System.out.println(e.getMessage());
+			return false;
+		} 
+		finally 
+		{
+		    close(rs);
+			close(stmt);
+			close(connexion);
+		}
+	}
+	
 	public boolean insertMatchs(List<Match> matchs) {
 		Connection connection = null;
 		PreparedStatement stmt = null;
