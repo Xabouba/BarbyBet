@@ -28,7 +28,7 @@
                         <ul class="clearfix list-unstyled">
                         <li>
                             <div class="widget widget-kp-tab">
-                                <h2 class="widget-title"><span>Groupes</span></h2>
+                                <h2 class="widget-title"><span>Mes Groupes</span></h2>
                                 <div class="widget-content">
                                    <div class="tab-content">
                                        <div class="tab-pane active" id="tab_popular">
@@ -58,7 +58,7 @@
                                            	 <c:forEach items="${groups}" var="userGroup" varStatus="i">
                                                <li>
                                                    <div class="kp-group clearfix" onclick="changeGroup(this.id, ${userGroup.key})" id="group-${i.index}">
-                                                       <span>${i.index}</span>
+                                                       <span>${i.index+1}</span>
                                                        <a href="match">${userGroup.value.name}</a>
                                                        <ul class="kp-metadata clearfix">
                                                            <li>
@@ -94,8 +94,7 @@
             <!-- content -->
         </div>
         
-        <footer id="page-footer">
-        </footer>
+        <%@include file="footer.jsp" %>
         <!-- page-footer -->
 		
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">
@@ -115,8 +114,13 @@
         <script type="text/javascript" src="js/custom.js"></script>
         
         <script type="text/javascript">
-			$("#group-general")[0].style.backgroundColor = "#ebebeb";
-			$("#group-general")[0].style.border = "solid 2px #fff";
+        	var currentGroupId = ${currentGroupId};
+        	if(currentGroupId == null) {}
+				$("#group-general")[0].style.backgroundColor = "#ebebeb";
+				$("#group-general")[0].style.border = "solid 2px #fff";
+			} else {
+				// TODO
+			}
 			changeGroup = function(id, idGroup)
 			{
 				$("#group-general")[0].style.backgroundColor = "#fff";

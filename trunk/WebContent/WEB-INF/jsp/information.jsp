@@ -23,7 +23,7 @@
                     		<%@include file='minimized-rank.jsp'%>
                     	</div>
                         <div class="page-single pull-left" >
-                     			<h2 class="widget-title"><span>Classement</span></h2>
+                     			<h2 class="widget-title"><span>Résultats</span></h2>
                                    <div class="menu-match">
                                    	<ul class="nav nav-tabs kp-tabs">
 										<c:forEach items="${groupNames}" var="group" varStatus="i">
@@ -58,8 +58,7 @@
             <!-- content -->
         </div>
         
-        <footer id="page-footer">
-        </footer>
+        <%@include file="footer.jsp" %>
         <!-- page-footer -->
 		
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">
@@ -182,10 +181,9 @@
 
 		  selectGroup = function(group)
 		  {
-			  $("#group-information").load("information", {group: group}).fadeIn("slow");
+			  $("#group-information").load("resultats", {group: group}).fadeIn("slow");
 		  }
 				  
-		</script>
 		</script>
     </body>
 </html>    

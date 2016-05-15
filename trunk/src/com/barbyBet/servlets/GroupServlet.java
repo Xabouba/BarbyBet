@@ -1,3 +1,4 @@
+
 package com.barbyBet.servlets;
 
 import java.io.File;
@@ -6,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -29,7 +31,7 @@ public class GroupServlet extends HttpServlet {
 	public static final String VUE_GROUP = "/WEB-INF/jsp/group.jsp";
 	public static final String GROUP_SERVLET = "/group";
     public static final String VUE_INDEX = "/login";
-    public static final String CREATE_GROUP_SERVLET = "/createGroup";
+    public static final String CREATE_GROUP_SERVLET = "/Barby_Bet/createGroup";
     
     private User currentUser;
     private List<Group> userGroups;
@@ -49,7 +51,7 @@ public class GroupServlet extends HttpServlet {
 			SQLGroupComponent sqlGroupComponent = new SQLGroupComponent();
 			Group group = null;
 			
-			if(groupIdStr != null) {
+			if(groupIdStr != null && !"".equals(groupIdStr)) {
 				Long groupId = Long.parseLong(groupIdStr);
 				group = sqlGroupComponent.getGroup(groupId);
 			}
@@ -58,11 +60,15 @@ public class GroupServlet extends HttpServlet {
 				redirectToRightServlet(request, response, group);
 			} else {
 				userGroups = sqlGroupComponent.getUserGroups(currentUser.getId());
-				
+				Object comingFromCreateGroupPageObject = request.getAttribute("comingFromCreateGroupPage");
+				String comingFromCreateGroupPage = null;
+				if(comingFromCreateGroupPageObject != null) {
+					comingFromCreateGroupPage = comingFromCreateGroupPageObject.toString();
+				}
 				// If the user is affiliated to no group we redirect him to CreateGroupServlet
-				if(userGroups == null || userGroups.isEmpty()) {
+				if(userGroups == null || userGroups.isEmpty() || comingFromCreateGroupPage != null) {
 					request.setAttribute("comingFromGroupServletDelete", "yes");
-					this.getServletContext().getRequestDispatcher(CREATE_GROUP_SERVLET).forward(request, response);
+					response.sendRedirect(CREATE_GROUP_SERVLET);
 				} else {
 					groupIdStr = userGroups.get(0).getId().toString();
 					Long groupId = Long.parseLong(groupIdStr);
@@ -193,6 +199,7 @@ public class GroupServlet extends HttpServlet {
 					}
 				} else if("look-for-group".equals(actionType)) {
 					String groupName = request.getParameter("groupName");
+					String comingFromCreateGroupPage = request.getParameter("comingFromCreateGroupPage");
 					SQLGroupComponent sqlGroupComponent = new SQLGroupComponent();
 					Long groupId = sqlGroupComponent.getGroupId(groupName);
 					
@@ -201,6 +208,9 @@ public class GroupServlet extends HttpServlet {
 						redirectToRightServlet(request, response, g);
 					} else {
 						request.setAttribute("lookForGroupMsg", "Ce nom de groupe n'existe pas");
+						if(comingFromCreateGroupPage != null) {
+							request.setAttribute("comingFromCreateGroupPage", comingFromCreateGroupPage);
+						}
 						doGet(request, response);
 					}
 				}
@@ -272,14 +282,17 @@ public class GroupServlet extends HttpServlet {
 				request.setAttribute("userGroupList", userGroupList);
 			}
 			request.setAttribute("groupImagePath", Constants.GROUP_PICS_ROOT_FOLDER + File.separator + group.getImg());
-			
+			request.setAttribute("currentGroupId", group.getId());
+
 			/** Classement */
 			RankComponent rankComponent = new RankComponent();
 			request.setAttribute("rank", rankComponent.getMinimizedRank(group.getId(), currentUser.getUsername()));
 			
 			/** Group */
 			SQLGroupComponent sqlGroupComponent = new SQLGroupComponent();
-			request.setAttribute("userGroups", sqlGroupComponent.getGroups(currentUser.getId()));
+			Map<Long, Map<String, String>> userGroupsToSend = sqlGroupComponent.getGroups(currentUser.getId());
+			// TODO : Check if the group being look at is in the user's group list, otherwise add it to the ranking
+			request.setAttribute("userGroups", userGroupsToSend);
 			
 			this.getServletContext().getRequestDispatcher(VUE_GROUP).forward(request, response);
 		}

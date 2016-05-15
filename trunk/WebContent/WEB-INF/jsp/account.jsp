@@ -235,7 +235,7 @@
                                     				</c:choose>
                                     			</span>
                                     		</p>
-                                    		<div class="user-stat">
+                                    		<div class="user-stat" id="user-stat-canvas" style="display:none">
 	                                    		<canvas id="chart-area" width="150" height="150"></canvas>
                                     		</div>
                                     	</li>
@@ -254,13 +254,20 @@
                                    <div class="tab-content">
                                        <div class="tab-pane active" id="tab_popular">
                                            <ul class="list-unstyled">
+                                           	<c:if test="${empty groups}">
+		                                    	<li class="format-standard">
+		                                    		<div class="kp-group clearfix">
+		                                    			Aucun groupe associé
+		                                    		</div>
+		                                    	</li>
+		                                    </c:if>
                                            	<c:set var="groupsCount" value="0" scope="page" />
                                            	 <c:forEach items="${groups}" var="userGroup">
                                               	<c:set var="groupsCount" value="${groupsCount + 1}" scope="page"/>
                                                <li>
                                                    <div class="kp-group clearfix">
                                                        <span>${groupsCount}</span>
-                                                       <a href="#">${userGroup.value.name}</a>
+                                                       <a href="group?groupId=${userGroup.key}">${userGroup.value.name}</a>
                                                        <ul class="kp-metadata clearfix">
                                                            <li>
                                                            	<c:choose>
@@ -291,6 +298,24 @@
             </div>
     	</div>
     	<%@include file="footer.jsp" %>
+    	
+    	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="js/jqueryUi.js"></script>
+        <script src="js/bootstrap.js"></script>
+        <script src="js/superfish.js"></script>
+        <script src="js/jquery.validate.min.js"></script>
+        <script src="js/jquery.carouFredSel-6.2.1-packed.js"></script>
+        <script src="js/jflickrfeed.min.js"></script>
+        <script src="js/tweetable.jquery.js"></script>
+        <script src="js/jquery.timeago.js"></script>
+        <script src="js/jquery.prettyPhoto.js"></script>
+        <script src="js/modernizr.js"></script>
+        <script src="js/grid.js"></script>
+        <script src="js/masonry.pkgd.min.js"></script>
+        <script src="js/chart/jquery.canvasjs.js"></script>
+        <script src="js/chart/canvasjs.js"></script>
+        <script src="js/chart/excanvas.js"></script>
+        <script type="text/javascript" src="js/custom.js"></script>
     	<script type="text/javascript">
     	  bet = function(id)
     	  {
@@ -407,46 +432,34 @@
 			  var pieData = [
 				{
 					value: 20,//win,
-					color: "#0000FF",
-					highlight: "#55E451",
+					color: "#3156a3",
+					highlight: "#566EA2",
 					label: "Prono réussi"
 				},
 				{
 					value: 10,//exact,
-					color: "#F7F2B4",
-					highlight: "#5AD3D1",
+					color: "#07A3F7",
+					highlight: "#7ED2FF",
 					label: "Prono exact"
 				},
 				{
 					value: 50,//lose,
-					color: "#FF0000",
-					highlight: "#889D88",
+					color: "#B60610",
+					highlight: "#B7464C",
 					label: "Prono raté"
 				}
 			];
+			  
+			  $("#user-stat-canvas").show();
 				
 			window.onload = function(){
 				var ctx = document.getElementById("chart-area").getContext("2d");
 				window.myPie = new Chart(ctx).Pie(pieData);
 			};
+		  } else {
+			  $("#user-stat-canvas").hide();
 		  }
-		</script>
-    	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-        <script src="js/jqueryUi.js"></script>
-        <script src="js/bootstrap.js"></script>
-        <script src="js/superfish.js"></script>
-        <script src="js/jquery.validate.min.js"></script>
-        <script src="js/jquery.carouFredSel-6.2.1-packed.js"></script>
-        <script src="js/jflickrfeed.min.js"></script>
-        <script src="js/tweetable.jquery.js"></script>
-        <script src="js/jquery.timeago.js"></script>
-        <script src="js/jquery.prettyPhoto.js"></script>
-        <script src="js/modernizr.js"></script>
-        <script src="js/grid.js"></script>
-        <script src="js/masonry.pkgd.min.js"></script>
-        <script src="js/chart/jquery.canvasjs.js"></script>
-        <script src="js/chart/canvasjs.js"></script>
-        <script src="js/chart/excanvas.js"></script>
-        <script type="text/javascript" src="js/custom.js"></script>
+		  
+		  </script>
 	</body>
 </html>    

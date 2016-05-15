@@ -13,6 +13,7 @@ import java.util.List;
 import com.barbyBet.object.Match;
 import com.barbyBet.object.Odds;
 import com.barbyBet.object.Team;
+import com.barbyBet.tools.MatchStatus;
 
 public class SQLMatchComponent extends SQLComponent
 {
@@ -21,7 +22,7 @@ public class SQLMatchComponent extends SQLComponent
 		super();
 	}
 	
-	public ArrayList<Match> getMatchs(Date dateToday)
+	public ArrayList<Match> getMatchs(Date dateToday, int status)
 	{
 		ArrayList<Match> listMatch = new ArrayList<Match>();
 		
@@ -29,10 +30,39 @@ public class SQLMatchComponent extends SQLComponent
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		try 
-		{
+		{	
+			List<String> statusList = new ArrayList<String>();
+			if(MatchStatus.ALL == status) {
+				statusList.add(String.valueOf(MatchStatus.ENDED));
+			} 
+			
+			if(MatchStatus.ALL == status || MatchStatus.NOT_ENDED == status) {
+				statusList.add(String.valueOf(MatchStatus.NOT_STARTED));
+			}
+			
+			if(MatchStatus.ALL == status || MatchStatus.NOT_ENDED == status || MatchStatus.CURRENT == status) {
+				statusList.add(String.valueOf(MatchStatus.FIRST_HALF));	
+				statusList.add(String.valueOf(MatchStatus.HALFTIME)); 	
+				statusList.add(String.valueOf(MatchStatus.SECOND_HALF)); 
+				statusList.add(String.valueOf(MatchStatus.OVERTIME)); 	
+				statusList.add(String.valueOf(MatchStatus.PENALTY)); 	
+			} else {
+				statusList.add(String.valueOf(status));
+			}
+			
+			
+			
+			String sqlQuery = "SELECT t1.name, t1.img, t2.name, t2.img, "
+					+ "m.beginDate, m.id, m.scoreH, m.scoreA, m.statut, m.oddsHome, m.oddsDraw, m.oddsAway, "
+					+ "c.name, s.name  "
+					+ "FROM Matchs m, Team t1, Team t2, Sport s, Competition c  "
+					+ "WHERE m.teamHId = t1.id AND m.teamAId = t2.id AND c.id = m.idCompetition AND s.id = m.idSport AND m.statut IN (" + String.join(",", statusList) + ") " 
+					+ "ORDER BY m.beginDate";
+			//  LIMIT 0, 24
+			
 			//AND (m.beginDate BETWEEN '2016-03-13 14:15:55' AND '2016-04-03 14:15:55')
 		    connexion = DriverManager.getConnection(_url, _user, _password);
-		    stmt = connexion.prepareStatement("SELECT t1.name, t1.img, t2.name, t2.img, m.beginDate, m.id, m.scoreH, m.scoreA, m.statut, m.oddsHome, m.oddsDraw, m.oddsAway, c.name, s.name  FROM Matchs m, Team t1, Team t2, Sport s, Competition c  WHERE m.teamHId = t1.id AND m.teamAId = t2.id AND c.id = m.idCompetition AND s.id = m.idSport ORDER BY m.beginDate LIMIT 0, 24");
+		    stmt = connexion.prepareStatement(sqlQuery);
 		    
 		    rs = stmt.executeQuery();
 		    while (rs.next())
@@ -357,11 +387,12 @@ public class SQLMatchComponent extends SQLComponent
 	
 	public boolean updateMatch(Match match, Connection connection, PreparedStatement stmt) {
 	    try {
-			stmt = connection.prepareStatement("UPDATE Matchs SET scoreH = ?, scoreA = ? WHERE idWebService = ?");
+			stmt = connection.prepareStatement("UPDATE Matchs SET scoreH = ?, scoreA = ?, statut = ? WHERE idWebService = ?");
 
 			stmt.setInt(1, match.getHomeScore());
 		    stmt.setInt(2, match.getAwayScore());
-		    stmt.setLong(3, match.getIdWebService());
+		    stmt.setInt(3, match.getStatut());
+		    stmt.setLong(4, match.getIdWebService());
 		    
 		    stmt.executeUpdate();
 		} catch (SQLException e) {
@@ -371,5 +402,9 @@ public class SQLMatchComponent extends SQLComponent
 		}
 	    
 		return true;
+	}
+
+	public List<Match> getUnfinishedMatch() {
+		return getMatchs(new Date(), MatchStatus.NOT_ENDED);
 	}
 }

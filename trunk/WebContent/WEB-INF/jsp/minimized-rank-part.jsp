@@ -44,3 +44,13 @@
        	</table>
        </li>
 </c:forEach>
+<li class="link-rank">
+	<c:choose>
+		<c:when test="${not empty currentGroupId}">
+			<a href="rank?group=${currentGroupId}">Classement Complet ...</a>
+		</c:when>
+		<c:otherwise>
+			<a href="rank">Classement Complet ...</a>
+		</c:otherwise>
+	</c:choose>
+</li>

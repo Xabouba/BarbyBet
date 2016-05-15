@@ -31,7 +31,7 @@
                                             <ul id="ca-main-news" class="clearfix">
                                             	<li>
 	                                            	<div style="margin-left: auto; margin-right: auto;">
-	                                            		<h1 class="result-title" style="text-align: center">Ligue 1</h1>
+	                                            		<h1 class="result-title" style="text-align: center">Euro 2016</h1>
 												    	
 												        <p class="result-statut" style="text-align: center">${match.statut}</p>
   												    	<br/>
