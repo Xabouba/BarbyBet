@@ -18,7 +18,7 @@ public class FetchAndStoreOdds {
      * @param args
      */
     public static void main(String[] args) {
-        SQLMatchComponent sqlMatchComponent = new SQLMatchComponent();
+        // SQLMatchComponent sqlMatchComponent = new SQLMatchComponent();
         // ArrayList<Match> matchs = sqlMatchComponent.getMatchsWithNoOdds();
 
         ArrayList<Match> matchs = new ArrayList<Match>();

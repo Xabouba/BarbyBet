@@ -7,9 +7,12 @@
 	            <li class="current-menu-item">
 	                <a href="index">Accueil</a>
 	            </li>
-                <li>
+	            <li>
                     <a href="match">Directs</a>
                 </li>
+                <li>
+	            	<a href="resultats">Résultats</a>
+	            </li>
                 <li>
                     <a href="#">Groupes</a>
                     <ul>
@@ -18,7 +21,7 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="contact">contact</a>
+                    <a href="rank">Classement</a>
                 </li>
                 <%-- VÃ©rification de l'absence du nom d'utilisateur en cookie --%>
                 <c:choose>
@@ -38,13 +41,22 @@
                 <span>Menu</span>
                 <ul id="toggle-view-menu">
                     <li class="clearfix">
-                        <h3><a href="index.jsp">Accueil</a></h3>
+                        <h3><a href="index">Accueil</a></h3>
                     </li>
                     <li class="clearfix">
                         <h3><a href="match">Directs</a></h3>
                     </li>
                     <li class="clearfix">
-                    	<h3><a href="contact">Contact</a></h3>
+                        <h3><a href="resultats">Résultats</a></h3>
+                    </li>
+                    <li class="clearfix">
+                        <h3><a href="createGroup">Créer Groupe</a></h3>
+                    </li>
+                    <li class="clearfix">
+                        <h3><a href="group">Mes Groupes</a></h3>
+                    </li>
+                    <li class="clearfix">
+                    	<h3><a href="rank">Classement</a></h3>
                     </li>   
                     <li class="clearfix">
                     	<%-- VÃ©rification de l'absence du nom d'utilisateur en cookie --%>

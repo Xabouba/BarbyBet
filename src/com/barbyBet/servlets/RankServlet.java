@@ -39,8 +39,15 @@ public class RankServlet extends HttpServlet {
 		if(currentUser.getId() == null) {
 			this.getServletContext().getRequestDispatcher( "/WEB-INF/jsp/login.jsp" ).forward(request, response);
 		} else {
+			Long idGroup = null;
+			if (request.getParameter("group") != null && !request.getParameter("group").equals("all"))
+			{
+				idGroup = Long.parseLong((request.getParameter("group")));
+				request.setAttribute("currentGroupId", idGroup);
+			}
+			
 			/** Classement */
-			setRankRequest(request, currentUser, null, 1, 25);
+			setRankRequest(request, currentUser, idGroup, 1, 25);
 				
 			/** User group */
 			SQLGroupComponent sqlGroupComponent = new SQLGroupComponent();
@@ -51,7 +58,6 @@ public class RankServlet extends HttpServlet {
 			User user = sqlUserComponent.getUser(currentUser.getId());
 			request.setAttribute("userPoint", user.getCoins());
 			request.setAttribute("userRank", user.getRank());
-			
 			
 			this.getServletContext().getRequestDispatcher( "/WEB-INF/jsp/rank.jsp" ).forward(request, response);
 		}
@@ -74,6 +80,7 @@ public class RankServlet extends HttpServlet {
 		if (request.getParameter("group") != null && !request.getParameter("group").equals("all"))
 		{
 			idGroup = Long.parseLong((request.getParameter("group")));
+			request.setAttribute("currentGroupId", idGroup);
 		}
 		/** Classement */
 		setRankRequest(request, currentUser, idGroup, page, 25);

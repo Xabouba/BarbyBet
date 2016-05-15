@@ -45,12 +45,12 @@
     <url-pattern>/logout</url-pattern>
   </servlet-mapping>
   <servlet>
-    <servlet-name>Account</servlet-name>
+    <servlet-name>Index</servlet-name>
     <servlet-class>com.barbyBet.servlets.AccountServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>Account</servlet-name>
-    <url-pattern>/account</url-pattern>
+    <servlet-name>Index</servlet-name>
+    <url-pattern>/index</url-pattern>
   </servlet-mapping>
   <servlet>
     <servlet-name>Group</servlet-name>
@@ -69,12 +69,12 @@
     <url-pattern>/createGroup</url-pattern>
   </servlet-mapping>
   <servlet>
-    <servlet-name>Information</servlet-name>
+    <servlet-name>Resultats</servlet-name>
     <servlet-class>com.barbyBet.servlets.InformationServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>Information</servlet-name>
-    <url-pattern>/information</url-pattern>
+    <servlet-name>Resultats</servlet-name>
+    <url-pattern>/resultats</url-pattern>
   </servlet-mapping>
   <servlet>
     <servlet-name>UserAutoComplete</servlet-name>
@@ -101,12 +101,12 @@
     <url-pattern>/rank</url-pattern>
   </servlet-mapping>
   <servlet>
-    <servlet-name>Index</servlet-name>
-    <servlet-class>com.barbyBet.servlets.IndexServlet</servlet-class>
+    <servlet-name>Account</servlet-name>
+    <servlet-class>com.barbyBet.servlets.AccountServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>Index</servlet-name>
-    <url-pattern>/index</url-pattern>
+    <servlet-name>Account</servlet-name>
+    <url-pattern>/account</url-pattern>
   </servlet-mapping>
   <servlet>
     <servlet-name>RankAction</servlet-name>
@@ -131,5 +131,13 @@
   <servlet-mapping>
     <servlet-name>CommentAction</servlet-name>
     <url-pattern>/commentAction</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>LastFiveMembersGenerator</servlet-name>
+    <servlet-class>com.barbyBet.servlets.generator.LastFiveMembersServletGenerator</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LastFiveMembersGenerator</servlet-name>
+    <url-pattern>/lastFiveMembersGenerator</url-pattern>
   </servlet-mapping>
 </web-app>

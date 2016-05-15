@@ -48,8 +48,8 @@
 			                                    		</tr>
 			                                    		<tr>
 			                                    			<td style="float: left; margin-left: 5%; margin-top:20px; font-weight: bold; width:90%">
-			                                    				<input type="radio" name="status" value="public" checked="checked"> <span title="Tout le monde peut rejoindre le groupe">Public<span style="color : blue">&#65110;</span></span>
-				                                    			<input style="margin-left:4em" type="radio" name="status" value="private"> <span title="Le groupe ne peut être rejoint que par invitation" >Privé<span style="color : blue">&#65110;</span></span>
+			                                    				<input type="radio" name="status" value="public" checked="checked"> <span title="Tout le monde peut rejoindre le groupe">Public</span>
+				                                    			<input style="margin-left:4em" type="radio" name="status" value="private"> <span title="Le groupe ne peut être rejoint que par invitation" >Privé</span>
 			                                    			</td>
 			                                    		</tr>
 			                                    		<tr>
@@ -83,19 +83,78 @@
 			                                    </form>
                                   		</li>
                                   	</ul>
-                                  			
                                 </div>
                                 <!-- widget-content -->
                             </div>
                     </div>
+                    
                     <!-- main-col -->
                     <div class="clearfix"></div>
                 </div>
+                <div id="sidebar" class="pull-right">
+            		<ul class="clearfix list-unstyled">
+            			<li class="clearfix">
+                        	<div class="widget kp-review">
+	                            <h2 class="widget-title"><span>Chercher un groupe</span></h2>
+	                            <div class="widget-content groups">
+	                            	<ul class="list-unstyled">
+                                    	<li class="format-standard">
+				                            <p>Ici vous pouvez chercher un groupe et le rejoindre (seuls les groups publics sont accessibles)</p>
+				
+								            <div class="form-group" style="text-align:center">
+								            	<form action="group" method="post">
+									            	<input type="text" placeholder="Nom du groupe" class="form-control" id="look-for-group" name="groupName">
+									            	<br />
+									            	
+									            	<c:if test="${not empty lookForGroupMsg}">
+										           	 	<div id="look-for-group-msg" style="font-weight:bold">
+					                                		${lookForGroupMsg}
+					                                	</div>
+														<br />
+				                                	</c:if>
+			                                		<input type="hidden" name="actionType" value="look-for-group" />
+			                                		<input type="hidden" name="groupId" value="${group.id}" />
+			                                		<input type="hidden" name="comingFromCreateGroupPage" value="yes" />
+			                                		<input type="submit" class="btn btn-primary" value="Valider" id="s">
+				                            	</form>
+				                            </div>
+		                                </li>
+                                	</ul>
+                                </div>
+                        	</div>
+                        </li>
+           			</ul>
+            	</div>
             </div>
+            <!-- sidebar -->
+            <div class="clearfix"></div>
     	</div>
-    	<div class="page-footer">
-    	</div>
+    	<%@include file="footer.jsp" %>
     	
+    	
+		
+    	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="js/jqueryUi.js"></script>
+        <script src="js/bootstrap.js"></script>
+        <script src="js/superfish.js"></script>
+        <script src="js/jquery.validate.min.js"></script>
+        <script src="js/jquery.carouFredSel-6.2.1-packed.js"></script>
+        <script src="js/jflickrfeed.min.js"></script>
+        <script src="js/tweetable.jquery.js"></script>
+        <script src="js/jquery.timeago.js"></script>
+        <script src="js/jquery.prettyPhoto.js"></script>
+        <script src="js/modernizr.js"></script>
+        <script src="js/grid.js"></script>
+        <script src="js/masonry.pkgd.min.js"></script>
+        <script src="js/chart/jquery.canvasjs.js"></script>
+        <script src="js/chart/canvasjs.js"></script>
+        <script src="js/chart/excanvas.js"></script>
+        <script src="js/custom.js"></script>
+        <script src="js/autocomplete.js"></script>
+        
+    	<script type="text/javascript">
+	    	initializeAutocompleteLookForGroup();
+    	</script>
 		<script>
 			var holder = document.getElementById('holder'),
 			    tests = {
@@ -188,23 +247,5 @@
 			  };
 			}
 		</script>
-		
-    	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-        <script src="js/jqueryUi.js"></script>
-        <script src="js/bootstrap.js"></script>
-        <script src="js/superfish.js"></script>
-        <script src="js/jquery.validate.min.js"></script>
-        <script src="js/jquery.carouFredSel-6.2.1-packed.js"></script>
-        <script src="js/jflickrfeed.min.js"></script>
-        <script src="js/tweetable.jquery.js"></script>
-        <script src="js/jquery.timeago.js"></script>
-        <script src="js/jquery.prettyPhoto.js"></script>
-        <script src="js/modernizr.js"></script>
-        <script src="js/grid.js"></script>
-        <script src="js/masonry.pkgd.min.js"></script>
-        <script src="js/chart/jquery.canvasjs.js"></script>
-        <script src="js/chart/canvasjs.js"></script>
-        <script src="js/chart/excanvas.js"></script>
-        <script type="text/javascript" src="js/custom.js"></script>
 	</body>
 </html>    

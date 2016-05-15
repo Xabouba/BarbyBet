@@ -22,6 +22,7 @@ import com.barbyBet.components.SQLPronoComponent;
 import com.barbyBet.components.UsersComponent;
 import com.barbyBet.object.Match;
 import com.barbyBet.object.User;
+import com.barbyBet.tools.MatchStatus;
 import com.barbyBet.tools.RequestUtils;
 
 /**
@@ -50,7 +51,7 @@ public class MatchServlet extends HttpServlet {
 			SQLMatchComponent sqlMatchComponent = new SQLMatchComponent();
 			SQLPronoComponent sqlPronoComponent = new SQLPronoComponent();
 			Date dateToday = new Date(); //TODO
-			ArrayList<Match> matchsSql = sqlMatchComponent.getMatchs(dateToday);
+			ArrayList<Match> matchsSql = sqlMatchComponent.getMatchs(dateToday, MatchStatus.ALL);
 			
 			ArrayList<HashMap<String, String>> matchEnded = new ArrayList<HashMap<String,String>>();
 			Map<Date,ArrayList<HashMap<String, String>>> matchs = new TreeMap<Date, ArrayList<HashMap<String,String>>>();
@@ -70,7 +71,7 @@ public class MatchServlet extends HttpServlet {
 				
 				HashMap<String, String> pronoMap = sqlPronoComponent.getProno(match.getId(), currentUser.getId());
 				
-				if (match.getStatut() > 2)
+				if (match.getStatut() == MatchStatus.ENDED)
 				{
 					HashMap<String,String> matchMap = match.toHashMap();
 					matchMap.putAll(pronoMap);

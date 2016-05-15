@@ -7,8 +7,12 @@ import java.sql.SQLException;
 
 public class SQLComponent {
 
+	// BDD Prod : Digital Ocean
 	// protected static String _url = "jdbc:mysql://45.55.225.41:3306/barbybet";
-	protected static String _url = "jdbc:mysql://mysql-instance1.chlueibc5lof.us-west-2.rds.amazonaws.com:3306/barbybet";
+	
+	// Amazon
+	// protected static String _url = "jdbc:mysql://mysql-instance1.chlueibc5lof.us-west-2.rds.amazonaws.com:3306/barbybet";
+	protected static String _url = "jdbc:mysql://localhost:3306/barbybet";
 	protected static String _user = "root";
 	protected static String _password = "malikloic";
 	

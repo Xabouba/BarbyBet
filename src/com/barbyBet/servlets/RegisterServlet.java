@@ -23,8 +23,9 @@ public class RegisterServlet extends HttpServlet {
 	public static final String ATT_SESSION_USER = "sessionUser";
 	public static final String CHAMP_USERNAME 	= "username";
 	public static final String CHAMP_EMAIL   	= "email";
-    public static final String VUE_ERROR    	= "/WEB-INF/jsp/register.jsp";
-    public static final String VUE_SUCCESS  	= "/WEB-INF/jsp/index.jsp";
+    public static final String VIEW_REGISTER    = "/WEB-INF/jsp/register.jsp";
+    public static final String VIEW_INDEX  	= "/WEB-INF/jsp/index.jsp";
+    public static final String SERVLET_INDEX  	= "/Barby_Bet/index";
 
     /**
      * Default constructor. 
@@ -41,9 +42,9 @@ public class RegisterServlet extends HttpServlet {
 		User currentUser = usersComponent.getCurrentUser(request);
 		
 		if(currentUser.getId() == null) {
-			this.getServletContext().getRequestDispatcher( "/WEB-INF/jsp/login.jsp" ).forward(request, response);
+			this.getServletContext().getRequestDispatcher(VIEW_REGISTER).forward(request, response);
 		} else {
-			this.getServletContext().getRequestDispatcher(VUE_SUCCESS).forward(request, response);
+			response.sendRedirect(SERVLET_INDEX);
 		}
 	}
 
@@ -73,12 +74,12 @@ public class RegisterServlet extends HttpServlet {
 	        
 			request.setAttribute("currentUser", currentUser);
 			
-			this.getServletContext().getRequestDispatcher(VUE_SUCCESS).forward(request, response);
+			response.sendRedirect(SERVLET_INDEX);
 		} else {
 			// Ajout des éventuelles erreurs à la requête
 			request.setAttribute(ATT_ERRORS, sqlComponent.getErrors());
 			
-			this.getServletContext().getRequestDispatcher(VUE_ERROR).forward(request, response);
+			this.getServletContext().getRequestDispatcher(VIEW_REGISTER).forward(request, response);
 		}
 	}
 	

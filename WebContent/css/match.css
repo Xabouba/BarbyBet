@@ -66,6 +66,11 @@
 	text-align: center;
 }
 
+.listMatch .matchs 
+{
+	width: 76%;
+}
+
 .listMatch .categorie-date
 {
 	margin-top: 10px;
@@ -149,6 +154,20 @@
 	padding: 10px !important;
 }
 
+.listMatch .sidebar-minimized-rank 
+{
+	width:22% !important;
+	margin-right:2% !important;
+}
+
+@media (max-width: 900px)
+{
+	.listMatch
+	{
+		margin-top: 15px;
+	}
+}
+	
 @media (max-width: 1157px)
 {
 	.listMatch li.match-info > div
@@ -169,8 +188,14 @@
 	    float: none;
 	}
 	
-	.listMatch
+	.listMatch .sidebar-minimized-rank 
 	{
-		margin-top: 15px;
+		width:22% !important;
+		margin-right:2% !important;
+	}
+
+	.listMatch .matchs 
+	{
+		width: 76%;
 	}
 }

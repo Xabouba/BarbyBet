@@ -148,6 +148,7 @@
 					                                		Test div
 					                                	</div>
 					                                	<div id="add-user-to-group-msg-line-break" style="display:none">
+					                                		<br />
 					                                	</div>
 					                                	<input type="submit" class="btn btn-primary" value="Valider" id="s" onclick="addUserToGroup()">
 					                                </div>
@@ -169,7 +170,8 @@
 					                                	<div id="delete-user-from-group-msg" style="display:none; font-weight:bold">
 					                                		Test div
 					                                	</div>
-					                                	<div id="delete-user-from-msg-line-break" style="display:none">
+					                                	<div id="delete-user-from-group-msg-line-break" style="display:none">
+					                                		<br />
 					                                	</div>
 						                                <input type="submit" value="Valider" class="btn btn-primary" id="s" onclick="deleteUserFromGroup()">
 					                                </div>
@@ -231,6 +233,7 @@
 									                                		Test div
 									                                	</div>
 									                                	<div id="add-user-to-group-msg-line-break" style="display:none">
+									                                		<br />
 									                                	</div>
 									                                	<input type="submit" value="Valider" id="s" class="btn btn-primary" onclick="addUserToGroup()" />
 									                                </div>
@@ -306,27 +309,8 @@
                             <div class="widget widget-kp-tab">
                                 <h2 class="widget-title"><span>Les 5 derniers membres</span></h2>
                                 <div class="widget-content">
-                                    <div class="tab-content">
-                                        <div class="tab-pane active" id="tab_popular">
-                                            <ul class="list-unstyled">
-                                                <li>
-                                                	<c:set var="membersCount" value="0" scope="page" />
-                                                	
-                                                	<c:forEach items="${lastFiveMembers}" var="member">
-                                                		<c:set var="membersCount" value="${membersCount + 1}" scope="page"/>
-                                                	
-                                                     <div class="kp-group clearfix">
-                                                         <span>${membersCount}</span>
-                                                         <a href="#">${member.username}</a>
-                                                         <ul class="kp-metadata clearfix">
-                                                             <li>10 view&nbsp&nbsp&nbsp-&nbsp&nbsp&nbsp</li>
-                                                             <li>3 comment</li>
-                                                         </ul>
-                                                     </div>
-                                                    </c:forEach>
-                                                </li>
-                                            </ul>
-                                        </div>
+                                    <div class="tab-content" id="last-five-members">
+                                        <%@include file="last-five-members.jsp" %>
                                     </div>
                                 </div>
                                 <!-- widget-content -->
@@ -375,12 +359,13 @@
 	           		url: "group",
 	           		data: {username: username, groupId: groupId, actionType: "add-user-to-group"}
 	            }).done(function(msg) {
+	            	$("#add-user-from-group-search").val('');
 	            	$("#add-user-to-group-msg").html(msg);
 	            	$("#add-user-to-group-msg").show();
 	            	$("#add-user-to-group-msg-line-break").show();
 	            	
 	            	// Update the last five added members
-	            	$("#div-name").load("group", {groupId: groupId}).fadeIn("slow");
+	            	$("#last-five-members").load("lastFiveMembersGenerator", {groupId: groupId}).fadeIn("slow");
 	            });
 	        }
         	
@@ -394,12 +379,13 @@
 	           		url: "group",
 	           		data: {username: username, groupId: groupId, actionType: "delete-user-from-group"}
 	            }).done(function(msg) {
+	            	$("#delete-user-from-group-search").val('');
 	            	$("#delete-user-from-group-msg").html(msg);
 					$("#delete-user-from-group-msg").show();
 					$("#delete-user-from-group-msg-line-break").show();
 					
 					// Update the last five added members
-	            	$("#div-name").load("group", {groupId: groupId}).fadeIn("slow");
+	            	$("#last-five-members").load("lastFiveMembersGenerator", {groupId: groupId}).fadeIn("slow");
 	            });
 	        }
     	</script>

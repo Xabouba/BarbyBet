@@ -282,7 +282,7 @@ public class SQLUsersComponent extends SQLComponent {
 			    close(stmt);
 			    
 				stmt = connexion
-						.prepareStatement("INSERT INTO Users (username, email, password, dateRegistration, coins, rank) VALUES (?, ?, ?, ?, ?, ?)");
+						.prepareStatement("INSERT INTO Users (username, email, password, dateRegistration, coins, rank, rankBeforeLastGame) VALUES (?, ?, ?, ?, ?, ?, ?)");
 
 				stmt.setString(1, username);
 				stmt.setString(2, email);
@@ -290,6 +290,7 @@ public class SQLUsersComponent extends SQLComponent {
 				stmt.setTimestamp(4, date);
 				stmt.setInt(5, DEFAULT_NUMBER_OF_COINS);
 				stmt.setLong(6, numberOfUsers+1);
+				stmt.setLong(7, numberOfUsers+1);
 
 				stmt.executeUpdate();
 				

@@ -45,6 +45,7 @@ public class RankServletAction extends HttpServlet {
 			if (!groupIdAsString.equals("general"))
 			{
 				groupId = Long.parseLong(groupIdAsString); 
+				request.setAttribute("currentGroupId", groupId);
 			}
 			RankComponent rankComponent = new RankComponent();
 			request.setAttribute("rank", rankComponent.getMinimizedRank(groupId, currentUser.getUsername()));

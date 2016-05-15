@@ -20,7 +20,7 @@
                         <span class="pull-right"><img src="images/top-right-effect.png" class="img-responsive" alt=""></span>
                     </div>
                     <div id="main-content" class="pull-left">
-                    	<div id="sidebar-main-content" class="pull-left">
+                    	<div id="sidebar-main-content" class="pull-left sidebar-minimized-rank">
                     		<%@include file='minimized-rank.jsp'%>
                     	</div>
                         <div class="matchs page-single pull-left">
@@ -46,6 +46,9 @@
 	                                    </div>
 	                                    <div id="ended-match">
 		                                    <div class="widget-content">
+		                                    	<c:if test="${empty matchsEnded}">
+			                                    	<ul class="list-unstyled" id="matchs-ended-empty" style="display:none"><li class="format-standard">Aucun match terminé</li></ul>
+			                                    </c:if>
 		                                    	<c:if test="${not empty matchsEnded}">
 		                                    	<ul class="list-unstyled"><li class="format-standard match-title">Terminé</li></ul>
                                            		<ul class="list-unstyled">
@@ -161,6 +164,9 @@
 		                                </div>
 		                                <div id="today-match">
 		                                    <div class="widget-content">
+		                                    	<c:if test="${empty matchsToday}">
+			                                    	<ul class="list-unstyled" id="matchs-today-empty" style="display:none"><li class="format-standard">Aucun match aujourd'hui</li></ul>
+			                                    </c:if>
 	                                           	<c:forEach items="${matchsToday}" var="matchDay">
 	                                           		<ul class="list-unstyled"><li class="format-standard match-title">Aujourd'hui - <fmt:formatDate pattern="HH:mm" value="${matchDay.key}" /></li></ul>
 	                                           		<c:forEach items="${matchDay.value}" var="match">
@@ -275,6 +281,9 @@
 		                                </div>
 		                                <div id="next-match">
 		                                    <div class="widget-content">
+		                                    	<c:if test="${empty matchs}">
+			                                    	<ul class="list-unstyled" id="next-matchs-empty" style="display:none"><li class="format-standard">Aucun match à venir</li></ul>
+			                                    </c:if>
 	                                           	<c:forEach items="${matchs}" var="matchDay">
 	                                           		<ul class="list-unstyled"><li class="format-standard match-title"><fmt:formatDate pattern="dd MMMMMMM - HH:mm" value="${matchDay.key}" /></li></ul>
                                            			<c:forEach items="${matchDay.value}" var="match">
@@ -398,8 +407,7 @@
             <!-- content -->
         </div>
         
-        <footer id="page-footer">
-        </footer>
+	    <%@include file="footer.jsp" %>
         <!-- page-footer -->
 		
     	<script type="text/javascript">
@@ -506,6 +514,21 @@
 		  
 		  allMatch = function()
 		  {
+			  var matchsEndedEmpty = $("#matchs-ended-empty");
+			  if(matchsEndedEmpty != null) {
+				  matchsEndedEmpty.hide();
+			  }
+			  
+			  var matchsTodayEmpty = $("#matchs-today-empty");
+			  if(matchsTodayEmpty != null) {
+				  matchsTodayEmpty.hide();
+			  }
+			  
+			  var nextMatchsEmpty = $("#next-matchs-empty");
+			  if(nextMatchsEmpty != null) {
+				  nextMatchsEmpty.hide();
+			  }
+			  
 			  $("#ended-match").show();
 			  $("#today-match").show();
 			  $("#next-match").show();
@@ -513,6 +536,21 @@
 		  
 		  todayMatch = function()
 		  {
+			  var matchsEndedEmpty = $("#matchs-ended-empty");
+			  if(matchsEndedEmpty != null) {
+				  matchsEndedEmpty.hide();
+			  }
+			  
+			  var matchsTodayEmpty = $("#matchs-today-empty");
+			  if(matchsTodayEmpty != null) {
+				  matchsTodayEmpty.show();
+			  }
+			  
+			  var nextMatchsEmpty = $("#next-matchs-empty");
+			  if(nextMatchsEmpty != null) {
+				  nextMatchsEmpty.hide();
+			  }
+			  
 			  $("#ended-match").hide();
 			  $("#today-match").show();
 			  $("#next-match").hide();
@@ -520,6 +558,21 @@
 		  
 		  endMatch = function()
 		  {
+			  var matchsEndedEmpty = $("#matchs-ended-empty");
+			  if(matchsEndedEmpty != null) {
+				  matchsEndedEmpty.show();
+			  }
+			  
+			  var matchsTodayEmpty = $("#matchs-today-empty");
+			  if(matchsTodayEmpty != null) {
+				  matchsTodayEmpty.hide();
+			  }
+			  
+			  var nextMatchsEmpty = $("#next-matchs-empty");
+			  if(nextMatchsEmpty != null) {
+				  nextMatchsEmpty.hide();
+			  }
+			  
 			  $("#ended-match").show();
 			  $("#today-match").hide();
 			  $("#next-match").hide();
@@ -527,6 +580,21 @@
 		  
 		  nextMatch = function()
 		  {
+			  var matchsEndedEmpty = $("#matchs-ended-empty");
+			  if(matchsEndedEmpty != null) {
+				  matchsEndedEmpty.hide();
+			  }
+			  
+			  var matchsTodayEmpty = $("#matchs-today-empty");
+			  if(matchsTodayEmpty != null) {
+				  matchsTodayEmpty.hide();
+			  }
+			  
+			  var nextMatchsEmpty = $("#next-matchs-empty");
+			  if(nextMatchsEmpty != null) {
+				  nextMatchsEmpty.show();
+			  }
+			  
 			  $("#ended-match").hide();
 			  $("#today-match").hide();
 			  $("#next-match").show();
