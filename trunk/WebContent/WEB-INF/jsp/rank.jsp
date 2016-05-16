@@ -59,7 +59,7 @@
                                                <li>
                                                    <div class="kp-group clearfix" onclick="changeGroup(this.id, ${userGroup.key})" id="group-${i.index}">
                                                        <span>${i.index+1}</span>
-                                                       <a href="match">${userGroup.value.name}</a>
+                                                       <a href="group?groupId=${userGroup.key}">${userGroup.value.name}</a>
                                                        <ul class="kp-metadata clearfix">
                                                            <li>
                                                            	<c:choose>

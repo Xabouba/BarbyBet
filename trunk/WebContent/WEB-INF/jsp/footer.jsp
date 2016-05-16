@@ -6,7 +6,7 @@
         <ul id="bottom-menu" class="pull-right clearfix">
             <li><a href="index">Accueil</a></li>
             <li><a href="cgu">Conditions Générales</a></li>
-            <li><a href="contact">Contact</a></li>
+            <li><a href="mailto:someone@example.com" >Contact</a></li>
         </ul>
     </div>
 </footer>

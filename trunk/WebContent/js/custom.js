@@ -460,9 +460,11 @@ jQuery(document).ready(function() {
     Grid.init();
 });
 
-jQuery(document).ready(function() {
-    jQuery('<img src="images/icon/after.png"/>').appendTo('.kp-comment p');
-})
+/*
+ 	jQuery(document).ready(function() {
+    	jQuery('<img src="images/icon/after.png"/>').appendTo('.kp-comment p');
+	}) 
+*/
 
 jQuery(document).ready(function() {
     if (jQuery('#bottom-menu ul').length > 0) {

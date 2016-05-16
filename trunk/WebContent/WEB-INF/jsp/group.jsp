@@ -19,7 +19,18 @@
                 <!-- top-effect -->
                 <div id="main-content" class="pull-left">
                     <div id="sidebar-main-content" class="pull-left">
-                       <%@include file='minimized-rank.jsp'%>
+                       <ul class="list-unstyled classement">
+							<li class="clearfix">
+							    <div class="widget kp-review rank">
+							        <h2 class="widget-title"><span>Classement</span></h2>
+							        <div class="widget-content">
+								        <ul id="minimized-rank" class="list-unstyled">
+											<%@include file='minimized-rank-part.jsp'%>
+										</ul>
+							        </div>
+							    </div>
+						    </li>
+						</ul>
                     </div>
                     <!-- sidebar-main-content -->
                     <div id="main-col" class="pull-left">
@@ -33,7 +44,7 @@
 		                                        	<c:choose>
 													    <c:when test="${empty groupImagePath}">
 													    	<!--  <img src="images/default-group-pic.jpg" class="img-responsive" alt=""> <span class="icon-image post-format"></span> -->
-													    	<img src="placeholders/posts/img-6.jpg" class="img-responsive" alt=""> <span class="icon-image post-format"></span>
+													    	<img src="images/groups-default-img.jpg" class="img-responsive" alt=""> <span class="icon-image post-format"></span>
 													    	
 													    </c:when>
 													    <c:otherwise>
