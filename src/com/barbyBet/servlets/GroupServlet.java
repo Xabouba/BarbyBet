@@ -60,17 +60,18 @@ public class GroupServlet extends HttpServlet {
 				redirectToRightServlet(request, response, group);
 			} else {
 				userGroups = sqlGroupComponent.getUserGroups(currentUser.getId());
-				Object comingFromCreateGroupPageObject = request.getAttribute("comingFromCreateGroupPage");
-				String comingFromCreateGroupPage = null;
-				if(comingFromCreateGroupPageObject != null) {
-					comingFromCreateGroupPage = comingFromCreateGroupPageObject.toString();
-				}
+				
 				// If the user is affiliated to no group we redirect him to CreateGroupServlet
-				if(userGroups == null || userGroups.isEmpty() || comingFromCreateGroupPage != null) {
+				if(userGroups == null || userGroups.isEmpty()) {
 					request.setAttribute("comingFromGroupServletDelete", "yes");
 					response.sendRedirect(CREATE_GROUP_SERVLET);
 				} else {
-					groupIdStr = userGroups.get(0).getId().toString();
+					Object justJoinedGroup = request.getAttribute("justJoinedGroup");
+					if(justJoinedGroup != null) {
+						groupIdStr = justJoinedGroup.toString(); // When the user clicked on "rejoindre ce groupe" then we show this group and not the others
+					} else {
+						groupIdStr = userGroups.get(0).getId().toString();
+					}
 					Long groupId = Long.parseLong(groupIdStr);
 					group = sqlGroupComponent.getGroup(groupId);
 					redirectToRightServlet(request, response, group);
@@ -191,6 +192,7 @@ public class GroupServlet extends HttpServlet {
 						g = sqlGroupComponent.getGroup(g.getId());
 						// TODO : Update Rank
 						sqlGroupComponent.updateRankAfterModificationInGroup(g, currentUser);
+						request.setAttribute("justJoinedGroup", g.getId());
 						doGet(request, response);
 					} else {
 						// Redirect back to the same page with the error msg
@@ -199,7 +201,6 @@ public class GroupServlet extends HttpServlet {
 					}
 				} else if("look-for-group".equals(actionType)) {
 					String groupName = request.getParameter("groupName");
-					String comingFromCreateGroupPage = request.getParameter("comingFromCreateGroupPage");
 					SQLGroupComponent sqlGroupComponent = new SQLGroupComponent();
 					Long groupId = sqlGroupComponent.getGroupId(groupName);
 					
@@ -208,9 +209,6 @@ public class GroupServlet extends HttpServlet {
 						redirectToRightServlet(request, response, g);
 					} else {
 						request.setAttribute("lookForGroupMsg", "Ce nom de groupe n'existe pas");
-						if(comingFromCreateGroupPage != null) {
-							request.setAttribute("comingFromCreateGroupPage", comingFromCreateGroupPage);
-						}
 						doGet(request, response);
 					}
 				}
@@ -281,7 +279,12 @@ public class GroupServlet extends HttpServlet {
 				
 				request.setAttribute("userGroupList", userGroupList);
 			}
-			request.setAttribute("groupImagePath", Constants.GROUP_PICS_ROOT_FOLDER + File.separator + group.getImg());
+			
+			if(group.getImg() != null) {
+				request.setAttribute("groupImagePath", Constants.GROUP_PICS_ROOT_FOLDER + File.separator + group.getImg());
+			} else {
+				request.setAttribute("groupImagePath", "");
+			}
 			request.setAttribute("currentGroupId", group.getId());
 
 			/** Classement */

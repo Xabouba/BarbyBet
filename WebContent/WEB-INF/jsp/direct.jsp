@@ -132,8 +132,8 @@
                 <div class="clearfix"></div>
             </div>
     	</div>
-    	<div class="page-footer">
-    	</div>
+    	<%@include file="footer.jsp" %>
+    	<!-- Page footer -->
     	
     	<script type="text/javascript">
 		  window.onload = function () {

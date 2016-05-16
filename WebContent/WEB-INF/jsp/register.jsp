@@ -62,6 +62,7 @@
 									</div>
 									<div class="form-group">
 										<input id="register_form_username_input" class="form-control" value="<c:out value="${param.username}" />" placeholder="Pseudo" name="username" type="text" data-check="blogname" value="">
+										<span id="register-username-length-error" class="form-control-error">Votre nom d'utilisateur doit avoir maximum 15 caractères</span>
 									</div>
 								</div>
 								<c:if test="${not empty errorsRegister}">

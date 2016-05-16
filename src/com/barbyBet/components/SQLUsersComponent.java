@@ -9,7 +9,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -251,6 +250,12 @@ public class SQLUsersComponent extends SQLComponent {
 
 		if (isEmailTaken(email)) {
 			setError(CHAMP_USERNAME, "Un utilisateur avec cet email est déjà inscrit sur notre site");
+			
+			return null;
+		}
+		
+		if(username.length() > 15) {
+			setError(CHAMP_USERNAME, "Votre nom d'utilisateur doit avoir maximum 15 caractères");
 			
 			return null;
 		}

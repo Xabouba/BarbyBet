@@ -1,6 +1,7 @@
 // Variables to tell the register button to be active or not
 var isEmailValid = false;
 var isPasswordValid = false;
+var isUsernameLengthValid = true;
 
 /**
  * Function that checks live if the email address is valid 
@@ -94,12 +95,21 @@ $(document).ready(function() {
 	});
 	
 	$('#register_form_username_input').blur(function() {
-		if($('#register_form_username_input').val() != "" && isPasswordValid && isEmailValid) {
+		if($('#register_form_username_input').val() != "" && isUsernameLengthValid && isPasswordValid && isEmailValid) {
 			$('#register_form_submit').css("opacity", 1);
 			$('#register_form_submit').prop("disabled", false);
 		} else {
 			$('#register_form_submit').css("opacity", 0.4);
 			$('#register_form_submit').prop("disabled", true);
+		}
+	}).keyup(function() {
+		var usernameLength = $('#register_form_username_input').val().toString();
+		if(usernameLength.length > 15) {
+			isUsernameLengthValid = false;
+			$('#register-username-length-error').show();
+		} else {
+			isUsernameLengthValid = true;
+			$('#register-username-length-error').hide();
 		}
 	});
 });

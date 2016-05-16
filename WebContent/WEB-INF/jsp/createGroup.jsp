@@ -19,7 +19,18 @@
                 <!-- top-effect -->
                 <div id="main-content" class="pull-left">
                     <div id="sidebar-main-content" class="pull-left">
-                        <%@include file='minimized-rank.jsp'%>
+                       <ul class="list-unstyled classement">
+							<li class="clearfix">
+							    <div class="widget kp-review rank">
+							        <h2 class="widget-title"><span>Classement</span></h2>
+							        <div class="widget-content">
+								        <ul id="minimized-rank" class="list-unstyled">
+											<%@include file='minimized-rank-part.jsp'%>
+										</ul>
+							        </div>
+							    </div>
+						    </li>
+						</ul>
                     </div>
                     <!-- sidebar-main-content -->
                     <div id="main-col" class="pull-left">
@@ -102,7 +113,7 @@
 				                            <p>Ici vous pouvez chercher un groupe et le rejoindre (seuls les groups publics sont accessibles)</p>
 				
 								            <div class="form-group" style="text-align:center">
-								            	<form action="group" method="post">
+								            	<form action="createGroup" method="post">
 									            	<input type="text" placeholder="Nom du groupe" class="form-control" id="look-for-group" name="groupName">
 									            	<br />
 									            	
