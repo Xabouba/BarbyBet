@@ -43,14 +43,11 @@
 		                                        <figure class="zoom-image">
 		                                        	<c:choose>
 													    <c:when test="${empty groupImagePath}">
-													    	<!--  <img src="images/default-group-pic.jpg" class="img-responsive" alt=""> <span class="icon-image post-format"></span> -->
+													    	<!-- <img src="images/default-group-pic.jpg" class="img-responsive" alt=""> <span class="icon-image post-format"></span> -->
 													    	<img src="images/groups-default-img.jpg" class="img-responsive" alt=""> <span class="icon-image post-format"></span>
-													    	
 													    </c:when>
 													    <c:otherwise>
-													    													    	<img src="placeholders/posts/img-6.jpg" class="img-responsive" alt=""> <span class="icon-image post-format"></span>
-													    
-		                                            	<!-- 	<img src="${groupImagePath}" class="img-responsive" alt=""> <span class="icon-image post-format"></span> -->
+													    	<img src="${groupImagePath}" class="img-responsive" alt=""> <span class="icon-image post-format"></span>
 													    </c:otherwise>
 													</c:choose>
 		                                        </figure>
