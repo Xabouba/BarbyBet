@@ -13,7 +13,7 @@ public class Constants {
 	public static final String ATT_SESSION_USER          = "sessionUser";
 	public static final String FORMAT_DATE               = "dd/MM/yyyy HH:mm:ss";
 	public static final String NOT_CONNECTED_ERROR = "Vous n'êtes pas connecté!";
-	public static final String GROUP_PICS_ROOT_FOLDER = "/media/group-pics";
+	public static final String GROUP_PICS_ROOT_FOLDER = "/home/media/images/groups-images";
 
 	// Link User Group Table Values
 	public static final int NOT_ADMIN = 0;
