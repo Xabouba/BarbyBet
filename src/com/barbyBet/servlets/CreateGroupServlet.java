@@ -30,6 +30,7 @@ import com.barbyBet.object.Group;
 import com.barbyBet.object.User;
 import com.barbyBet.tools.Constants;
 import com.barbyBet.tools.ServletUtil;
+import com.sun.media.jfxmedia.logging.Logger;
 
 /**
  * Servlet implementation class CreateGroupServlet
@@ -40,7 +41,7 @@ public class CreateGroupServlet extends HttpServlet {
        
 	private static final String VUE_CREATE_GROUP = "/WEB-INF/jsp/createGroup.jsp";
 	private static final String VUE_INDEX    	 = "/WEB-INF/jsp/index.jsp";
-    private static final String GROUP_SERVLET    = "/group";
+    private static final String GROUP_SERVLET    = "/Barby_Bet/group";
     
     private User currentUser;
     /**
@@ -185,7 +186,8 @@ public class CreateGroupServlet extends HttpServlet {
 				}
 				
 				request.setAttribute("groupId", g.getId());
-				this.getServletContext().getRequestDispatcher(GROUP_SERVLET).forward(request, response);
+				
+				response.sendRedirect(GROUP_SERVLET);
 			}
 		}
 	}

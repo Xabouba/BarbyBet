@@ -53,36 +53,44 @@
 			                                    		</tr>
 			                                    		<%} %>
 			                                    		<tr>
-			                                    			<td style="float: left; margin-left: 5%; margin-top:20px; font-weight: bold; width:90%; text-align:center;">
-			                                    				<input type="text" placeholder="Nom du groupe" class="form-control" id="group-name" name="groupName" value="${param.groupname}">
+			                                    			<td style="float: left; margin-left: 5%; margin-top:20px; font-weight: bold; width:90%;">
+			                                    				<p class="item-title-first-item">Nom du Groupe : </p>
+			                                    				<input type="text" placeholder="Nom" class="form-control" id="group-name" name="groupName" value="${param.groupname}">
 			                                    			</td>
 			                                    		</tr>
 			                                    		<tr>
 			                                    			<td style="float: left; margin-left: 5%; margin-top:20px; font-weight: bold; width:90%">
+			                                    				<p class="item-title">Type de Groupe : </p>
 			                                    				<input type="radio" name="status" value="public" checked="checked"> <span title="Tout le monde peut rejoindre le groupe">Public</span>
 				                                    			<input style="margin-left:4em" type="radio" name="status" value="private"> <span title="Le groupe ne peut être rejoint que par invitation" >Privé</span>
 			                                    			</td>
 			                                    		</tr>
 			                                    		<tr>
 			                                    			<td style="float: left; margin-left: 5%; margin-top:20px; font-weight: bold; width:100%">
+			                                    				<p class="item-title">Description (optionnelle): </p>
                                   								<textarea placeholder="Description du groupe" class="form-control" name="groupDescription" rows="6" maxlength="250" style="resize: none; width: 90%">${param.groupdesc}</textarea>
 			                                    			</td>
 			                                    		</tr>
 			                                    		
 														<tr>
-															<td>
+													  		<!-- 
 														  		<div id="holder">
 														  			<img src="images/icn-upload.png" />
 														  			<p style="text-align:center; font-weight:300; color:#b1b3b7">Déposez une image ici</p>
 														  			<p style="text-align:center; font-weight:100; color:#000">ou alors ...</p>
 																</div> 
+																<p id="filereader">File API &amp; FileReader API not supported</p>
+															 	<p id="formdata">XHR2's FormData is not supported</p>
+															 	<p id="progress">XHR2's upload progress isn't supported</p>
+															 -->
+															 
+															
+															<td style="float: left; margin-left: 5%; margin-top:20px; font-weight: bold; width:100%">
+			                                    				<p class="item-title">Image de Groupe : </p>
 																<p id="upload">
 																	<input type="file" style="margin:0 auto;" name="group-pic">
 																</p>
-															 	<p id="filereader">File API &amp; FileReader API not supported</p>
-															 	<p id="formdata">XHR2's FormData is not supported</p>
-															 	<p id="progress">XHR2's upload progress isn't supported</p>
-														 	</td>
+															</td>
 														</tr>
 			                                    		<tr>
 			                                    			<td style="float: left; margin-left: 0; margin-top:20px; font-weight: bold; width:100%; text-align:center;">

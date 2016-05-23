@@ -218,6 +218,7 @@ public class GroupServlet extends HttpServlet {
 				SQLGroupComponent sqlGroupComponent = new SQLGroupComponent();
 				Group group = sqlGroupComponent.getGroup(groupId);
 				
+				System.out.println("Image Path : " + group.getImg());
 				if(groupIdStr != null) {
 					redirectToRightServlet(request, response, group);
 				} else {
@@ -281,7 +282,7 @@ public class GroupServlet extends HttpServlet {
 			}
 			
 			if(group.getImg() != null) {
-				request.setAttribute("groupImagePath", Constants.GROUP_PICS_ROOT_FOLDER + File.separator + group.getImg());
+				request.setAttribute("groupImagePath", Constants.GROUP_PICS_FORMATED_ROOT_FOLDER + File.separator + group.getImg());
 			} else {
 				request.setAttribute("groupImagePath", "");
 			}
