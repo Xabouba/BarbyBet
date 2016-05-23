@@ -59,7 +59,6 @@ public class CommentServletAction extends HttpServlet {
 			
 			/** Commentaires */
 			ArrayList<HashMap<String, String>> comments = sqlCommentComponent.getComments(matchId);
-			System.out.println(comments);
 			request.setAttribute("comments", comments);
 			
 			this.getServletContext().getRequestDispatcher( "/WEB-INF/jsp/chat.jsp" ).forward(request, response);
