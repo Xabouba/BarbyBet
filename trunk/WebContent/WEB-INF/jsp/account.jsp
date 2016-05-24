@@ -431,19 +431,19 @@
 			  
 			  var pieData = [
 				{
-					value: 20,//win,
+					value: win,
 					color: "#3156a3",
 					highlight: "#566EA2",
 					label: "Prono réussi"
 				},
 				{
-					value: 10,//exact,
+					value: exact,
 					color: "#07A3F7",
 					highlight: "#7ED2FF",
 					label: "Prono exact"
 				},
 				{
-					value: 50,//lose,
+					value: lose,
 					color: "#B60610",
 					highlight: "#B7464C",
 					label: "Prono raté"

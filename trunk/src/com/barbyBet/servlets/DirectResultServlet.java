@@ -65,6 +65,13 @@ public class DirectResultServlet extends HttpServlet {
 				request.setAttribute("credits", prono.get("credits"));
 				request.setAttribute("creditsWon", prono.get("creditsWon"));
 				
+				/** Match Stat */
+				HashMap<String, String> matchStatPronostic = sqlPronoComponent.getMatchStatPronostic(matchId);
+				request.setAttribute("matchStat", matchStatPronostic);
+				
+				/** Match Stat */
+				request.setAttribute("currentUser", currentUser.getUsername());
+				
 				/** Commentaires */
 				SQLCommentComponent sqlCommentComponent = new SQLCommentComponent();
 				ArrayList<HashMap<String, String>> comments = sqlCommentComponent.getComments(matchId);
@@ -78,15 +85,6 @@ public class DirectResultServlet extends HttpServlet {
 				SQLGroupComponent sqlGroupComponent = new SQLGroupComponent();
 				request.setAttribute("userGroups", sqlGroupComponent.getGroups(currentUser.getId()));
 				
-	//			User connectedUser = null;
-	//			SQLUsersComponent sqlUsersComponent = new SQLUsersComponent();
-	//			connectedUser = sqlUsersComponent.isUserRegistered(request);
-	//			if (connectedUser != null)
-	//			{
-	//				request.setAttribute("user", connectedUser.getUsername());
-	//			}
-				
-				
 				this.getServletContext().getRequestDispatcher( "/WEB-INF/jsp/direct.jsp" ).forward(request, response);
 			}
 		}
@@ -97,5 +95,18 @@ public class DirectResultServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
+		String matchIdAsString = request.getParameter("matchId");
+		if (matchIdAsString != null)
+		{
+			SQLMatchComponent sqlMatchComponent = new SQLMatchComponent();
+			
+			/** Match information */
+			Long matchId = Long.parseLong(matchIdAsString);
+			Match match = sqlMatchComponent.getMatch(matchId);
+			request.setAttribute("match", match.toHashMap());
+			
+			this.getServletContext().getRequestDispatcher( "/WEB-INF/jsp/direct-part.jsp" ).forward(request, response);
+			
+		}
 	}
 }

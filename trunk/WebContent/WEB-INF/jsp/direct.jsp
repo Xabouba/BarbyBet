@@ -30,23 +30,8 @@
                                         <div class="list_carousel responsive result-match">
                                             <ul id="ca-main-news" class="clearfix">
                                             	<li>
-	                                            	<div style="margin-left: auto; margin-right: auto;">
-	                                            		<h1 class="result-title" style="text-align: center">Euro 2016</h1>
-												    	
-												        <p class="result-statut" style="text-align: center">${match.statut}</p>
-  												    	<br/>
-												    	<br/>
-												    	<table style="margin-left: auto; margin-right: auto;">
-														   <tr>
-												    			<td><img class="result-img" src="images/team/${match.homeImg}_128.png"></img></td>
-												    			<td class="result-team">${match.homeTeam}</td>
-												    			<td class="result-score">${match.homeScore}</td>
-												    			<td class="result-score">${match.awayScore}</td>
-												    			<td class="result-team">${match.awayTeam}</td>
-												    			<td><img class="result-img" src="images/team/${match.awayImg}_128.png"></img></td>
-												    		</tr>
-												    	</table>
-												    	<br/>
+	                                            	<div id="match-direct" style="margin-left: auto; margin-right: auto;">
+	                                            		<%@include file='direct-part.jsp'%>
 											    	</div>
 										    	</li>
                                             </ul>
@@ -92,10 +77,10 @@
 	                                    			<tbody>
 			                                    		<tr>
 			                                    			<td class="login">
-			                                    				<strong>${cookie.cookieUsername.value}</strong>
+			                                    				<strong>${currentUser}</strong>
 															</td>
 			                                    			<td class="bet">
-		                                    					<input class="btn btn-primary" type="button" value="Pronostiquer" onclick="bet()" />
+		                                    					<input class="btn btn-primary" type="button" value="Parier" onclick="bet()" />
 			                                    			</td>
 			                                    		</tr>
 			                                    		<tr>
@@ -135,34 +120,67 @@
     	<%@include file="footer.jsp" %>
     	<!-- Page footer -->
     	
+    	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="js/jqueryUi.js"></script>
+        <script src="js/bootstrap.js"></script>
+        <script src="js/superfish.js"></script>
+        <script src="js/jquery.validate.min.js"></script>
+        <script src="js/jquery.carouFredSel-6.2.1-packed.js"></script>
+        <script src="js/jflickrfeed.min.js"></script>
+        <script src="js/tweetable.jquery.js"></script>
+        <script src="js/jquery.timeago.js"></script>
+        <script src="js/jquery.prettyPhoto.js"></script>
+        <script src="js/modernizr.js"></script>
+        <script src="js/grid.js"></script>
+        <script src="js/masonry.pkgd.min.js"></script>
+        <script src="js/chart/jquery.canvasjs.js"></script>
+        <script src="js/chart/canvasjs.js"></script>
+        <script src="js/chart/excanvas.js"></script>
+        <script type="text/javascript" src="js/custom.js"></script>
     	<script type="text/javascript">
-		  window.onload = function () {
+
+   		statMatch = function (nbProno, nbWin, nbLose, nbDraw) {
 			var homeTeam = "${match.homeTeam}";
 			var awayTeam = "${match.awayTeam}";
 		    var homeOdd = "${match.homeOdd}";
 			var drawOdd = "${match.drawOdd}";
 			var awayOdd = "${match.awayOdd}";
-		    var chart = new CanvasJS.Chart("info-match", {
-		      
-		    	axisX: {
-		            title: "v:" + homeOdd + " -- n:" + drawOdd + " -- d:" + awayOdd + ""
-		          },
-	    		data: [             
-		        {
-		         type: "column",
-		         toolTipContent: "<p>{label} : {y}%</p>",
-		         dataPoints: [
-		         { label: homeTeam, y: 70 },
-		         { label: "nul", y: 20 },
-		         { label: awayTeam, y: 10 }
-		         ]
+		    
+			if (nbProno != 0)
+			{
+				var win = Math.floor(nbWin / nbProno * 100);
+				var lose = Math.floor(nbLose / nbProno * 100);
+				var draw = Math.floor(nbDraw / nbProno * 100);
+		    	var chart = new CanvasJS.Chart("info-match", {
+			    	axisX: {
+			            title: homeTeam + "   -   " + awayTeam
+			          },
+		            axisY:{ 
+		        	    maximum: 100,
+		        	  },
+		    		data: [             
+			        {
+				         type: "column",
+				         toolTipContent: "<p>{label} : {y}%</p>",
+				         dataPoints: [
+					         { label: "E1", y: win },
+					         { label: "nul", y: draw },
+					         { label: "E2", y: lose }
+				         ]
+			        }
+			       ]
+			     });
+			
+			    chart.render();
 		       }
-		       ]
-		     });
-		
-		    chart.render();
 		  }
-		  
+
+   		  var nbProno = ${matchStat.nbProno};
+		  var nbWin = ${matchStat.nbWin};
+		  var nbLose = ${matchStat.nbLose};
+		  var nbDraw = ${matchStat.nbExact};
+    	  statMatch(nbProno, nbWin, nbLose, nbDraw);
+
 		  bet = function()
     	  {
 			  var scoreHome = $("#score-home").html();
@@ -234,6 +252,24 @@
 				  $("#score-away").html(scoreAway);
 
 				  $("#bet_form").remove();
+
+				  var nbProno = ${matchStat.nbProno};
+				  var nbWin = ${matchStat.nbWin};
+				  var nbLose = ${matchStat.nbLose};
+				  var nbDraw = ${matchStat.nbExact};
+
+				  if (scoreHome > scoreAway)
+				  {
+			    	  statMatch(nbProno + 1, nbWin + 1, nbLose, nbDraw);
+				  }
+				  else if (scoreAway > scoreHome)
+				  {
+			    	  statMatch(nbProno + 1, nbWin, nbLose + 1, nbDraw);
+				  }
+				  else
+				  {
+		    	  	  statMatch(nbProno + 1, nbWin, nbLose, nbDraw + 1);
+				  }
 			  });
 		  };
 
@@ -253,27 +289,15 @@
 			  });
 		  }
 
-// 		  setInterval(function(){
-// 			  var matchId = ${match.matchId};
-// 			  $("#chat").load("commentAction", {matchId: matchId, refresh: "true"}).fadeIn("slow");
-// 			}, 2000);
+		  setInterval(function(){
+			  var matchId = ${match.matchId};
+			  $("#match-direct").load("direct", {matchId: matchId, refresh: "true"}).fadeIn("slow");
+			}, 30000);
+		  
+		  setInterval(function(){
+			  var matchId = ${match.matchId};
+			  $("#chat").load("commentAction", {matchId: matchId, refresh: "true"}).fadeIn("slow");
+			}, 30000);
 		</script>
-    	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-        <script src="js/jqueryUi.js"></script>
-        <script src="js/bootstrap.js"></script>
-        <script src="js/superfish.js"></script>
-        <script src="js/jquery.validate.min.js"></script>
-        <script src="js/jquery.carouFredSel-6.2.1-packed.js"></script>
-        <script src="js/jflickrfeed.min.js"></script>
-        <script src="js/tweetable.jquery.js"></script>
-        <script src="js/jquery.timeago.js"></script>
-        <script src="js/jquery.prettyPhoto.js"></script>
-        <script src="js/modernizr.js"></script>
-        <script src="js/grid.js"></script>
-        <script src="js/masonry.pkgd.min.js"></script>
-        <script src="js/chart/jquery.canvasjs.js"></script>
-        <script src="js/chart/canvasjs.js"></script>
-        <script src="js/chart/excanvas.js"></script>
-        <script type="text/javascript" src="js/custom.js"></script>
 	</body>
 </html>    
