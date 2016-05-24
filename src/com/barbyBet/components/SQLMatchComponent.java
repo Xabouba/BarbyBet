@@ -56,7 +56,7 @@ public class SQLMatchComponent extends SQLComponent
 					+ "m.beginDate, m.id, m.scoreH, m.scoreA, m.statut, m.oddsHome, m.oddsDraw, m.oddsAway, "
 					+ "c.name, s.name  "
 					+ "FROM Matchs m, Team t1, Team t2, Sport s, Competition c  "
-					+ "WHERE m.teamHId = t1.id AND m.teamAId = t2.id AND c.id = m.idCompetition AND s.id = m.idSport AND m.statut IN (" + String.join(",", statusList) + ") " 
+					+ "WHERE m.teamHId = t1.id AND m.teamAId = t2.id AND c.id = m.idCompetition AND s.id = m.idSport AND m.statut IN (0,1,2,3,4,5,6,7) " 
 					+ "ORDER BY m.beginDate";
 			//  LIMIT 0, 24
 			
@@ -289,11 +289,9 @@ public class SQLMatchComponent extends SQLComponent
 		try 
 		{
 		    connexion = DriverManager.getConnection(_url, _user, _password);
-		    stmt = connexion.prepareStatement("SELECT * FROM Matchs m WHERE m.beginDate > ? AND m.id = ? ");
+		    stmt = connexion.prepareStatement("SELECT * FROM Matchs m WHERE m.statut <> ? AND m.id = ? ");
 		    
-		    Date dateToday = new Date();
-		    Timestamp dateSql = new Timestamp(dateToday.getTime());
-		    stmt.setTimestamp(1, dateSql);
+		    stmt.setInt(1, MatchStatus.NOT_STARTED);
 		    stmt.setLong(2, matchId);
 		    
 		    rs = stmt.executeQuery();

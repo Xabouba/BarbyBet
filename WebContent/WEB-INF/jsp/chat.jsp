@@ -23,7 +23,7 @@
 															</p>
 										    			</td>
 										    			<td style="width: 65%;">
-										    				<div style="width: 300px; word-wrap: break-word;">${comment.comment}</div>
+										    				<div style="word-wrap: break-word;">${comment.comment}</div>
 										    			</td>
 										    			<td style="width: 15%; text-align: center;">
 										    				<p>${comment.hour}</p>

@@ -181,6 +181,16 @@
     color: #07A3F7;
 }
 
+.information .sidebar-minimized-rank 
+{
+	width:22% !important;
+	margin-right:2% !important;
+}
+
+.information .results 
+{
+	width: 76%;
+}
 
 @media (max-width: 1157px)
 {
@@ -202,7 +212,15 @@
 	    float: none;
 	}
 	
-	
+	.information .sidebar-minimized-rank 
+	{
+		display: none;
+	}
+
+	.information .results 
+	{
+		width: 100%;
+	}
 }
 
 @media(max-width: 900px) 

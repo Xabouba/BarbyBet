@@ -54,6 +54,7 @@
 .rank .td_rank_credit
 {
 	width: 20px;
+	text-align: center; 
 }
 
 .rank .current_user

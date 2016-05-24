@@ -114,13 +114,13 @@
         <script type="text/javascript" src="js/custom.js"></script>
         
         <script type="text/javascript">
-        	var currentGroupId = ${currentGroupId};
-        	if(currentGroupId == null) {}
+//         	zurrentGroupId == null) {
 				$("#group-general")[0].style.backgroundColor = "#ebebeb";
 				$("#group-general")[0].style.border = "solid 2px #fff";
-			} else {
+// 			} else {
 				// TODO
-			}
+// 			};
+			
 			changeGroup = function(id, idGroup)
 			{
 				$("#group-general")[0].style.backgroundColor = "#fff";

@@ -160,14 +160,6 @@
 	margin-right:2% !important;
 }
 
-@media (max-width: 900px)
-{
-	.listMatch
-	{
-		margin-top: 15px;
-	}
-}
-	
 @media (max-width: 1157px)
 {
 	.listMatch li.match-info > div
@@ -190,12 +182,19 @@
 	
 	.listMatch .sidebar-minimized-rank 
 	{
-		width:22% !important;
-		margin-right:2% !important;
+		display: none;
 	}
 
 	.listMatch .matchs 
 	{
-		width: 76%;
+		width: 100%;
+	}
+}
+
+@media (max-width: 900px)
+{
+	.listMatch
+	{
+		margin-top: 15px;
 	}
 }
