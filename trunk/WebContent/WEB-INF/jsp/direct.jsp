@@ -17,7 +17,7 @@
                 </div>
                 <!-- top-effect -->
                 <div id="main-content" class="pull-left">
-                    <div id="sidebar-main-content" class="pull-left">
+                    <div id="sidebar-main-content" class="pull-left sidebar-minimized-rank">
                     	<%@include file='minimized-rank.jsp'%>
                     </div>
                     <!-- sidebar-main-content -->
@@ -253,10 +253,10 @@
 			  });
 		  }
 
-		  setInterval(function(){
-			  var matchId = ${match.matchId};
-			  $("#chat").load("commentAction", {matchId: matchId, refresh: "true"}).fadeIn("slow");
-			}, 2000);
+// 		  setInterval(function(){
+// 			  var matchId = ${match.matchId};
+// 			  $("#chat").load("commentAction", {matchId: matchId, refresh: "true"}).fadeIn("slow");
+// 			}, 2000);
 		</script>
     	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
         <script src="js/jqueryUi.js"></script>

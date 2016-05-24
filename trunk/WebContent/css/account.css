@@ -45,6 +45,12 @@
 	width: 43px;
 }
 
+.account .bet
+{
+	font-weight: bold;
+	color: blue;
+}
+
 .account .image
 {
 	width: 60px;
@@ -63,7 +69,7 @@
 
 .account .match-info-table
 {
-	float: left;
+	/*float: left;*/
 	vertical-align: middle;
 	height: 80px;
 }
@@ -86,6 +92,7 @@
 .account .creditsWon
 {
 	font-weight: bold;
+	width: 20px;
 }
 
 .account .creditsWon .positif
@@ -115,7 +122,9 @@
 	
 .account .match-info-table
 {
-	width: 100%;
+	/*width: 100%;*/
+	margin-right: auto;
+	margin-left: auto;
 }
 	
 .account .bet-info-table
@@ -151,6 +160,19 @@
 {
 	padding-top: 5px;
 	border-top: solid 2px;
+}
+
+@media (max-width: 1157px)
+{
+	.account .sidebar-minimized-rank 
+	{
+		display: none;
+	}
+
+	.account #main-col
+	{
+		width: 100%;
+	}
 }
 
 @media (max-width: 900px)

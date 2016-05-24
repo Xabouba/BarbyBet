@@ -2,7 +2,7 @@
 <c:forEach items="${rank}" var="user" varStatus="i">
       	<c:if test="${user.value.hasBefore == 'false'}">
        	<li class="format-standard">
-       		<p style="text-align: center">..........................................................</p>
+       		<p style="text-align: center">...................................</p>
        	</li>
       	</c:if>
       	<li class="format-standard">

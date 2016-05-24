@@ -149,7 +149,7 @@ public class SQLPronoComponent extends SQLComponent
 		try 
 		{
 		    connexion = DriverManager.getConnection(_url, _user, _password);
-		    stmt = connexion.prepareStatement("SELECT t1.name, t1.img, t2.name, t2.img, m.beginDate, m.id, m.scoreH, m.scoreA, m.statut, m.oddsHome, m.oddsDraw, m.oddsAway, c.name, s.name, p.scoreHome, p.scoreAway FROM Matchs m, Team t1, Team t2, Sport s, Competition c, Pronostics p WHERE p.idMatch = m.id AND p.idUser = ? AND m.teamHId = t1.id AND m.teamAId = t2.id AND c.id = m.idCompetition AND s.id = m.idSport AND m.statut = 0 ORDER BY m.beginDate LIMIT 0, 5");
+		    stmt = connexion.prepareStatement("SELECT t1.name, t1.img, t2.name, t2.img, m.beginDate, m.id, m.scoreH, m.scoreA, m.statut, m.oddsHome, m.oddsDraw, m.oddsAway, c.name, s.name, p.scoreHome, p.scoreAway, p.prono FROM Matchs m, Team t1, Team t2, Sport s, Competition c, Pronostics p WHERE p.idMatch = m.id AND p.idUser = ? AND m.teamHId = t1.id AND m.teamAId = t2.id AND c.id = m.idCompetition AND s.id = m.idSport AND m.statut = 0 ORDER BY m.beginDate LIMIT 0, 5");
 		    
 		    stmt.setLong(1, idUser);
 		    rs = stmt.executeQuery();
@@ -182,6 +182,7 @@ public class SQLPronoComponent extends SQLComponent
 		    	HashMap<String, String> matchMap = match.toHashMap();
 		    	matchMap.put("scoreHome", String.valueOf(rs.getInt(15)));
 		    	matchMap.put("scoreAway", String.valueOf(rs.getInt(16)));
+		    	matchMap.put("prono", String.valueOf(rs.getInt(17)));
 		    	
 		    	listMatch.add(matchMap);
 		    }		    	

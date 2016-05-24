@@ -91,7 +91,7 @@ public class InformationServlet extends HttpServlet {
 			HashMap<String, String> pronoMap = sqlPronoComponent.getProno(match.getId(), currentUser.getId());
 			_initializeStatTeam(match.getHomeTeam(), rank);
 			_initializeStatTeam(match.getAwayTeam(), rank);
-			
+			System.out.println(pronoMap);
 			ArrayList<HashMap<String, String>> list;
 			if (day.equals(calendar.getTime()))
 			{

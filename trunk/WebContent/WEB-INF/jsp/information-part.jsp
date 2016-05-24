@@ -153,33 +153,33 @@
 													    			</table>
 													    			<table class="bet-info-table" id="match_${match.matchId}">
 																	   <tr>
-															    			<td class="odd">
+															    			<td class="odd" id="odd_1_${match.matchId}">
 															    				<c:choose>
-															    					<c:when test="${match.prono == '1'}">
-																	    				<span class="bet">${match.homeOdd}</span>
+															    					<c:when test="${match.scoreHome > match.scoreAway}">
+																	    				<span class="bet">1</span>
 															    					</c:when>
 															    					<c:otherwise>
-																	    				<span>${match.homeOdd}</span>
+																	    				<span>1</span>
 															    					</c:otherwise>
 															    				</c:choose>
 															    			</td>
-															    			<td class="odd">
+															    			<td class="odd" id="odd_2_${match.matchId}">
 															    				<c:choose>
-															    					<c:when test="${match.prono == '2'}">
-																	    				<span class="bet">${match.drawOdd}</span>
+															    					<c:when test="${match.scoreHome != null and match.scoreHome == match.scoreAway}">
+																	    				<span class="bet">N</span>
 															    					</c:when>
 															    					<c:otherwise>
-																	    				<span>${match.drawOdd}</span>
+																	    				<span>N</span>
 															    					</c:otherwise>
 															    				</c:choose>
 															    			</td>
-															    			<td class="odd">
+															    			<td class="odd" id="odd_3_${match.matchId}">
 															    				<c:choose>
-															    					<c:when test="${match.prono == '3'}">
-																	    				<span class="bet">${match.awayOdd}</span>
+															    					<c:when test="${match.scoreHome < match.scoreAway}">
+																	    				<span class="bet">2</span>
 															    					</c:when>
 															    					<c:otherwise>
-																	    				<span>${match.awayOdd}</span>
+																	    				<span>2</span>
 															    					</c:otherwise>
 															    				</c:choose>
 															    			</td>
@@ -271,30 +271,30 @@
 																	    			<td class="odd" id="odd_1_${match.matchId}">
 																	    				<c:choose>
 																	    					<c:when test="${match.scoreHome > match.scoreAway}">
-																			    				<span class="bet">${match.homeOdd}</span>
+																			    				<span class="bet">1</span>
 																	    					</c:when>
 																	    					<c:otherwise>
-																			    				<span>${match.homeOdd}</span>
+																			    				<span>1</span>
 																	    					</c:otherwise>
 																	    				</c:choose>
 																	    			</td>
 																	    			<td class="odd" id="odd_2_${match.matchId}">
 																	    				<c:choose>
 																	    					<c:when test="${match.scoreHome != null and match.scoreHome == match.scoreAway}">
-																			    				<span class="bet">${match.drawOdd}</span>
+																			    				<span class="bet">N</span>
 																	    					</c:when>
 																	    					<c:otherwise>
-																			    				<span>${match.drawOdd}</span>
+																			    				<span>N</span>
 																	    					</c:otherwise>
 																	    				</c:choose>
 																	    			</td>
 																	    			<td class="odd" id="odd_3_${match.matchId}">
 																	    				<c:choose>
 																	    					<c:when test="${match.scoreHome < match.scoreAway}">
-																			    				<span class="bet">${match.awayOdd}</span>
+																			    				<span class="bet">2</span>
 																	    					</c:when>
 																	    					<c:otherwise>
-																			    				<span>${match.awayOdd}</span>
+																			    				<span>2</span>
 																	    					</c:otherwise>
 																	    				</c:choose>
 																	    			</td>

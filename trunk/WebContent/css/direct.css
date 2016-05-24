@@ -72,15 +72,33 @@
 	margin-right:10px;
 }
 
-@media (max-width: 979px)
+@media (max-width: 1157px)
 {
-	.match-direct #main-content
+	.match-direct #main-col
 	{
-		margin-top: 20px;
+		width: 100% !important;
+	}
+	
+	.match-direct .sidebar-minimized-rank 
+	{
+		display: none;
+	}
+	
+	.match-direct .result-match
+	{
+		width: 100% !important;
 	}
 }
 
-@media (max-width: 479px)
+@media (max-width: 899px)
+{
+	.match-direct
+	{
+		margin-top: 15px !important;
+	}
+}
+
+@media (max-width: 599px)
 {
 	.match-direct .result-img
 	{
@@ -101,5 +119,29 @@
 	.match-direct .result-title
 	{
 		font-size: 25px;
+	}
+}
+
+@media (max-width: 479px)
+{
+	.match-direct .result-img
+	{
+		width:40px !important; 
+		height:40px;
+	}
+	
+	.match-direct .result-team
+	{
+		font-size: 14px;
+	}
+	
+	.match-direct .result-score
+	{
+		font-size: 22px;
+	}
+	
+	.match-direct .result-title
+	{
+		font-size: 22px;
 	}
 }

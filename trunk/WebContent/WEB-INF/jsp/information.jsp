@@ -19,10 +19,10 @@
                         <span class="pull-right"><img src="images/top-right-effect.png" class="img-responsive" alt=""></span>
                     </div>
                     <div id="main-content" class="pull-left">
-                    	<div id="sidebar-main-content" class="pull-left">
+                    	<div id="sidebar-main-content" class="pull-left sidebar-minimized-rank">
                     		<%@include file='minimized-rank.jsp'%>
                     	</div>
-                        <div class="page-single pull-left" >
+                        <div class="results page-single pull-left" >
                      			<h2 class="widget-title"><span>Résultats</span></h2>
                                    <div class="menu-match">
                                    	<ul class="nav nav-tabs kp-tabs">
