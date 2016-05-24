@@ -30,7 +30,6 @@ import com.barbyBet.object.Group;
 import com.barbyBet.object.User;
 import com.barbyBet.tools.Constants;
 import com.barbyBet.tools.ServletUtil;
-import com.sun.media.jfxmedia.logging.Logger;
 
 /**
  * Servlet implementation class CreateGroupServlet
