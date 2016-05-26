@@ -32,9 +32,9 @@ public class CreateGamesInTheDatabase {
 		SQLTeamComponent sqlTeamComponent = new SQLTeamComponent();
 		HashMap<Integer, Integer> teamsIdMap = sqlTeamComponent.getTeamsIdMap();
 		
-		List<GetFixturesResultDto> allEuro2016Games = xmlSoccerService.getFixturesByLeagueAndSeason(Leagues.FRANCE_LIGUE_1.getParam(), Seasons.SEASON_2015_2016.getParam());
+		// List<GetFixturesResultDto> allEuro2016Games = xmlSoccerService.getFixturesByLeagueAndSeason(Leagues.FRANCE_LIGUE_1.getParam(), Seasons.SEASON_2015_2016.getParam());
 		
-		// List<GetFixturesResultDto> allEuro2016Games = xmlSoccerService.getFixturesByLeagueAndSeason("EURO 2016", "");
+		List<GetFixturesResultDto> allEuro2016Games = xmlSoccerService.getFixturesByLeagueAndSeason("EURO 2016", "");
 		List<Match> matchs = new ArrayList<Match>();
 		
 		for (GetFixturesResultDto game : allEuro2016Games) {
@@ -106,9 +106,9 @@ public class CreateGamesInTheDatabase {
 		SQLTeamComponent sqlTeamComponent = new SQLTeamComponent();
 		HashMap<Integer, Integer> teamsIdMap = sqlTeamComponent.getTeamsIdMap();
 		
-		List<GetFixturesResultDto> allEuro2016Games = xmlSoccerService.getFixturesByLeagueAndSeason(Leagues.FRANCE_LIGUE_1.getParam(), Seasons.SEASON_2015_2016.getParam());
+		// List<GetFixturesResultDto> allEuro2016Games = xmlSoccerService.getFixturesByLeagueAndSeason(Leagues.FRANCE_LIGUE_1.getParam(), Seasons.SEASON_2015_2016.getParam());
 		
-		// List<GetFixturesResultDto> allEuro2016Games = xmlSoccerService.getFixturesByLeagueAndSeason("EURO 2016", "");
+		List<GetFixturesResultDto> allEuro2016Games = xmlSoccerService.getFixturesByLeagueAndSeason("EURO 2016", "");
 		List<Match> matchs = new ArrayList<Match>();
 		
 		for (GetFixturesResultDto game : allEuro2016Games) {
@@ -128,7 +128,7 @@ public class CreateGamesInTheDatabase {
 				Match m = new Match();
 				m.setIdWebService(new Long(game.getId()));
 				m.setIdSport(WebServiceConstants.SPORT_FOOTBALL_ID);
-				m.setIdCompetition(WebServiceConstants.COMPETITION_LIGUE1_ID);
+				m.setIdCompetition(WebServiceConstants.COMPETITION_EURO2016_ID);
 				m.setJournee(Integer.parseInt(game.getRound()));
 				m.setHomeTeam(homeTeam);
 				m.setAwayTeam(awayTeam);

@@ -2,7 +2,7 @@
     <wb-module deploy-name="Barby Bet">
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
-        <property name="context-root" value="Barby_Bet"/>
+        <property name="context-root" value="barbylone"/>
         <property name="java-output-path" value="/Barby Bet/build/classes"/>
     </wb-module>
 </project-modules>
