@@ -31,7 +31,7 @@ public class GroupServlet extends HttpServlet {
 	public static final String VUE_GROUP = "/WEB-INF/jsp/group.jsp";
 	public static final String GROUP_SERVLET = "/group";
     public static final String VUE_INDEX = "/login";
-    public static final String CREATE_GROUP_SERVLET = "/Barby_Bet/createGroup";
+    public static final String CREATE_GROUP_SERVLET = "/createGroup";
     
     private User currentUser;
     private List<Group> userGroups;

@@ -1,7 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <header id="page-header">
 	<div class="top-header clearfix">
-	    <div class="title_BarbyBet" id="logo"><a href="index.html">BarbyBet</a></div>
+	    <div class="title_BarbyBet" id="logo"><a href="index">Barbylone</a></div>
 	    <nav>
 	        <ul class="sf-menu" id="main-menu">
 	            <li class="current-menu-item">

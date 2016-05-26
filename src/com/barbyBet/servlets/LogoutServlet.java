@@ -12,7 +12,7 @@ import com.barbyBet.tools.ServletUtil;
 public class LogoutServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	   
-    public static final String VUE = "/Barby_Bet/login";
+    public static final String VUE = "/login";
 
 	/**
 	 * Default constructor.

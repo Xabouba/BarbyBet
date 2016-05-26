@@ -24,9 +24,9 @@ public class CreateTeamsInTheDatabase {
 		// full access
 		xmlSoccerService.setServiceUrl("http://www.xmlsoccer.com/FootballData.asmx");
 		
-		// List<GetTeamResultDto> euro2016Teams = xmlSoccerService.getAllTeamsByLeagueAndSeason("EURO 2016", "");
+		List<GetTeamResultDto> euro2016Teams = xmlSoccerService.getAllTeamsByLeagueAndSeason("EURO 2016", "");
 		
-		List<GetTeamResultDto> euro2016Teams = xmlSoccerService.getAllTeamsByLeagueAndSeason(Leagues.FRANCE_LIGUE_1.getParam(), Seasons.SEASON_2015_2016.getParam());
+		// List<GetTeamResultDto> euro2016Teams = xmlSoccerService.getAllTeamsByLeagueAndSeason(Leagues.FRANCE_LIGUE_1.getParam(), Seasons.SEASON_2015_2016.getParam());
 		List<Team> teams = new ArrayList<Team>();
 		
 		for (GetTeamResultDto team : euro2016Teams) {

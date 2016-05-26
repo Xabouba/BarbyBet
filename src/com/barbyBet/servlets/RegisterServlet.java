@@ -25,7 +25,7 @@ public class RegisterServlet extends HttpServlet {
 	public static final String CHAMP_EMAIL   	= "email";
     public static final String VIEW_REGISTER    = "/WEB-INF/jsp/register.jsp";
     public static final String VIEW_INDEX  	= "/WEB-INF/jsp/index.jsp";
-    public static final String SERVLET_INDEX  	= "/Barby_Bet/index";
+    public static final String SERVLET_INDEX  	= "/index";
 
     /**
      * Default constructor. 

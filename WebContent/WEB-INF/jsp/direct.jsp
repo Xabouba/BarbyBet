@@ -44,7 +44,7 @@
                             </li>
                             <li class="clearfix">
                                 <div class="widget kp-review">
-                                    <h2 class="widget-title"><span>Commentaire</span></h2>
+                                    <h2 class="widget-title"><span>Commentaires</span></h2>
                                     <div id="chat" class="widget-content">
                                    		<%@include file='chat.jsp'%>
                                     </div>

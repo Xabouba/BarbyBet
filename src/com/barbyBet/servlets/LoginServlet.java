@@ -24,7 +24,7 @@ public class LoginServlet extends HttpServlet {
 	public static final String CHAMP_EMAIL   	= "email";
 	public static final String CHAMP_PASSWORD   = "password";
     public static final String VUE_ERROR    	= "/WEB-INF/jsp/login.jsp";
-    public static final String VUE_SUCCESS  	= "/Barby_Bet/index";
+    public static final String VUE_SUCCESS  	= "/index";
 
 	/**
 	 * Default constructor.

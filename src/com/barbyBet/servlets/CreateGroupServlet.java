@@ -40,7 +40,7 @@ public class CreateGroupServlet extends HttpServlet {
        
 	private static final String VUE_CREATE_GROUP = "/WEB-INF/jsp/createGroup.jsp";
 	private static final String VUE_INDEX    	 = "/WEB-INF/jsp/index.jsp";
-    private static final String GROUP_SERVLET    = "/Barby_Bet/group";
+    private static final String GROUP_SERVLET    = "/group";
     
     private User currentUser;
     /**
@@ -143,14 +143,18 @@ public class CreateGroupServlet extends HttpServlet {
 			            } else {
 			                // Process form file field (input type="file").
 			                String fieldName = item.getFieldName();
-			                imageName = groupName + ".png";
 		
 			                if("group-pic".equals(fieldName)) {
-			                	File groupPicsDirectory = new File(Constants.GROUP_PICS_ROOT_FOLDER);
-			                	if(!groupPicsDirectory.exists()) {
-			                		groupPicsDirectory.mkdirs();
+			                	if(item.getName().isEmpty()) {
+			                		imageName = null;
+			                	} else {
+			                		imageName = groupName + ".png";
+			                		File groupPicsDirectory = new File(Constants.GROUP_PICS_ROOT_FOLDER);
+				                	if(!groupPicsDirectory.exists()) {
+				                		groupPicsDirectory.mkdirs();
+				                	}
+				                	item.write(new File(Constants.GROUP_PICS_ROOT_FOLDER + File.separator + imageName));
 			                	}
-			                	item.write(new File(Constants.GROUP_PICS_ROOT_FOLDER + File.separator + imageName));
 			                }
 			            }
 			        }
