@@ -518,7 +518,7 @@ public class SQLGroupComponent extends SQLComponent
 		
 		try {
 		    connexion = DriverManager.getConnection(_url, _user, _password);
-		    stmt = connexion.prepareStatement("SELECT g.id, g.name, lug.userRank FROM Groups g, Users u, LinkUserGroup lug WHERE u.id = ? AND lug.groupId = g.id AND lug.userId = u.id");
+		    stmt = connexion.prepareStatement("SELECT g.id, g.name, lug.userRank, lug.points FROM Groups g, Users u, LinkUserGroup lug WHERE u.id = ? AND lug.groupId = g.id AND lug.userId = u.id");
 		    
 		    stmt.setLong(1, userId);
 
@@ -527,6 +527,7 @@ public class SQLGroupComponent extends SQLComponent
 		    	Map<String, String> attribut = new HashMap<String, String>();
 		    	attribut.put("name", rs.getString(2));
 		    	attribut.put("rank", rs.getString(3));
+		    	attribut.put("point", rs.getString(4));
 		    	groups.put(rs.getLong(1), attribut);
 		    }
 		    

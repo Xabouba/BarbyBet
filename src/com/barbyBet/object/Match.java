@@ -3,6 +3,8 @@ package com.barbyBet.object;
 import java.sql.Timestamp;
 import java.util.HashMap;
 
+import com.barbyBet.tools.MatchStatus;
+
 
 public class Match {
 
@@ -159,20 +161,25 @@ public class Match {
 	    
 	    String msgInfo = "";
 	    switch (_statut) {
-	    case 0:
-	    case 1:
+	    case MatchStatus.NOT_STARTED:
 	    	msgInfo = "A jouer";
 	    	break;
-	    case 2:
+	    case MatchStatus.FIRST_HALF:
 	    	msgInfo = "1ère période";
 	    	break;
-	    case 3:
+	    case MatchStatus.HALFTIME:
 	    	msgInfo = "Mi-temps";
 	    	break;
-	    case 4:
+	    case MatchStatus.SECOND_HALF:
 	    	msgInfo = "2ème période";
 	    	break;
-	    case 5:
+	    case MatchStatus.OVERTIME:
+	    	msgInfo = "Prolongation";
+	    	break;
+	    case MatchStatus.PENALTY:
+	    	msgInfo = "Penalty";
+	    	break;
+	    case MatchStatus.ENDED:
 	    	msgInfo = "Terminé";
 	    	break;
 	    default:

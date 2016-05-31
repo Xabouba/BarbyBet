@@ -69,7 +69,10 @@
                                                            	&nbsp&nbsp&nbsp-&nbsp&nbsp&nbsp
                                                            </li>
                                                            <li>
-                                                           	10 points
+                                                           	<c:choose>
+                                                           		<c:when test="${userGroup.value.point > 1}">${userGroup.value.point} points</c:when>
+                                                           		<c:otherwise>${userGroup.value.point} point</c:otherwise>
+                                                           	</c:choose>
                                                            </li>
                                                        </ul>
                                                    </div>

@@ -1,11 +1,16 @@
 package com.barbyBet.scripts;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
+import com.barbyBet.components.SQLGroupComponent;
 import com.barbyBet.components.SQLMatchComponent;
+import com.barbyBet.components.SQLPronoComponent;
+import com.barbyBet.components.UsersComponent;
+import com.barbyBet.object.Group;
 import com.barbyBet.object.Match;
+import com.barbyBet.tools.MatchStatus;
 import com.barbyBet.tools.WebServiceConstants;
 import com.barbyBet.tools.WebServiceUtil;
 import com.github.pabloo99.xmlsoccer.api.dto.GetLiveScoreResultDto;
@@ -14,25 +19,20 @@ import com.github.pabloo99.xmlsoccer.client.XmlSoccerServiceImpl;
 
 public class MagicalUpdateScript {
 	public static void main(String[] args) {
-		/*
-			Updater les scores (toutes les 30 secondes)
-			Si match fini:
-				-> Update des points de chaque pronostic
-				-> Update des classements des utilisateurs :
-					- Classement général (table User)
-					- Classement dans chaque groupe (table LinkUserGroup)
-					
-		 */
-		//System.out.println("Hello World");
+		long webId = 360422;
+		updateProno(0, 2, webId);
 		
-		// updateCurrentGamesRealScores();
+		SQLGroupComponent sqlGroupComponent = new SQLGroupComponent();
+		
+		long groupId = 31;
+		Group group = sqlGroupComponent.getGroup(groupId);
+		sqlGroupComponent.updateRankAfterModificationInGroup(group, null);
+		System.out.println("cool");
 	}
 	
-	public MagicalUpdateScript() {
-		updateCurrentGamesRealScores();
-	}
-	
-	public static boolean updateCurrentGamesRealScores() {
+	public boolean updateCurrentGamesRealScores() {
+		SQLMatchComponent sqlMatchComponent = new SQLMatchComponent();
+		
 		XmlSoccerService xmlSoccerService = new XmlSoccerServiceImpl();
 		xmlSoccerService.setApiKey(WebServiceConstants.API_KEY);
 		
@@ -44,40 +44,71 @@ public class MagicalUpdateScript {
 		
 
 		List<Match> currentMatches = new ArrayList<Match>();
+		List<Match> justEndedMatch = new ArrayList<Match>();
 		// List<GetLiveScoreResultDto> allCurrentLiveScores = xmlSoccerService.getLiveScoreByLeague("EURO 2016");
 		List<GetLiveScoreResultDto> allCurrentLiveScores = xmlSoccerService.getLiveScore();
 		for(GetLiveScoreResultDto liveScore : allCurrentLiveScores) {
 			Match match = new Match();
-			match.setIdWebService(Long.valueOf(liveScore.getId()));
-			match.setStatut(WebServiceUtil.createStatus(liveScore.getTime()));
+			Long idWebService = Long.valueOf(liveScore.getId());
+			int statut = WebServiceUtil.createStatus(liveScore.getTime());
+			
+			match.setIdWebService(idWebService);
+			match.setStatut(statut);
 			match.setHomeScore(liveScore.getHomeGoals());
 			match.setAwayScore(liveScore.getAwayGoals());
 			
 			currentMatches.add(match);
+			if (statut == MatchStatus.ENDED && !sqlMatchComponent.hasMatchEnded(idWebService))
+			{
+				justEndedMatch.add(match);
+			}
+		}
+		
+		for (Match match : justEndedMatch)
+		{
+			int homeScore = match.getHomeScore();
+			int awayScore = match.getAwayScore();
+			
+			updateProno(homeScore, awayScore, match.getIdWebService());
 		}
 		
 		// Update the games in the database
 		if(currentMatches.size() != 0) {
-			SQLMatchComponent sqlMatchComponent = new SQLMatchComponent();
 			sqlMatchComponent.updateMatchs(currentMatches);
 		}
 		
-		Date today = new Date();
+		return false;
+	}
+	
+	public static void updateProno(int homeScore, int awayScore, long idWebService)
+	{
+		SQLPronoComponent sqlPronoComponent = new SQLPronoComponent();
 		
-		/*
-		List<Match> unfinishedMatchs = sqlMatchComponent.getUnfinishedMatch(); // Get all matches that are not ended (even the not started ones)
-		
-		for (Match match : unfinishedMatchs) {
-			if(match.getBeginDate().before(today)) {
-				// Le match vient de commencer
-				// On update le statut du match en java
-				// On update le score du match en java
-				// On update la BDD
+		List<Map<String, String>> pronoFromMatch = sqlPronoComponent.getPronoFromMatch(idWebService);
+		for (Map<String, String> pronoMap : pronoFromMatch)
+		{
+			int point = 0;
+			int statut = 0;
+			int pronoHomeScore = Integer.parseInt(pronoMap.get("scoreHome"));
+			int pronoAwayScore = Integer.parseInt(pronoMap.get("scoreAway"));
+			if (pronoHomeScore == homeScore && pronoAwayScore == awayScore)
+			{
+				point = 5;
+				statut = 2;
+			}
+			else if (pronoHomeScore - pronoAwayScore == homeScore - awayScore)
+			{
+				point = 2;
+				statut = 1;
+			}
+			else if (((pronoHomeScore - pronoAwayScore) * (homeScore - awayScore)) > 0)
+			{
+				point = 1;
+				statut = 1;
 			}
 			
-			if(match)
+			long pronoId = Long.parseLong(pronoMap.get("id"));
+			sqlPronoComponent.updatePronoFromId(pronoId, statut, point);
 		}
-		*/
-		return false;
 	}
 }
