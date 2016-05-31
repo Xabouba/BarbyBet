@@ -310,6 +310,35 @@ public class SQLMatchComponent extends SQLComponent
 		}
 	}
 	
+	public boolean hasMatchEnded(Long matchIdWebService)
+	{
+		Connection connexion = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		try 
+		{
+		    connexion = DriverManager.getConnection(_url, _user, _password);
+		    stmt = connexion.prepareStatement("SELECT * FROM Matchs m WHERE m.statut = ? AND m.idWebService = ? ");
+		    
+		    stmt.setInt(1, MatchStatus.ENDED);
+		    stmt.setLong(2, matchIdWebService);
+		    
+		    rs = stmt.executeQuery();
+		    return rs.next();
+		} 
+		catch (SQLException e ) 
+		{
+			System.out.println(e.getMessage());
+			return false;
+		} 
+		finally 
+		{
+		    close(rs);
+			close(stmt);
+			close(connexion);
+		}
+	}
+	
 	public boolean insertMatchs(List<Match> matchs) {
 		Connection connection = null;
 		PreparedStatement stmt = null;

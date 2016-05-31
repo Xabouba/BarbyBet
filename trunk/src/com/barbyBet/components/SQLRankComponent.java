@@ -26,7 +26,7 @@ public class SQLRankComponent extends SQLComponent
 		try 
 		{
 		    connexion = DriverManager.getConnection(_url, _user, _password);
-		    stmt = connexion.prepareStatement("SELECT u.username, lu.userRankBeforeLastGame - lu.userRank, (SELECT SUM(creditsWon) FROM Pronostics p WHERE p.idUser = u.id), u.id FROM Users u, LinkUserGroup lu WHERE lu.groupId = ? AND lu.userId = u.id ORDER BY lu.userRank");
+		    stmt = connexion.prepareStatement("SELECT u.username, lu.userRankBeforeLastGame - lu.userRank, lu.points, lu.userRank, u.id FROM Users u, LinkUserGroup lu WHERE lu.groupId = ? AND lu.userId = u.id ORDER BY lu.userRank");
 		    stmt.setLong(1, groupId);
 		    
 		    rs = stmt.executeQuery();
@@ -35,7 +35,8 @@ public class SQLRankComponent extends SQLComponent
 		    	Map<String, String> attribute = new HashMap<String, String>();
 		    	attribute.put("point", rs.getString(3));
 		    	attribute.put("diff", rs.getString(2));
-		    	attribute.put("id", rs.getString(4));
+		    	attribute.put("id", rs.getString(5));
+		    	attribute.put("rank", rs.getString(4));
 		    	
 		    	rank.put(rs.getString(1), attribute);
 		    }		    	
@@ -65,7 +66,7 @@ public class SQLRankComponent extends SQLComponent
 		try 
 		{
 		    connexion = DriverManager.getConnection(_url, _user, _password);
-		    stmt = connexion.prepareStatement("SELECT u.username, lu.userRankBeforeLastGame - lu.userRank, (SELECT SUM(creditsWon) FROM Pronostics p WHERE p.idUser = u.id), u.id FROM Users u, LinkUserGroup lu WHERE lu.groupId = ? AND lu.userId = u.id ORDER BY lu.userRank LIMIT ?, ?");
+		    stmt = connexion.prepareStatement("SELECT u.username, lu.userRankBeforeLastGame - lu.userRank, lu.points, lu.userRank, u.id FROM Users u, LinkUserGroup lu WHERE lu.groupId = ? AND lu.userId = u.id ORDER BY lu.userRank LIMIT ?, ?");
 		    stmt.setLong(1, groupId);
 		    stmt.setInt(2, (page-1)*nbUser);
 		    stmt.setInt(3, nbUser);
@@ -76,7 +77,8 @@ public class SQLRankComponent extends SQLComponent
 		    	Map<String, String> attribute = new HashMap<String, String>();
 		    	attribute.put("point", rs.getString(3));
 		    	attribute.put("diff", rs.getString(2));
-		    	attribute.put("id", rs.getString(4));
+		    	attribute.put("id", rs.getString(5));
+		    	attribute.put("rank", rs.getString(4));
 		    	
 		    	rank.put(rs.getString(1), attribute);
 		    }		    	
@@ -138,7 +140,7 @@ public class SQLRankComponent extends SQLComponent
 		try 
 		{
 		    connexion = DriverManager.getConnection(_url, _user, _password);
-		    stmt = connexion.prepareStatement("SELECT u.username, u.rankBeforeLastGame - u.rank, (SELECT SUM(creditsWon) FROM Pronostics p WHERE p.idUser = u.id), u.id FROM Users u ORDER BY u.rank");
+		    stmt = connexion.prepareStatement("SELECT u.username, u.rankBeforeLastGame - u.rank, u.coins, u.rank, u.id FROM Users u ORDER BY u.rank");
 		    
 		    rs = stmt.executeQuery();
 		    while (rs.next())
@@ -146,7 +148,8 @@ public class SQLRankComponent extends SQLComponent
 		    	Map<String, String> attribute = new HashMap<String, String>();
 		    	attribute.put("point", rs.getString(3));
 		    	attribute.put("diff", rs.getString(2));
-		    	attribute.put("id", rs.getString(4));
+		    	attribute.put("id", rs.getString(5));
+		    	attribute.put("rank", rs.getString(4));
 		    	
 		    	rank.put(rs.getString(1), attribute);
 		    }		    	
@@ -176,7 +179,7 @@ public class SQLRankComponent extends SQLComponent
 		try 
 		{
 		    connexion = DriverManager.getConnection(_url, _user, _password);
-		    stmt = connexion.prepareStatement("SELECT u.username, u.rankBeforeLastGame - u.rank, (SELECT SUM(creditsWon) FROM Pronostics p WHERE p.idUser = u.id), u.id FROM Users u ORDER BY u.rank LIMIT ?, ?");
+		    stmt = connexion.prepareStatement("SELECT u.username, u.rankBeforeLastGame - u.rank, u.coins, u.rank, u.id FROM Users u ORDER BY u.rank LIMIT ?, ?");
 		    stmt.setInt(1, (page-1)*nbUser);
 		    stmt.setInt(2, nbUser);
 		    
@@ -186,7 +189,8 @@ public class SQLRankComponent extends SQLComponent
 		    	Map<String, String> attribute = new HashMap<String, String>();
 		    	attribute.put("point", rs.getString(3));
 		    	attribute.put("diff", rs.getString(2));
-		    	attribute.put("id", rs.getString(4));
+		    	attribute.put("id", rs.getString(5));
+		    	attribute.put("rank", rs.getString(4));
 		    	
 		    	rank.put(rs.getString(1), attribute);
 		    }		    	

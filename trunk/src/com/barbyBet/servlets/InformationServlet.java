@@ -22,6 +22,7 @@ import com.barbyBet.components.UsersComponent;
 import com.barbyBet.object.Match;
 import com.barbyBet.object.Team;
 import com.barbyBet.object.User;
+import com.barbyBet.tools.MatchStatus;
 import com.barbyBet.tools.RequestUtils;
 
 /**
@@ -91,7 +92,7 @@ public class InformationServlet extends HttpServlet {
 			HashMap<String, String> pronoMap = sqlPronoComponent.getProno(match.getId(), currentUser.getId());
 			_initializeStatTeam(match.getHomeTeam(), rank);
 			_initializeStatTeam(match.getAwayTeam(), rank);
-			System.out.println(pronoMap);
+
 			ArrayList<HashMap<String, String>> list;
 			if (day.equals(calendar.getTime()))
 			{
@@ -154,20 +155,23 @@ public class InformationServlet extends HttpServlet {
 		}
 		HashMap<String, Object> homeTeamStats = rank.get(idHomeTeam);
 		
-		if (match.getHomeScore() > match.getAwayScore())
+		if (match.getStatut() == MatchStatus.ENDED)
 		{
-			homeTeamStats.put("win", _incrementStat("win", 1, homeTeamStats));
+			if (match.getHomeScore() > match.getAwayScore())
+			{
+				homeTeamStats.put("win", _incrementStat("win", 1, homeTeamStats));
+			}
+			else if (match.getHomeScore() < match.getAwayScore())
+			{
+				homeTeamStats.put("lost", _incrementStat("lost", 1, homeTeamStats));
+			}
+			else
+			{
+				homeTeamStats.put("draw", _incrementStat("draw", 1, homeTeamStats));
+			}
+			homeTeamStats.put("goal", _incrementStat("goal", match.getHomeScore(), homeTeamStats));
+			homeTeamStats.put("taken", _incrementStat("taken", match.getAwayScore(), homeTeamStats));
 		}
-		else if (match.getHomeScore() < match.getAwayScore())
-		{
-			homeTeamStats.put("lost", _incrementStat("lost", 1, homeTeamStats));
-		}
-		else
-		{
-			homeTeamStats.put("draw", _incrementStat("draw", 1, homeTeamStats));
-		}
-		homeTeamStats.put("goal", _incrementStat("goal", match.getHomeScore(), homeTeamStats));
-		homeTeamStats.put("taken", _incrementStat("taken", match.getAwayScore(), homeTeamStats));
 	}
 	
 	private void _setAwayTeamStats(int idAwayTeam, Match match, HashMap<Integer, HashMap<String, Object>> rank) 

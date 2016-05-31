@@ -69,7 +69,7 @@ public class DirectResultServlet extends HttpServlet {
 				HashMap<String, String> matchStatPronostic = sqlPronoComponent.getMatchStatPronostic(matchId);
 				request.setAttribute("matchStat", matchStatPronostic);
 				
-				/** Match Stat */
+				/** Current User */
 				request.setAttribute("currentUser", currentUser.getUsername());
 				
 				/** Commentaires */

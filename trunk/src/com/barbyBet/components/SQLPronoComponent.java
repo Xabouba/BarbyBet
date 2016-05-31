@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import com.barbyBet.object.Match;
 import com.barbyBet.object.Odds;
@@ -59,6 +61,46 @@ public class SQLPronoComponent extends SQLComponent
 		return prono;
 	}
 	
+	public List<Map<String, String>> getPronoFromMatch(Long matchIdWebService)
+	{
+		List<Map<String, String>> prono = new ArrayList<Map<String,String>>();
+
+		Connection connexion = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		try 
+		{
+		    connexion = DriverManager.getConnection(_url, _user, _password);
+		    stmt = connexion.prepareStatement("SELECT p.scoreHome, p.scoreAway, p.id FROM Pronostics p, Matchs m WHERE p.idMatch = m.id AND m.idWebService = ? ");
+		    
+		    stmt.setLong(1, matchIdWebService);
+		    
+		    rs = stmt.executeQuery();
+		    while (rs.next())
+		    {
+		    	Map<String, String> mapProno = new HashMap<String, String>();
+		    	mapProno.put("scoreHome", String.valueOf(rs.getInt(1)));
+		    	mapProno.put("scoreAway", String.valueOf(rs.getInt(2)));
+		    	mapProno.put("id", String.valueOf(rs.getLong(3)));
+		    	
+		    	prono.add(mapProno);
+		    }
+		} 
+		catch (SQLException e ) 
+		{
+			System.out.println(e.getMessage());
+		} 
+		finally 
+		{
+			close(rs);
+			close(stmt);
+			close(connexion);
+		}
+		
+		return prono;
+	}
+
+	
 	public boolean insertProno(Long matchId, Long idUser, int scoreHome, int scoreAway, int prono, int credits)
 	{
 		Connection connexion = null;
@@ -105,6 +147,34 @@ public class SQLPronoComponent extends SQLComponent
 		    stmt.setInt(4, credits);
 		    stmt.setLong(5, matchId);
 		    stmt.setLong(6, idUser);
+		    
+		    stmt.executeUpdate();
+		    return true;
+		} 
+		catch (SQLException e ) 
+		{
+			System.out.println(e.getMessage());
+			return false;
+		} 
+		finally 
+		{
+			close(stmt);
+			close(connexion);
+		}
+	}
+	
+	public boolean updatePronoFromId(Long pronoId, int statut, int creditWon) 
+	{
+		Connection connexion = null;
+		PreparedStatement stmt = null;
+		try 
+		{
+		    connexion = DriverManager.getConnection(_url, _user, _password);
+		    stmt = connexion.prepareStatement("UPDATE Pronostics SET statut = ?, creditsWon = ? WHERE id = ?");
+		    
+		    stmt.setInt(1, statut);
+		    stmt.setInt(2, creditWon);
+		    stmt.setLong(3, pronoId);
 		    
 		    stmt.executeUpdate();
 		    return true;
