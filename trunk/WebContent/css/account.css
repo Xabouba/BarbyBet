@@ -21,6 +21,18 @@
 	left: 0px;
 }
 
+.account .no-group a
+{
+	color: #428bca !important;
+	font-weight: normal !important;
+}
+
+.account .no-group a:hover
+{
+	color: #2a6496 !important;
+	font-weight: normal !important;
+}
+
 .account .score-away
 {
 	float: right;

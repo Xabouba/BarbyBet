@@ -14,6 +14,7 @@ import java.util.Map;
 import com.barbyBet.object.Match;
 import com.barbyBet.object.Odds;
 import com.barbyBet.object.Team;
+import com.barbyBet.tools.MatchStatus;
 
 public class SQLPronoComponent extends SQLComponent
 {
@@ -219,7 +220,7 @@ public class SQLPronoComponent extends SQLComponent
 		try 
 		{
 		    connexion = DriverManager.getConnection(_url, _user, _password);
-		    stmt = connexion.prepareStatement("SELECT t1.name, t1.img, t2.name, t2.img, m.beginDate, m.id, m.scoreH, m.scoreA, m.statut, m.oddsHome, m.oddsDraw, m.oddsAway, c.name, s.name, p.scoreHome, p.scoreAway, p.prono FROM Matchs m, Team t1, Team t2, Sport s, Competition c, Pronostics p WHERE p.idMatch = m.id AND p.idUser = ? AND m.teamHId = t1.id AND m.teamAId = t2.id AND c.id = m.idCompetition AND s.id = m.idSport AND m.statut = 0 ORDER BY m.beginDate LIMIT 0, 5");
+		    stmt = connexion.prepareStatement("SELECT t1.name, t1.img, t2.name, t2.img, m.beginDate, m.id, m.scoreH, m.scoreA, m.statut, m.oddsHome, m.oddsDraw, m.oddsAway, c.name, s.name, p.scoreHome, p.scoreAway, p.prono FROM Matchs m, Team t1, Team t2, Sport s, Competition c, Pronostics p WHERE p.idMatch = m.id AND p.idUser = ? AND m.teamHId = t1.id AND m.teamAId = t2.id AND c.id = m.idCompetition AND s.id = m.idSport AND m.statut = " + MatchStatus.NOT_STARTED + " ORDER BY m.beginDate LIMIT 0, 5");
 		    
 		    stmt.setLong(1, idUser);
 		    rs = stmt.executeQuery();
@@ -282,7 +283,7 @@ public class SQLPronoComponent extends SQLComponent
 		try 
 		{
 		    connexion = DriverManager.getConnection(_url, _user, _password);
-		    stmt = connexion.prepareStatement("SELECT t1.name, t1.img, t2.name, t2.img, m.beginDate, m.id, m.scoreH, m.scoreA, m.statut, m.oddsHome, m.oddsDraw, m.oddsAway, c.name, s.name, p.scoreHome, p.scoreAway, p.creditsWon FROM Matchs m, Team t1, Team t2, Sport s, Competition c, Pronostics p WHERE p.idMatch = m.id AND p.idUser = ? AND m.teamHId = t1.id AND m.teamAId = t2.id AND c.id = m.idCompetition AND s.id = m.idSport AND m.statut = 3 ORDER BY m.beginDate LIMIT 0, 5");
+		    stmt = connexion.prepareStatement("SELECT t1.name, t1.img, t2.name, t2.img, m.beginDate, m.id, m.scoreH, m.scoreA, m.statut, m.oddsHome, m.oddsDraw, m.oddsAway, c.name, s.name, p.scoreHome, p.scoreAway, p.creditsWon FROM Matchs m, Team t1, Team t2, Sport s, Competition c, Pronostics p WHERE p.idMatch = m.id AND p.idUser = ? AND m.teamHId = t1.id AND m.teamAId = t2.id AND c.id = m.idCompetition AND s.id = m.idSport AND m.statut = " + MatchStatus.ENDED + " ORDER BY m.beginDate DESC LIMIT 0, 5");
 		    
 		    stmt.setLong(1, idUser);
 		    rs = stmt.executeQuery();

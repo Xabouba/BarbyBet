@@ -194,6 +194,65 @@ public class SQLUsersComponent extends SQLComponent {
 		}
 	}
 	
+	public Map<Long, Integer> getUserWithPoint() 
+	{
+		Map<Long, Integer> users = new HashMap<Long, Integer>();
+		
+		Connection connexion = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		try {
+		    connexion = DriverManager.getConnection(_url, _user, _password);
+			stmt = connexion.prepareStatement("SELECT u.id, (SELECT SUM(p.creditsWon) FROM Pronostics p WHERE p.idUser = u.id) FROM Users u");
+
+			rs = stmt.executeQuery();
+			while (rs.next()) 
+			{
+				users.put(rs.getLong(1), rs.getInt(2));
+			} 
+		} 
+		catch (SQLException e) 
+		{
+			System.out.println(e.getMessage());
+			return null;
+		} 
+		finally 
+		{
+			close(rs);
+			close(stmt);
+			close(connexion);
+		}
+		
+		return users;
+	}
+	
+	public boolean updateUserPoint(Long idUser, int point) 
+	{
+		Connection connexion = null;
+		PreparedStatement stmt = null;
+		try 
+		{
+		    connexion = DriverManager.getConnection(_url, _user, _password);
+		    stmt = connexion.prepareStatement("UPDATE Users SET coins = ? WHERE id = ?");
+		    
+		    stmt.setInt(1, point);
+		    stmt.setLong(2, idUser);
+		    
+		    stmt.executeUpdate();
+		    return true;
+		} 
+		catch (SQLException e ) 
+		{
+			System.out.println(e.getMessage());
+			return false;
+		} 
+		finally 
+		{
+			close(stmt);
+			close(connexion);
+		}
+	}
+	
 	public Long getUserId(String username) {
 		Connection connexion = null;
 		PreparedStatement stmt = null;

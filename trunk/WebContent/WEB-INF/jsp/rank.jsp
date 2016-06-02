@@ -117,13 +117,11 @@
         <script type="text/javascript" src="js/custom.js"></script>
         
         <script type="text/javascript">
-//         	zurrentGroupId == null) {
-				$("#group-general")[0].style.backgroundColor = "#ebebeb";
-				$("#group-general")[0].style.border = "solid 2px #fff";
-// 			} else {
-				// TODO
-// 			};
+			var index = "${currentGroupIndex}";
 			
+			$("#group-" + index)[0].style.backgroundColor = "#ebebeb";
+			$("#group-" + index)[0].style.border = "solid 2px #fff";
+					
 			changeGroup = function(id, idGroup)
 			{
 				$("#group-general")[0].style.backgroundColor = "#fff";

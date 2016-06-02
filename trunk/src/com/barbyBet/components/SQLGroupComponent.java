@@ -611,36 +611,53 @@ public class SQLGroupComponent extends SQLComponent
 		    stmt = connexion.prepareStatement("SELECT userId, userRank FROM LinkUserGroup WHERE groupId = ?");
 		    stmt.setLong(1, g.getId());
 		    rs = stmt.executeQuery();
-		    close(stmt);
+		    System.out.println("1");
 		    
 		    // Update rank before last game
 		    while(rs.next()) {
-		    	stmt = connexion.prepareStatement("UPDATE LinkUserGroup SET userRankBeforeLastGame = ? WHERE groupId = ? AND userId = ?");
-		    	stmt.setInt(1, rs.getInt("userRank"));
-		    	stmt.setLong(2, g.getId());
-		    	stmt.setLong(3, rs.getLong("userId"));
-			    stmt.executeUpdate();
-			    close(stmt);
+		    	PreparedStatement stmt2 = null;
+				try 
+		    	{
+					stmt2 = connexion.prepareStatement("UPDATE LinkUserGroup SET userRankBeforeLastGame = ? WHERE groupId = ? AND userId = ?");
+					stmt2.setInt(1, rs.getInt("userRank"));
+					stmt2.setLong(2, g.getId());
+		    		stmt2.setLong(3, rs.getLong("userId"));
+		    		stmt2.executeUpdate();
+		    	}
+		    	finally
+		    	{
+		    		close(stmt2);
+		    	}
 		    }
+		    
+		    close(stmt);
+		    System.out.println("2");
 		    
 		    // Select users sorted by points to loop through them and update their rank
 		    stmt = connexion.prepareStatement("SELECT userId FROM LinkUserGroup WHERE groupId = ? ORDER BY points DESC");
 		    stmt.setLong(1, g.getId());
 		    rs = stmt.executeQuery();
-		    close(stmt);
+		    System.out.println("3");
 		    
 		    // Update rank
 		    int rank = 1;
 		    while(rs.next()) {
-		    	stmt = connexion.prepareStatement("UPDATE LinkUserGroup SET userRank = ? WHERE groupId = ? AND userId = ?");
-		    	stmt.setInt(1, rank);
-		    	stmt.setLong(2, g.getId());
-		    	stmt.setLong(3, rs.getLong("userId"));
-			    stmt.executeUpdate();
-			    rank++;
-			    close(stmt);
+		    	PreparedStatement stmt2 = null;
+				try 
+		    	{
+					stmt2 = connexion.prepareStatement("UPDATE LinkUserGroup SET userRank = ? WHERE groupId = ? AND userId = ?");
+					stmt2.setInt(1, rank);
+					stmt2.setLong(2, g.getId());
+					stmt2.setLong(3, rs.getLong("userId"));
+					stmt2.executeUpdate();
+				    rank++;
+		    	}
+				finally
+				{
+					close(stmt2);
+				}
 		    }
-		    
+		    System.out.println("4");
 		    connexion.commit();
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
@@ -652,6 +669,34 @@ public class SQLGroupComponent extends SQLComponent
 			} catch (SQLException e) {
 				System.out.println(e.getMessage());
 			}
+			close(connexion);
+		}
+	}
+	
+	public boolean updateGroupUserPoint(Long idUser, Long idGroup, int point) 
+	{
+		Connection connexion = null;
+		PreparedStatement stmt = null;
+		try 
+		{
+		    connexion = DriverManager.getConnection(_url, _user, _password);
+		    stmt = connexion.prepareStatement("UPDATE LinkUserGroup SET points = ? WHERE groupId = ? AND userId = ?");
+		    
+		    stmt.setInt(1, point);
+		    stmt.setLong(2, idGroup);
+		    stmt.setLong(3, idUser);
+		    
+		    stmt.executeUpdate();
+		    return true;
+		} 
+		catch (SQLException e ) 
+		{
+			System.out.println(e.getMessage());
+			return false;
+		} 
+		finally 
+		{
+			close(stmt);
 			close(connexion);
 		}
 	}

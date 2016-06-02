@@ -28,7 +28,14 @@
                                    <h2 class="widget-title"><span>Prochains pronostics</span></h2>
                                     <div class="widget-content">
                                     <c:if test="${empty nextProno}">
-                                    	<ul class="list-unstyled"><li class="format-standard">Aucun prochain pronostic</li></ul>
+                                    	<ul class="list-unstyled">
+                                    		<li class="format-standard">
+                                    			Aucun prochain pronostic. 
+                                    			<c:if test="${isCurrentUser}">
+                                    				<a href="match">Veuillez pronostiquer ici.</a>
+                                    			</c:if>
+                                    		</li>
+                                 		</ul>
                                     </c:if>
                                     <c:forEach items="${nextProno}" var="match">
                                         <ul class="list-unstyled">
@@ -256,8 +263,11 @@
                                            <ul class="list-unstyled">
                                            	<c:if test="${empty groups}">
 		                                    	<li class="format-standard">
-		                                    		<div class="kp-group clearfix">
-		                                    			Aucun groupe associé
+		                                    		<div class="kp-group clearfix no-group">
+		                                    			Aucun groupe associé.
+		                                    			<c:if test="${isCurrentUser}">
+		                                    				<a href="createGroup">Veuillez créer ou rejoindre un groupe ici.</a>
+		                                    			</c:if>
 		                                    		</div>
 		                                    	</li>
 		                                    </c:if>

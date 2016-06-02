@@ -39,6 +39,11 @@ public class RankServlet extends HttpServlet {
 		if(currentUser.getId() == null) {
 			this.getServletContext().getRequestDispatcher( "/WEB-INF/jsp/login.jsp" ).forward(request, response);
 		} else {
+			/** User group */
+			SQLGroupComponent sqlGroupComponent = new SQLGroupComponent();
+			Map<Long, Map<String, String>> groups = sqlGroupComponent.getGroups(currentUser.getId());
+			request.setAttribute("groups", groups);
+			
 			Long idGroup = null;
 			if (request.getParameter("group") != null && !request.getParameter("group").equals("all"))
 			{
@@ -46,12 +51,31 @@ public class RankServlet extends HttpServlet {
 				request.setAttribute("currentGroupId", idGroup);
 			}
 			
+			int index = 1;
+			int indexFound = 0;
+			for (Long id : groups.keySet())
+			{
+				if (id == idGroup)
+				{
+					indexFound = index;
+				}
+				index++;
+			}
+			
+			if (indexFound == 0)
+			{
+				System.out.println("coucou");
+				request.setAttribute("currentGroupIndex", "general");
+			}
+			else
+			{
+				request.setAttribute("currentGroupIndex", String.valueOf(indexFound - 1));
+			}
+
+			
 			/** Classement */
 			setRankRequest(request, currentUser, idGroup, 1, 25);
 				
-			/** User group */
-			SQLGroupComponent sqlGroupComponent = new SQLGroupComponent();
-			request.setAttribute("groups", sqlGroupComponent.getGroups(currentUser.getId()));
 			
 			/** User info */
 			SQLUsersComponent sqlUserComponent = new SQLUsersComponent();
