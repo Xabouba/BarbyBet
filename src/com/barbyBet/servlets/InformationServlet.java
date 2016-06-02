@@ -99,6 +99,7 @@ public class InformationServlet extends HttpServlet {
 				list = matchs.get(calendar.getTime());
 				HashMap<String,String> matchMap = match.toHashMap();
 				matchMap.putAll(pronoMap);
+				matchMap.put("ended", String.valueOf(match.getStatut() == MatchStatus.ENDED));
 				
 				list.add(matchMap);
 			}
@@ -109,6 +110,8 @@ public class InformationServlet extends HttpServlet {
 				
 				HashMap<String,String> matchMap = match.toHashMap();
 				matchMap.putAll(pronoMap);
+				matchMap.put("ended", String.valueOf(match.getStatut() == MatchStatus.ENDED));
+				
 				list.add(matchMap);
 				matchs.put(day, list);
 			}

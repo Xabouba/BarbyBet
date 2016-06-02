@@ -61,7 +61,7 @@ public class AccountServlet extends HttpServlet {
 			SQLPronoComponent sqlPronoComponent = new SQLPronoComponent();
 			ArrayList<HashMap<String, String>> nextMatchPronostic = sqlPronoComponent.getNextMatchPronostic(id);
 			request.setAttribute("nextProno", nextMatchPronostic);
-			System.out.println(nextMatchPronostic);
+
 			/** Past Pronostic */
 			ArrayList<HashMap<String, String>> pastMatchPronostic = sqlPronoComponent.getPastMatchPronostic(id);
 			request.setAttribute("pastProno", pastMatchPronostic);

@@ -1,12 +1,16 @@
 package com.barbyBet.scripts;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.barbyBet.components.SQLGroupComponent;
 import com.barbyBet.components.SQLMatchComponent;
 import com.barbyBet.components.SQLPronoComponent;
+import com.barbyBet.components.SQLRankComponent;
+import com.barbyBet.components.SQLUsersComponent;
 import com.barbyBet.components.UsersComponent;
 import com.barbyBet.object.Group;
 import com.barbyBet.object.Match;
@@ -20,14 +24,43 @@ import com.github.pabloo99.xmlsoccer.client.XmlSoccerServiceImpl;
 public class MagicalUpdateScript {
 	public static void main(String[] args) {
 		long webId = 360422;
-		updateProno(0, 2, webId);
+		updateProno(2, 4, webId);
 		
 		SQLGroupComponent sqlGroupComponent = new SQLGroupComponent();
+		SQLUsersComponent sqlUserComponent = new SQLUsersComponent();
+		Map<Long, Integer> userWithPoint = sqlUserComponent.getUserWithPoint();
+		Set<Long> groupToUpdate = new HashSet<Long>();
+		for(Long idUser : userWithPoint.keySet())
+		{
+			Map<Long, Map<String, String>> groups = sqlGroupComponent.getGroups(idUser);
+			for (Long idGroup : groups.keySet())
+			{
+				System.out.println("Groupe " + idGroup);
+				sqlGroupComponent.updateGroupUserPoint(idUser, idGroup, userWithPoint.get(idUser));
+
+				
+				groupToUpdate.add(idGroup);
+			}
+			
+			System.out.println("User " + idUser);
+			sqlUserComponent.updateUserPoint(idUser, userWithPoint.get(idUser));
+		}
 		
-		long groupId = 31;
-		Group group = sqlGroupComponent.getGroup(groupId);
-		sqlGroupComponent.updateRankAfterModificationInGroup(group, null);
-		System.out.println("cool");
+		for (Long idGroup : groupToUpdate)
+		{
+			System.out.println("Update groupe " + idGroup);
+			Group group = sqlGroupComponent.getGroup(idGroup);
+			sqlGroupComponent.updateRankAfterModificationInGroup(group, null);
+		}
+		
+		System.out.println("Update general");
+		SQLRankComponent sqlRankComponent = new SQLRankComponent();
+		sqlRankComponent.updateRankAfterModification();
+		
+		System.out.println("coucou");
+		
+//		long groupId = 31;
+//		System.out.println("cool");
 	}
 	
 	public boolean updateCurrentGamesRealScores() {
@@ -98,12 +131,12 @@ public class MagicalUpdateScript {
 			}
 			else if (pronoHomeScore - pronoAwayScore == homeScore - awayScore)
 			{
-				point = 2;
+				point = 3;
 				statut = 1;
 			}
 			else if (((pronoHomeScore - pronoAwayScore) * (homeScore - awayScore)) > 0)
 			{
-				point = 1;
+				point = 2;
 				statut = 1;
 			}
 			
