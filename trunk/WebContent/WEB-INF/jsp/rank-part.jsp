@@ -113,22 +113,37 @@
 <script type="text/javascript">
   changePage = function(page)
   {
-	$("#main-content").load("rank", {page: page}).fadeIn("slow");
+	var group = "${currentGroupId}";
+	if (group == "")
+	{
+		group = "all";
+	}
+	$("#main-content").load("rank", {group: group, page: page}).fadeIn("slow");
   }
 
   next = function()
   {
+  	var group = "${currentGroupId}";
+	if (group == "")
+	{
+		group = "all";
+	}
 	var page = ${page};
-	$("#main-content").load("rank", {page: page + 1}).fadeIn("slow");
+	$("#main-content").load("rank", {group: group, page: page + 1}).fadeIn("slow");
   };
 
   previous = function()
   {
+  	var group = "${currentGroupId}";
+	if (group == "")
+	{
+		group = "all";
+	}
 	var page = ${page};
 	if (page != 1)
 	{
 		page--;
 	}	
-	$("#main-content").load("rank", {page: page}).fadeIn("slow");
+	$("#main-content").load("rank", {group: group, page: page}).fadeIn("slow");
   };
 </script>

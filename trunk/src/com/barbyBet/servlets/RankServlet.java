@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.barbyBet.components.RankComponent;
 import com.barbyBet.components.SQLGroupComponent;
+import com.barbyBet.components.SQLRankComponent;
 import com.barbyBet.components.SQLUsersComponent;
 import com.barbyBet.components.UsersComponent;
 import com.barbyBet.object.User;
@@ -21,6 +22,8 @@ import com.barbyBet.object.User;
  */
 public class RankServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	private static final int nbUserByPage = 15;
 	
     /**
      * Default constructor. 
@@ -64,7 +67,6 @@ public class RankServlet extends HttpServlet {
 			
 			if (indexFound == 0)
 			{
-				System.out.println("coucou");
 				request.setAttribute("currentGroupIndex", "general");
 			}
 			else
@@ -72,16 +74,25 @@ public class RankServlet extends HttpServlet {
 				request.setAttribute("currentGroupIndex", String.valueOf(indexFound - 1));
 			}
 
-			
-			/** Classement */
-			setRankRequest(request, currentUser, idGroup, 1, 25);
-				
-			
 			/** User info */
 			SQLUsersComponent sqlUserComponent = new SQLUsersComponent();
 			User user = sqlUserComponent.getUser(currentUser.getId());
 			request.setAttribute("userPoint", user.getCoins());
 			request.setAttribute("userRank", user.getRank());
+
+			int rankUser = user.getRank();
+			int pageNumber = 1;
+			if (rankUser % nbUserByPage == 0)
+			{
+				pageNumber = rankUser / nbUserByPage;
+			}
+			else
+			{
+				pageNumber = (int) (Math.floor(rankUser/nbUserByPage) + 1);
+			}
+			
+			/** Classement */
+			setRankRequest(request, currentUser, idGroup, pageNumber, nbUserByPage);
 			
 			this.getServletContext().getRequestDispatcher( "/WEB-INF/jsp/rank.jsp" ).forward(request, response);
 		}
@@ -94,11 +105,6 @@ public class RankServlet extends HttpServlet {
 	{
 		UsersComponent usersComponent = new UsersComponent();
 		User currentUser = usersComponent.getCurrentUser(request);
-		int page = 1;
-		if (request.getParameter("page") != null)
-		{
-			page = Integer.valueOf(request.getParameter("page"));
-		}
 		
 		Long idGroup = null;
 		if (request.getParameter("group") != null && !request.getParameter("group").equals("all"))
@@ -106,8 +112,29 @@ public class RankServlet extends HttpServlet {
 			idGroup = Long.parseLong((request.getParameter("group")));
 			request.setAttribute("currentGroupId", idGroup);
 		}
+		
+		int page = 1;
+		if (request.getParameter("page") != null)
+		{
+			page = Integer.valueOf(request.getParameter("page"));
+		}
+		else
+		{
+			SQLRankComponent rankComponent = new SQLRankComponent();
+			Map<String, Map<String, String>> rank = rankComponent.getGroupRank(idGroup);
+			int rankUser = Integer.parseInt(rank.get(currentUser.getUsername()).get("rank"));
+			if (rankUser % nbUserByPage == 0)
+			{
+				page = rankUser / nbUserByPage;
+			}
+			else
+			{
+				page = (int) (Math.floor(rankUser/nbUserByPage) + 1);
+			}
+		}
+		
 		/** Classement */
-		setRankRequest(request, currentUser, idGroup, page, 25);
+		setRankRequest(request, currentUser, idGroup, page, nbUserByPage);
 		
 		this.getServletContext().getRequestDispatcher( "/WEB-INF/jsp/rank-part.jsp" ).forward(request, response);
 	}
@@ -125,7 +152,8 @@ public class RankServlet extends HttpServlet {
 		}
 		
 		RankComponent rankComponent = new RankComponent();
-		request.setAttribute("rank", rankComponent.getRank(groupId, currentUser.getUsername(), page, nbUser));
+		Map<String, Map<String, String>> rank = rankComponent.getRank(groupId, currentUser.getUsername(), page, nbUser);
+		request.setAttribute("rank", rank);
 		request.setAttribute("page", page);
 		
 		int totalUser = rankComponent.getSize(groupId);

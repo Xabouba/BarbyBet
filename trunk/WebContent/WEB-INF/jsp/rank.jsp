@@ -140,30 +140,8 @@
 				$("#" + id)[0].style.backgroundColor = "#ebebeb";
 				$("#" + id)[0].style.border = "solid 2px #fff";
 			
-				$("#main-content").load("rank", {page: 1, group: idGroup}).fadeIn("slow");
+				$("#main-content").load("rank", {group: idGroup}).fadeIn("slow");
 			}
-        	
-        
-			var pieData = [
-				{
-					value: 67,
-					color:"#F7464A",
-					highlight: "#FF5A5E",
-					label: "Réussi"
-				},
-				{
-					value: 33,
-					color: "#46BFBD",
-					highlight: "#5AD3D1",
-					label: "Raté"
-				}
-			];
-
-			window.onload = function(){
-				var ctx = document.getElementById("chart-area").getContext("2d");
-				window.myPie = new Chart(ctx).Pie(pieData);
-			};
-
 		</script>
     </body>
 </html>    

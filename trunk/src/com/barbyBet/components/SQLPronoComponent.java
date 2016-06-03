@@ -396,6 +396,65 @@ public class SQLPronoComponent extends SQLComponent
 		}
 	}
 	
+	public HashMap<String, String> getMatchFromIdWebStatPronostic(long idWebMatch)
+	{
+		HashMap<String, String> userStat = new HashMap<>();
+		
+		Connection connexion = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		try 
+		{
+		    connexion = DriverManager.getConnection(_url, _user, _password);
+		    stmt = connexion.prepareStatement("SELECT p.scoreHome, p.scoreAway FROM Pronostics p, Matchs m WHERE p.idMatch = m.id AND m.idWebService = ?");
+		    
+		    stmt.setLong(1, idWebMatch);
+
+		    int nbProno = 0;
+		    int nbExact = 0;
+		    int nbWin = 0;
+		    int nbLose = 0;
+		    rs = stmt.executeQuery();
+		    while (rs.next())
+		    {
+		    	int scoreHome = rs.getInt(1);
+		    	int scoreAway = rs.getInt(2);
+		    	
+		    	if (scoreHome < scoreAway)
+		    	{
+		    		nbLose++;
+		    	}
+		    	else if (scoreHome > scoreAway)
+		    	{
+		    		nbWin++;
+		    	}
+		    	else 
+		    	{
+		    		nbExact++;
+		    	}
+		    	nbProno++;
+		    }		    	
+		    
+		    userStat.put("nbProno", String.valueOf(nbProno));
+		    userStat.put("nbWin", String.valueOf(nbWin));
+		    userStat.put("nbExact", String.valueOf(nbExact));
+		    userStat.put("nbLose", String.valueOf(nbLose));
+		    
+		    return userStat;
+		} 
+		catch (SQLException e ) 
+		{
+			System.out.println(e.getMessage());
+			return null;
+		} 
+		finally 
+		{
+		    close(rs);
+			close(stmt);
+			close(connexion);
+		}
+	}
+	
 	public HashMap<String, String> getUserStatPronostic(long idUser)
 	{
 		HashMap<String, String> userStat = new HashMap<>();
@@ -406,10 +465,11 @@ public class SQLPronoComponent extends SQLComponent
 		try 
 		{
 		    connexion = DriverManager.getConnection(_url, _user, _password);
-		    stmt = connexion.prepareStatement("SELECT p.statut FROM Matchs m, Pronostics p, Users u WHERE p.idMatch = m.id AND p.idUser = ? AND u.id = p.idUser AND m.statut = 3");
+		    stmt = connexion.prepareStatement("SELECT p.statut FROM Matchs m, Pronostics p, Users u WHERE p.idMatch = m.id AND p.idUser = ? AND u.id = p.idUser AND m.statut = ?");
 		    
 		    stmt.setLong(1, idUser);
-
+		    stmt.setInt(2, MatchStatus.ENDED);
+		    
 		    int nbProno = 0;
 		    int nbExact = 0;
 		    int nbWin = 0;
