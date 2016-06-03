@@ -185,20 +185,23 @@ public class InformationServlet extends HttpServlet {
 		}
 		HashMap<String, Object> awayTeamStats = rank.get(idAwayTeam);
 		
-		if (match.getHomeScore() < match.getAwayScore())
+		if (match.getStatut() == MatchStatus.ENDED)
 		{
-			awayTeamStats.put("win", _incrementStat("win", 1, awayTeamStats));
+			if (match.getHomeScore() < match.getAwayScore())
+			{
+				awayTeamStats.put("win", _incrementStat("win", 1, awayTeamStats));
+			}
+			else if (match.getHomeScore() > match.getAwayScore())
+			{
+				awayTeamStats.put("lost", _incrementStat("lost", 1, awayTeamStats));
+			}
+			else
+			{
+				awayTeamStats.put("draw", _incrementStat("draw", 1, awayTeamStats));
+			}
+			awayTeamStats.put("goal", _incrementStat("goal", match.getAwayScore(), awayTeamStats));
+			awayTeamStats.put("taken", _incrementStat("taken", match.getHomeScore(), awayTeamStats));
 		}
-		else if (match.getHomeScore() > match.getAwayScore())
-		{
-			awayTeamStats.put("lost", _incrementStat("lost", 1, awayTeamStats));
-		}
-		else
-		{
-			awayTeamStats.put("draw", _incrementStat("draw", 1, awayTeamStats));
-		}
-		awayTeamStats.put("goal", _incrementStat("goal", match.getAwayScore(), awayTeamStats));
-		awayTeamStats.put("taken", _incrementStat("taken", match.getHomeScore(), awayTeamStats));
 	}
 
 	private int _incrementStat(String stat, int value, HashMap<String, Object> homeTeamStats) 

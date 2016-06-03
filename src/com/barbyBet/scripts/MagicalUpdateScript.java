@@ -124,7 +124,9 @@ public class MagicalUpdateScript {
 	
 	public static void updateProno(int homeScore, int awayScore, long idWebService)
 	{
+		/** Match Stat */
 		SQLPronoComponent sqlPronoComponent = new SQLPronoComponent();
+		HashMap<String, String> matchStatPronostic = sqlPronoComponent.getMatchFromIdWebStatPronostic(idWebService);
 		
 		List<Map<String, String>> pronoFromMatch = sqlPronoComponent.getPronoFromMatch(idWebService);
 		for (Map<String, String> pronoMap : pronoFromMatch)
@@ -147,6 +149,38 @@ public class MagicalUpdateScript {
 			{
 				point = 2;
 				statut = 1;
+			}
+			
+			int nbProno = Integer.valueOf(matchStatPronostic.get("nbProno"));
+			int nbWin = Integer.valueOf(matchStatPronostic.get("nbWin"));
+			int nbDraw = Integer.valueOf(matchStatPronostic.get("nbExact"));
+			int nbLose = Integer.valueOf(matchStatPronostic.get("nbLose"));
+			
+			System.out.println((nbWin * 100 / nbProno));
+			if ((nbWin * 100 / nbProno) < 20)
+			{
+				if (pronoHomeScore > pronoAwayScore)
+				{
+					point = 2 * point;
+				}
+			}
+			
+			System.out.println((nbLose * 100 / nbProno));
+			if ((nbLose * 100 / nbProno) < 20)
+			{
+				if (pronoHomeScore < pronoAwayScore)
+				{
+					point = 2 * point;
+				}
+			}
+			
+			System.out.println((nbDraw * 100 / nbProno));
+			if ((nbDraw * 100 / nbProno) < 20)
+			{
+				if (pronoHomeScore == pronoAwayScore)
+				{
+					point = 2 * point;
+				}
 			}
 			
 			long pronoId = Long.parseLong(pronoMap.get("id"));
