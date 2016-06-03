@@ -23,41 +23,13 @@ import com.github.pabloo99.xmlsoccer.client.XmlSoccerServiceImpl;
 
 public class MagicalUpdateScript {
 	public static void main(String[] args) {
+		// TODO : 
+		
+		
 		long webId = 360422;
 		updateProno(2, 4, webId);
 		
-		SQLGroupComponent sqlGroupComponent = new SQLGroupComponent();
-		SQLUsersComponent sqlUserComponent = new SQLUsersComponent();
-		Map<Long, Integer> userWithPoint = sqlUserComponent.getUserWithPoint();
-		Set<Long> groupToUpdate = new HashSet<Long>();
-		for(Long idUser : userWithPoint.keySet())
-		{
-			Map<Long, Map<String, String>> groups = sqlGroupComponent.getGroups(idUser);
-			for (Long idGroup : groups.keySet())
-			{
-				System.out.println("Groupe " + idGroup);
-				sqlGroupComponent.updateGroupUserPoint(idUser, idGroup, userWithPoint.get(idUser));
-
-				
-				groupToUpdate.add(idGroup);
-			}
-			
-			System.out.println("User " + idUser);
-			sqlUserComponent.updateUserPoint(idUser, userWithPoint.get(idUser));
-		}
 		
-		for (Long idGroup : groupToUpdate)
-		{
-			System.out.println("Update groupe " + idGroup);
-			Group group = sqlGroupComponent.getGroup(idGroup);
-			sqlGroupComponent.updateRankAfterModificationInGroup(group, null);
-		}
-		
-		System.out.println("Update general");
-		SQLRankComponent sqlRankComponent = new SQLRankComponent();
-		sqlRankComponent.updateRankAfterModification();
-		
-		System.out.println("coucou");
 		
 //		long groupId = 31;
 //		System.out.println("cool");
@@ -97,6 +69,11 @@ public class MagicalUpdateScript {
 			}
 		}
 		
+		// Update the games in the database
+		if(currentMatches.size() != 0) {
+			sqlMatchComponent.updateMatchs(currentMatches);
+		}
+		
 		for (Match match : justEndedMatch)
 		{
 			int homeScore = match.getHomeScore();
@@ -105,9 +82,41 @@ public class MagicalUpdateScript {
 			updateProno(homeScore, awayScore, match.getIdWebService());
 		}
 		
-		// Update the games in the database
-		if(currentMatches.size() != 0) {
-			sqlMatchComponent.updateMatchs(currentMatches);
+		// If games just ended we update the users points
+		if(!justEndedMatch.isEmpty()) {
+			SQLGroupComponent sqlGroupComponent = new SQLGroupComponent();
+			SQLUsersComponent sqlUserComponent = new SQLUsersComponent();
+			Map<Long, Integer> userWithPoint = sqlUserComponent.getUserWithPoint();
+			Set<Long> groupToUpdate = new HashSet<Long>();
+			
+			// We update the users points in their respective groups & in the general ranking
+			for(Long idUser : userWithPoint.keySet())
+			{
+				Map<Long, Map<String, String>> groups = sqlGroupComponent.getGroups(idUser);
+				for (Long idGroup : groups.keySet())
+				{
+					System.out.println("Groupe " + idGroup);
+					sqlGroupComponent.updateGroupUserPoint(idUser, idGroup, userWithPoint.get(idUser));
+	
+					groupToUpdate.add(idGroup);
+				}
+				
+				System.out.println("User " + idUser);
+				sqlUserComponent.updateUserPoint(idUser, userWithPoint.get(idUser));
+			}
+			
+			// We update the groups rankings
+			for (Long idGroup : groupToUpdate)
+			{
+				System.out.println("Update groupe " + idGroup);
+				Group group = sqlGroupComponent.getGroup(idGroup);
+				sqlGroupComponent.updateRankAfterModificationInGroup(group, null);
+			}
+			
+			// We update the general ranking
+			System.out.println("Update general");
+			SQLRankComponent sqlRankComponent = new SQLRankComponent();
+			sqlRankComponent.updateRankAfterModification();
 		}
 		
 		return false;
