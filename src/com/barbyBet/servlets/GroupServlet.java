@@ -43,7 +43,7 @@ public class GroupServlet extends HttpServlet {
 		currentUser = usersComponent.getCurrentUser(request);
 		
 		if(currentUser.getId() == null) {
-			response.sendRedirect(Constants.INDEX_SERVLET);
+			response.sendRedirect(Constants.LOGIN_SERVLET);
 		} else {
 			// If we are in the case of a user deleting a group, the groupId is not set anymore and Group group will be null 
 			String groupIdStr = request.getParameter("groupId");
@@ -87,7 +87,7 @@ public class GroupServlet extends HttpServlet {
 		User currentUser = usersComponent.getCurrentUser(request);
 		
 		if(currentUser.getId() == null) {
-			response.sendRedirect(Constants.INDEX_SERVLET);
+			response.sendRedirect(Constants.LOGIN_SERVLET);
 		} else {
 			String actionType = request.getParameter("actionType");
 			

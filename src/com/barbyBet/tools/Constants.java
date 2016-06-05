@@ -17,6 +17,7 @@ public class Constants {
 	public static final String GROUP_PICS_FORMATED_ROOT_FOLDER = "/groups-images";
 	
 	public static final String INDEX_SERVLET = "/index";
+	public static final String LOGIN_SERVLET = "/login";
 
 	// Link User Group Table Values
 	public static final int NOT_ADMIN = 0;
