@@ -2,7 +2,7 @@
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
   <display-name>Barby Bet</display-name>
   <welcome-file-list>
-    <welcome-file>login</welcome-file>
+    <welcome-file>register</welcome-file>
   </welcome-file-list>
   <servlet>
     <servlet-name>Direct</servlet-name>
@@ -139,5 +139,37 @@
   <servlet-mapping>
     <servlet-name>LastFiveMembersGenerator</servlet-name>
     <url-pattern>/lastFiveMembersGenerator</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>AdminMatch</servlet-name>
+    <servlet-class>com.barbyBet.servlets.AdminMatchServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AdminMatch</servlet-name>
+    <url-pattern>/adminmatch</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>ConditionsGenerales</servlet-name>
+    <servlet-class>com.barbyBet.servlets.CguServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ConditionsGenerales</servlet-name>
+    <url-pattern>/conditions-generales</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>ResetPassword</servlet-name>
+    <servlet-class>com.barbyBet.servlets.ResetPasswordServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ResetPassword</servlet-name>
+    <url-pattern>/reset</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>Rules</servlet-name>
+    <servlet-class>com.barbyBet.servlets.RulesServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Rules</servlet-name>
+    <url-pattern>/rules</url-pattern>
   </servlet-mapping>
 </web-app>

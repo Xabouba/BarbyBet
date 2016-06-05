@@ -1,6 +1,7 @@
 package com.barbyBet.scripts;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -11,7 +12,6 @@ import com.barbyBet.components.SQLMatchComponent;
 import com.barbyBet.components.SQLPronoComponent;
 import com.barbyBet.components.SQLRankComponent;
 import com.barbyBet.components.SQLUsersComponent;
-import com.barbyBet.components.UsersComponent;
 import com.barbyBet.object.Group;
 import com.barbyBet.object.Match;
 import com.barbyBet.tools.MatchStatus;
@@ -124,7 +124,7 @@ public class MagicalUpdateScript {
 	
 	public static void updateProno(int homeScore, int awayScore, long idWebService)
 	{
-		/** Match Stat */
+		/** Match Stat **/
 		SQLPronoComponent sqlPronoComponent = new SQLPronoComponent();
 		HashMap<String, String> matchStatPronostic = sqlPronoComponent.getMatchFromIdWebStatPronostic(idWebService);
 		

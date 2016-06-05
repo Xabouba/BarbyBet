@@ -1432,7 +1432,9 @@ h1,h2,h3,h4,h5,h6
 }
 .widget-kp-tab .tab-content li .kp-group > span
 {
-    background: #ececec;
+    /*background: #ececec;*/
+    background:#3156a3;
+    color: #fff;
     height: 60px;
     line-height: 60px;
     text-align: center;

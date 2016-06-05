@@ -30,7 +30,6 @@ public class GroupServlet extends HttpServlet {
 	
 	public static final String VUE_GROUP = "/WEB-INF/jsp/group.jsp";
 	public static final String GROUP_SERVLET = "/group";
-    public static final String VUE_INDEX = "/login";
     public static final String CREATE_GROUP_SERVLET = "/createGroup";
     
     private User currentUser;
@@ -44,7 +43,7 @@ public class GroupServlet extends HttpServlet {
 		currentUser = usersComponent.getCurrentUser(request);
 		
 		if(currentUser.getId() == null) {
-			this.getServletContext().getRequestDispatcher(VUE_INDEX).forward(request, response);
+			response.sendRedirect(Constants.INDEX_SERVLET);
 		} else {
 			// If we are in the case of a user deleting a group, the groupId is not set anymore and Group group will be null 
 			String groupIdStr = request.getParameter("groupId");
@@ -88,7 +87,7 @@ public class GroupServlet extends HttpServlet {
 		User currentUser = usersComponent.getCurrentUser(request);
 		
 		if(currentUser.getId() == null) {
-			this.getServletContext().getRequestDispatcher(VUE_INDEX).forward(request, response);
+			response.sendRedirect(Constants.INDEX_SERVLET);
 		} else {
 			String actionType = request.getParameter("actionType");
 			
@@ -119,6 +118,9 @@ public class GroupServlet extends HttpServlet {
 							// Update Group object
 							g = sqlGroupComponent.getGroup(g.getId());
 							
+							// Update Rank
+							sqlGroupComponent.updateRankAfterModificationInGroup(g, u);
+							
 							result = "L'utilisateur " + u.getUsername() + " a correctement été ajouté au groupe " + g.getName();
 						}
 						response.setContentType("text/plain");
@@ -139,6 +141,9 @@ public class GroupServlet extends HttpServlet {
 						if(sqlGroupComponent.DELETE_SUCCESSFUL.equals(result)) {
 							// Update Group object
 							g = sqlGroupComponent.getGroup(g.getId());
+							
+							// Update Rank
+							sqlGroupComponent.updateRankAfterModificationInGroup(g, u);
 							
 							result = "L'utilisateur " + u.getUsername() + " a correctement été supprimé du groupe " + g.getName();
 						}
@@ -161,12 +166,24 @@ public class GroupServlet extends HttpServlet {
 					}
 					
 					if(sqlGroupComponent.DELETE_SUCCESSFUL.equals(result)) {
+						// Delete the group pic
+						String groupPicName = g.getImg();
+						
+						if(groupPicName != null) {
+							// Delete group image
+							File deleteFile = new File(Constants.GROUP_PICS_FORMATED_ROOT_FOLDER + File.separator + groupPicName) ;
+							// check if the file is present or not
+							if( deleteFile.exists()) {
+								deleteFile.delete();
+							}
+						}
+						
 						// Redirect to the group page
 						if("leave-group".equals(actionType)) {
 							// Update Group object
 							g = sqlGroupComponent.getGroup(g.getId());
 							
-							// TODO : Update Rank
+							// Update Rank
 							sqlGroupComponent.updateRankAfterModificationInGroup(g, u);
 						}
 						doGet(request, response);
@@ -190,7 +207,7 @@ public class GroupServlet extends HttpServlet {
 					if(sqlGroupComponent.ADD_SUCCESSFUL.equals(result)) {
 						// Update Group object
 						g = sqlGroupComponent.getGroup(g.getId());
-						// TODO : Update Rank
+						// Update Rank
 						sqlGroupComponent.updateRankAfterModificationInGroup(g, currentUser);
 						request.setAttribute("justJoinedGroup", g.getId());
 						doGet(request, response);
@@ -206,7 +223,13 @@ public class GroupServlet extends HttpServlet {
 					
 					if(groupId != 0L) {
 						Group g = sqlGroupComponent.getGroup(groupId);
-						redirectToRightServlet(request, response, g);
+						
+						if(g.getStatus() == 1) {
+							request.setAttribute("lookForGroupMsg", "Ce groupe est privé, vous n'avez pas le droit d'y accéder");
+							doGet(request, response);
+						} else {
+							redirectToRightServlet(request, response, g);
+						}
 					} else {
 						request.setAttribute("lookForGroupMsg", "Ce nom de groupe n'existe pas");
 						doGet(request, response);
@@ -218,11 +241,10 @@ public class GroupServlet extends HttpServlet {
 				SQLGroupComponent sqlGroupComponent = new SQLGroupComponent();
 				Group group = sqlGroupComponent.getGroup(groupId);
 				
-				System.out.println("Image Path : " + group.getImg());
 				if(groupIdStr != null) {
 					redirectToRightServlet(request, response, group);
 				} else {
-					this.getServletContext().getRequestDispatcher(VUE_INDEX).forward(request, response);
+					response.sendRedirect(Constants.INDEX_SERVLET);
 				}
 			}
 		}
@@ -244,7 +266,7 @@ public class GroupServlet extends HttpServlet {
 				}
 			}
 			  
-			this.getServletContext().getRequestDispatcher(VUE_INDEX).forward(request, response);
+			response.sendRedirect(Constants.INDEX_SERVLET);
 		} else {
 			request.setAttribute("group", group.toHashMap());
 			request.setAttribute("isUserInGroup", false);

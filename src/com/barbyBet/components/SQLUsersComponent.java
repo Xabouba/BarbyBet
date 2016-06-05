@@ -18,7 +18,7 @@ import com.barbyBet.tools.CipherUtils;
 
 public class SQLUsersComponent extends SQLComponent {
 
-	private static final int DEFAULT_NUMBER_OF_COINS = 10000;
+	private static final int DEFAULT_NUMBER_OF_COINS = 0;
 	private static final String CHAMP_EMAIL = "email";
 	private static final String CHAMP_PASS = "password";
 	private static final String CHAMP_REPEAT_PASS = "repeatPassword";
@@ -187,6 +187,33 @@ public class SQLUsersComponent extends SQLComponent {
 			System.out.println(e.getMessage());
 
 			return null;
+		} finally {
+			close(rs);
+			close(stmt);
+			close(connexion);
+		}
+	}
+	
+	public long isEmailLinkedToUser(String email) {
+		Connection connexion = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		try {
+		    connexion = DriverManager.getConnection(_url, _user, _password);
+			stmt = connexion
+					.prepareStatement("SELECT id FROM Users WHERE email = ?");
+			stmt.setString(1, email);
+
+			rs = stmt.executeQuery();
+			if (rs.next()) {
+				return rs.getLong("id");
+			} else {
+				return -1L;
+			}
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+
+			return -1L;
 		} finally {
 			close(rs);
 			close(stmt);
@@ -464,6 +491,59 @@ public class SQLUsersComponent extends SQLComponent {
 		}
 		
 		return usernames;
+	}
+	
+	public Long getUserIdFromEncryptedKey(String encryptedKey) {
+		Connection connexion = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		try {
+		    connexion = DriverManager.getConnection(_url, _user, _password);
+			stmt = connexion
+					.prepareStatement("SELECT id FROM Users");
+
+			rs = stmt.executeQuery();
+			if (rs.next()) {
+				String encryptedId = CipherUtils.encrypt(CipherUtils.RESET_PASSWORD_KEY1, CipherUtils.RESET_PASSWORD_KEY2, String.valueOf(rs.getLong("id")));
+				if(encryptedId == encryptedKey) {
+					return rs.getLong("id");
+				}
+			}
+		} catch (SQLException e) {
+			System.out.println(e);
+			return -1L;
+		} finally {
+			close(rs);
+			close(stmt);
+			close(connexion);
+		}
+		
+		return -1L;
+	}
+
+	public boolean updatePassword(Long userId, String password) {
+		Connection connexion = null;
+		PreparedStatement stmt = null;
+		
+		String encryptedPassword = encryptPassword(password);
+		
+		try {
+		    connexion = DriverManager.getConnection(_url, _user, _password);
+		    stmt = connexion.prepareStatement("UPDATE Users SET password = ? WHERE id = ?");
+		    
+		    stmt.setString(1, encryptedPassword);
+		    stmt.setLong(2, userId);
+		    
+		    stmt.executeUpdate();
+		    
+		    return true;
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+			return false;
+		} finally {
+			close(stmt);
+			close(connexion);
+		}
 	}
 
 	/*

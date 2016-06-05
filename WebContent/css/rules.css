@@ -1,0 +1,11 @@
+.screenshot {
+	margin-left:10%;
+	margin-right:10%;
+	width:80%;
+}
+
+@media (max-width: 900px) {
+	.rules {
+		margin-top:15px;
+	}
+}

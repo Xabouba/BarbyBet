@@ -22,6 +22,7 @@ import com.barbyBet.components.UsersComponent;
 import com.barbyBet.object.Match;
 import com.barbyBet.object.Team;
 import com.barbyBet.object.User;
+import com.barbyBet.tools.Constants;
 import com.barbyBet.tools.MatchStatus;
 import com.barbyBet.tools.RequestUtils;
 
@@ -46,7 +47,7 @@ public class InformationServlet extends HttpServlet {
 		User currentUser = usersComponent.getCurrentUser(request);
 
 		if(currentUser.getId() == null) {
-			this.getServletContext().getRequestDispatcher( "/WEB-INF/jsp/login.jsp" ).forward(request, response);
+			response.sendRedirect(Constants.INDEX_SERVLET);
 		} else {
 			/** Competition Group Name */
 			String[] groupNames = {"A", "B", "C", "D", "E", "F"};

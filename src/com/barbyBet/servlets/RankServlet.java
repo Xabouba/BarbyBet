@@ -16,6 +16,7 @@ import com.barbyBet.components.SQLRankComponent;
 import com.barbyBet.components.SQLUsersComponent;
 import com.barbyBet.components.UsersComponent;
 import com.barbyBet.object.User;
+import com.barbyBet.tools.Constants;
 
 /**
  * Servlet implementation class SaxResultGenerator
@@ -40,7 +41,7 @@ public class RankServlet extends HttpServlet {
 		User currentUser = usersComponent.getCurrentUser(request);
 		
 		if(currentUser.getId() == null) {
-			this.getServletContext().getRequestDispatcher( "/WEB-INF/jsp/login.jsp" ).forward(request, response);
+			response.sendRedirect(Constants.INDEX_SERVLET);
 		} else {
 			/** User group */
 			SQLGroupComponent sqlGroupComponent = new SQLGroupComponent();

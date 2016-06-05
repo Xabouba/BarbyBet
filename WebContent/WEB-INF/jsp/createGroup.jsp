@@ -11,7 +11,7 @@
         	<%@include file="header.jsp" %>
     		
     		<!-- page-header -->
-            <div id="content">
+            <div id="content" class="group-creation-content">
                 <div class="top-effect clearfix">
                     <span class="pull-left"><img src="images/top-left-effect.png" class="img-responsive" alt=""></span>
                     <span class="pull-right"><img src="images/top-right-effect.png" class="img-responsive" alt=""></span>
@@ -47,7 +47,7 @@
 	                                    			<tbody>
 	                                    			<%if(request.getAttribute("error")!=null){ %>
 			                                    		<tr>
-			                                    			<td class="error" style="float: left; margin-left: 20px; margin-top:20px; font-weight: bold;">
+			                                    			<td class="error" style="float: left; margin-left: 20px; margin-right: 20px; margin-top:20px; font-weight: bold;">
 			                                    				<%=request.getAttribute("error")%>
 			                                    			</td>
 			                                    		</tr>
@@ -88,7 +88,7 @@
 															<td style="float: left; margin-left: 5%; margin-top:20px; font-weight: bold; width:100%">
 			                                    				<p class="item-title">Image de Groupe : </p>
 																<p id="upload">
-																	<input type="file" style="margin:0 auto;" name="group-pic">
+																	<input type="file" style="margin:0 auto;" name="group-pic" id="groupImage">
 																</p>
 															</td>
 														</tr>
@@ -174,6 +174,7 @@
     	<script type="text/javascript">
 	    	initializeAutocompleteLookForGroup();
     	</script>
+    	
 		<script>
 			var holder = document.getElementById('holder'),
 			    tests = {

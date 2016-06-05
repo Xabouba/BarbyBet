@@ -8,7 +8,7 @@
 	                <a href="index">Accueil</a>
 	            </li>
 	            <li>
-                    <a href="match">Directs</a>
+                    <a href="match">Pronostiquer</a>
                 </li>
                 <li>
 	            	<a href="resultats">Résultats</a>
@@ -21,7 +21,10 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="rank">Classement</a>
+                    <a href="rank">Classements</a>
+                </li>
+                <li>
+                    <a href="rules">Règles du jeu</a>
                 </li>
                 <%-- VÃ©rification de l'absence du nom d'utilisateur en cookie --%>
                 <c:choose>
@@ -44,7 +47,7 @@
                         <h3><a href="index">Accueil</a></h3>
                     </li>
                     <li class="clearfix">
-                        <h3><a href="match">Directs</a></h3>
+                        <h3><a href="match">Pronostiquer</a></h3>
                     </li>
                     <li class="clearfix">
                         <h3><a href="resultats">Résultats</a></h3>
@@ -56,7 +59,10 @@
                         <h3><a href="group">Mes Groupes</a></h3>
                     </li>
                     <li class="clearfix">
-                    	<h3><a href="rank">Classement</a></h3>
+                    	<h3><a href="rank">Classements</a></h3>
+                    </li>
+                    <li class="clearfix">
+                    	<h3><a href="rules">Règles du jeu</a></h3>
                     </li>   
                     <li class="clearfix">
                     	<%-- VÃ©rification de l'absence du nom d'utilisateur en cookie --%>

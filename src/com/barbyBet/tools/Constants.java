@@ -15,6 +15,8 @@ public class Constants {
 	public static final String NOT_CONNECTED_ERROR = "Vous n'êtes pas connecté!";
 	public static final String GROUP_PICS_ROOT_FOLDER = "/home/media/images/groups-images";
 	public static final String GROUP_PICS_FORMATED_ROOT_FOLDER = "/groups-images";
+	
+	public static final String INDEX_SERVLET = "/index";
 
 	// Link User Group Table Values
 	public static final int NOT_ADMIN = 0;

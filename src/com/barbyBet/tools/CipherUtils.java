@@ -9,7 +9,10 @@ import org.apache.tomcat.util.codec.binary.Base64;
 public class CipherUtils {
 	public static String KEY1 = "BBet2106BBet1007"; // 128 bit key
     public static String KEY2 = "DeuxiemeCleBarby";
-	
+    
+    public static String RESET_PASSWORD_KEY1 = "BBetPassKey2016";
+    public static String RESET_PASSWORD_KEY2 = "BBetPassKey1991";
+    
     public static String encrypt(String key1, String key2, String value) {
         try {
             IvParameterSpec iv = new IvParameterSpec(key2.getBytes("UTF-8"));

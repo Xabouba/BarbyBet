@@ -13,6 +13,7 @@ import com.barbyBet.components.SQLGroupComponent;
 import com.barbyBet.components.SQLUsersComponent;
 import com.barbyBet.components.UsersComponent;
 import com.barbyBet.object.User;
+import com.barbyBet.tools.Constants;
 import com.google.gson.Gson;
 
 /**
@@ -21,7 +22,6 @@ import com.google.gson.Gson;
 @WebServlet("/GroupAutoCompleteServlet")
 public class GroupAutoCompleteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	public static final String VUE_INDEX = "/login";   
 	
     /**
      * @see HttpServlet#HttpServlet()
@@ -38,7 +38,7 @@ public class GroupAutoCompleteServlet extends HttpServlet {
 		User currentUser = usersComponent.getCurrentUser(request);
 		
 		if(currentUser.getId() == null) {
-			this.getServletContext().getRequestDispatcher(VUE_INDEX).forward(request, response);
+			response.sendRedirect(Constants.INDEX_SERVLET);
 		} else {
 			String actionType = request.getParameter("actionType").toString();
 			// The request is coming from an AJAX request in group.jsp

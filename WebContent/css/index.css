@@ -86,7 +86,7 @@ body {
 }
 
 #page_index .btn-shadow {
-    background-color: rgba(10,10,22,0.45);
+    background-color: rgba(10,10,22,0.85);
     border-color: transparent;
     transition-property: background-color;
     transition-duration: 0.15s;
@@ -169,7 +169,7 @@ body {
 }
 
 .visible-phone {
-    display: none !important;
+    /* display: none !important; */
 }
 
 @media only screen and (min-width: 1224px)

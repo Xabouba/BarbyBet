@@ -24,8 +24,7 @@ public class RegisterServlet extends HttpServlet {
 	public static final String CHAMP_USERNAME 	= "username";
 	public static final String CHAMP_EMAIL   	= "email";
     public static final String VIEW_REGISTER    = "/WEB-INF/jsp/register.jsp";
-    public static final String VIEW_INDEX  	= "/WEB-INF/jsp/index.jsp";
-    public static final String SERVLET_INDEX  	= "/index";
+    public static final String VIEW_INDEX  		= "/WEB-INF/jsp/index.jsp";
 
     /**
      * Default constructor. 
@@ -44,7 +43,7 @@ public class RegisterServlet extends HttpServlet {
 		if(currentUser.getId() == null) {
 			this.getServletContext().getRequestDispatcher(VIEW_REGISTER).forward(request, response);
 		} else {
-			response.sendRedirect(SERVLET_INDEX);
+			response.sendRedirect(Constants.INDEX_SERVLET);
 		}
 	}
 
@@ -74,7 +73,7 @@ public class RegisterServlet extends HttpServlet {
 	        
 			request.setAttribute("currentUser", currentUser);
 			
-			response.sendRedirect(SERVLET_INDEX);
+			response.sendRedirect(Constants.INDEX_SERVLET);
 		} else {
 			// Ajout des éventuelles erreurs à la requête
 			request.setAttribute(ATT_ERRORS, sqlComponent.getErrors());

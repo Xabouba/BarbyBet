@@ -18,6 +18,7 @@ import com.barbyBet.components.SQLUsersComponent;
 import com.barbyBet.components.UsersComponent;
 import com.barbyBet.object.Match;
 import com.barbyBet.object.User;
+import com.barbyBet.tools.Constants;
 import com.barbyBet.tools.RequestUtils;
 
 public class DirectResultServlet extends HttpServlet {
@@ -38,7 +39,7 @@ public class DirectResultServlet extends HttpServlet {
 		User currentUser = usersComponent.getCurrentUser(request);
 		
 		if(currentUser.getId() == null) {
-			this.getServletContext().getRequestDispatcher( "/WEB-INF/jsp/login.jsp" ).forward(request, response);
+			response.sendRedirect(Constants.INDEX_SERVLET);
 		} else {
 			SQLMatchComponent sqlMatchComponent = new SQLMatchComponent();
 				

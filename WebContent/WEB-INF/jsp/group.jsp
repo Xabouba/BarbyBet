@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -11,7 +12,7 @@
         	<%@include file="header.jsp" %>
     		
     		<!-- page-header -->
-            <div id="content">
+            <div id="content" class="group-content">
                 <div class="top-effect clearfix">
                     <span class="pull-left"><img src="images/top-left-effect.png" class="img-responsive" alt=""></span>
                     <span class="pull-right"><img src="images/top-right-effect.png" class="img-responsive" alt=""></span>
@@ -62,7 +63,7 @@
 		                                        <br />
 		                                        <footer class="clearfix">
 		                                            <ul class="meta-post pull-left">
-		                                                <li><span>Groupe crée par : </span><a href="#">${group.groupCreator}</a></li>
+		                                                <li><span>Groupe crée par : </span><a href="account?userId=${group.groupCreatorId}">${group.groupCreator}</a></li>
 		                                                <li><span>Groupe crée le  : </span>${group.creationDate}</li>
 		                                            </ul>
 		                                        </footer>
@@ -80,6 +81,36 @@
                 <!-- main-content -->
             	<div id="sidebar" class="pull-right">
             		<ul class="clearfix list-unstyled">
+            			<c:if test="${not empty userGroupList}">
+            				<li class="clearfix">
+                                <div class="widget kp-review">
+                                    <h2 class="widget-title"><span>Mes Groupes</span></h2>
+	                                <div class="widget-content groups">
+	                                    <ul class="list-unstyled">
+	                                    	<li class="format-standard">
+			                                    <div id="match">
+			                                    	<form name="userGroupsForm" action="group" method="POST">
+				                                    	<select id="user-groups-list" name="groupId" onchange="javascript:document.userGroupsForm.submit();" style="width: 100%; margin-bottom: 2px;">
+                                                   			<option value="" disabled selected style="display:none;"></option>
+                                                   			<c:forEach items="${userGroupList}" var="userGroup">
+	                                                   			<c:choose>
+	                                                   				<c:when test="${userGroup.id == group.id}">
+															  			<option value="${userGroup.id}" selected>${userGroup.name}</option>
+																	</c:when>
+																	<c:otherwise>
+													  					<option value="${userGroup.id}">${userGroup.name}</option>
+																	</c:otherwise>
+																</c:choose>
+	                                                       	</c:forEach>
+														</select>
+			                                    	</form>
+			                                    </div>
+	                                    	</li>
+	                                   	</ul>
+	                                </div>
+                                </div>
+                            </li>
+                        </c:if>
             			<li class="clearfix">
                         	<div class="widget kp-review">
 	                            <h2 class="widget-title"><span>Chercher un groupe</span></h2>
@@ -109,35 +140,7 @@
                                 </div>
                         	</div>
                         </li>
-                        <c:if test="${not empty userGroupList}">
-            				<li class="clearfix">
-                                <div class="widget kp-review">
-                                    <h2 class="widget-title"><span>Mes Groupes</span></h2>
-	                                <div class="widget-content groups">
-	                                    <ul class="list-unstyled">
-	                                    	<li class="format-standard">
-			                                    <div id="match">
-			                                    	<form name="userGroupsForm" action="group" method="POST">
-				                                    	<select id="user-groups-list" name="groupId" onchange="javascript:document.userGroupsForm.submit();" style="width: 100%; margin-bottom: 2px;">
-                                                    		<c:forEach items="${userGroupList}" var="userGroup">
-                                                    			<c:choose>
-                                                    				<c:when test="${userGroup.id == group.id}">
-															  			<option value="${userGroup.id}" selected>${userGroup.name}</option>
-																	</c:when>
-																	<c:otherwise>
-													  					<option value="${userGroup.id}">${userGroup.name}</option>
-																	</c:otherwise>
-																</c:choose>
-                                                        	</c:forEach>
-														</select>
-			                                    	</form>
-			                                    </div>
-	                                    	</li>
-	                                   	</ul>
-	                                </div>
-                                </div>
-                            </li>
-                        </c:if>
+                        
             		    <!-- If the connected user is the group admin, they can add a user to this group, delete a user from this group & delete this group -->
             			<c:choose>
 	                    	<c:when test="${cookie.currentUserName.value == group.groupCreator}">
@@ -199,7 +202,7 @@
 													<br />
 										            <div class="form-group" style="text-align:center">
 										            	<c:if test="${not empty deleteGroupMsg}">
-											           	 	<div id="delete-group-msg" style="display:none; font-weight:bold">
+											           	 	<div id="delete-group-msg" style="display:none; font-weight:bold; color:red;">
 						                                		${deleteGroupMsg}
 						                                	</div>
 						                                	<div id="delete-group-msg-line-break" style="display:none">
@@ -261,7 +264,7 @@
 										
 										                             <div class="form-group" style="text-align:center">
 										                             	<c:if test="${not empty leaveGroupMsg}">
-											                                <div id="leave-group-msg" style="display:none; font-weight:bold">
+											                                <div id="leave-group-msg" style="display:none; font-weight:bold; color:red !important">
 										                                		${leaveGroupMsg}
 										                                	</div>
 										                                	<br />
@@ -291,7 +294,7 @@
 										
 										                             <div class="form-group" style="text-align:center">
 										                             	<c:if test="${not empty joinGroupMsg}">
-											                                <div id="join-group-msg" style="font-weight:bold">
+											                                <div id="join-group-msg" style="font-weight:bold; color:red !important">
 										                                		${joinGroupMsg}
 										                                	</div>
 										                                	<br />
@@ -374,6 +377,8 @@
 	            	
 	            	// Update the last five added members
 	            	$("#last-five-members").load("lastFiveMembersGenerator", {groupId: groupId}).fadeIn("slow");
+	            	// Update ranking
+	            	$("#minimized-rank").load("rankAction", {group: groupId}).fadeIn("slow");
 	            });
 	        }
         	
@@ -394,6 +399,8 @@
 					
 					// Update the last five added members
 	            	$("#last-five-members").load("lastFiveMembersGenerator", {groupId: groupId}).fadeIn("slow");
+					// Update ranking
+	            	$("#minimized-rank").load("rankAction", {group: groupId}).fadeIn("slow");
 	            });
 	        }
     	</script>
