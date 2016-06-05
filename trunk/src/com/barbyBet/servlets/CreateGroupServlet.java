@@ -40,8 +40,6 @@ public class CreateGroupServlet extends HttpServlet {
        
 	private static final String VUE_CREATE_GROUP = "/WEB-INF/jsp/createGroup.jsp";
 	private static final String VUE_GROUP = "/WEB-INF/jsp/group.jsp";
-
-    private static final String GROUP_SERVLET    = "/group";
     
     private User currentUser;
     /**
@@ -59,7 +57,7 @@ public class CreateGroupServlet extends HttpServlet {
 		currentUser = usersComponent.getCurrentUser(request);
 		
 		if(currentUser.getId() == null) {
-			response.sendRedirect(Constants.INDEX_SERVLET);
+			response.sendRedirect(Constants.LOGIN_SERVLET);
 		} else {
 			RankComponent rankComponent = new RankComponent();
 			request.setAttribute("rank", rankComponent.getMinimizedRank(null, currentUser.getUsername()));
@@ -76,7 +74,7 @@ public class CreateGroupServlet extends HttpServlet {
 		User currentUser = usersComponent.getCurrentUser(request);
 
 		if(currentUser.getId() == null){
-			response.sendRedirect(Constants.INDEX_SERVLET);
+			response.sendRedirect(Constants.LOGIN_SERVLET);
 		}
 		
 		String actionType = request.getParameter("actionType");

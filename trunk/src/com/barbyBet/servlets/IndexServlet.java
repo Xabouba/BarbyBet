@@ -33,7 +33,7 @@ public class IndexServlet extends HttpServlet {
 		User currentUser = usersComponent.getCurrentUser(request);
 		
 		if(currentUser.getId() == null) {
-			response.sendRedirect("/login");
+			response.sendRedirect(Constants.LOGIN_SERVLET);
 		} else {
 			this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/index.jsp").forward(request, response);
 		}

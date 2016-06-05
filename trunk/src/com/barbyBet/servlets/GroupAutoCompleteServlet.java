@@ -38,7 +38,7 @@ public class GroupAutoCompleteServlet extends HttpServlet {
 		User currentUser = usersComponent.getCurrentUser(request);
 		
 		if(currentUser.getId() == null) {
-			response.sendRedirect(Constants.INDEX_SERVLET);
+			response.sendRedirect(Constants.LOGIN_SERVLET);
 		} else {
 			String actionType = request.getParameter("actionType").toString();
 			// The request is coming from an AJAX request in group.jsp

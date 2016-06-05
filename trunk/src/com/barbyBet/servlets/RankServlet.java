@@ -41,7 +41,7 @@ public class RankServlet extends HttpServlet {
 		User currentUser = usersComponent.getCurrentUser(request);
 		
 		if(currentUser.getId() == null) {
-			response.sendRedirect(Constants.INDEX_SERVLET);
+			response.sendRedirect(Constants.LOGIN_SERVLET);
 		} else {
 			/** User group */
 			SQLGroupComponent sqlGroupComponent = new SQLGroupComponent();

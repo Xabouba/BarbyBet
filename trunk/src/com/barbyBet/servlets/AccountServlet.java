@@ -38,7 +38,7 @@ public class AccountServlet extends HttpServlet {
 		User currentUser = usersComponent.getCurrentUser(request);
 		
 		if(currentUser.getId() == null) {
-			response.sendRedirect(Constants.INDEX_SERVLET);
+			response.sendRedirect(Constants.LOGIN_SERVLET);
 		} else {
 			/** Classement */
 			RankComponent rankComponent = new RankComponent();
