@@ -14,13 +14,6 @@
 						<span class="label">Découvrir Deezer</span>
 						</a>
 					</div>
-					<div class="index-header-actions hidden-phone">
-						<form action="register" method="get">
-							<button class="btn btn-shadow" id="login_button" type="submit">
-								<span class="label">Inscription</span>
-							</button>
-						</form>
-					</div>
 				</div>
 			</header>
 			<!-- End of header -->
@@ -29,7 +22,7 @@
 				<div class="index-container">
 					<div class="index-headings">
 						<h1 class="heading-1">PRONOSTICS 100% GRATUITS ENTRE AMIS <br class="visible-phone"></h1>
-						<h2 class="heading-2">Pronostiquez l'Euro de Football 2016.
+						<h2 class="heading-2">Pronostiquez avec vos amis les matchs de l'Euro 2016 et tentez de gagner de nombreux lots : places de foot, maillot de foot, ballon de foot, jeu de foot. <a href="rules" style="text-decoration:none; color:white !important;">Veuillez cliquer ici pour découvrir le détail des récompenses ainsi que les règles du jeu :-)</a>
 					</div>
 					<div class="index-form " id="index_form">
 						<!-- 
@@ -57,7 +50,7 @@
 									</div>
 								</div>
 								<div class="index-form-recover">
-									<a class="evt-click" id="login_forgot_password" href="javascript:void(0)">
+									<a class="evt-click" id="login_forgot_password" href="reset">
 										<span class="icon icon-info icon-before"></span> Mot de passe oublié ?
 									</a>
 								</div>
@@ -77,7 +70,13 @@
 										<span class="label">Connexion</span>
 									</button>
 								</div>
+								<div class="visible-phone">
+									<a class="btn btn-shadow btn-large btn-block evt-click" href="/register" id="register_form_login_button" data-login="1">
+										<span class="label">Pas de compte ? Inscription</span>
+									</a>
+								</div>
 							</form>
+							
 						</div>
 					</div>
 				</div>

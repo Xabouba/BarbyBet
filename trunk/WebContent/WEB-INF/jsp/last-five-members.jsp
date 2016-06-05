@@ -9,10 +9,10 @@
        	
             <div class="kp-group clearfix">
                 <span>${membersCount}</span>
-                <a href="#">${member.username}</a>
+                <a href="account?userId=${member.id}">${member.username}</a>
                  <ul class="kp-metadata clearfix">
-                     <li>10 view&nbsp&nbsp&nbsp-&nbsp&nbsp&nbsp</li>
-                     <li>3 comment</li>
+                    <!-- <li>10 view&nbsp&nbsp&nbsp-&nbsp&nbsp&nbsp</li>
+                     <li>3 comment</li> --> 
                  </ul>
              </div>
             </c:forEach>

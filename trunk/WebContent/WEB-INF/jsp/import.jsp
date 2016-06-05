@@ -16,6 +16,7 @@
 <link rel="stylesheet" type="text/css" href="css/direct.css">
 <link rel="stylesheet" type="text/css" href="css/information.css">
 <link rel="stylesheet" type="text/css" href="css/createGroup.css">
+<link rel="stylesheet" type="text/css" href="css/group.css">
 <link rel="stylesheet" type="text/css" href="css/rank.css">
 <link rel="stylesheet" type="text/css" href="css/generalRank.css">
 <!--[if !IE]><!-->

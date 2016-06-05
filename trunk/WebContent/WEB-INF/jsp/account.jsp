@@ -328,7 +328,6 @@
         <script src="js/chart/jquery.canvasjs.js"></script>
         <script src="js/chart/canvasjs.js"></script>
         <script src="js/chart/excanvas.js"></script>
-        <script type="text/javascript" src="js/custom.js"></script>
     	<script type="text/javascript">
     	  bet = function(id)
     	  {
@@ -474,5 +473,7 @@
 		  }
 		  
 		  </script>
+		          <script type="text/javascript" src="js/custom.js"></script>
+		  
 	</body>
 </html>    

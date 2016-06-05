@@ -119,6 +119,7 @@ public class Group {
 	    User u = userComponent.getUser(this.getGroupCreator());
 	    
 	    groupInfo.put("groupCreator", u.getUsername());
+	    groupInfo.put("groupCreatorId",String.valueOf(u.getId()));
 	    groupInfo.put("creationDate", DateUtil.SHORT_DATE_FORMAT_FRANCE.format(this.getCreationDate()));
 	    groupInfo.put("statusStr", ServletUtil.getGroupStatusStringFromInt(this.getStatus()));
 	    

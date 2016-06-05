@@ -39,7 +39,8 @@ public class CreateGroupServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	private static final String VUE_CREATE_GROUP = "/WEB-INF/jsp/createGroup.jsp";
-	private static final String VUE_INDEX    	 = "/WEB-INF/jsp/index.jsp";
+	private static final String VUE_GROUP = "/WEB-INF/jsp/group.jsp";
+
     private static final String GROUP_SERVLET    = "/group";
     
     private User currentUser;
@@ -58,7 +59,7 @@ public class CreateGroupServlet extends HttpServlet {
 		currentUser = usersComponent.getCurrentUser(request);
 		
 		if(currentUser.getId() == null) {
-			this.getServletContext().getRequestDispatcher(VUE_INDEX).forward(request, response);
+			response.sendRedirect(Constants.INDEX_SERVLET);
 		} else {
 			RankComponent rankComponent = new RankComponent();
 			request.setAttribute("rank", rankComponent.getMinimizedRank(null, currentUser.getUsername()));
@@ -75,8 +76,8 @@ public class CreateGroupServlet extends HttpServlet {
 		User currentUser = usersComponent.getCurrentUser(request);
 
 		if(currentUser.getId() == null){
-			this.getServletContext().getRequestDispatcher(VUE_INDEX).forward(request, response);
-	    }
+			response.sendRedirect(Constants.INDEX_SERVLET);
+		}
 		
 		String actionType = request.getParameter("actionType");
 		
@@ -88,8 +89,12 @@ public class CreateGroupServlet extends HttpServlet {
 				
 				if(groupId != 0L) {
 					Group g = sqlGroupComponent.getGroup(groupId);
-					GroupServlet groupServlet = new GroupServlet();
-					groupServlet.redirectToRightServlet(request, response, g);
+					if(g.getStatus() == 1) {
+						request.setAttribute("lookForGroupMsg", "Ce groupe est privé, vous n'avez pas le droit d'y accéder");
+						doGet(request, response);
+					} else {
+						redirectToRightServlet(request, response, g);
+					}
 				} else {
 					request.setAttribute("lookForGroupMsg", "Ce nom de groupe n'existe pas");
 					RankComponent rankComponent = new RankComponent();
@@ -153,7 +158,16 @@ public class CreateGroupServlet extends HttpServlet {
 				                	if(!groupPicsDirectory.exists()) {
 				                		groupPicsDirectory.mkdirs();
 				                	}
-				                	item.write(new File(Constants.GROUP_PICS_ROOT_FOLDER + File.separator + imageName));
+				                	
+				                	File groupImage = new File(Constants.GROUP_PICS_ROOT_FOLDER + File.separator + imageName);
+				                	double imageSizeInMegaBytes = item.getSize() / 1024 / 1024;
+				                	
+				                	if(imageSizeInMegaBytes > 5) {
+				                		request.setAttribute("error", "Nous n'acceptons pas d'images de plus de 5 Mo. Merci de réuploader une autre image de plus petite taille.");
+				                		this.getServletContext().getRequestDispatcher(VUE_CREATE_GROUP).forward(request, response);
+				                		return;
+				                	}
+				                	item.write(groupImage);
 			                	}
 			                }
 			            }
@@ -189,9 +203,85 @@ public class CreateGroupServlet extends HttpServlet {
 				}
 				
 				request.setAttribute("groupId", g.getId());
-				
-				response.sendRedirect(GROUP_SERVLET);
+
+				redirectToRightServlet(request, response, g);
 			}
+		}
+	}
+	
+	public void redirectToRightServlet(HttpServletRequest request, HttpServletResponse response, Group group) throws ServletException, IOException {
+		if(group == null || group.getId() == null) {
+			// Remove all request attributes
+			Enumeration<?> e = request.getAttributeNames();
+			while(e.hasMoreElements()){
+				String attName = (String)e.nextElement();
+				
+				if(Constants.COOKIE_CURRENT_USER_ID.equals(attName) || Constants.COOKIE_CURRENT_USER_EMAIL.equals(attName) || 
+						Constants.COOKIE_CURRENT_USER_NAME.equals(attName) || Constants.COOKIE_CURRENT_USER_REGISTRATION_DATE.equals(attName) || 
+						Constants.COOKIE_CURRENT_USER_NUMBER_OF_COINS.equals(attName)) {
+					continue;
+				} else {
+					request.removeAttribute(attName);
+				}
+			}
+			  
+			response.sendRedirect(Constants.INDEX_SERVLET);
+		} else {
+			SQLGroupComponent sqlGroupComponent = new SQLGroupComponent();
+			List<Group> userGroups = sqlGroupComponent.getUserGroups(currentUser.getId());
+
+			request.setAttribute("group", group.toHashMap());
+			request.setAttribute("isUserInGroup", false);
+			List<HashMap<String, String>> members = new ArrayList<HashMap<String, String>>();
+			for (User u : group.getMembers()) {
+				members.add(u.toHashMap());
+				if(currentUser.getId() == u.getId()) {
+					request.setAttribute("isUserInGroup", true);
+				}
+			}
+			
+			request.setAttribute("members", members);
+			
+			// Get the last five added users (the sorting should have been done in the "getGroup" function in SQLGroupComponent)
+			List<HashMap<String, String>> lastFiveMembers = new ArrayList<HashMap<String, String>>();
+			int max = group.getMembers().size();
+			if(max > 5) {
+				max = 5;
+			}
+			
+			for(int i = 0; i < max; i++) {
+				lastFiveMembers.add(group.getMembers().get(i).toHashMap());
+			}
+			
+			request.setAttribute("lastFiveMembers", lastFiveMembers);
+			
+			if(userGroups != null) {
+				// Gets the groups where the user is in
+				List<HashMap<String, String>> userGroupList = new ArrayList<HashMap<String, String>>();
+				for(Group userGroup : userGroups) {
+					userGroupList.add(userGroup.toHashMap());
+				}
+				
+				request.setAttribute("userGroupList", userGroupList);
+			}
+			
+			if(group.getImg() != null) {
+				request.setAttribute("groupImagePath", Constants.GROUP_PICS_FORMATED_ROOT_FOLDER + File.separator + group.getImg());
+			} else {
+				request.setAttribute("groupImagePath", "");
+			}
+			request.setAttribute("currentGroupId", group.getId());
+
+			/** Classement */
+			RankComponent rankComponent = new RankComponent();
+			request.setAttribute("rank", rankComponent.getMinimizedRank(group.getId(), currentUser.getUsername()));
+			
+			/** Group */
+			Map<Long, Map<String, String>> userGroupsToSend = sqlGroupComponent.getGroups(currentUser.getId());
+			// TODO : Check if the group being look at is in the user's group list, otherwise add it to the ranking
+			request.setAttribute("userGroups", userGroupsToSend);
+			
+			this.getServletContext().getRequestDispatcher(VUE_GROUP).forward(request, response);
 		}
 	}
 }
