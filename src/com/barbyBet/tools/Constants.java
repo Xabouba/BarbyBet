@@ -27,6 +27,6 @@ public class Constants {
 	public static final String COOKIE_CURRENT_USER_ID                 = "currentUserId";
 	public static final String COOKIE_CURRENT_USER_NAME               = "currentUserName";
 	public static final String COOKIE_CURRENT_USER_EMAIL              = "currentUserEmail";
-	public static final String COOKIE_CURRENT_USER_REGISTRATION_DATE  = "currentUserRegistrationDate";
+	// public static final String COOKIE_CURRENT_USER_REGISTRATION_DATE  = "currentUserRegistrationDate";
 	public static final String COOKIE_CURRENT_USER_NUMBER_OF_COINS    = "currentUserNumberOfCoins";
 }

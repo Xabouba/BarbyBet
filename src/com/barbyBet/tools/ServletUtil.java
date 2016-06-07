@@ -1,6 +1,9 @@
 package com.barbyBet.tools;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -33,9 +36,14 @@ public class ServletUtil {
 	 * réponse HTTP.
 	 */
 	public static void setCookie(HttpServletResponse response, String nom, String valeur, int maxAge) {
-	    Cookie cookie = new Cookie(nom, valeur);
-	    cookie.setMaxAge(maxAge);
-	    response.addCookie(cookie);
+	    Cookie cookie;
+		try {
+			cookie = new Cookie(nom, URLEncoder.encode(valeur, "UTF-8"));
+		    cookie.setMaxAge(maxAge);
+		    response.addCookie(cookie);
+		} catch (UnsupportedEncodingException e) {
+			System.out.println(e);
+		}
 	}
 	
 	/**
@@ -47,7 +55,14 @@ public class ServletUtil {
 	     if (cookies != null) {
 	         for (Cookie cookie : cookies) {
 	             if (cookie != null && nom.equals(cookie.getName())) {
-	                 return cookie.getValue();
+	            	String value = null;
+					try {
+						value = URLDecoder.decode(cookie.getValue(), "UTF-8");
+					} catch (UnsupportedEncodingException e) {
+						System.out.println(e);
+					}
+
+	                 return value;
 	             }
 	         }
 	     }

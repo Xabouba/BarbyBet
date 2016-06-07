@@ -48,9 +48,14 @@
                                     <div id="chat" class="widget-content">
                                    		<%@include file='chat.jsp'%>
                                     </div>
+                                    <br />
 								  	<label for="comments">Message: </label>
 								 	<textarea style="width: 100%;" rows="5" name="comment" id="comments" maxlength="450" ></textarea>
-									<input class="btn btn-primary" type="submit" value="Envoyer" onclick="post()"/>
+									<br />
+									<br />
+									<div style="width:100%; text-align: center">
+										<input class="btn btn-primary" type="submit" value="Envoyer" onclick="post()"/>
+                                    </div>
                                     <!-- widget-content -->
                                 </div>
                                 <!-- kp-review -->
@@ -84,7 +89,7 @@
 			                                    			</td>
 			                                    		</tr>
 			                                    		<tr>
-			                                    			<td class="prono-title">Pronostique:</td>
+			                                    			<td class="prono-title">Pronostic:</td>
 			                                    			<td id="prono-score" class="prono-info">
 														    	<span id="score-home">${scoreHome}</span> - <span id="score-away">${scoreAway}</span>
 			                                    			</td>
@@ -163,9 +168,9 @@
 				         type: "column",
 				         toolTipContent: "<p>{label} : {y}%</p>",
 				         dataPoints: [
-					         { label: "E1", y: win },
-					         { label: "nul", y: draw },
-					         { label: "E2", y: lose }
+					         { label: "1", y: win },
+					         { label: "N", y: draw },
+					         { label: "2", y: lose }
 				         ]
 			        }
 			       ]
@@ -190,9 +195,9 @@
            	  {
 					var htmlBet = "<table class='table_bet' id='bet_form'>";
 					htmlBet += "<tr>";
-					htmlBet += "<td class='odd'><strong>E1</strong></td>";	
+					htmlBet += "<td class='odd'><strong>1</strong></td>";	
 					htmlBet += "<td class='odd'><strong>N</strong></td>";	
-					htmlBet += "<td class='odd'><strong>E2</strong></td>";	
+					htmlBet += "<td class='odd'><strong>2</strong></td>";	
 					htmlBet += "<td class='direct' />";	
 					htmlBet += "</tr>";
 

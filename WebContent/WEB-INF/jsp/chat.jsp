@@ -27,7 +27,7 @@
 										    			</td>
 										    			<td style="width: 15%; text-align: center;">
 										    				<p>${comment.hour}</p>
-										    				<p>${comment.day}</p>
+										    				<p>${comment.date}</p>
 										    			</td>
 										    		</tr>
 										    	</table>

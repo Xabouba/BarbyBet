@@ -258,7 +258,7 @@ public class GroupServlet extends HttpServlet {
 				String attName = (String)e.nextElement();
 				
 				if(Constants.COOKIE_CURRENT_USER_ID.equals(attName) || Constants.COOKIE_CURRENT_USER_EMAIL.equals(attName) || 
-						Constants.COOKIE_CURRENT_USER_NAME.equals(attName) || Constants.COOKIE_CURRENT_USER_REGISTRATION_DATE.equals(attName) || 
+						Constants.COOKIE_CURRENT_USER_NAME.equals(attName) || 
 						Constants.COOKIE_CURRENT_USER_NUMBER_OF_COINS.equals(attName)) {
 					continue;
 				} else {
