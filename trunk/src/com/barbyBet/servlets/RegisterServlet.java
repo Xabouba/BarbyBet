@@ -65,7 +65,6 @@ public class RegisterServlet extends HttpServlet {
 			ServletUtil.setCookie(response, Constants.COOKIE_CURRENT_USER_ID, String.valueOf(insertedUser.getId()), cookiesExpiry);
 			ServletUtil.setCookie(response, Constants.COOKIE_CURRENT_USER_NAME, String.valueOf(insertedUser.getUsername()), cookiesExpiry);
 			ServletUtil.setCookie(response, Constants.COOKIE_CURRENT_USER_EMAIL, String.valueOf(insertedUser.getEmail()), cookiesExpiry);
-			ServletUtil.setCookie(response, Constants.COOKIE_CURRENT_USER_REGISTRATION_DATE, DateUtil.FULL_DATE_FORMAT_FRANCE.format(insertedUser.getRegistrationDate()), cookiesExpiry);
 			ServletUtil.setCookie(response, Constants.COOKIE_CURRENT_USER_NUMBER_OF_COINS, String.valueOf(insertedUser.getCoins()), cookiesExpiry);
 
 			UsersComponent uc = new UsersComponent();

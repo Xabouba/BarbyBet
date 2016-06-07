@@ -503,9 +503,9 @@ public class SQLUsersComponent extends SQLComponent {
 					.prepareStatement("SELECT id FROM Users");
 
 			rs = stmt.executeQuery();
-			if (rs.next()) {
+			while (rs.next()) {
 				String encryptedId = CipherUtils.encrypt(CipherUtils.RESET_PASSWORD_KEY1, CipherUtils.RESET_PASSWORD_KEY2, String.valueOf(rs.getLong("id")));
-				if(encryptedId == encryptedKey) {
+				if(encryptedId.equals(encryptedKey)) {
 					return rs.getLong("id");
 				}
 			}

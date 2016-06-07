@@ -9,12 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.barbyBet.components.RankComponent;
 import com.barbyBet.components.SQLCommentComponent;
-import com.barbyBet.components.SQLPronoComponent;
 import com.barbyBet.components.UsersComponent;
 import com.barbyBet.object.User;
-import com.barbyBet.tools.RequestUtils;
 
 /**
  * Servlet implementation class SaxResultGenerator

@@ -191,7 +191,7 @@ public class SQLGroupComponent extends SQLComponent
 		try 
 		{
 		    connexion = DriverManager.getConnection(_url, _user, _password);
-		    stmt = connexion.prepareStatement("SELECT u.id, u.username, u.email, u.dateRegistration, u.coins FROM GroupUserLink gul, User u WHERE gul.groupname = ?");
+		    stmt = connexion.prepareStatement("SELECT u.id, u.username, u.email, u.dateRegistration, u.coins FROM LinkUserGroup gul, User u WHERE gul.groupname = ?");
 		    stmt.setString(1,g.getName());
 
 		    rs = stmt.executeQuery();

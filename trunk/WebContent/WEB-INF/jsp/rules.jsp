@@ -177,6 +177,10 @@
 												<h6>Tu as le bon pronostic = 2 points.</h6>
 												Exemple : Tu as pronostiqué que la France allait éclater la Roumanie 8 – 0 mais le soir du résultat Giroud et sa bande ont les pieds carrés et gagnent 1-0 sur un but d'Hugo Lloris depuis ses cages. Tu as 2 points !
 											</li>
+											<li>
+												<h6>Tu prends des risques (moins de 20% des pronostiqueurs ont fait le même prono que toi) : points doublés !</h6>
+												Exemple : Si tu as le cran de mettre la Roumanie vainqueur contre la France (bouh !), que moins de 20% de la communauté barbylone a pronostiqué comme toi et que ton prono est correct : tes points sont doublés :-)
+											</li>
 										</ul>
 										<br />
 										En cas de séance de tirs aux buts le résultat effectif est celui avant la séance de tirs aux buts.
@@ -189,21 +193,21 @@
 										<h5>Petit aperçu de Barbylone</h5>
 										<ul>
 											<li>
-												<h6>Pronostiques les matchs de l’Euro 2016 et tentes de gagner des lots :</h6>
+												<h6>Pronostique les matchs de l’Euro 2016 et tente de gagner des lots :</h6>
 												<br />
 												<a href="/images/screenshot-1.png">
 													<img alt="" class="screenshot" src="/images/screenshot-1.png">
 												</a>
 											</li>
 											<li>
-												<h6>Créer des groupes avec tes amis (ou amies ;)) pour jouer entre potes :</h6>
+												<h6>Crée des groupes avec tes amis (ou amies ;)) pour jouer entre potes :</h6>
 												<br />
 												<a href="/images/screenshot-2.png">
 													<img alt="" class="screenshot" src="/images/screenshot-2.png">
 												</a>
 											</li>
 											<li>
-												<h6>Mesures toi à toute la communauté barbylone à travers le classement général :</h6>
+												<h6>Mesure toi à toute la communauté barbylone à travers le classement général :</h6>
 												<br />
 												<a href="/images/screenshot-3.png">
 													<img alt="" class="screenshot" src="/images/screenshot-3.png">

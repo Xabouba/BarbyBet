@@ -142,7 +142,7 @@
 												<input type="hidden" name="userId" value="${userId}" />
 												<input type="hidden" name="actionType" value="changePassword" />
 												<input type="password" class="form-control" name="password" placeholder="*****" /> <br /><br />
-												<input type="password" class="form-control" name="repeat-password" placeholder="*****" /> <br /><br />
+												<input type="password" class="form-control" name="repeatPassword" placeholder="*****" /> <br /><br />
 												<input type="submit" class="btn btn-primary" name="submit-button" value="Mettre à jour votre mot de passe" />
 											</form>
                                 		</c:when>

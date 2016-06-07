@@ -5,6 +5,7 @@ import java.util.Properties;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
@@ -45,8 +46,13 @@ public class ResetPasswordServlet extends HttpServlet {
 		if(currentUser.getId() != null) {
 			response.sendRedirect(Constants.INDEX_SERVLET);
 		} else {
-			String key = request.getParameter("key");
-
+			String urlSuffix = request.getQueryString();
+			String key = null;
+			
+			if(urlSuffix != null) {
+				key = urlSuffix.split("key=")[1];
+			}
+			
 			if(key != null) {
 				SQLUsersComponent sqlUsersComponent = new SQLUsersComponent();
 				Long userId = sqlUsersComponent.getUserIdFromEncryptedKey(key.toString());
@@ -75,20 +81,26 @@ public class ResetPasswordServlet extends HttpServlet {
 				String password = request.getParameter("password");
 				String repeatPassword = request.getParameter("repeatPassword");
 				
+				String userIdStr = request.getParameter("userId");
+				Long userId = Long.parseLong(userIdStr);
+				
 				if(password.equals(repeatPassword)) {
-					String userIdStr = request.getParameter("userId");
-					Long userId = Long.parseLong(userIdStr);
-					
 					SQLUsersComponent sqlUsersComponent = new SQLUsersComponent();
 					boolean isPasswordUpdated = sqlUsersComponent.updatePassword(userId, password);
 					
 					if(isPasswordUpdated) {
+						request.setAttribute("changePasswordMode", "yes");
+						request.setAttribute("userId", userId);
 						request.setAttribute("changePasswordMsg", "Le mot de passe a été mis à jour avec succès. Veuillez cliquer <a href=\"login\">ici</a> pour vous connecter");
 					} else {
+						request.setAttribute("changePasswordMode", "yes");
+						request.setAttribute("userId", userId);
 						request.setAttribute("changePasswordMsg", "Il y a eu une erreur lors de la mise à jour du mot de passe. Merci de réessayer ou de nous contacter à : <a href=\"mailto:contact@barbylone.com\">contact@barbylone.com</a>");
 					}
 					this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/reset-password.jsp").forward(request, response);
 				} else {
+					request.setAttribute("changePasswordMode", "yes");
+					request.setAttribute("userId", userId);
 					request.setAttribute("changePasswordMsg", "Les deux mots de passes fournis ne sont pas identiques");
 					this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/reset-password.jsp").forward(request, response);
 				}
@@ -102,15 +114,17 @@ public class ResetPasswordServlet extends HttpServlet {
 					request.setAttribute("resetPasswordMsg", "Cet email n'est pas associé à un de nos utilisateurs. Merci de fournir votre email de connexion.");
 					this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/reset-password.jsp").forward(request, response);
 				} else {
-					// TODO : Send email
 					String encryptedKey = encrypId(userId);
 					StringBuilder sb = new StringBuilder("Bonjour,");
-					sb.append("\n");
+					sb.append("<br />");
+					sb.append("<br />");
 					sb.append("Pour réinitialiser le mot de passe de votre compte, merci de cliquer sur le lien suivant : ");
-					sb.append("\n");
+					sb.append("<br />");
 					sb.append("<a href=\"http://www.barbylone.com/reset?key=").append(encryptedKey).append("\">http://www.barbylone.com/reset?key=").append(encryptedKey).append("</a>");
-					sb.append("\n");
+					sb.append("<br />");
 					sb.append("Sportivement,");
+					sb.append("<br />");
+					sb.append("<br />");
 					sb.append("L'équipe Barbylone");
 					
 					String content = sb.toString();
@@ -128,39 +142,38 @@ public class ResetPasswordServlet extends HttpServlet {
 	}
 
 	private void sendEmail(String from, String to, String subject, String content) {
-		// server's smtp
-		String host = "ssl0.ovh.net";
-		
-		  // Get system properties
-		  Properties properties = System.getProperties();
-		
-		  // Setup mail server
-		  properties.setProperty("mail.smtp.host", host);
-		
-		  // Get the default Session object.
-		  Session session = Session.getDefaultInstance(properties);
-		
-		  try{
-		     // Create a default MimeMessage object.
-		     MimeMessage message = new MimeMessage(session);
-		
-		     // Set From: header field of the header.
-		     message.setFrom(new InternetAddress(from));
-		
-		     // Set To: header field of the header.
-		     message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-		
-		     // Set Subject: header field
-		     message.setSubject(subject);
-		
-		     // Now set the actual message
-		     message.setText(content);
-		
-		     // Send message
-		     Transport.send(message);
-		     System.out.println("Sent message successfully....");
-		  } catch (MessagingException mex) {
-		     mex.printStackTrace();
-		  }
+		final String username = "contact@barbylone.com";
+        final String password = "malikloickader";
+
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", "ssl0.ovh.net");
+        props.put("mail.smtp.port", "587");
+
+        Session session = Session.getInstance(props,
+          new javax.mail.Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, password);
+            }
+          });
+
+        try {
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(from));
+            message.setRecipients(Message.RecipientType.TO,
+                InternetAddress.parse(to));
+            message.setSubject(subject);
+            message.setContent(content, "text/html; charset=utf-8");
+
+            Transport.send(message);
+            
+            System.out.println("Done !");
+        } catch (MessagingException e) {
+        	System.out.println(e);
+            throw new RuntimeException(e);
+        }
 	}
 }
+
+                                            

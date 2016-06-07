@@ -65,7 +65,6 @@ public class LoginServlet extends HttpServlet {
 			ServletUtil.setCookie(response, Constants.COOKIE_CURRENT_USER_ID, String.valueOf(connectedUser.getId()), cookiesExpiry);
 			ServletUtil.setCookie(response, Constants.COOKIE_CURRENT_USER_NAME, String.valueOf(connectedUser.getUsername()), cookiesExpiry);
 			ServletUtil.setCookie(response, Constants.COOKIE_CURRENT_USER_EMAIL, String.valueOf(connectedUser.getEmail()), cookiesExpiry);
-			ServletUtil.setCookie(response, Constants.COOKIE_CURRENT_USER_REGISTRATION_DATE, DateUtil.FULL_DATE_FORMAT_FRANCE.format(connectedUser.getRegistrationDate()), cookiesExpiry);
 			ServletUtil.setCookie(response, Constants.COOKIE_CURRENT_USER_NUMBER_OF_COINS, String.valueOf(connectedUser.getCoins()), cookiesExpiry);
 
 			response.sendRedirect(Constants.INDEX_SERVLET);

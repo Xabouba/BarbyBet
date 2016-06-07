@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -37,11 +38,28 @@ public class SQLCommentComponent extends SQLComponent {
 		    	HashMap<String, String> comment = new HashMap<String, String>();
 		    	Timestamp date = rs.getTimestamp(1);
 		    	
+		    	Calendar calendar = Calendar.getInstance();
+		    	calendar.setTime(date);
+		    	
+		    	int day = calendar.get(Calendar.DAY_OF_MONTH);
+		    	String dayStr = String.valueOf(day);
+		    	if(day < 10) {
+		    		dayStr = "0" + day;
+		    	}
+		    	
+		    	int month = calendar.get(Calendar.MONTH) + 1;
+		    	String monthStr = String.valueOf(month);
+		    	if(month < 10) {
+		    		monthStr = "0" + month;
+		    	}
+		    	
+		    	int year = calendar.get(Calendar.YEAR);
+		    	
 		    	String hour = new SimpleDateFormat("HH:mm").format(date);
-		    	String day = new SimpleDateFormat("E d").format(date);
+		    	String dateStr =  dayStr + "/" + monthStr + "/" + year;
 		    	comment.put("user", rs.getString(2));
 		    	comment.put("hour", hour);
-		    	comment.put("day", day);
+		    	comment.put("date", dateStr);
 		    	comment.put("comment", rs.getString(3));
 		    	
 		    	SQLPronoComponent sqlPronoComponent = new SQLPronoComponent();
