@@ -44,10 +44,6 @@ public class AccountServlet extends HttpServlet {
 			RankComponent rankComponent = new RankComponent();
 			request.setAttribute("rank", rankComponent.getMinimizedRank(null, currentUser.getUsername()));
 			
-			/** Group */
-			SQLGroupComponent sqlGroupComponent = new SQLGroupComponent();
-			request.setAttribute("userGroups", sqlGroupComponent.getGroups(currentUser.getId()));
-			
 			Long id = currentUser.getId();
 			String idUser = request.getParameter("userId");
 			if (idUser != null)
@@ -58,6 +54,16 @@ public class AccountServlet extends HttpServlet {
 			/** Current User */
 			request.setAttribute("isCurrentUser", id == currentUser.getId());
 			
+			/** Group */
+			SQLGroupComponent sqlGroupComponent = new SQLGroupComponent();
+			request.setAttribute("userGroups", sqlGroupComponent.getGroups(currentUser.getId()));
+
+			// Don't show private groups to others
+			if(id == currentUser.getId()) {
+				request.setAttribute("groups", sqlGroupComponent.getGroups(id));
+			} else {
+				request.setAttribute("groups", sqlGroupComponent.getGroupsByStatus(id, 0));
+			}
 			/** Next Pronostic */
 			SQLPronoComponent sqlPronoComponent = new SQLPronoComponent();
 			ArrayList<HashMap<String, String>> nextMatchPronostic = sqlPronoComponent.getNextMatchPronostic(id);
@@ -75,10 +81,8 @@ public class AccountServlet extends HttpServlet {
 			request.setAttribute("userPoint", user.getCoins());
 			request.setAttribute("userRank", user.getRank());
 			
-			/** User group */
-			request.setAttribute("groups", sqlGroupComponent.getGroups(id));
-			
-			this.getServletContext().getRequestDispatcher( "/WEB-INF/jsp/account.jsp" ).forward(request, response);
+
+			this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/account.jsp").forward(request, response);
 		}
 	}
 
@@ -88,6 +92,5 @@ public class AccountServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		
-	}
-	
+	}	
 }

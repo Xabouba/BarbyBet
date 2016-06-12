@@ -191,7 +191,7 @@
 															    					</td>
 															    					<td class="bet-button">
 															    						<c:choose>
-																    						<c:when test="${match.ended}">
+																    						<c:when test="${not empty match.matchStarted}">
 																    							<span class="ended">X</span>
 																    						</c:when>
 																    						<c:otherwise>

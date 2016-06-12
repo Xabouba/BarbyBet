@@ -170,7 +170,7 @@ public class SQLPronoComponent extends SQLComponent
 		PreparedStatement stmt = null;
 		try 
 		{
-		    connexion = DriverManager.getConnection(_url, _user, _password);
+			connexion = DriverManager.getConnection(_url, _user, _password);
 		    stmt = connexion.prepareStatement("UPDATE Pronostics SET statut = ?, creditsWon = ? WHERE id = ?");
 		    
 		    stmt.setInt(1, statut);

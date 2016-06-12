@@ -186,6 +186,10 @@ public class Match {
 	    	break;
 	    }
 	    matchInfo.put("statut", msgInfo);
+	    
+	    if(_statut != MatchStatus.NOT_STARTED) {
+	    	matchInfo.put("matchStarted", "yes");
+	    }
 		
 	    return matchInfo;
 	}

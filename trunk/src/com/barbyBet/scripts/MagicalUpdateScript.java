@@ -11,6 +11,7 @@ import com.barbyBet.components.SQLGroupComponent;
 import com.barbyBet.components.SQLMatchComponent;
 import com.barbyBet.components.SQLPronoComponent;
 import com.barbyBet.components.SQLRankComponent;
+import com.barbyBet.components.SQLScriptsComponent;
 import com.barbyBet.components.SQLUsersComponent;
 import com.barbyBet.object.Group;
 import com.barbyBet.object.Match;
@@ -23,19 +24,14 @@ import com.github.pabloo99.xmlsoccer.client.XmlSoccerServiceImpl;
 
 public class MagicalUpdateScript {
 	public static void main(String[] args) {
-		// TODO : 
+		// Insert a line in the Scripts database
+		SQLScriptsComponent sqlScriptsComponent = new SQLScriptsComponent();
+		sqlScriptsComponent.insertDummyLine();
 		
-		
-		long webId = 360422;
-		updateProno(2, 4, webId);
-		
-		
-		
-//		long groupId = 31;
-//		System.out.println("cool");
+		updateCurrentGamesRealScores();
 	}
 	
-	public boolean updateCurrentGamesRealScores() {
+	public static boolean updateCurrentGamesRealScores() {
 		SQLMatchComponent sqlMatchComponent = new SQLMatchComponent();
 		
 		XmlSoccerService xmlSoccerService = new XmlSoccerServiceImpl();
@@ -47,12 +43,12 @@ public class MagicalUpdateScript {
 		// full access
 		xmlSoccerService.setServiceUrl("http://www.xmlsoccer.com/FootballData.asmx");
 		
-
 		List<Match> currentMatches = new ArrayList<Match>();
 		List<Match> justEndedMatch = new ArrayList<Match>();
-		// List<GetLiveScoreResultDto> allCurrentLiveScores = xmlSoccerService.getLiveScoreByLeague("EURO 2016");
+
 		List<GetLiveScoreResultDto> allCurrentLiveScores = xmlSoccerService.getLiveScore();
 		for(GetLiveScoreResultDto liveScore : allCurrentLiveScores) {
+			System.out.println("Current live score : " + liveScore.getId());
 			Match match = new Match();
 			Long idWebService = Long.valueOf(liveScore.getId());
 			int statut = WebServiceUtil.createStatus(liveScore.getTime());
@@ -62,15 +58,19 @@ public class MagicalUpdateScript {
 			match.setHomeScore(liveScore.getHomeGoals());
 			match.setAwayScore(liveScore.getAwayGoals());
 			
-			currentMatches.add(match);
-			if (statut == MatchStatus.ENDED && !sqlMatchComponent.hasMatchEnded(idWebService))
-			{
-				justEndedMatch.add(match);
+			if(sqlMatchComponent.isMatchFromWebServiceInDatabase(idWebService)) {
+				currentMatches.add(match);	
+			
+				if (statut == MatchStatus.ENDED && !sqlMatchComponent.hasMatchEnded(idWebService))
+				{
+					justEndedMatch.add(match);
+				}
 			}
 		}
 		
 		// Update the games in the database
 		if(currentMatches.size() != 0) {
+			System.out.println("Updating matches " + currentMatches);
 			sqlMatchComponent.updateMatchs(currentMatches);
 		}
 		
@@ -78,7 +78,7 @@ public class MagicalUpdateScript {
 		{
 			int homeScore = match.getHomeScore();
 			int awayScore = match.getAwayScore();
-			
+			System.out.println("Looping through justEndedMatch & updating prono: " + match.getIdWebService());
 			updateProno(homeScore, awayScore, match.getIdWebService());
 		}
 		
@@ -95,26 +95,26 @@ public class MagicalUpdateScript {
 				Map<Long, Map<String, String>> groups = sqlGroupComponent.getGroups(idUser);
 				for (Long idGroup : groups.keySet())
 				{
-					System.out.println("Groupe " + idGroup);
+					System.out.println("Updating user : " + idUser + " in group : " + idGroup);
 					sqlGroupComponent.updateGroupUserPoint(idUser, idGroup, userWithPoint.get(idUser));
 	
 					groupToUpdate.add(idGroup);
 				}
 				
-				System.out.println("User " + idUser);
+				System.out.println("Updating user point : " + idUser);
 				sqlUserComponent.updateUserPoint(idUser, userWithPoint.get(idUser));
 			}
 			
 			// We update the groups rankings
 			for (Long idGroup : groupToUpdate)
 			{
-				System.out.println("Update groupe " + idGroup);
 				Group group = sqlGroupComponent.getGroup(idGroup);
+				System.out.println("Updating group : " + group.getName() + " rank");
 				sqlGroupComponent.updateRankAfterModificationInGroup(group, null);
 			}
 			
 			// We update the general ranking
-			System.out.println("Update general");
+			System.out.println("Updating general ranking");
 			SQLRankComponent sqlRankComponent = new SQLRankComponent();
 			sqlRankComponent.updateRankAfterModification();
 		}
@@ -156,7 +156,6 @@ public class MagicalUpdateScript {
 			int nbDraw = Integer.valueOf(matchStatPronostic.get("nbExact"));
 			int nbLose = Integer.valueOf(matchStatPronostic.get("nbLose"));
 			
-			System.out.println((nbWin * 100 / nbProno));
 			if ((nbWin * 100 / nbProno) < 20)
 			{
 				if (pronoHomeScore > pronoAwayScore)
@@ -165,7 +164,6 @@ public class MagicalUpdateScript {
 				}
 			}
 			
-			System.out.println((nbLose * 100 / nbProno));
 			if ((nbLose * 100 / nbProno) < 20)
 			{
 				if (pronoHomeScore < pronoAwayScore)
@@ -174,7 +172,6 @@ public class MagicalUpdateScript {
 				}
 			}
 			
-			System.out.println((nbDraw * 100 / nbProno));
 			if ((nbDraw * 100 / nbProno) < 20)
 			{
 				if (pronoHomeScore == pronoAwayScore)

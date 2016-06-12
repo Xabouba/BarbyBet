@@ -38,7 +38,11 @@ public class ServletUtil {
 	public static void setCookie(HttpServletResponse response, String nom, String valeur, int maxAge) {
 	    Cookie cookie;
 		try {
-			cookie = new Cookie(nom, URLEncoder.encode(valeur, "UTF-8"));
+			if(!nom.equals(Constants.COOKIE_CURRENT_USER_REGISTRATION_DATE)) {
+				cookie = new Cookie(nom, URLEncoder.encode(valeur, "UTF-8"));
+			} else {
+				cookie = new Cookie(nom, valeur);
+			}
 		    cookie.setMaxAge(maxAge);
 		    response.addCookie(cookie);
 		} catch (UnsupportedEncodingException e) {
@@ -57,7 +61,11 @@ public class ServletUtil {
 	             if (cookie != null && nom.equals(cookie.getName())) {
 	            	String value = null;
 					try {
-						value = URLDecoder.decode(cookie.getValue(), "UTF-8");
+						if(!nom.equals(Constants.COOKIE_CURRENT_USER_REGISTRATION_DATE)) {
+							value = URLDecoder.decode(cookie.getValue(), "UTF-8");
+						} else {
+							value = cookie.getValue();
+						}
 					} catch (UnsupportedEncodingException e) {
 						System.out.println(e);
 					}

@@ -19,6 +19,7 @@ import com.barbyBet.components.UsersComponent;
 import com.barbyBet.object.Match;
 import com.barbyBet.object.User;
 import com.barbyBet.tools.Constants;
+import com.barbyBet.tools.MatchStatus;
 import com.barbyBet.tools.RequestUtils;
 
 public class DirectResultServlet extends HttpServlet {
@@ -55,6 +56,10 @@ public class DirectResultServlet extends HttpServlet {
 				Long matchId = Long.parseLong(matchIdAsString);
 				Match match = sqlMatchComponent.getMatch(matchId);
 				request.setAttribute("match", match.toHashMap());
+				
+				if(match.getStatut() != MatchStatus.NOT_STARTED) {
+					request.setAttribute("matchStarted", "yes");
+				}
 				
 				/** Pronostic */
 				SQLPronoComponent sqlPronoComponent = new SQLPronoComponent();

@@ -254,9 +254,18 @@
 														    						<input class="btn btn-primary" type="submit" value="Direct" />
 													    						</form>
 													    					</td>
-															    			<td class="bet-button">
-															    				<button class="btn btn-primary" onclick='bet(${match.matchId})'>Parier</button>
-															    			</td>
+													    					<c:choose>
+														    					<c:when test="${empty match.matchStarted}">
+																	    			<td class="bet-button">
+																	    				<button class="btn btn-primary" onclick='bet(${match.matchId})'>Parier</button>
+																	    			</td>
+																    			</c:when>
+																    			<c:otherwise>
+																	    			<td class="bet-button">
+															    						<span class="ended">X</span>
+															    					</td>
+																    			</c:otherwise>
+															    			</c:choose>
 														    				<td class="credits">
 															    				<span id="bet_credits_${match.matchId}">
 															    				<c:choose>
@@ -554,6 +563,8 @@
 			  $("#today-match").show();
 			  $("#next-match").hide();
 		  }
+		  
+		  todayMatch();
 		  
 		  endMatch = function()
 		  {

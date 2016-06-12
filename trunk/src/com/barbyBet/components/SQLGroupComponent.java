@@ -542,6 +542,40 @@ public class SQLGroupComponent extends SQLComponent
 		}
 	}
 	
+	public Map<Long, Map<String, String>> getGroupsByStatus(Long userId, int status) {
+		Map<Long, Map<String, String> > groups = new HashMap<Long, Map<String, String>>();
+		
+		Connection connexion = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		try {
+		    connexion = DriverManager.getConnection(_url, _user, _password);
+		    stmt = connexion.prepareStatement("SELECT g.id, g.name, lug.userRank, lug.points FROM Groups g, Users u, LinkUserGroup lug WHERE u.id = ? AND lug.groupId = g.id AND lug.userId = u.id AND g.status = ?");
+		    
+		    stmt.setLong(1, userId);
+		    stmt.setInt(2, status);
+		    
+		    rs = stmt.executeQuery();
+		    while (rs.next()) {
+		    	Map<String, String> attribut = new HashMap<String, String>();
+		    	attribut.put("name", rs.getString(2));
+		    	attribut.put("rank", rs.getString(3));
+		    	attribut.put("point", rs.getString(4));
+		    	groups.put(rs.getLong(1), attribut);
+		    }
+		    
+		    return groups;
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+			return null;
+		} finally {
+		    close(rs);
+			close(stmt);
+			close(connexion);
+		}
+	}
+	
 	public ArrayList<String> getAllPublicGroupNames(String term) {
 		ArrayList<String> groups = new ArrayList<>();
 		Connection connexion = null;
@@ -679,7 +713,7 @@ public class SQLGroupComponent extends SQLComponent
 		PreparedStatement stmt = null;
 		try 
 		{
-		    connexion = DriverManager.getConnection(_url, _user, _password);
+			connexion = DriverManager.getConnection(_url, _user, _password);
 		    stmt = connexion.prepareStatement("UPDATE LinkUserGroup SET points = ? WHERE groupId = ? AND userId = ?");
 		    
 		    stmt.setInt(1, point);
