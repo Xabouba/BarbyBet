@@ -52,116 +52,160 @@ public class AdminMatchServlet extends HttpServlet {
 		UsersComponent usersComponent = new UsersComponent();
 		User currentUser = usersComponent.getCurrentUser(request);
 		
+		String league = request.getParameter("league");
+		
 		if(currentUser.getId() == null) {
 			response.sendRedirect(Constants.LOGIN_SERVLET);
 		} else {
 			if(currentUser.getId() != 1) {
 				this.getServletContext().getRequestDispatcher( "/WEB-INF/jsp/login.jsp" ).forward(request, response);
 			} else {
-				SQLMatchComponent sqlMatchComponent = new SQLMatchComponent();
-				SQLPronoComponent sqlPronoComponent = new SQLPronoComponent();
-				Date dateToday = new Date(); //TODO
-				ArrayList<Match> matchsSql = sqlMatchComponent.getMatchs(dateToday, MatchStatus.ALL);
-				
-				ArrayList<HashMap<String, String>> matchEnded = new ArrayList<HashMap<String,String>>();
-				Map<Date,ArrayList<HashMap<String, String>>> matchs = new TreeMap<Date, ArrayList<HashMap<String,String>>>();
-				Map<Date,ArrayList<HashMap<String, String>>> matchsToday = new TreeMap<Date, ArrayList<HashMap<String,String>>>();
-				
-				Date day = new Date();
-				String hour = "";
-				
-				Locale locale = new Locale("fr");
-				SimpleDateFormat hourFormat = new SimpleDateFormat("HH:mm", locale);
-				SimpleDateFormat dayFormat = new SimpleDateFormat("d MMMMMMMMM", locale);
-				String today = dayFormat.format(dateToday);
-				for (Match match : matchsSql)
-				{
-					GregorianCalendar calendar = new GregorianCalendar();
-					calendar.setTimeInMillis(match.getBeginDate().getTime());
+				if(league != null) {
+					SQLMatchComponent sqlMatchComponent = new SQLMatchComponent();
+					Match match = sqlMatchComponent.getBarbyDevMatch();
 					
-					HashMap<String, String> pronoMap = sqlPronoComponent.getProno(match.getId(), currentUser.getId());
-					
-					if (match.getStatut() == MatchStatus.ENDED)
-					{
-						HashMap<String,String> matchMap = match.toHashMap();
-						matchMap.putAll(pronoMap);
+					if(match != null) {
+						String msgInfo = "Info";
+						switch (match.getStatut()) {
+						    case MatchStatus.NOT_STARTED:
+						    	msgInfo = "A jouer";
+						    	break;
+						    case MatchStatus.FIRST_HALF:
+						    	msgInfo = "1ère période";
+						    	break;
+						    case MatchStatus.HALFTIME:
+						    	msgInfo = "Mi-temps";
+						    	break;
+						    case MatchStatus.SECOND_HALF:
+						    	msgInfo = "2ème période";
+						    	break;
+						    case MatchStatus.OVERTIME:
+						    	msgInfo = "Prolongation";
+						    	break;
+						    case MatchStatus.PENALTY:
+						    	msgInfo = "Penalty";
+						    	break;
+						    case MatchStatus.ENDED:
+						    	msgInfo = "Terminé";
+						    	break;
+						    default:
+						    	break;
+					    }
 						
-						matchEnded.add(matchMap);
+						request.setAttribute("homeTeam", match.getHomeTeam().getName());
+						request.setAttribute("awayTeam", match.getAwayTeam().getName());
+						request.setAttribute("homeScore", match.getHomeScore());
+						request.setAttribute("awayScore", match.getAwayScore());
+						request.setAttribute("matchStatus", msgInfo);
+						
+						this.getServletContext().getRequestDispatcher( "/WEB-INF/jsp/adminMatchDev.jsp" ).forward(request, response);
 					}
-					else
+				} else {
+					SQLMatchComponent sqlMatchComponent = new SQLMatchComponent();
+					SQLPronoComponent sqlPronoComponent = new SQLPronoComponent();
+					Date dateToday = new Date(); //TODO
+					ArrayList<Match> matchsSql = sqlMatchComponent.getMatchs(dateToday, MatchStatus.ALL);
+					
+					ArrayList<HashMap<String, String>> matchEnded = new ArrayList<HashMap<String,String>>();
+					Map<Date,ArrayList<HashMap<String, String>>> matchs = new TreeMap<Date, ArrayList<HashMap<String,String>>>();
+					Map<Date,ArrayList<HashMap<String, String>>> matchsToday = new TreeMap<Date, ArrayList<HashMap<String,String>>>();
+					
+					Date day = new Date();
+					String hour = "";
+					
+					Locale locale = new Locale("fr");
+					SimpleDateFormat hourFormat = new SimpleDateFormat("HH:mm", locale);
+					SimpleDateFormat dayFormat = new SimpleDateFormat("d MMMMMMMMM", locale);
+					String today = dayFormat.format(dateToday);
+					for (Match match : matchsSql)
 					{
-						if (today.equals(dayFormat.format(calendar.getTime())))
+						GregorianCalendar calendar = new GregorianCalendar();
+						calendar.setTimeInMillis(match.getBeginDate().getTime());
+						
+						HashMap<String, String> pronoMap = sqlPronoComponent.getProno(match.getId(), currentUser.getId());
+						
+						if (match.getStatut() == MatchStatus.ENDED)
 						{
-							ArrayList<HashMap<String, String>> list;
-							if (hour.equals(hourFormat.format(calendar.getTime())))
-							{
-								list = matchsToday.get(calendar.getTime());
-								if (list == null)
-								{
-									list = new ArrayList<HashMap<String,String>>();
-								}
-								
-								HashMap<String,String> matchMap = match.toHashMap();
-								matchMap.putAll(pronoMap);
-										
-								list.add(matchMap);
-							}
-							else
-							{
-								hour = hourFormat.format(calendar.getTime());
-								list = new ArrayList<HashMap<String,String>>();
-								
-								HashMap<String,String> matchMap = match.toHashMap();
-								matchMap.putAll(pronoMap);
-								
-								list.add(matchMap);
-			
-								matchsToday.put(calendar.getTime(), list);
-							}
+							HashMap<String,String> matchMap = match.toHashMap();
+							matchMap.putAll(pronoMap);
+							
+							matchEnded.add(matchMap);
 						}
 						else
 						{
-							ArrayList<HashMap<String, String>> list;
-							if (day.equals(calendar.getTime()))
+							if (today.equals(dayFormat.format(calendar.getTime())))
 							{
-								list = matchs.get(calendar.getTime());
-								if (list == null)
+								ArrayList<HashMap<String, String>> list;
+								if (hour.equals(hourFormat.format(calendar.getTime())))
 								{
-									list = new ArrayList<HashMap<String,String>>();
+									list = matchsToday.get(calendar.getTime());
+									if (list == null)
+									{
+										list = new ArrayList<HashMap<String,String>>();
+									}
+									
+									HashMap<String,String> matchMap = match.toHashMap();
+									matchMap.putAll(pronoMap);
+											
+									list.add(matchMap);
 								}
-								HashMap<String,String> matchMap = match.toHashMap();
-								matchMap.putAll(pronoMap);
-								
-								list.add(matchMap);
+								else
+								{
+									hour = hourFormat.format(calendar.getTime());
+									list = new ArrayList<HashMap<String,String>>();
+									
+									HashMap<String,String> matchMap = match.toHashMap();
+									matchMap.putAll(pronoMap);
+									
+									list.add(matchMap);
+				
+									matchsToday.put(calendar.getTime(), list);
+								}
 							}
 							else
 							{
-								day = calendar.getTime();
-								list = new ArrayList<HashMap<String,String>>();
-								
-								HashMap<String,String> matchMap = match.toHashMap();
-								matchMap.putAll(pronoMap);
-								list.add(matchMap);
-			
-								matchs.put(day, list);
+								ArrayList<HashMap<String, String>> list;
+								if (day.equals(calendar.getTime()))
+								{
+									list = matchs.get(calendar.getTime());
+									if (list == null)
+									{
+										list = new ArrayList<HashMap<String,String>>();
+									}
+									HashMap<String,String> matchMap = match.toHashMap();
+									matchMap.putAll(pronoMap);
+									
+									list.add(matchMap);
+								}
+								else
+								{
+									day = calendar.getTime();
+									list = new ArrayList<HashMap<String,String>>();
+									
+									HashMap<String,String> matchMap = match.toHashMap();
+									matchMap.putAll(pronoMap);
+									list.add(matchMap);
+				
+									matchs.put(day, list);
+								}
 							}
 						}
 					}
+			
+					request.setAttribute("matchsEnded", matchEnded);
+					request.setAttribute("matchsToday", matchsToday);
+					request.setAttribute("matchs", matchs);
+					
+					/** Classement */
+					RankComponent rankComponent = new RankComponent();
+					request.setAttribute("rank", rankComponent.getMinimizedRank(null, currentUser.getUsername()));
+					
+					/** Group */
+					SQLGroupComponent sqlGroupComponent = new SQLGroupComponent();
+					request.setAttribute("userGroups", sqlGroupComponent.getGroups(currentUser.getId()));
+					
+					this.getServletContext().getRequestDispatcher( "/WEB-INF/jsp/admin-match.jsp" ).forward(request, response);
 				}
-		
-				request.setAttribute("matchsEnded", matchEnded);
-				request.setAttribute("matchsToday", matchsToday);
-				request.setAttribute("matchs", matchs);
-				
-				/** Classement */
-				RankComponent rankComponent = new RankComponent();
-				request.setAttribute("rank", rankComponent.getMinimizedRank(null, currentUser.getUsername()));
-				
-				/** Group */
-				SQLGroupComponent sqlGroupComponent = new SQLGroupComponent();
-				request.setAttribute("userGroups", sqlGroupComponent.getGroups(currentUser.getId()));
-				
-				this.getServletContext().getRequestDispatcher( "/WEB-INF/jsp/admin-match.jsp" ).forward(request, response);
 			}
 		}
 	}

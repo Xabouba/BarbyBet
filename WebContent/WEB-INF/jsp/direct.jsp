@@ -84,9 +84,11 @@
 			                                    			<td class="login">
 			                                    				<strong>${currentUser}</strong>
 															</td>
-			                                    			<td class="bet">
-		                                    					<input class="btn btn-primary" type="button" value="Parier" onclick="bet()" />
-			                                    			</td>
+															<c:if test="${empty matchStarted}">
+				                                    			<td class="bet">
+			                                    					<input class="btn btn-primary" type="button" value="Parier" onclick="bet()" />
+				                                    			</td>
+			                                    			</c:if>
 			                                    		</tr>
 			                                    		<tr>
 			                                    			<td class="prono-title">Pronostic:</td>

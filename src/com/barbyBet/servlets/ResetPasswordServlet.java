@@ -59,7 +59,7 @@ public class ResetPasswordServlet extends HttpServlet {
 				
 				if(userId != -1L) {
 					request.setAttribute("changePasswordMode", "yes");
-					request.setAttribute("userId", userId);
+					request.setAttribute("key", key);
 					this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/reset-password.jsp").forward(request, response);
 				} else {
 					response.sendRedirect(Constants.INDEX_SERVLET);
@@ -81,26 +81,30 @@ public class ResetPasswordServlet extends HttpServlet {
 				String password = request.getParameter("password");
 				String repeatPassword = request.getParameter("repeatPassword");
 				
-				String userIdStr = request.getParameter("userId");
-				Long userId = Long.parseLong(userIdStr);
+				String key = request.getParameter("key");
+				SQLUsersComponent sqlUsersComponent = new SQLUsersComponent();
+				Long userId = -1L;
+				
+				if(key != null) {
+					userId = sqlUsersComponent.getUserIdFromEncryptedKey(key);
+				}
 				
 				if(password.equals(repeatPassword)) {
-					SQLUsersComponent sqlUsersComponent = new SQLUsersComponent();
 					boolean isPasswordUpdated = sqlUsersComponent.updatePassword(userId, password);
 					
 					if(isPasswordUpdated) {
 						request.setAttribute("changePasswordMode", "yes");
-						request.setAttribute("userId", userId);
+						request.setAttribute("key", key);
 						request.setAttribute("changePasswordMsg", "Le mot de passe a été mis à jour avec succès. Veuillez cliquer <a href=\"login\">ici</a> pour vous connecter");
 					} else {
 						request.setAttribute("changePasswordMode", "yes");
-						request.setAttribute("userId", userId);
+						request.setAttribute("key", key);
 						request.setAttribute("changePasswordMsg", "Il y a eu une erreur lors de la mise à jour du mot de passe. Merci de réessayer ou de nous contacter à : <a href=\"mailto:contact@barbylone.com\">contact@barbylone.com</a>");
 					}
 					this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/reset-password.jsp").forward(request, response);
 				} else {
 					request.setAttribute("changePasswordMode", "yes");
-					request.setAttribute("userId", userId);
+					request.setAttribute("key", key);
 					request.setAttribute("changePasswordMsg", "Les deux mots de passes fournis ne sont pas identiques");
 					this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/reset-password.jsp").forward(request, response);
 				}

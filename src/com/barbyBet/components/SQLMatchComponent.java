@@ -399,6 +399,7 @@ public class SQLMatchComponent extends SQLComponent
 		
 		try {
 		    connection = DriverManager.getConnection(_url, _user, _password);
+		    
 		    for (Match match : matchs) {
 				updateMatch(match, connection, stmt);
 		    }
@@ -433,5 +434,79 @@ public class SQLMatchComponent extends SQLComponent
 
 	public List<Match> getUnfinishedMatch() {
 		return getMatchs(new Date(), MatchStatus.NOT_ENDED);
+	}
+
+	public Match getBarbyDevMatch() {
+		Connection connection = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		List<String> statusList = new ArrayList<String>();
+		statusList.add(String.valueOf(MatchStatus.ENDED));
+		statusList.add(String.valueOf(MatchStatus.NOT_STARTED));
+		statusList.add(String.valueOf(MatchStatus.FIRST_HALF));	
+		statusList.add(String.valueOf(MatchStatus.HALFTIME)); 	
+		statusList.add(String.valueOf(MatchStatus.SECOND_HALF)); 
+		statusList.add(String.valueOf(MatchStatus.OVERTIME)); 	
+		statusList.add(String.valueOf(MatchStatus.PENALTY)); 	
+		
+		Match match = null;
+
+		try {
+			String sqlQuery = "SELECT t1.name as homeTeam, m.scoreH as homeTeamScore, t2.name as awayTeam, m.scoreA as awayTeamScore, m.statut as matchStatus "
+					+ "FROM Matchs m, Team t1, Team t2 "
+					+ "WHERE m.id = 37 AND t1.id = m.teamHid AND t2.id = m.teamAId";
+			
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/barbybet_dev", _user, _password);
+		    stmt = connection.prepareStatement(sqlQuery);
+		    
+		    rs = stmt.executeQuery();
+			while (rs.next()) {
+		    	match = new Match();
+		    	
+		    	Team homeTeam = new Team();
+		    	homeTeam.setName(rs.getString(1));
+		    	match.setHomeTeam(homeTeam);
+		    	
+		    	Team awayTeam = new Team();
+		    	awayTeam.setName(rs.getString(3));
+		    	match.setAwayTeam(awayTeam);
+		    	
+		    	match.setHomeScore(rs.getInt(2));
+		    	match.setAwayScore(rs.getInt(4));
+		    	match.setStatut(rs.getInt(5));
+		    }		    	
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		} finally {
+		    close(rs);
+			close(stmt);
+			close(connection);
+		}
+		
+	    return match;
+	}
+	
+	public boolean isMatchFromWebServiceInDatabase(Long idWebService) {
+		Connection connexion = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		try {
+		    connexion = DriverManager.getConnection(_url, _user, _password);
+		    stmt = connexion.prepareStatement("SELECT COUNT(*) FROM Matchs m WHERE m.idWebService = ?");
+		    stmt.setLong(1, idWebService);
+		    
+		    rs = stmt.executeQuery();
+		    
+		    return rs.next();
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		} finally {
+		    close(rs);
+			close(stmt);
+			close(connexion);
+		}
+		
+		return false;
 	}
 }

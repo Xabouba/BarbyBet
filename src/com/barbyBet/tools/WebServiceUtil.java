@@ -12,14 +12,14 @@ public class WebServiceUtil {
 		if(webServiceStatus != null) {
 			if("Finished".equals(webServiceStatus)) {
 				status = MatchStatus.ENDED;
-			} else if("Postponed".equals(webServiceStatus)) {
+			} else if("Not started".equals(webServiceStatus) || "Postponed".equals(webServiceStatus)) {
 				status = MatchStatus.NOT_STARTED;
 			} else {
 				// TODO 
 				if("Halftime".equals(webServiceStatus)) {
 					status = MatchStatus.HALFTIME;
 				} else {
-					webServiceStatus.replace("'", "");
+					webServiceStatus = webServiceStatus.replace("'", "");
 					Long minuteOfMatch = Long.parseLong(webServiceStatus);
 					Long firstHalfMinuteLimit = 45L;
 					Long secondHalfMinuteLimit = 90L;

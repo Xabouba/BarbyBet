@@ -250,7 +250,7 @@ public class SQLRankComponent extends SQLComponent
 		ResultSet rs = null;
 		
 		try {
-		    connexion = DriverManager.getConnection(_url, _user, _password);
+			connexion = DriverManager.getConnection(_url, _user, _password);
 		    connexion.setAutoCommit(false);
 		    
 		    // Select users ranks to loop through them and update rank before last game

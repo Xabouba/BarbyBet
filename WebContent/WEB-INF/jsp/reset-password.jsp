@@ -139,7 +139,7 @@
 												<br />
 		                                	</c:if>
 											<form name="change-password" action="reset" method="post">
-												<input type="hidden" name="userId" value="${userId}" />
+												<input type="hidden" name="key" value="${key}" />
 												<input type="hidden" name="actionType" value="changePassword" />
 												<input type="password" class="form-control" name="password" placeholder="*****" /> <br /><br />
 												<input type="password" class="form-control" name="repeatPassword" placeholder="*****" /> <br /><br />
