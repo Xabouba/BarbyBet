@@ -564,8 +564,6 @@
 			  $("#next-match").hide();
 		  }
 		  
-		  todayMatch();
-		  
 		  endMatch = function()
 		  {
 			  var matchsEndedEmpty = $("#matchs-ended-empty");
