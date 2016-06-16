@@ -18,6 +18,16 @@ public class UsersComponent {
 		
 	}
 	
+	public boolean isCurrentUser(User currentUser) {
+		SQLUsersComponent sqlUsersComponent = new SQLUsersComponent();
+		
+		if(currentUser.getId() == null || currentUser.getUsername() == null || currentUser.getEmail() == null) {
+			return false;
+		}
+		
+		return sqlUsersComponent.isUserInDatabase(currentUser);
+	}
+	
 	public User getCurrentUser(HttpServletRequest request) {
 		User currentUser = new User();
 		Cookie[] cookies = request.getCookies();

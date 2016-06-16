@@ -34,7 +34,7 @@ public class RankComponent {
 		for (String userName : rank.keySet())
 		{
 			Map<String, String> attribute = new HashMap<String, String>();
-			if (nbUser < 3 || (userFounded && (nbUser < 8)))
+			if (nbUser < 3 || (userFounded && (nbUser < 7)))
 			{
 				attribute = rank.get(userName);
 //				attribute.put("rank", String.valueOf(index + 1));
@@ -58,7 +58,14 @@ public class RankComponent {
 //					attribute.put("rank", String.valueOf(index));
 					newRank.put(users.get(index - 1), attribute);
 					
-					nbUser += (index - 3);
+					if (index - 2 > 3)
+				    {
+						nbUser += 2;
+				    }
+				    else
+				    {
+				    	nbUser += (index - 3);
+				    }
 				}
 				
 				attribute = rank.get(login);

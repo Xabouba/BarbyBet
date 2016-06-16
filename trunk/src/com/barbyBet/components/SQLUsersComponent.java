@@ -80,7 +80,7 @@ public class SQLUsersComponent extends SQLComponent {
 
 				rs = stmt.executeQuery();
 				if (rs.next()) {
-					return new User(rs.getLong("id"), rs.getString("username"), rs.getString("email"), rs.getDate("dateRegistration"), rs.getInt("coins"));
+					return new User(rs.getLong("id"), rs.getString("username"), rs.getString("email"), rs.getTimestamp("dateRegistration"), rs.getInt("coins"));
 				} else {
 					setError(CHAMP_EMAIL,
 							"Vos identifiants sont incorrects.");
@@ -541,6 +541,31 @@ public class SQLUsersComponent extends SQLComponent {
 			System.out.println(e.getMessage());
 			return false;
 		} finally {
+			close(stmt);
+			close(connexion);
+		}
+	}
+
+	public boolean isUserInDatabase(User currentUser) {
+		Connection connexion = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		try {
+		    connexion = DriverManager.getConnection(_url, _user, _password);
+			stmt = connexion
+					.prepareStatement("SELECT id FROM Users WHERE id = ? AND username = ? AND email = ?");
+			stmt.setLong(1, currentUser.getId());
+			stmt.setString(2, currentUser.getUsername());
+			stmt.setString(3, currentUser.getEmail());
+			
+			rs = stmt.executeQuery();
+			
+			return rs.next();
+		} catch (SQLException e) {
+			System.out.println(e);
+			return false;
+		} finally {
+			close(rs);
 			close(stmt);
 			close(connexion);
 		}

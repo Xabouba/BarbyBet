@@ -56,7 +56,7 @@ public class CreateGroupServlet extends HttpServlet {
 		UsersComponent usersComponent = new UsersComponent();
 		currentUser = usersComponent.getCurrentUser(request);
 		
-		if(currentUser.getId() == null) {
+		if(!usersComponent.isCurrentUser(currentUser)) {
 			response.sendRedirect(Constants.LOGIN_SERVLET);
 		} else {
 			RankComponent rankComponent = new RankComponent();
@@ -73,7 +73,7 @@ public class CreateGroupServlet extends HttpServlet {
 		UsersComponent usersComponent = new UsersComponent();
 		User currentUser = usersComponent.getCurrentUser(request);
 
-		if(currentUser.getId() == null){
+		if(!usersComponent.isCurrentUser(currentUser)){
 			response.sendRedirect(Constants.LOGIN_SERVLET);
 		}
 		

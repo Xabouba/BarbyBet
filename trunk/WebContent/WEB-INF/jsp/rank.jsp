@@ -117,11 +117,6 @@
         <script type="text/javascript" src="js/custom.js"></script>
         
         <script type="text/javascript">
-			var index = "${currentGroupIndex}";
-			
-			$("#group-" + index)[0].style.backgroundColor = "#ebebeb";
-			$("#group-" + index)[0].style.border = "solid 2px #fff";
-					
 			changeGroup = function(id, idGroup)
 			{
 				$("#group-general")[0].style.backgroundColor = "#fff";
@@ -141,6 +136,17 @@
 				$("#" + id)[0].style.border = "solid 2px #fff";
 			
 				$("#main-content").load("rank", {group: idGroup}).fadeIn("slow");
+			}
+			
+			var index = "${currentGroupIndex}";
+			
+			$("#group-" + index)[0].style.backgroundColor = "#ebebeb";
+			$("#group-" + index)[0].style.border = "solid 2px #fff";
+			
+			if(index == "general") {
+				changeGroup("group-general", "all");
+			} else {
+				changeGroup("group-"+index, "${currentGroupId}")
 			}
 		</script>
     </body>
