@@ -43,6 +43,11 @@
        		</tr>
        	</table>
        </li>
+       <c:if test="${user.value.hasNext == 'true'}">
+       	<li class="format-standard">
+       		<p style="text-align: center">...................................</p>
+       	</li>
+      	</c:if>
 </c:forEach>
 <li class="link-rank">
 	<c:choose>

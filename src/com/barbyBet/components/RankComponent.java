@@ -37,7 +37,10 @@ public class RankComponent {
 			if (nbUser < 3 || (userFounded && (nbUser < 7)))
 			{
 				attribute = rank.get(userName);
-//				attribute.put("rank", String.valueOf(index + 1));
+				if (nbUser == 6 && users.size() > index + 1)
+				{
+					attribute.put("hasNext", "true");
+				}
 				newRank.put(userName, attribute);
 				nbUser++;
 			}
@@ -51,11 +54,9 @@ public class RankComponent {
 					{
 						attribute.put("hasBefore", "false");
 					}
-//					attribute.put("rank", String.valueOf(index - 1));
 					newRank.put(users.get(index - 2), attribute);
 					
 					attribute = rank.get(users.get(index - 1));
-//					attribute.put("rank", String.valueOf(index));
 					newRank.put(users.get(index - 1), attribute);
 					
 					if (index - 2 > 3)
@@ -69,7 +70,6 @@ public class RankComponent {
 				}
 				
 				attribute = rank.get(login);
-//				attribute.put("rank", String.valueOf(index + 1));
 				attribute.put("currentUser", "true");
 				newRank.put(login, attribute);
 				
