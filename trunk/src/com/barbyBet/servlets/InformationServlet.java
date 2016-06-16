@@ -133,19 +133,19 @@ public class InformationServlet extends HttpServlet {
 	}
 	
 	
-	private Map<String, HashMap<String, Object>> _orderRankMap(HashMap<Integer, HashMap<String, Object>> rank) 
+	private Map<Float, HashMap<String, Object>> _orderRankMap(HashMap<Integer, HashMap<String, Object>> rank) 
 	{
-		TreeMap<String, HashMap<String, Object>> treeMap = new TreeMap<String, HashMap<String,Object>>();
+		TreeMap<Float, HashMap<String, Object>> treeMap = new TreeMap<Float, HashMap<String,Object>>();
 		for (Integer key : rank.keySet())
 		{ 
 			HashMap<String, Object> map = rank.get(key);
-			int win = (Integer) map.get("win");
-			int draw = (Integer) map.get("draw");
-			int goal = (Integer) map.get("goal");
-			int taken = (Integer) map.get("taken");
+			float win = (Integer) map.get("win");
+			float draw = (Integer) map.get("draw");
+			float goal = (Integer) map.get("goal");
+			float taken = (Integer) map.get("taken");
 			
-			double point = (3 * win + draw) * 10000 + (goal - taken) * 100 + goal;
-			treeMap.put(point + "_" + key, map);
+			float point = (3 * win + draw) * 100000 + 1000 * (goal - taken) + goal;
+			treeMap.put(point + (float) key/100, map);
 		}
 		
 		return treeMap.descendingMap();
