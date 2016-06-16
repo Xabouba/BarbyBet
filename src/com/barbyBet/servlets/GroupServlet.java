@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.barbyBet.components.RankComponent;
+import com.barbyBet.components.SQLCommentComponent;
 import com.barbyBet.components.SQLGroupComponent;
 import com.barbyBet.components.SQLUsersComponent;
 import com.barbyBet.components.UsersComponent;
@@ -42,7 +43,7 @@ public class GroupServlet extends HttpServlet {
 		UsersComponent usersComponent = new UsersComponent();
 		currentUser = usersComponent.getCurrentUser(request);
 		
-		if(currentUser.getId() == null) {
+		if(!usersComponent.isCurrentUser(currentUser)) {
 			response.sendRedirect(Constants.LOGIN_SERVLET);
 		} else {
 			// If we are in the case of a user deleting a group, the groupId is not set anymore and Group group will be null 
@@ -86,7 +87,7 @@ public class GroupServlet extends HttpServlet {
 		UsersComponent usersComponent = new UsersComponent();
 		User currentUser = usersComponent.getCurrentUser(request);
 		
-		if(currentUser.getId() == null) {
+		if(!usersComponent.isCurrentUser(currentUser)) {
 			response.sendRedirect(Constants.LOGIN_SERVLET);
 		} else {
 			String actionType = request.getParameter("actionType");
@@ -117,6 +118,9 @@ public class GroupServlet extends HttpServlet {
 						if(sqlGroupComponent.ADD_SUCCESSFUL.equals(result)) {
 							// Update Group object
 							g = sqlGroupComponent.getGroup(g.getId());
+							
+							// Add points to user in group 
+							sqlGroupComponent.updateGroupUserPoint(u.getId(), g.getId(), u.getCoins());
 							
 							// Update Rank
 							sqlGroupComponent.updateRankAfterModificationInGroup(g, u);
@@ -207,9 +211,14 @@ public class GroupServlet extends HttpServlet {
 					if(sqlGroupComponent.ADD_SUCCESSFUL.equals(result)) {
 						// Update Group object
 						g = sqlGroupComponent.getGroup(g.getId());
+						
+						// Add points to user in group 
+						sqlGroupComponent.updateGroupUserPoint(u.getId(), g.getId(), u.getCoins());
+						
 						// Update Rank
 						sqlGroupComponent.updateRankAfterModificationInGroup(g, currentUser);
 						request.setAttribute("justJoinedGroup", g.getId());
+						
 						doGet(request, response);
 					} else {
 						// Redirect back to the same page with the error msg
@@ -310,6 +319,11 @@ public class GroupServlet extends HttpServlet {
 			}
 			request.setAttribute("currentGroupId", group.getId());
 
+			/** Commentaires */
+			SQLCommentComponent sqlCommentComponent = new SQLCommentComponent();
+			ArrayList<HashMap<String, String>> comments = sqlCommentComponent.getGroupChatMessages(group.getId());
+			request.setAttribute("comments", comments);
+			
 			/** Classement */
 			RankComponent rankComponent = new RankComponent();
 			request.setAttribute("rank", rankComponent.getMinimizedRank(group.getId(), currentUser.getUsername()));

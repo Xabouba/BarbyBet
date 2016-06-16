@@ -593,6 +593,11 @@ h1,h2,h3,h4,h5,h6
 {
     margin-right: 20px;
     width: 250px;
+    -webkit-box-ordinal-group: 2;
+    -moz-box-ordinal-group: 2;
+    -ms-flex-order: 2;
+    -webkit-order: 2;
+    order: 2;
 }
 #sidebar-main-content > ul > li
 {

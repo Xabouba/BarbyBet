@@ -40,7 +40,7 @@ public class RankServlet extends HttpServlet {
 		UsersComponent usersComponent = new UsersComponent();
 		User currentUser = usersComponent.getCurrentUser(request);
 		
-		if(currentUser.getId() == null) {
+		if(!usersComponent.isCurrentUser(currentUser)) {
 			response.sendRedirect(Constants.LOGIN_SERVLET);
 		} else {
 			/** User group */
@@ -69,6 +69,7 @@ public class RankServlet extends HttpServlet {
 			if (indexFound == 0)
 			{
 				request.setAttribute("currentGroupIndex", "general");
+				request.setAttribute("currentGroupId", "-1");
 			}
 			else
 			{
@@ -121,9 +122,17 @@ public class RankServlet extends HttpServlet {
 		}
 		else
 		{
-			SQLRankComponent rankComponent = new SQLRankComponent();
-			Map<String, Map<String, String>> rank = rankComponent.getGroupRank(idGroup);
-			int rankUser = Integer.parseInt(rank.get(currentUser.getUsername()).get("rank"));
+			int rankUser = 0;
+			if(idGroup != null) {
+				SQLRankComponent rankComponent = new SQLRankComponent();
+				Map<String, Map<String, String>> rank = rankComponent.getGroupRank(idGroup);
+				rankUser = Integer.parseInt(rank.get(currentUser.getUsername()).get("rank"));
+			} else {
+				SQLUsersComponent sqlUserComponent = new SQLUsersComponent();
+				User user = sqlUserComponent.getUser(currentUser.getId());
+
+				rankUser = user.getRank();
+			}
 			if (rankUser % nbUserByPage == 0)
 			{
 				page = rankUser / nbUserByPage;

@@ -18,8 +18,8 @@
                     <span class="pull-right"><img src="images/top-right-effect.png" class="img-responsive" alt=""></span>
                 </div>
                 <!-- top-effect -->
-                <div id="main-content" class="pull-left">
-                    <div id="sidebar-main-content" class="pull-left">
+                <div id="main-content" class="pull-left group-content">
+                    <div id="sidebar-main-content" class="pull-left group-rank">
                        <ul class="list-unstyled classement">
 							<li class="clearfix">
 							    <div class="widget kp-review rank">
@@ -34,7 +34,7 @@
 						</ul>
                     </div>
                     <!-- sidebar-main-content -->
-                    <div id="main-col" class="pull-left">
+                    <div id="main-col" class="pull-left group-info">
                             <div class="widget kp-last-news">
                                 <h2 class="widget-title"><span>${group.name}</span></h2>
                                 <div class="widget-content">
@@ -70,8 +70,29 @@
 		                                    </div> 
                                   		</li>
                                   	</ul>
-                                  			
                                 </div>
+                                <br /> 
+                                <br /> 
+                                <ul class="list-unstyled">
+		                            <li class="clearfix">
+		                                <div class="widget kp-review">
+		                                    <h2 class="widget-title"><span>Chat</span></h2>
+		                                    <div id="chat" class="widget-content">
+		                                   		<%@include file='chat.jsp'%>
+		                                    </div>
+		                                    <br />
+										  	<label for="comments">Message: </label>
+										 	<textarea style="width: 100%;" rows="5" name="comment" id="comments" maxlength="450" ></textarea>
+											<br />
+											<br />
+											<div style="width:100%; text-align: center">
+												<input class="btn btn-primary" type="submit" value="Envoyer" onclick="post()"/>
+		                                    </div>
+		                                    <!-- widget-content -->
+		                                </div>
+		                                <!-- kp-review -->
+		                            </li>
+		                        </ul>
                                 <!-- widget-content -->
                             </div>
                     </div>
@@ -403,6 +424,27 @@
 	            	$("#minimized-rank").load("rankAction", {group: groupId}).fadeIn("slow");
 	            });
 	        }
+	        
+	        post = function()
+			  {
+	        	var groupId = ${group.id};
+				  var comment = $("#comments").val();
+				  
+				  $.ajax(
+				  {
+			      	method: "POST",
+					url: "commentAction",
+					data: {groupId: groupId, comment: comment, comingFrom: "group"}
+				  }).done(function( msg ) {
+						$("#comments").val("");
+						$("#chat").load("commentAction", {groupId: groupId, refresh: "true", comingFrom: "group"}).fadeIn("slow");
+				  });
+			  }
+	        
+			  setInterval(function(){
+				  var groupId = ${group.id};
+				  $("#chat").load("commentAction", {groupId: groupId, refresh: "true", comingFrom: "group"}).fadeIn("slow");
+				}, 30000);
     	</script>
 	</body>
 </html>    

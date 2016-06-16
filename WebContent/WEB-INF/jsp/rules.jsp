@@ -69,8 +69,6 @@
 				                    </li>
 							    </c:otherwise>
 			                </c:choose>
-				            
-			                
 			            </ul>
 			            <div id="mobile-menu">
 			                <span>Menu</span>
@@ -79,34 +77,51 @@
 			                    	<%-- VÃ©rification de l'absence du nom d'utilisateur en cookie --%>
 					                <c:choose>
 										<c:when test="${empty cookie.currentUserId}">
-											<li>
-									    		<h3><a href="register">Inscription</a></h3>
+											<li class="clearfix">
+									    		<h3>
+									    			<a href="register">Inscription</a>
+									    		</h3>
 									    	</li>
 									    </c:when>
 										<c:otherwise>
 											<li class="clearfix">
-						                        <h3><a href="index">Accueil</a></h3>
+						                        <h3>
+						                        	<a href="index">Accueil</a>
+						                        </h3>
 						                    </li>
 						                    <li class="clearfix">
-						                        <h3><a href="match">Pronostiquer</a></h3>
+						                        <h3><a href="match">Pronostiquer</a>
+						                        </h3>
 						                    </li>
 						                    <li class="clearfix">
-						                        <h3><a href="resultats">Résultats</a></h3>
+						                        <h3>
+						                        	<a href="resultats">Résultats</a>
+						                        </h3>
 						                    </li>
 						                    <li class="clearfix">
-						                        <h3><a href="createGroup">Créer Groupe</a></h3>
+						                        <h3>
+						                        	<a href="createGroup">Créer Groupe</a>
+						                        </h3>
 						                    </li>
 						                    <li class="clearfix">
-						                        <h3><a href="group">Mes Groupes</a></h3>
+						                        <h3>
+						                        	<a href="group">Mes Groupes</a>
+						                        </h3>
 						                    </li>
 						                    <li class="clearfix">
-						                    	<h3><a href="rank">Classements</a></h3>
+						                    	<h3>
+						                    		<a href="rank">Classements</a>
+						                    	</h3>
 						                    </li>
 						                    <li class="clearfix">
-						                    	<h3><a href="rules">Règles du jeu</a></h3>
+						                    	<h3>
+						                    		<a href="rules">Règles du jeu</a>
+						                    	</h3>
 						                    </li>
 						                    <li class="clearfix">
-									        	<h3><a href="logout">Déconnexion</a></h3>
+									        	<h3>
+									        		<a href="logout">Déconnexion</a>
+									        	</h3>
 									        </li>
 									    </c:otherwise>
 					                </c:choose>
@@ -243,5 +258,23 @@
 		<script src="js/ie10.js"></script>
 		<script src="js/chart/Chart.js"></script>
 		<script type="text/javascript" src="js/custom.js"></script>
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="js/jqueryUi.js"></script>
+        <script src="js/bootstrap.js"></script>
+        <script src="js/superfish.js"></script>
+        <script src="js/jquery.validate.min.js"></script>
+        <script src="js/jquery.carouFredSel-6.2.1-packed.js"></script>
+        <script src="js/jflickrfeed.min.js"></script>
+        <script src="js/tweetable.jquery.js"></script>
+        <script src="js/jquery.timeago.js"></script>
+        <script src="js/jquery.prettyPhoto.js"></script>
+        <script src="js/modernizr.js"></script>
+        <script src="js/grid.js"></script>
+        <script src="js/masonry.pkgd.min.js"></script>
+        <script src="js/chart/jquery.canvasjs.js"></script>
+        <script src="js/chart/canvasjs.js"></script>
+        <script src="js/chart/excanvas.js"></script>
+        <script type="text/javascript" src="js/custom.js"></script>
+        <script src="js/autocomplete.js"></script>
     </body>
 </html>

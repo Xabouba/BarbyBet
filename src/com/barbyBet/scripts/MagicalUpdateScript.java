@@ -24,10 +24,6 @@ import com.github.pabloo99.xmlsoccer.client.XmlSoccerServiceImpl;
 
 public class MagicalUpdateScript {
 	public static void main(String[] args) {
-		// Insert a line in the Scripts database
-		SQLScriptsComponent sqlScriptsComponent = new SQLScriptsComponent();
-		sqlScriptsComponent.insertDummyLine();
-		
 		updateCurrentGamesRealScores();
 	}
 	

@@ -54,7 +54,7 @@ public class AdminMatchServlet extends HttpServlet {
 		
 		String league = request.getParameter("league");
 		
-		if(currentUser.getId() == null) {
+		if(!usersComponent.isCurrentUser(currentUser)) {
 			response.sendRedirect(Constants.LOGIN_SERVLET);
 		} else {
 			if(currentUser.getId() != 1) {
