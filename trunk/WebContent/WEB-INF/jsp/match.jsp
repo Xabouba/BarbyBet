@@ -29,21 +29,21 @@
 	                                    <h2 class="widget-title"><span>Match</span></h2>
 	                                    <div class="menu-match">
 	                                    	<ul class="nav nav-tabs kp-tabs">
-									            <li class="active">
+									            <li id="allMatch" >
 									                <a href="" onclick="allMatch()">Tous</a>
 									            </li>
-									            <li>
+									            <li id="todayMatch" class="active">
 								                    <a href="" onclick="todayMatch()">Aujourd'hui</a>
 								                </li>
-								                <li>
+								                <li id="nextMatch">
 								                    <a href="" onclick="nextMatch()">Prochainement</a>
 								                </li>
-								                <li>
+								                <li id="endMatch">
 								                    <a href="" onclick="endMatch()">Terminés</a>
 								                </li>
 								            </ul>
 	                                    </div>
-	                                    <div id="ended-match">
+	                                    <div id="ended-match" style="display:none">
 		                                    <div class="widget-content">
 		                                    	<c:if test="${empty matchsEnded}">
 			                                    	<ul class="list-unstyled" id="matchs-ended-empty" style="display:none"><li class="format-standard">Aucun match terminé</li></ul>
@@ -287,7 +287,7 @@
 	                                        	</c:forEach>
 		                                    </div>
 		                                </div>
-		                                <div id="next-match">
+		                                <div id="next-match" style="display:none">
 		                                    <div class="widget-content">
 		                                    	<c:if test="${empty matchs}">
 			                                    	<ul class="list-unstyled" id="next-matchs-empty" style="display:none"><li class="format-standard">Aucun match à venir</li></ul>
@@ -623,5 +623,17 @@
         <script src="js/grid.js"></script>
         <script src="js/masonry.pkgd.min.js"></script>
         <script type="text/javascript" src="js/custom.js"></script>
+        
+        <script type="text/javascript">
+    		var hasNoMatchToday = ${empty matchsToday};
+        	if (hasNoMatchToday)
+           	{
+        		nextMatch();
+				$("#allMatch").removeClass("active");
+				$("#todayMatch").removeClass("active");
+				$("#nextMatch").addClass("active");
+				$("#endMatch").removeClass("active");
+           	}
+    	</script>
     </body>
 </html>    
