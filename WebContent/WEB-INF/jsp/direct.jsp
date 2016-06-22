@@ -155,9 +155,48 @@
 		    
 			if (nbProno != 0)
 			{
-				var win = Math.floor(nbWin / nbProno * 100);
-				var lose = Math.floor(nbLose / nbProno * 100);
-				var draw = Math.floor(nbDraw / nbProno * 100);
+				var win = Math.round(nbWin / nbProno * 1000) / 10;
+				var lose = Math.round(nbLose / nbProno * 1000) / 10;
+				var draw = Math.round(nbDraw / nbProno * 1000) / 10;
+
+				if ((win + lose + draw) > 100)
+				{
+					if (19.7 < win < 20.3)
+					{
+						if (19.7 < lose < 20.3)
+						{
+							draw = draw - 0.1;
+						}
+						else
+						{
+							lose = lose - 0.1;
+						}
+					}
+					else
+					{
+						win = win - 0.1;
+					}
+				}
+
+				if ((win + lose + draw) < 100)
+				{
+					if (19.7 < win < 20.3)
+					{
+						if (19.7 < lose < 20.3)
+						{
+							draw = draw + 0.1;
+						}
+						else
+						{
+							lose = lose + 0.1;
+						}
+					}
+					else
+					{
+						win = win + 0.1;
+					}
+				}
+				
 		    	var chart = new CanvasJS.Chart("info-match", {
 			    	axisX: {
 			            title: homeTeam + "   -   " + awayTeam

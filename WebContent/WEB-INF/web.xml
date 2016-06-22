@@ -77,12 +77,12 @@
     <url-pattern>/resultats</url-pattern>
   </servlet-mapping>
   <servlet>
-    <servlet-name>UserAutoComplete</servlet-name>
-    <servlet-class>com.barbyBet.servlets.UserAutoCompleteServlet</servlet-class>
+    <servlet-name>FinalStage</servlet-name>
+    <servlet-class>com.barbyBet.servlets.FinalStageServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>UserAutoComplete</servlet-name>
-    <url-pattern>/userAutoComplete</url-pattern>
+    <servlet-name>FinalStage</servlet-name>
+    <url-pattern>/finalStage</url-pattern>
   </servlet-mapping>
   <servlet>
     <servlet-name>GroupAutoComplete</servlet-name>

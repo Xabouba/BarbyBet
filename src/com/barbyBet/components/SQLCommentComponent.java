@@ -62,7 +62,8 @@ public class SQLCommentComponent extends SQLComponent {
 		    	comment.put("user", rs.getString(2));
 		    	comment.put("hour", hour);
 		    	comment.put("date", dateStr);
-		    	comment.put("comment", rs.getString(3));
+		    	String commentString = rs.getString(3).replace("<", "&lt;").replace("&", "&amp;");
+		    	comment.put("comment", commentString);
 		    	
 		    	SQLPronoComponent sqlPronoComponent = new SQLPronoComponent();
 		    	HashMap<String, String> prono = sqlPronoComponent.getProno(matchId, rs.getLong(4));
@@ -183,7 +184,9 @@ public class SQLCommentComponent extends SQLComponent {
 		    	comment.put("user", rs.getString(2));
 		    	comment.put("hour", hour);
 		    	comment.put("date", dateStr);
-		    	comment.put("comment", rs.getString(3));
+		    	
+		    	String commentString = rs.getString(3).replace("<", "&lt;").replace("&", "&amp;");
+		    	comment.put("comment", commentString);
 		    	
 		    	listComment.add(comment);
 		    }		    	

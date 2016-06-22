@@ -437,9 +437,19 @@
 
 		  if (nbProno != 0)
 		  {
-			  var win = Math.floor(nbWin / nbProno * 100);
-			  var lose = Math.floor(nbLose / nbProno * 100);
-			  var exact = Math.floor(nbExact / nbProno * 100);
+			  var win = Math.round(nbWin / nbProno * 100);
+			  var lose = Math.round(nbLose / nbProno * 100);
+			  var exact = Math.round(nbExact / nbProno * 100);
+
+			  if (win + lose + exact > 100)
+			  {
+				  exact--;
+			  }
+
+			  if (win + lose + exact < 100)
+			  {
+				  exact++;
+			  }
 			  
 			  var pieData = [
 				{

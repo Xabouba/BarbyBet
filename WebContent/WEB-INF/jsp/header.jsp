@@ -10,9 +10,13 @@
 	            <li>
                     <a href="match">Pronostiquer</a>
                 </li>
-                <li>
-	            	<a href="resultats">Résultats</a>
-	            </li>
+	            <li>
+                    <a href="#">Résultats</a>
+                    <ul>
+                        <li><a href="resultats">Groupe</a></li>
+                        <li><a href="finalStage">Phase finale</a></li>
+                    </ul>
+                </li>
                 <li>
                     <a href="#">Groupes</a>
                     <ul>
@@ -50,7 +54,10 @@
                         <h3><a href="match">Pronostiquer</a></h3>
                     </li>
                     <li class="clearfix">
-                        <h3><a href="resultats">Résultats</a></h3>
+                        <h3><a href="resultats">Phase groupe</a></h3>
+                    </li>
+                    <li class="clearfix">
+                        <h3><a href="finalStage">Phase finale</a></h3>
                     </li>
                     <li class="clearfix">
                         <h3><a href="createGroup">Créer Groupe</a></h3>
