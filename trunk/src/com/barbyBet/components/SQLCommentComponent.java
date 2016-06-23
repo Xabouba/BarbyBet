@@ -62,7 +62,8 @@ public class SQLCommentComponent extends SQLComponent {
 		    	comment.put("user", rs.getString(2));
 		    	comment.put("hour", hour);
 		    	comment.put("date", dateStr);
-		    	String commentString = rs.getString(3).replace("<", "&lt;").replace("&", "&amp;");
+		    	String commentString = rs.getString(3);
+		    	// .replace("<", "&lt;").replace("&", "&amp;");
 		    	comment.put("comment", commentString);
 		    	
 		    	SQLPronoComponent sqlPronoComponent = new SQLPronoComponent();
@@ -185,7 +186,8 @@ public class SQLCommentComponent extends SQLComponent {
 		    	comment.put("hour", hour);
 		    	comment.put("date", dateStr);
 		    	
-		    	String commentString = rs.getString(3).replace("<", "&lt;").replace("&", "&amp;");
+		    	String commentString = rs.getString(3);
+		    	// .replace("<", "&lt;").replace("&", "&amp;");
 		    	comment.put("comment", commentString);
 		    	
 		    	listComment.add(comment);

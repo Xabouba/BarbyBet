@@ -38,7 +38,6 @@ public class CreateGamesInTheDatabase {
 		List<Match> matchs = new ArrayList<Match>();
 		
 		for (GetFixturesResultDto game : allEuro2016Games) {
-			if(game.getRound() != null) {
 				Team homeTeam = new Team();
 				homeTeam.setName(game.getHomeTeam());
 				homeTeam.setId(teamsIdMap.get(game.getHomeTeamId()));
@@ -76,7 +75,6 @@ public class CreateGamesInTheDatabase {
 				m.setOdds(odds);
 							
 				matchs.add(m);
-			}
 		}
 		
 		/* to pass in a parameter the name of the league or the season,

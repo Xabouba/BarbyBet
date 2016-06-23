@@ -1,6 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html lang="en">
 	<head>
+		<title>Inscription - Barbylone pronostiquez gratuitement les matchs de l'Euro 2016 et gagnez des cadeaux</title>
 		<link rel="stylesheet" type="text/css" href="css/index.css">
 	</head>
 	<body>

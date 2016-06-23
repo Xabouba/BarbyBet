@@ -1,6 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html lang="en">
 	<head>
+		<title>Connexion - Barbylone pronostiquez gratuitement les matchs de l'Euro 2016 et gagnez des cadeaux</title>
 		<link rel="stylesheet" type="text/css" href="css/index.css">
 	</head>
 	<body>
@@ -11,7 +12,7 @@
 					<span class="index-header-logo icon icon-deezer"></span>
 					<div class="index-header-actions index-header-discover pull-left hidden-phone hidden-tablet">
 						<a class="btn btn-shadow" href="/features">
-						<span class="label">Découvrir Deezer</span>
+						<span class="label"></span>
 						</a>
 					</div>
 				</div>
