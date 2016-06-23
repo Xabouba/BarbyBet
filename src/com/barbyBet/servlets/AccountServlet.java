@@ -37,7 +37,7 @@ public class AccountServlet extends HttpServlet {
 		UsersComponent usersComponent = new UsersComponent();
 		User currentUser = usersComponent.getCurrentUser(request);
 		
-		if(currentUser.getId() == null) {
+		if(!usersComponent.isCurrentUser(currentUser)) {
 			response.sendRedirect(Constants.LOGIN_SERVLET);
 		} else {
 			/** Classement */
@@ -64,9 +64,14 @@ public class AccountServlet extends HttpServlet {
 			} else {
 				request.setAttribute("groups", sqlGroupComponent.getGroupsByStatus(id, 0));
 			}
-			/** Next Pronostic */
+			
+			/** Current Matches */
 			SQLPronoComponent sqlPronoComponent = new SQLPronoComponent();
-			ArrayList<HashMap<String, String>> nextMatchPronostic = sqlPronoComponent.getNextMatchPronostic(id);
+			ArrayList<HashMap<String, String>> currentMatchesAndTheirBets = sqlPronoComponent.getCurrentMatchesAndTheirBets(id);
+			request.setAttribute("currentProno", currentMatchesAndTheirBets);
+			
+			/** Next Matches */
+			ArrayList<HashMap<String, String>> nextMatchPronostic = sqlPronoComponent.getNextFiveMatchesAndTheirBets(id);
 			request.setAttribute("nextProno", nextMatchPronostic);
 
 			/** Past Pronostic */

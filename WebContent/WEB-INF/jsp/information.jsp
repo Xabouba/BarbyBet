@@ -4,6 +4,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+    	<title>Résultats des matchs de l'Euro 2016</title>
         <%@include file="import.jsp" %>
     </head>
     <body onLoad="goforit()">

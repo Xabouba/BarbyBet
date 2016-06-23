@@ -213,7 +213,7 @@ public class GroupServlet extends HttpServlet {
 						g = sqlGroupComponent.getGroup(g.getId());
 						
 						// Add points to user in group 
-						sqlGroupComponent.updateGroupUserPoint(u.getId(), g.getId(), u.getCoins());
+						sqlGroupComponent.updateGroupUserPoint(currentUser.getId(), g.getId(), currentUser.getCoins());
 						
 						// Update Rank
 						sqlGroupComponent.updateRankAfterModificationInGroup(g, currentUser);

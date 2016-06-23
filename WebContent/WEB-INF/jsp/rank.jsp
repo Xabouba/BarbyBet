@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+    	<title>Classements</title>
         <%@include file="import.jsp" %>
     </head>
     <body onLoad="goforit()">

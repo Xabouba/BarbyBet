@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+    	<title>Match en direct : ${match.homeTeam} - ${match.awayTeam}</title>
         <%@include file="import.jsp" %>
     </head>
     <body onLoad="goforit()">

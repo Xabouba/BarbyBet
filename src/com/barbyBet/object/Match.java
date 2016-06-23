@@ -1,6 +1,9 @@
 package com.barbyBet.object;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 
 import com.barbyBet.tools.MatchStatus;
@@ -162,7 +165,77 @@ public class Match {
 	    String msgInfo = "";
 	    switch (_statut) {
 	    case MatchStatus.NOT_STARTED:
-	    	msgInfo = "A jouer";
+	    	Date matchDate = this.getBeginDate();
+	    	Date today = new Date();
+	    	Calendar calendarToday = Calendar.getInstance();
+	    	calendarToday.setTime(today);
+	    	
+	    	Calendar calendarMatch = Calendar.getInstance();
+	    	calendarMatch.setTime(matchDate);
+	    	
+	    	int dayOfYearToday = calendarToday.get(Calendar.DAY_OF_YEAR);
+	    	int dayOfYearMatch = calendarMatch.get(Calendar.DAY_OF_YEAR);
+	    	
+	    	int dayOfTheWeek = calendarMatch.get(Calendar.DAY_OF_WEEK);
+	    	String dayOfTheWeekStr = "";
+	    	switch(dayOfTheWeek) {
+		    	case Calendar.MONDAY:
+		    		dayOfTheWeekStr = "Lun.";
+		    		break;
+		    	case Calendar.TUESDAY:
+		    		dayOfTheWeekStr = "Mar.";
+		    		break;
+		    	case Calendar.WEDNESDAY:
+		    		dayOfTheWeekStr = "Mer.";
+		    		break;
+		    	case Calendar.THURSDAY:
+		    		dayOfTheWeekStr = "Jeu.";
+		    		break;
+		    	case Calendar.FRIDAY:
+		    		dayOfTheWeekStr = "Ven.";
+		    		break;
+		    	case Calendar.SATURDAY:
+		    		dayOfTheWeekStr = "Sam.";
+		    		break;
+		    	case Calendar.SUNDAY:
+		    		dayOfTheWeekStr = "Dim.";
+		    		break;
+		    	default:
+		    		break;
+	    	}
+	    	
+	    	int dayOfTheMonthIndex = calendarMatch.get(Calendar.DAY_OF_MONTH);
+	    	String dayOfTheMonthStr = String.valueOf(dayOfTheMonthIndex);
+	    	if(dayOfTheMonthIndex < 10) {
+	    		dayOfTheMonthStr = "0" + dayOfTheMonthIndex;
+	    	}
+	    	
+	    	int month = calendarMatch.get(Calendar.MONTH) + 1;
+	    	String monthStr = String.valueOf(month);
+	    	if(month < 10) {
+	    		monthStr = "0" + month;
+	    	}
+	    	
+	    	int hour = calendarMatch.get(Calendar.HOUR_OF_DAY);
+	    	String hourStr = String.valueOf(hour);
+	    	if(hour < 10) {
+	    		hourStr = "0" + hour;
+	    	}
+	    	
+	    	int minute = calendarMatch.get(Calendar.MINUTE);
+	    	String minuteStr = String.valueOf(minute);
+	    	if(minute < 10) {
+	    		minuteStr = "0" + minute;
+	    	}
+	    	
+	    	String dateStr = "";
+	    	if(dayOfYearToday == dayOfYearMatch) {
+	    		dateStr = dayOfTheWeekStr + " " + dayOfTheMonthStr + "/" + monthStr + " à " + hourStr + "h" + minuteStr;
+	    	} else {
+	    		dateStr = hourStr + "h" + minuteStr;
+	    	}
+	    	
+	    	msgInfo = dateStr;
 	    	break;
 	    case MatchStatus.FIRST_HALF:
 	    	msgInfo = "1ère période";
@@ -174,10 +247,10 @@ public class Match {
 	    	msgInfo = "2ème période";
 	    	break;
 	    case MatchStatus.OVERTIME:
-	    	msgInfo = "Prolongation";
+	    	msgInfo = "Prolongations";
 	    	break;
 	    case MatchStatus.PENALTY:
-	    	msgInfo = "Penalty";
+	    	msgInfo = "Tirs aux buts";
 	    	break;
 	    case MatchStatus.ENDED:
 	    	msgInfo = "Terminé";

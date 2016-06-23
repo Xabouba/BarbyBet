@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+    	<title>Barbylone - Pronostiquez gratuitement sur les matchs de l'Euro 2016 et tentez de gagner des lots</title>
         <%@include file="import.jsp" %>
     </head>
     <body onLoad="goforit()">
@@ -23,9 +24,114 @@
                     <!-- sidebar-main-content -->
                     <div id="main-col" class="page-single pull-left kp-review">
                         <ul class="list-unstyled">
+	                    	<c:if test="${not empty currentProno}">
+	                            <li class="clearfix">
+	                                <div class="widget kp-main-news next-prono">
+	                                   <h2 class="widget-title"><span>Matchs en cours</span></h2>
+	                                    <div class="widget-content">
+		                                    <c:forEach items="${currentProno}" var="match">
+		                                        <ul class="list-unstyled">
+		                                          	<li class="format-standard match-info">
+		                                            <div class="${isCurrentUser == 'true' ? 'current-user' : ''}">
+		                                            	<table class="match-info-table">
+														   <tr>
+												    			<td class="image">
+												    				<img src="images/team/${match.homeImg}_128.png" />
+												    			</td>
+												    			<td class="team">
+												    				<span>${match.homeTeam}</span>
+												    			</td>
+												    			<td class="score">
+												    				<span class="score-home">${match.homeScore}</span>
+											    					<br/>
+											    					<span class="score-prono-home">
+											    						<c:choose>
+											    							<c:when test="${match.scoreHome != null}">
+											    								(<span id="prono-home_${match.matchId}">${match.scoreHome}</span>
+											    							</c:when>
+											    							<c:otherwise>
+											    								<span id="prono-home_${match.matchId}"></span>
+											    							</c:otherwise>
+											    						</c:choose>
+								    								</span>
+												    			</td>
+												    			<td class="score">
+												    				<span class="score-away">${match.awayScore}</span>
+												    				<br/>
+											    					<span class="score-prono-away">
+											    						<c:choose>
+											    							<c:when test="${match.scoreAway != null}">
+											    								<span id="prono-away_${match.matchId}">${match.scoreAway}</span>)
+											    							</c:when>
+											    							<c:otherwise>
+											    								<span id="prono-away_${match.matchId}"></span>
+											    							</c:otherwise>
+											    						</c:choose>
+								    								</span>
+												    			</td>
+												    			<td class="team">
+												    				<span>${match.awayTeam}</span>
+												    			</td>
+												    			<td class="image last">
+												    				<img src="images/team/${match.awayImg}_128.png" />
+												    			</td>
+												    			<td class="creditsWon" />
+											   				</tr>
+								    					</table>
+								    					<c:if test="${isCurrentUser == 'true'}">
+								    					<table class="bet-info-table" id="match_${match.matchId}">
+												   			<tr>
+										    	 				<td class="odd" id="odd_1_${match.matchId}">
+												    				<c:choose>
+												    					<c:when test="${match.scoreHome > match.scoreAway}">
+														    				<span class="bet">1</span>
+												    					</c:when>
+												    					<c:otherwise>
+														    				<span>1</span>
+												    					</c:otherwise>
+												    				</c:choose>
+												    			</td>
+												    			<td class="odd" id="odd_2_${match.matchId}">
+												    				<c:choose>
+												    					<c:when test="${match.scoreHome != null and match.scoreHome == match.scoreAway}">
+														    				<span class="bet">N</span>
+												    					</c:when>
+												    					<c:otherwise>
+														    				<span>N</span>
+												    					</c:otherwise>
+												    				</c:choose>
+												    			</td>
+												    			<td class="odd" id="odd_3_${match.matchId}">
+												    				<c:choose>
+												    					<c:when test="${match.scoreHome < match.scoreAway}">
+														    				<span class="bet">2</span>
+												    					</c:when>
+												    					<c:otherwise>
+														    				<span>2</span>
+												    					</c:otherwise>
+												    				</c:choose>
+												    			</td>
+												    			<td class="direct">
+												    				<form method="get" action="direct">
+												    					<input type="hidden" name="matchId" value="${match.matchId}" />
+											    						<input class="btn btn-primary" type="submit" value="Direct" />
+										    						</form>
+										    					</td>
+												    		</tr>
+												    	</table>
+												    	</c:if>
+											    	</div>
+		                                           </li>
+		                                       </ul>
+		                                     </c:forEach>
+	                                     </div> 
+	                                  </div>
+	                                  <!-- widget-content -->
+	                            </li>
+                           	</c:if>
                             <li class="clearfix">
                                 <div class="widget kp-main-news next-prono">
-                                   <h2 class="widget-title"><span>Prochains pronostics</span></h2>
+                                   <h2 class="widget-title"><span>Matchs à venir</span></h2>
                                     <div class="widget-content">
                                     <c:if test="${empty nextProno}">
                                     	<ul class="list-unstyled">

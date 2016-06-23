@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Home</title>
+        <title>Barbylone - Pronostiquez gratuitement les matchs de l'Euro 2016 et gagnez des lots</title>
 		<%@include file="import.jsp" %>
     </head>
     <body onLoad="goforit()">

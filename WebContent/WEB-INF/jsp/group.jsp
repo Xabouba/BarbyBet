@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+    	<title>Groupes</title>
         <%@include file="import.jsp" %>
 		<link rel="stylesheet" type="text/css" href="css/match.css">
     </head>
