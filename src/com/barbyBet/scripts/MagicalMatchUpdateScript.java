@@ -22,62 +22,69 @@ import com.github.pabloo99.xmlsoccer.api.dto.GetLiveScoreResultDto;
 import com.github.pabloo99.xmlsoccer.api.service.XmlSoccerService;
 import com.github.pabloo99.xmlsoccer.client.XmlSoccerServiceImpl;
 
-public class MagicalUpdateScript {
+public class MagicalMatchUpdateScript {
 	public static void main(String[] args) {
-		updateCurrentGamesRealScores();
+		String matchWebServiceIdStr = args[0];
+		String homeGoalsStr = args[1];
+		String awayGoalsStr = args[2];
+		
+		Long matchWebServiceId = 0L;
+		int homeGoals = 0;
+		int awayGoals = 0;
+
+		if(matchWebServiceIdStr != null) {
+			matchWebServiceId = Long.parseLong(matchWebServiceIdStr);		
+		} else {
+			System.out.println("Usage : java -jar magicalUpdateScript.jar webServiceMatchID homeGoals awayGoals");
+		}
+
+		if(homeGoalsStr != null) {
+			homeGoals = Integer.parseInt(homeGoalsStr);
+		} else {
+			System.out.println("Usage : java -jar magicalUpdateScript.jar webServiceMatchID homeGoals awayGoals");
+		}		
+
+		if(awayGoalsStr != null) {
+			awayGoals = Integer.parseInt(awayGoalsStr);
+		} else {
+			System.out.println("Usage : java -jar magicalUpdateScript.jar webServiceMatchID homeGoals awayGoals");
+		}
+		
+		updateMatchScoresAndPronos(matchWebServiceId, homeGoals, awayGoals);
 	}
 	
-	public static boolean updateCurrentGamesRealScores() {
+	public static boolean updateMatchScoresAndPronos(Long matchWebServiceId, int homeGoals, int awayGoals) {
 		SQLMatchComponent sqlMatchComponent = new SQLMatchComponent();
-		
-		XmlSoccerService xmlSoccerService = new XmlSoccerServiceImpl();
-		xmlSoccerService.setApiKey(WebServiceConstants.API_KEY);
-		
-		// demo access
-		// xmlSoccerService.setServiceUrl("http://www.xmlsoccer.com/FootballDataDemo.asmx");
-		
-		// full access
-		xmlSoccerService.setServiceUrl("http://www.xmlsoccer.com/FootballData.asmx");
-		
+
 		List<Match> currentMatches = new ArrayList<Match>();
 		List<Match> justEndedMatch = new ArrayList<Match>();
 
-		List<GetLiveScoreResultDto> allCurrentLiveScores = xmlSoccerService.getLiveScore();
-		for(GetLiveScoreResultDto liveScore : allCurrentLiveScores) {
-			System.out.println("Current live score : " + liveScore.getId());
-			Match match = new Match();
-			Long idWebService = Long.valueOf(liveScore.getId());
-			int statut = WebServiceUtil.createStatus(liveScore.getTime());
-			
-			match.setIdWebService(idWebService);
-			match.setStatut(statut);
-			match.setHomeScore(liveScore.getHomeGoals());
-			match.setAwayScore(liveScore.getAwayGoals());
-			
-			if(sqlMatchComponent.isMatchFromWebServiceInDatabase(idWebService)) {
-				if(!sqlMatchComponent.hasMatchEnded(idWebService)) {
-					currentMatches.add(match);	
-				
-					if (statut == MatchStatus.ENDED || statut == MatchStatus.PENALTY)
-					{
-						justEndedMatch.add(match);
-					}
-				}
+		Match match = new Match();
+		int statut = MatchStatus.ENDED;
+		
+		match.setIdWebService(matchWebServiceId);
+		match.setStatut(statut);
+		match.setHomeScore(homeGoals);
+		match.setAwayScore(awayGoals);
+		
+		if(sqlMatchComponent.isMatchFromWebServiceInDatabase(matchWebServiceId)) {
+			if(!sqlMatchComponent.hasMatchEnded(matchWebServiceId)) {
+				currentMatches.add(match);	
+				justEndedMatch.add(match);
 			}
 		}
 		
 		// Update the games in the database
 		if(currentMatches.size() != 0) {
-			System.out.println("Updating matches " + currentMatches);
 			sqlMatchComponent.updateMatchs(currentMatches);
 		}
 		
-		for (Match match : justEndedMatch)
+		for (Match m : justEndedMatch)
 		{
-			int homeScore = match.getHomeScore();
-			int awayScore = match.getAwayScore();
-			System.out.println("Looping through justEndedMatch & updating prono: " + match.getIdWebService());
-			updateProno(homeScore, awayScore, match.getIdWebService());
+			int homeScore = m.getHomeScore();
+			int awayScore = m.getAwayScore();
+			System.out.println("Looping through justEndedMatch & updating prono: " + m.getIdWebService());
+			updateProno(homeScore, awayScore, m.getIdWebService());
 		}
 		
 		// If games just ended we update the users points

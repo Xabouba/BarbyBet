@@ -173,8 +173,8 @@ public class Match {
 	    	Calendar calendarMatch = Calendar.getInstance();
 	    	calendarMatch.setTime(matchDate);
 	    	
-	    	int dayOfYearToday = calendarToday.get(Calendar.DAY_OF_YEAR);
-	    	int dayOfYearMatch = calendarMatch.get(Calendar.DAY_OF_YEAR);
+	    	boolean sameDay = calendarToday.get(Calendar.YEAR) == calendarMatch.get(Calendar.YEAR) &&
+	    			calendarToday.get(Calendar.DAY_OF_YEAR) == calendarMatch.get(Calendar.DAY_OF_YEAR);
 	    	
 	    	int dayOfTheWeek = calendarMatch.get(Calendar.DAY_OF_WEEK);
 	    	String dayOfTheWeekStr = "";
@@ -229,10 +229,10 @@ public class Match {
 	    	}
 	    	
 	    	String dateStr = "";
-	    	if(dayOfYearToday == dayOfYearMatch) {
+	    	if(!sameDay) {
 	    		dateStr = dayOfTheWeekStr + " " + dayOfTheMonthStr + "/" + monthStr + " à " + hourStr + "h" + minuteStr;
 	    	} else {
-	    		dateStr = hourStr + "h" + minuteStr;
+	    		dateStr = "Aujourd'hui à " + hourStr + "h" + minuteStr;
 	    	}
 	    	
 	    	msgInfo = dateStr;
@@ -281,5 +281,10 @@ public class Match {
 
 	public void setIdSport(Long _idSport) {
 		this._idSport = _idSport;
+	}
+	
+	@Override
+	public String toString() {
+		return this.getHomeTeam().getName() + " - " + this.getAwayTeam().getName() + " : " + this.getHomeScore() + " - " + this.getAwayScore();
 	}
 }

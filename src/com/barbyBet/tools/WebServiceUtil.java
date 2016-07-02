@@ -10,12 +10,13 @@ public class WebServiceUtil {
 		int status = MatchStatus.NOT_STARTED;
 		
 		if(webServiceStatus != null) {
-			if("Finished".equals(webServiceStatus)) {
+			if(webServiceStatus.contains("Finished")) {
 				status = MatchStatus.ENDED;
 			} else if("Not started".equals(webServiceStatus) || "Postponed".equals(webServiceStatus)) {
 				status = MatchStatus.NOT_STARTED;
+			} else if(webServiceStatus.contains("Extra Time")) { 
+				status = MatchStatus.OVERTIME;
 			} else {
-				// TODO 
 				if("Halftime".equals(webServiceStatus)) {
 					status = MatchStatus.HALFTIME;
 				} else {
@@ -28,8 +29,6 @@ public class WebServiceUtil {
 						status = MatchStatus.FIRST_HALF;
 					} else if(minuteOfMatch > firstHalfMinuteLimit && minuteOfMatch <= secondHalfMinuteLimit) {
 						status = MatchStatus.SECOND_HALF;
-					} else {
-						status = MatchStatus.OVERTIME;
 					}
 				}
 			}
