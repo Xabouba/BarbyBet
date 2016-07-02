@@ -142,7 +142,7 @@
 				                            <p>Ici vous pouvez chercher un groupe et le rejoindre (seuls les groups publics sont accessibles)</p>
 				
 								            <div class="form-group" style="text-align:center">
-								            	<form action="group" method="post">
+								            	<form action="LookForGroupServletAction" method="post">
 									            	<input type="text" placeholder="Nom du groupe" class="form-control" id="look-for-group" name="groupName">
 									            	<br />
 									            	
@@ -230,7 +230,7 @@
 						                                	<div id="delete-group-msg-line-break" style="display:none">
 						                                	</div>
 					                                	</c:if>
-					                                	<form action="group" method="post">
+					                                	<form action="LeaveOrDeleteGroupServletAction" method="post">
 					                                		<input type="hidden" name="groupIdLeaveDeleteGroup" value="${group.id}" />
 					                                		<input type="hidden" name="actionType" value="delete-group" />
 						                                	<input type="submit" value="Supprimer groupe" class="btn btn-primary" id="s">
@@ -291,7 +291,7 @@
 										                                	</div>
 										                                	<br />
 									                                	</c:if>
-									                                	<form action="group" method="post">
+									                                	<form action="LeaveOrDeleteGroupServletAction" method="post">
 											                                <input type="hidden" name="actionType" value="leave-group" />
 											                                <input type="hidden" name="groupIdLeaveDeleteGroup" value="${group.id}" />
 											                                <input type="hidden" name="username" value="${cookie.currentUserName.value}" />
@@ -321,7 +321,7 @@
 										                                	</div>
 										                                	<br />
 									                                	</c:if>
-									                                	<form action="group" method="post">
+									                                	<form action="JoinGroupServletAction" method="post">
 											                                <input type="hidden" name="actionType" value="join-group" />
 											                                <input type="hidden" name="groupIdJoinGroup" value="${group.id}" />
 										                                	<input type="submit" value="Rejoindre groupe" class="btn btn-primary" id="s" />
@@ -389,7 +389,7 @@
 	            	            
 	            $.ajax({
 	                method: "POST",
-	           		url: "group",
+	           		url: "AddUserToGroupServletAction",
 	           		data: {username: username, groupId: groupId, actionType: "add-user-to-group"}
 	            }).done(function(msg) {
 	            	$("#add-user-from-group-search").val('');
@@ -411,7 +411,7 @@
 	            	            
 	            $.ajax({
 	                method: "POST",
-	           		url: "group",
+	           		url: "DeleteUserFromGroupServletAction",
 	           		data: {username: username, groupId: groupId, actionType: "delete-user-from-group"}
 	            }).done(function(msg) {
 	            	$("#delete-user-from-group-search").val('');

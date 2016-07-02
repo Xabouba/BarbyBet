@@ -66,13 +66,7 @@ public class GroupServlet extends HttpServlet {
 					request.setAttribute("comingFromGroupServletDelete", "yes");
 					response.sendRedirect(CREATE_GROUP_SERVLET);
 				} else {
-					Object justJoinedGroup = request.getAttribute("justJoinedGroup");
-					if(justJoinedGroup != null) {
-						groupIdStr = justJoinedGroup.toString(); // When the user clicked on "rejoindre ce groupe" then we show this group and not the others
-					} else {
-						groupIdStr = userGroups.get(0).getId().toString();
-					}
-					Long groupId = Long.parseLong(groupIdStr);
+					Long groupId = Long.parseLong(userGroups.get(0).getId().toString());
 					group = sqlGroupComponent.getGroup(groupId);
 					redirectToRightServlet(request, response, group);
 				}
@@ -90,171 +84,15 @@ public class GroupServlet extends HttpServlet {
 		if(!usersComponent.isCurrentUser(currentUser)) {
 			response.sendRedirect(Constants.LOGIN_SERVLET);
 		} else {
-			String actionType = request.getParameter("actionType");
+			String groupIdStr = request.getParameter("groupId");
+			Long groupId = Long.parseLong(groupIdStr);
+			SQLGroupComponent sqlGroupComponent = new SQLGroupComponent();
+			Group group = sqlGroupComponent.getGroup(groupId);
 			
-			// The request is coming from an AJAX request in group.jsp
-			if(actionType != null) {
-				String username = request.getParameter("username");
-				SQLUsersComponent sqlUserComponent = new SQLUsersComponent();
-
-				User u = null;
-				
-				if(username != null) {
-					u = sqlUserComponent.getUser(username);
-				}
-
-				if("add-user-to-group".equals(actionType)) {
-					if(u == null) {
-						response.setContentType("text/plain");
-				        response.getWriter().write("L'utilisateur \"" + username + "\" n'existe pas");
-					} else {
-						String groupIdStr = request.getParameter("groupId");
-						Long groupId = Long.parseLong(groupIdStr);
-						
-						SQLGroupComponent sqlGroupComponent = new SQLGroupComponent();
-						Group g = sqlGroupComponent.getGroup(groupId);
-						String result = sqlGroupComponent.addUserToGroup(g, u);
-						
-						if(sqlGroupComponent.ADD_SUCCESSFUL.equals(result)) {
-							// Update Group object
-							g = sqlGroupComponent.getGroup(g.getId());
-							
-							// Add points to user in group 
-							sqlGroupComponent.updateGroupUserPoint(u.getId(), g.getId(), u.getCoins());
-							
-							// Update Rank
-							sqlGroupComponent.updateRankAfterModificationInGroup(g, u);
-							
-							result = "L'utilisateur " + u.getUsername() + " a correctement été ajouté au groupe " + g.getName();
-						}
-						response.setContentType("text/plain");
-				        response.getWriter().write(result);
-					}
-				} else if("delete-user-from-group".equals(actionType)) {
-					if(u == null) {
-						response.setContentType("text/plain");
-				        response.getWriter().write("L'utilisateur \"" + username + "\" n'existe pas");
-					} else {
-						String groupIdStr = request.getParameter("groupId").toString();
-						Long groupId = Long.parseLong(groupIdStr);
-						
-						SQLGroupComponent sqlGroupComponent = new SQLGroupComponent();
-						Group g = sqlGroupComponent.getGroup(groupId);
-						String result = sqlGroupComponent.deleteUserFromGroup(g, u, currentUser);
-						
-						if(sqlGroupComponent.DELETE_SUCCESSFUL.equals(result)) {
-							// Update Group object
-							g = sqlGroupComponent.getGroup(g.getId());
-							
-							// Update Rank
-							sqlGroupComponent.updateRankAfterModificationInGroup(g, u);
-							
-							result = "L'utilisateur " + u.getUsername() + " a correctement été supprimé du groupe " + g.getName();
-						}
-						
-						response.setContentType("text/plain");
-				        response.getWriter().write(result);
-					}
-				} else if("leave-group".equals(actionType) || "delete-group".equals(actionType)) {
-					String groupIdStr = request.getParameter("groupIdLeaveDeleteGroup");
-					Long groupId = Long.parseLong(groupIdStr);
-
-					SQLGroupComponent sqlGroupComponent = new SQLGroupComponent();
-					Group g = sqlGroupComponent.getGroup(groupId);
-					
-					String result = null;
-					if("leave-group".equals(actionType)) {
-						result = sqlGroupComponent.leaveGroup(g, u);
-					} else if("delete-group".equals(actionType)) {
-						result = sqlGroupComponent.deleteGroup(g);
-					}
-					
-					if(sqlGroupComponent.DELETE_SUCCESSFUL.equals(result)) {
-						// Delete the group pic
-						String groupPicName = g.getImg();
-						
-						if(groupPicName != null) {
-							// Delete group image
-							File deleteFile = new File(Constants.GROUP_PICS_FORMATED_ROOT_FOLDER + File.separator + groupPicName) ;
-							// check if the file is present or not
-							if( deleteFile.exists()) {
-								deleteFile.delete();
-							}
-						}
-						
-						// Redirect to the group page
-						if("leave-group".equals(actionType)) {
-							// Update Group object
-							g = sqlGroupComponent.getGroup(g.getId());
-							
-							// Update Rank
-							sqlGroupComponent.updateRankAfterModificationInGroup(g, u);
-						}
-						doGet(request, response);
-					} else {
-						// Redirect back to the same page with the error msg
-						if("leave-group".equals(actionType)) {
-							request.setAttribute("leaveGroupMsg", result);
-						} else if("delete-group".equals(actionType)) {
-							request.setAttribute("deleteGroupMsg", result);
-						}
-						doGet(request, response);
-					}
-				} else if("join-group".equals(actionType)) {
-					String groupIdStr = request.getParameter("groupIdJoinGroup");
-					Long groupId = Long.parseLong(groupIdStr);
-					
-					SQLGroupComponent sqlGroupComponent = new SQLGroupComponent();
-					Group g = sqlGroupComponent.getGroup(groupId);
-					String result = sqlGroupComponent.addUserToGroup(g, currentUser);
-					
-					if(sqlGroupComponent.ADD_SUCCESSFUL.equals(result)) {
-						// Update Group object
-						g = sqlGroupComponent.getGroup(g.getId());
-						
-						// Add points to user in group 
-						sqlGroupComponent.updateGroupUserPoint(currentUser.getId(), g.getId(), currentUser.getCoins());
-						
-						// Update Rank
-						sqlGroupComponent.updateRankAfterModificationInGroup(g, currentUser);
-						request.setAttribute("justJoinedGroup", g.getId());
-						
-						doGet(request, response);
-					} else {
-						// Redirect back to the same page with the error msg
-						request.setAttribute("joinGroupMsg", result);
-						doGet(request, response);
-					}
-				} else if("look-for-group".equals(actionType)) {
-					String groupName = request.getParameter("groupName");
-					SQLGroupComponent sqlGroupComponent = new SQLGroupComponent();
-					Long groupId = sqlGroupComponent.getGroupId(groupName);
-					
-					if(groupId != 0L) {
-						Group g = sqlGroupComponent.getGroup(groupId);
-						
-						if(g.getStatus() == 1) {
-							request.setAttribute("lookForGroupMsg", "Ce groupe est privé, vous n'avez pas le droit d'y accéder");
-							doGet(request, response);
-						} else {
-							redirectToRightServlet(request, response, g);
-						}
-					} else {
-						request.setAttribute("lookForGroupMsg", "Ce nom de groupe n'existe pas");
-						doGet(request, response);
-					}
-				}
+			if(groupIdStr != null) {
+				redirectToRightServlet(request, response, group);
 			} else {
-				String groupIdStr = request.getParameter("groupId");
-				Long groupId = Long.parseLong(groupIdStr);
-				SQLGroupComponent sqlGroupComponent = new SQLGroupComponent();
-				Group group = sqlGroupComponent.getGroup(groupId);
-				
-				if(groupIdStr != null) {
-					redirectToRightServlet(request, response, group);
-				} else {
-					response.sendRedirect(Constants.INDEX_SERVLET);
-				}
+				response.sendRedirect(Constants.INDEX_SERVLET);
 			}
 		}
 	}
