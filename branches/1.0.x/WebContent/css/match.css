@@ -1,0 +1,200 @@
+.listMatch .team
+{
+	width: 150px;
+	font-weight: bold;
+	font-size: 13px;	
+}
+
+.listMatch #main-content
+{
+	width: 100%;	
+}
+
+.listMatch .score
+{
+	width: 20px;
+	position: relative;
+}
+
+.listMatch .score-home
+{
+	float: left;
+}
+
+.listMatch .score-prono-home
+{
+	left: 0px;
+}
+
+.listMatch .score-away
+{
+	float: right;
+}
+
+.listMatch .score-prono-away
+{
+	right: 0px;
+}
+
+.listMatch .score-prono-home,
+.listMatch .score-prono-away
+{
+	position: absolute;
+	display: block;
+    font-weight: bold;
+    color: orange;
+}
+
+.listMatch .odd
+{
+	width: 43px;
+}
+
+.listMatch .image
+{
+	width: 60px;
+}
+
+.listMatch .image img
+{
+	width: 40px;
+	height: 40px;
+}
+
+.listMatch .matchs td
+{
+	text-align: center;
+}
+
+.listMatch .matchs 
+{
+	width: 76%;
+}
+
+.listMatch .categorie-date
+{
+	margin-top: 10px;
+}
+
+.listMatch .menu-match .nav
+{
+	margin-left: 0px;
+}
+
+.listMatch .menu-match .nav li
+{
+	/* width: 25%; */
+	text-align: center;
+}
+
+.listMatch .match-title
+{
+	font-weight: bold;
+	text-align: center;
+	font-size: 18px;
+}
+
+.listMatch .bet
+{
+	font-weight: bold;
+	color: blue;
+}
+
+.listMatch .credits
+{
+	font-weight: bold;
+	color: orange;
+}
+
+.listMatch .positif
+{
+	font-weight: bold;
+	color: green;
+}
+
+.listMatch .negatif
+{
+	font-weight: bold;
+	color: red;
+}
+
+.listMatch .credits, .listMatch .creditsWon, .listMatch .bet-button
+{
+	width: 50px;
+}
+
+.listMatch .ended
+{
+	font-weight: bold;
+}
+
+.listMatch .match-info-table
+{
+	float: left;
+	vertical-align: middle;
+	height: 80px;
+}
+
+.listMatch .bet-info-table
+{
+	float: left;
+	vertical-align: middle;
+	height: 80px;
+	max-width: 315px;
+}
+
+.listMatch li.match-info > div
+{
+	height: 80px;
+}
+
+.listMatch li.match-info
+{
+	height: auto;
+	padding: 10px !important;
+}
+
+.listMatch .sidebar-minimized-rank 
+{
+	width:22% !important;
+	margin-right:2% !important;
+}
+
+@media (max-width: 1157px)
+{
+	.listMatch li.match-info > div
+	{
+		height: 160px;
+	}
+	
+	.listMatch .match-info-table
+	{
+		width: 100%;
+	}
+	
+	.listMatch .bet-info-table
+	{
+	    border-top: 2px solid;
+	    margin-right: auto;
+	    margin-left: auto;
+	    float: none;
+	}
+	
+	.listMatch .sidebar-minimized-rank 
+	{
+		display: none;
+	}
+
+	.listMatch .matchs 
+	{
+		width: 100%;
+	}
+}
+
+@media (max-width: 900px)
+{
+	.listMatch
+	{
+		margin-top: 15px;
+	}
+}

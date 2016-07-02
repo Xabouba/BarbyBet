@@ -1,0 +1,124 @@
+.rank .positif
+{
+	color : green;
+}
+
+.rank .negatif
+{
+	color : red;
+}
+
+.rank .rank-title
+{
+	height:54px;
+}
+
+.rank .td_rank_nb
+{
+	text-align: center; 
+	font-size: 17px; 
+	font-weight: bold;
+	width: 30px;
+	color: #07A3F7;
+}
+
+.rank .td_rank_progress
+{
+	padding-left: 7px; 
+	text-align: center; 
+	font-size: 11px;
+	width: 30px;
+}
+
+.rank .td_rank_name
+{
+	padding-left: 15px;
+	font-weight: bold;
+}
+
+.rank a
+{
+	color: #666;
+}
+
+.rank a:hover
+{
+	color: grey;
+}
+
+.classement .td_rank_name
+{
+	float: left;
+}
+
+.rank .td_rank_credit
+{
+	width: 20px;
+	text-align: center; 
+}
+
+.rank .current_user
+{
+	color : #07A3F7;
+}
+
+.rank .current_user:hover
+{
+	color : #09dff7;
+}
+
+.rank .pagination
+{
+	width: 100%;
+}
+
+.rank .pagination .page .current
+{
+	font-size: 15px;
+}
+
+
+.rank .pagination .page,
+.rank .pagination .next-page
+{
+	font-size: 13px;
+	font-weight: bold;
+}
+
+.rank .pagination .previous
+{
+	float: left;
+}
+
+.rank .pagination .next
+{
+	float: right;
+}
+
+.rank .link-rank 
+{
+	text-align:center;
+	font-weight:bold;	
+}
+
+@media (max-width: 1157px)
+{
+	
+}
+
+@media (max-width: 900px)
+{
+	.rank
+	{
+		margin-top:15px;
+	}
+}
+
+@media (max-width: 767px)
+{
+	.classement
+	{
+		/* display: none; */
+	}
+}
+

@@ -1,0 +1,147 @@
+.match-direct .table_bet
+{
+	width: 100%;
+	text-align: center;	
+	border-top: solid 2px;
+	margin-top: 10px;
+}
+
+.match-direct .table_bet .prono
+{
+	width: 60px;
+}
+
+.match-direct .odd
+{
+	width: 50px;
+	height: 35px;
+}
+
+.match-direct .credits input
+{
+	width: 90%;
+}
+
+.match-direct .user-information table.table-info
+{
+	margin-left: auto; 
+	margin-right: auto; 
+	width: 100%;
+}
+
+.match-direct .user-information table.table-info caption
+{
+	margin-top: 5px;
+}
+
+.match-direct .user-information table.table-info .login
+{
+	float: right; 
+	width: 90%; 
+	font-size: 20px; 
+	margin-top:5px;
+}
+
+.match-direct .user-information table.table-info .bet
+{
+	width: 30%;
+}
+
+.match-direct .user-information table.table-info .bet input
+{
+	margin-bottom: 10px;
+	margin-right: 5px;
+}
+
+.match-direct .user-information table.table-info .prono-title
+{
+	float: right; 
+	width: 90%
+}
+
+.match-direct .user-information table.table-info .prono-info
+{
+	width: 30%
+}
+
+.match-direct .result-img
+{
+	width:80px !important; 
+	height:80px;
+	margin-left:10px;
+	margin-right:10px;
+}
+
+@media (max-width: 1157px)
+{
+	.match-direct #main-col
+	{
+		width: 100% !important;
+	}
+	
+	.match-direct .sidebar-minimized-rank 
+	{
+		display: none;
+	}
+	
+	.match-direct .result-match
+	{
+		width: 100% !important;
+	}
+}
+
+@media (max-width: 899px)
+{
+	.match-direct
+	{
+		margin-top: 15px !important;
+	}
+}
+
+@media (max-width: 599px)
+{
+	.match-direct .result-img
+	{
+		width:50px !important; 
+		height:50px;
+	}
+	
+	.match-direct .result-team
+	{
+		font-size: 16px;
+	}
+	
+	.match-direct .result-score
+	{
+		font-size: 25px;
+	}
+	
+	.match-direct .result-title
+	{
+		font-size: 25px;
+	}
+}
+
+@media (max-width: 479px)
+{
+	.match-direct .result-img
+	{
+		width:40px !important; 
+		height:40px;
+	}
+	
+	.match-direct .result-team
+	{
+		font-size: 14px;
+	}
+	
+	.match-direct .result-score
+	{
+		font-size: 22px;
+	}
+	
+	.match-direct .result-title
+	{
+		font-size: 22px;
+	}
+}

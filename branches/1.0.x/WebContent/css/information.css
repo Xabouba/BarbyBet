@@ -1,0 +1,285 @@
+.information .team
+{
+	width: 150px;
+	font-weight: bold;
+	font-size: 13px;	
+}
+
+.information #main-content
+{
+	width: 100%;	
+}
+
+.information .score
+{
+	width: 20px;
+	position: relative;
+}
+
+.information .score-home
+{
+	float: left;
+}
+
+.information .score-prono-home
+{
+	left: 0px;
+}
+
+.information .score-away
+{
+	float: right;
+}
+
+.information .score-prono-away
+{
+	right: 0px;
+}
+
+.information .score-prono-home,
+.information .score-prono-away
+{
+	position: absolute;
+	display: block;
+    font-weight: bold;
+    color: orange;
+}
+
+.information .odd
+{
+	width: 43px;
+}
+
+.information .image
+{
+	width: 60px;
+}
+
+.information .image img
+{
+	width: 40px;
+	height: 40px;
+}
+
+.information td
+{
+	text-align: center;
+}
+
+.information .categorie-date
+{
+	margin-top: 10px;
+}
+
+.information .menu-match .nav
+{
+	margin-left: 0px;
+}
+
+.information .menu-match .nav li
+{
+	/* width: 25%; */
+	text-align: center;
+}
+
+.information .match-title
+{
+	font-weight: bold;
+	text-align: center;
+	font-size: 18px;
+}
+
+.information .bet
+{
+	font-weight: bold;
+	color: blue;
+}
+
+.information .credits
+{
+	font-weight: bold;
+	color: orange;
+}
+
+.information .positif
+{
+	font-weight: bold;
+	color: green;
+}
+
+.information .negatif
+{
+	font-weight: bold;
+	color: red;
+}
+
+.information .credits, .information .creditsWon, .information .bet-button
+{
+	width: 50px;
+}
+
+.information .ended
+{
+	font-weight: bold;
+}
+
+.information .match-info-table
+{
+	float: left;
+	vertical-align: middle;
+	height: 80px;
+}
+
+.information .bet-info-table
+{
+	float: left;
+	vertical-align: middle;
+	height: 80px;
+	max-width: 315px;
+}
+
+.information li.match-info > div
+{
+	height: 80px;
+}
+
+.information li.match-info
+{
+	height: auto;
+	padding: 10px !important;
+}
+
+.information .rank-info-table
+{
+	width: 100%;	
+}
+
+.information .rank-info-table .point,
+.information .rank-info-table .play,
+.information .rank-info-table .win,
+.information .rank-info-table .draw,
+.information .rank-info-table .lost,
+.information .rank-info-table .goal,
+.information .rank-info-table .goal-taken,
+.information .rank-info-table .diff,
+.information .rank-info-table .rank
+{
+	width: 40px;
+	text-align: center;
+	font-size: 13px;	
+}
+
+.information .rank-info-table-title
+{
+	font-weight: bold;
+}
+
+.information .rank-info-table .rank-number
+{
+	font-size: 18px;
+    font-weight: bold;
+    color: #07A3F7;
+}
+
+.information .sidebar-minimized-rank 
+{
+	width:22% !important;
+	margin-right:2% !important;
+}
+
+.information .results 
+{
+	width: 76%;
+}
+
+@media (max-width: 1157px)
+{
+	.information li.match-info > div
+	{
+		height: 160px;
+	}
+	
+	.information .match-info-table
+	{
+		width: 100%;
+	}
+	
+	.information .bet-info-table
+	{
+	    border-top: 2px solid;
+	    margin-right: auto;
+	    margin-left: auto;
+	    float: none;
+	}
+	
+	.information .sidebar-minimized-rank 
+	{
+		display: none;
+	}
+
+	.information .results 
+	{
+		width: 100%;
+	}
+}
+
+@media(max-width: 900px) 
+{
+	.information
+	{
+		margin-top: 15px;
+	}
+}
+
+@media (max-width: 600px)
+{
+	.information td.goal,
+	.information td.goal-taken,
+	.information td.play
+	{
+		display: none;
+	}	
+	
+	.information .image img 
+	{
+   	 	width: 20px;
+    	height: 20px;
+	}
+	
+	.information .rank-info-table-title .team span,
+	.information .rank-info-table-title .rank span
+	{
+		display: none;
+	}
+	
+	.information .rank-info-table td.rank-number
+	{
+		font-size: 15px;
+	}
+	
+	.information .rank-info-table td.image
+	{
+		width: 20px;
+	}
+}
+
+@media (max-width: 479px)
+{
+	.information td.diff
+	{
+		display: none;
+	}
+	
+	.information .rank-info-table .point,
+	.information .rank-info-table .play,
+	.information .rank-info-table .win,
+	.information .rank-info-table .draw,
+	.information .rank-info-table .lost,
+	.information .rank-info-table .goal,
+	.information .rank-info-table .goal-taken,
+	.information .rank-info-table .diff,
+	.information .rank-info-table .rank
+	{
+		width: 20px;
+	}
+}

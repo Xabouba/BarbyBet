@@ -1,0 +1,60 @@
+#holder { 
+	border: 3px dashed #C1C3C5; 
+	width: 200px; 
+	min-height: 100px; 
+	margin: 20px auto;
+}
+
+
+#holder.hover { 
+	border: 10px dashed #0c0; 
+}
+
+#holder img { 
+	display: block; 
+	margin: 10px auto; 
+}
+
+#holder p {
+	margin: 10px; 
+	font-size: 14px; 
+}
+
+#upload {
+	text-align:center;
+}
+
+.fail { 
+	background: #c00; 
+	padding: 2px; 
+	color: #fff; 
+}
+
+.hidden { 
+	display: none !important;
+}
+
+.item-title {
+	font-weight:bold;
+	font-size: 15px !important;
+	color:#000;
+	padding-left: 0px !important;
+	margin-left: 0px !important;
+	margin-top: 15px !important;
+	margin-bottom: 15px !important;
+}
+
+.item-title-first-item {
+	font-weight:bold;
+	font-size: 15px !important;
+	color:#000;
+	padding-left: 0px !important;
+	margin-left: 0px !important;
+	margin-bottom: 15px !important;
+}
+
+@media (max-width: 900px) {
+	.group-creation-content {
+		margin-top: 15px !important;
+	}
+}

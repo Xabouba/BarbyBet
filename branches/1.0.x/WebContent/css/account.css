@@ -1,0 +1,196 @@
+.account .team
+{
+	width: 150px;
+	font-weight: bold;
+	font-size: 13px;	
+}
+
+.account .score
+{
+	width: 20px;
+	position: relative;
+}
+
+.account .score-home
+{
+	float: left;
+}
+
+.account .score-prono-home
+{
+	left: 0px;
+}
+
+.account .no-group a
+{
+	color: #428bca !important;
+	font-weight: normal !important;
+}
+
+.account .no-group a:hover
+{
+	color: #2a6496 !important;
+	font-weight: normal !important;
+}
+
+.account .score-away
+{
+	float: right;
+}
+
+.account .score-prono-away
+{
+	right: 0px;
+}
+
+.account .score-prono-home,
+.account .score-prono-away
+{
+	position: absolute;
+	display: block;
+    font-weight: bold;
+    color: orange;
+}
+
+.account .odd
+{
+	width: 43px;
+}
+
+.account .bet
+{
+	font-weight: bold;
+	color: blue;
+}
+
+.account .image
+{
+	width: 60px;
+}
+
+.account .image img
+{
+	width: 40px;
+	height: 40px;
+}
+
+.account .match-info-table td
+{
+	text-align: center;
+}
+
+.account .match-info-table
+{
+	/*float: left;*/
+	vertical-align: middle;
+	height: 80px;
+}
+
+.account .bet-info-table
+{
+	float: left;
+	vertical-align: middle;
+	height: 80px;
+	max-width: 315px;
+}
+
+.account li.match-info
+{
+	height: auto;
+	padding: 10px !important;
+}
+
+
+.account .creditsWon
+{
+	font-weight: bold;
+	width: 20px;
+}
+
+.account .creditsWon .positif
+{
+	color: green;
+}
+
+.account .creditsWon .negatif
+{
+	color: red;
+}
+
+.account .next-prono li.match-info > div
+{
+	height: 80px;
+}
+
+.account .next-prono li.match-info > div.current-user
+{
+	height: 160px;
+}
+
+.account .last-prono li.match-info > div
+{
+	height: 80px;
+}
+	
+.account .match-info-table
+{
+	/*width: 100%;*/
+	margin-right: auto;
+	margin-left: auto;
+}
+	
+.account .bet-info-table
+{
+    border-top: 2px solid;
+    margin-right: auto;
+    margin-left: auto;
+    float: none;
+}
+
+.account .user-information .user-title
+{
+	font-weight: bold;
+	text-align: center;
+	font-size: 22px;
+	padding-top: 8px;
+}
+
+.account .user-information .user-info
+{
+	margin-top: 8px;
+	font-weight: bold;
+	text-align: center;
+}
+
+.account .user-information .user-stat
+{
+	text-align: center;
+	margin-top: 5px;
+}
+
+.account .user-information .user-stat canvas
+{
+	padding-top: 5px;
+	border-top: solid 2px;
+}
+
+@media (max-width: 1157px)
+{
+	.account .sidebar-minimized-rank 
+	{
+		display: none;
+	}
+
+	.account #main-col
+	{
+		width: 100%;
+	}
+}
+
+@media (max-width: 900px)
+{
+	.account
+	{
+		margin-top: 15px;
+	}
+}
