@@ -282,9 +282,4 @@ public class Match {
 	public void setIdSport(Long _idSport) {
 		this._idSport = _idSport;
 	}
-	
-	@Override
-	public String toString() {
-		return this.getHomeTeam().getName() + " - " + this.getAwayTeam().getName() + " : " + this.getHomeScore() + " - " + this.getAwayScore();
-	}
 }

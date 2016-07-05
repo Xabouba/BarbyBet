@@ -18,6 +18,7 @@
 <link rel="stylesheet" type="text/css" href="css/group.css">
 <link rel="stylesheet" type="text/css" href="css/rank.css">
 <link rel="stylesheet" type="text/css" href="css/generalRank.css">
+<link rel="stylesheet" type="text/css" href="css/my-profile.css">
 <!--[if !IE]><!-->
 <script src="js/ie10.js"></script>
 <script src="js/chart/Chart.js"></script>

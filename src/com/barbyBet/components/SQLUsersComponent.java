@@ -570,6 +570,43 @@ public class SQLUsersComponent extends SQLComponent {
 			close(connexion);
 		}
 	}
+	
+	public boolean updateUser(User user) {
+		Connection connexion = null;
+		PreparedStatement stmt = null;
+				
+		try {
+		    connexion = DriverManager.getConnection(_url, _user, _password);
+		    stmt = connexion.prepareStatement("UPDATE Users SET gender = ?, pronosPublics = ?, "
+		    		+ "firstName = ?, lastName = ?, email = ?, birthday = ?, location = ?, website = ?, "
+		    		+ "biography = ? WHERE id = ?");
+		    
+		    stmt.setInt(1, user.getGender());
+		    stmt.setInt(2, user.getPronosPublics());
+		    stmt.setString(3, user.getFirstName());
+		    stmt.setString(4, user.getLastName());
+		    stmt.setString(5, user.getEmail());
+		    if(user.getBirthday() != null) {
+		    	stmt.setDate(6, new java.sql.Date(user.getBirthday().getTime()));
+		    } else {
+		    	stmt.setDate(6, null);
+		    }
+		    stmt.setString(7, user.getLocation());
+		    stmt.setString(8, user.getWebsite());
+		    stmt.setString(9, user.getBiography());
+		    stmt.setLong(10, user.getId());
+		    
+		    stmt.executeUpdate();
+		    
+		    return true;
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+			return false;
+		} finally {
+			close(stmt);
+			close(connexion);
+		}
+	}
 
 	/*
 	 * Méthode utilitaire qui retourne null si un champ est vide, et son contenu

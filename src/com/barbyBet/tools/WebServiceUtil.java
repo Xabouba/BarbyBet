@@ -16,6 +16,8 @@ public class WebServiceUtil {
 				status = MatchStatus.NOT_STARTED;
 			} else if(webServiceStatus.contains("Extra Time")) { 
 				status = MatchStatus.OVERTIME;
+			} else if(webServiceStatus.contains("Penalty")) {
+				status = MatchStatus.PENALTY;
 			} else {
 				if("Halftime".equals(webServiceStatus)) {
 					status = MatchStatus.HALFTIME;

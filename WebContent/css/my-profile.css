@@ -1,0 +1,11 @@
+#profile-pic {
+	width:20%; 
+	float:left;
+	text-align:center;
+}
+
+.rounded-image-my-profile {
+	width: 90%; 
+	height:90%; 
+	border-radius: 50%;
+}
